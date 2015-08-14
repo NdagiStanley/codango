@@ -1,2 +1,2 @@
 # codango
-Social Network for Coder
+Resource Sharing Social Network for Coder
