@@ -6,8 +6,8 @@ from django.core.urlresolvers import reverse
 
 class Resource(models.Model):
 	author = models.ForeignKey(auth.models.User)
-	title = models.Textfield(max_length=200)
-	text = models.CharField(max_length=1024)
+	title = models.TextField(max_length=200)
+	text = models.TextField(max_length=1024)
 
 	# def __str__(self):
 	# 	return self.resource_text

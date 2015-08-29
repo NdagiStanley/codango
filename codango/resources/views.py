@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
 # Create your views here.
-class ResourceList(ListView):
-	model = Resource
+# class ResourceList(ListView):
+# 	model = Resource
 
 class ResourceDetail(DetailView):
 	model = Resource
