@@ -3,7 +3,7 @@ from models import Resources
 
 # Register your models here.
 
-class ResourcesAdmin(admin.modelAdmin):
+class ResourceAdmin(admin.ModelAdmin):
 	pass
 
-admin.site.register(Resources, ResourcesAdmin)
+admin.site.register(Resource, ResourceAdmin)

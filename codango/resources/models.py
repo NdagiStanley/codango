@@ -4,12 +4,13 @@ from django.core.urlresolvers import reverse
 
 # Create your models here.
 
-class Resources(models.Model):
+class Resource(models.Model):
 	author = models.ForeignKey(auth.models.User)
-	resource_text = models.CharField(max_length=1024)
+	title = models.Textfield(max_length=200)
+	text = models.CharField(max_length=1024)
 
-	def __str__(self):
-		return self.resource_text
+	# def __str__(self):
+	# 	return self.resource_text
 
 	def get_absolute_url(self):
-		return reverse('comment_detail', args=[str(self.id)])
+		return reverse('resources_detail', args=[str(self.id)])

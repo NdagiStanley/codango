@@ -9,12 +9,12 @@ class ResourceDetail(DetailView):
 
 class ResourceCreate(CreateView):
 	model = Resource
-	fields = ['resource_text']
+	fields = ['author', 'title', 'text']
 
 class ResourceUpdate(UpdateView):
 	model = Resource
-	fields = ['resource_text']
+	fields = ['author', 'title', 'text']
 
 class ResourceDelete(DeleteView):
 	model = Resource
-	success_url = reverse_lazy('resource_list')
+	success_url = reverse_lazy('list')
