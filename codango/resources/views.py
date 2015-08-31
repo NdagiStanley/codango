@@ -1,8 +1,13 @@
 from django.shortcuts import render
 
-# Create your views here.
-# class ResourceList(ListView):
-# 	model = Resource
+from django.views.generic import ListView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+from resources.models import Resource
+
+#Create your views here.
+class ResourceList(ListView):
+	model = Resource
 
 class ResourceDetail(DetailView):
 	model = Resource
