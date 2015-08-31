@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 class Resource(models.Model):
 	author = models.ForeignKey(auth.models.User)
 	title = models.CharField(max_length=200)
-	text = models.TextField(max_length=1024)
+	text = models.TextField()
 
 	def __str__(self):
 		return self.title
