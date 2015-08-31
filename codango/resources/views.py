@@ -14,11 +14,11 @@ class ResourceDetail(DetailView):
 
 class ResourceCreate(CreateView):
 	model = Resource
-	fields = ['author', 'title', 'text']
+	fields = ['author', 'text']
 
 class ResourceUpdate(UpdateView):
 	model = Resource
-	fields = ['author', 'title', 'text']
+	fields = ['author', 'text']
 
 class ResourceDelete(DeleteView):
 	model = Resource
