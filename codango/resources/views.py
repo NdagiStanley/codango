@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+ 
 from django.views.generic import ListView, DetailView
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
@@ -14,11 +14,11 @@ class ResourceDetail(DetailView):
 
 class ResourceCreate(CreateView):
 	model = Resource
-	fields = ['author', 'text']
+	fields = ['author', 'title', 'text']
 
 class ResourceUpdate(UpdateView):
 	model = Resource
-	fields = ['author', 'text']
+	fields = ['author', 'title' 'text']
 
 class ResourceDelete(DeleteView):
 	model = Resource

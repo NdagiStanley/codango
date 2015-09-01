@@ -3,7 +3,7 @@ from resources.models import Resource
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-class ResourceTest(TestCase):
+class ResourceTestModels(TestCase):
 
 	def setUp(self):
 		self.user = User.objects.create(username='inioluwafageyinbo', password='codango')
