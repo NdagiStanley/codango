@@ -4,8 +4,8 @@ from . import views
 
 urlpatterns = [
     # /account/
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^account/$', views.IndexView.as_view(), name='index'),
     # /home/
-    url(r'^$', views.HomeView.as_view(), name='home'),
+    url(r'^home/$', views.HomeView.as_view(), name='home'),
 
 ]

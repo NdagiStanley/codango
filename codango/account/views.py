@@ -25,4 +25,10 @@ class IndexView(View):
 
 
 class HomeView(View):
-    pass
+    template_name = 'account/home.html'
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        return render(request, self.template_name)
+

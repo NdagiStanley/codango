@@ -18,7 +18,10 @@ from django.contrib import admin
 import resources.urls
 
 urlpatterns = [
-    url(r'^account/', include('account.urls')),
+    # /127.0.0.1:8000/ 
+    url(r'^', include('account.urls')),
+
 	url(r'^c/', include(resources.urls)),
+    # /admin/
     url(r'^admin/', include(admin.site.urls)),
 ]
