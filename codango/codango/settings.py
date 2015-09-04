@@ -89,6 +89,13 @@ DATABASES = {
 }
 
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@sandboxcb453b06494e49b5bcdcabd6cb10d04d.mailgun.org'
+EMAIL_HOST_PASSWORD = '3c00d838197e17d1b3d7737ccd0269fd'
+EMAIL_PORT = 587
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
