@@ -4,6 +4,7 @@ from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login
 
 from .forms import LoginForm
+from django.views.generic.base import View
 
 # Create your views here.
 class IndexView(View):
@@ -34,3 +35,7 @@ class IndexView(View):
 
 class HomeView(TemplateView):
     template_name = 'account/home.html'
+
+class ForgotPassword(View):
+
+	def get(self, request, *args, **kwargs)
