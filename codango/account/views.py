@@ -32,6 +32,5 @@ class IndexView(View):
 
         return render(request, self.template_name, {'form': form})
 
-
 class HomeView(TemplateView):
     template_name = 'account/home.html'
