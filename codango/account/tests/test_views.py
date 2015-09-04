@@ -2,6 +2,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
+from django.test import TestCase
 
 class IndexViewTest(StaticLiveServerTestCase):
     fixtures = ['users.json']

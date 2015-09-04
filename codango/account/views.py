@@ -6,8 +6,6 @@ from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 
 # Create your views here.
-
-
 class IndexView(View):
     form_class = LoginForm
     initial = {'key': 'value'}

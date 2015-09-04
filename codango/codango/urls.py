@@ -16,12 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 import resources.urls
+import account.urls
 
 urlpatterns = [
-    # /127.0.0.1:8000/ 
     url(r'^', include('account.urls')),
-
 	url(r'^c/', include(resources.urls)),
-    # /admin/
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^', include('django.contrib.auth.urls'))
 ]
