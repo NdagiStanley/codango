@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.views.generic import View
 from django.contrib.auth import authenticate, login
 
-
 from .forms import LoginForm
 
 # Create your views here.
@@ -26,7 +25,11 @@ class IndexView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 if user.is_active:
+                    if not request.POST.get('checkbox', None):
+                        request.session.set_expiry(0)
+
                     login(request, user)
+
                     return HttpResponseRedirect('/home')
 
         return render(request, self.template_name, {'form': form})

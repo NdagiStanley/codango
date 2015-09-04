@@ -11,3 +11,5 @@ class LoginForm(forms.Form):
                                widget=forms.PasswordInput(attrs={
                                    'placeholder': 'Enter secret password'
                                }))
+
+    checkbox = forms.BooleanField(label='Remember Me', required=False)
