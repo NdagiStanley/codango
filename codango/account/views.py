@@ -93,4 +93,4 @@ class ResetPassword(View):
 
             }
             context.update(csrf(request))
-            return render(request, 'account/')
+            return render(request, 'account/forgot_password_reset.html')
