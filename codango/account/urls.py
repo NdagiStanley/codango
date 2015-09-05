@@ -5,4 +5,5 @@ from . import views
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^home/$', views.HomeView.as_view(), name='home'),
+	url(r'^recovery/$', views.ForgotPassword.as_view(), name='forgot_password')
 ]

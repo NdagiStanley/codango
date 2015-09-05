@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login
 
 from .forms import LoginForm
 from django.views.generic.base import View
+from django.template.context_processors import csrf
+from django.contrib.auth.models import User
+from emails import send_mail
 
 # Create your views here.
 class IndexView(View):
@@ -38,4 +41,18 @@ class HomeView(TemplateView):
 
 class ForgotPassword(View):
 
-	def get(self, request, *args, **kwargs)
+	def get(self, request, *args, **kwargs):
+		context = {
+
+		}
+		context.update(csrf(request))
+		return render(request, 'account/forgot_password.html')
+
+	def post(self, request, *args, **kwargs):
+		try:
+			email_inputted = request.POST.get("email")
+			user = User.object.get(email = email_inputted)
+			send_mail(
+				'sender' = "Codango <codango@andela.com>"
+			)
+		except:
