@@ -80,4 +80,17 @@ class ForgotPassword(View):
 
 
 class ResetPassword(View):
-    pass
+
+    def get(self, request, *args, **kwargs):
+        user_hash = kwargs['user_hash']
+
+        user = Hasher.reverse_hash(user_hash)
+
+        if user is not None:
+            request.session['user_pk'] = user.pk
+
+            context = {
+
+            }
+            context.update(csrf(request))
+            return render(request, 'account/')
