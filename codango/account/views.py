@@ -8,6 +8,9 @@ from django.views.generic.base import View
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from emails import send_mail
+from django.http import HttpResponse
+from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 class IndexView(View):
@@ -46,13 +49,25 @@ class ForgotPassword(View):
 
 		}
 		context.update(csrf(request))
-		return render(request, 'account/forgot_password.html')
+		return render(request, 'account/forgot_password.html', context)
 
 	def post(self, request, *args, **kwargs):
 		try:
 			email_inputted = request.POST.get("email")
-			user = User.object.get(email = email_inputted)
-			send_mail(
-				'sender' = "Codango <codango@andela.com>"
+			user = User.objects.get(email = email_inputted)
+
+			email_reponse = send_mail(
+				sender = 'Codango <codango@andela.com>',
+				recipient = user.email,
+				subject = 'Codango: Password Recovery',
+				text = 'blah blah text',
+				html = 'blah blah blah.html'
 			)
-		except:
+			context = {
+				"email_status": email_reponse.status_code
+			}
+			return render(request, 'account/forgot_password_status.html', context)
+
+		except ObjectDoesNotExist:
+			messages.add_message(request, messages.INFO, 'The email specified does not belong to any valid user.')
+			return render(request, 'account/forgot_password.html')
