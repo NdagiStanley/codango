@@ -2,7 +2,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login
-
 from .forms import LoginForm
 from django.views.generic.base import View
 from django.template.context_processors import csrf
@@ -12,6 +11,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from account.hash import UserHasher
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 
@@ -83,14 +83,48 @@ class ResetPassword(View):
 
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
-
-        user = Hasher.reverse_hash(user_hash)
+        user = UserHasher.reverse_hash(user_hash)
 
         if user is not None:
-            request.session['user_pk'] = user.pk
+            if user.is_active:
+                request.session['user_pk'] = user.pk
 
-            context = {
+                context = {
 
-            }
-            context.update(csrf(request))
-            return render(request, 'account/forgot_password_reset.html')
+                }
+                context.update(csrf(request))
+                return render(request, 'account/forgot_password_reset.html', context)
+            else:
+                messages.add_message(request, messages.ERROR, 'Account not activated!')
+                return HttpResponse(
+                    'Account not activated!',
+                    status_code = 403,
+                    reason_phrase = 'You are not allowed to view this content because your account is not activated!'
+                )
+        else:
+            raise Http404("User does not exist")
+
+    def post(self, request, *args, **kwargs):
+
+        new_password = request.POST.get("password")
+        try:
+            user_pk = request.session['user_pk'] 
+            user = User.objects.get(pk=user_pk)
+
+            user.set_password(new_password)
+            user.save()
+
+            messages.add_message(request, messages.INFO, 'Your password was changed successfully!')
+
+            return redirect('/account/')
+        
+        except ObjectDoesNotExist:
+            # set an error message:
+            messages.add_message(request, messages.ERROR, 'You are not allowed to perform this action!')
+            return HttpResponse( 'Action not allowed!', status_code = 403 )
+
+        context = {
+
+        }
+        context.update(csrf(request))
+        return render(request, 'account/forgot_password.html', context)
