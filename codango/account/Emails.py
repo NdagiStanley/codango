@@ -8,8 +8,9 @@ def send_mail(sender, recipient, subject, text=None, html=None):
         "https://api.mailgun.net/v3/sandboxb2b5451c43284f7a8bc19a345ab06b2e.mailgun.org/messages",
         auth=("api", "key-63b86d9d5953b932e5af3c1ad6f2ae4b"),
        
-        data={"sender": sender,
-              "recipient": recipient,
+        data={"from": sender,
+              "to": recipient,
               "subject": subject,
               "text": text,
-              "html": html})
+              "html": html,
+        })
