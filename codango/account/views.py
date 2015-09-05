@@ -11,6 +11,9 @@ from emails import send_mail
 from django.http import HttpResponse
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from account.hash import UserHasher
+from django.core.urlresolvers import reverse
+from django.template import RequestContext, loader
 
 # Create your views here.
 class IndexView(View):
@@ -44,30 +47,37 @@ class HomeView(TemplateView):
 
 class ForgotPassword(View):
 
-	def get(self, request, *args, **kwargs):
-		context = {
+    def get(self, request, *args, **kwargs):
+        context = {
 
-		}
-		context.update(csrf(request))
-		return render(request, 'account/forgot_password.html', context)
+        }
+        context.update(csrf(request))
+        return render(request, 'account/forgot_password.html', context)
 
-	def post(self, request, *args, **kwargs):
-		try:
-			email_inputted = request.POST.get("email")
-			user = User.objects.get(email = email_inputted)
+    def post(self, request, *args, **kwargs):
+        try:
+            email_inputted = request.POST.get("email")
+            user = User.objects.get(email = email_inputted)
+            user_hash = UserHasher.gen_hash(user)
+            user_hash_url = request.build_absolute_uri(reverse('reset_password', kwargs={'user_hash': user_hash}))
 
-			email_reponse = send_mail(
-				sender = 'Codango <codango@andela.com>',
-				recipient = user.email,
-				subject = 'Codango: Password Recovery',
-				text = 'blah blah text',
-				html = 'blah blah blah.html'
-			)
-			context = {
-				"email_status": email_reponse.status_code
-			}
-			return render(request, 'account/forgot_password_status.html', context)
+            hash_email_context = RequestContext(request, {'user_hash_url': user_hash_url})
+            email_reponse = send_mail(
+                sender = 'Codango <codango@andela.com>',
+                recipient = user.email,
+                subject = 'Codango: Password Recovery',
+                text = loader.get_template('account/forgot_password_email.txt').render(hash_email_context),
+                html = loader.get_template('account/forgot_password_email.html').render(hash_email_context),
+            )
+            context = {
+                "email_status": email_reponse.status_code
+            }
+            return render(request, 'account/forgot_password_status.html', context)
 
-		except ObjectDoesNotExist:
-			messages.add_message(request, messages.INFO, 'The email specified does not belong to any valid user.')
-			return render(request, 'account/forgot_password.html')
+        except ObjectDoesNotExist:
+            messages.add_message(request, messages.INFO, 'The email specified does not belong to any valid user.')
+            return render(request, 'account/forgot_password.html')
+
+
+class ResetPassword(View):
+    pass
