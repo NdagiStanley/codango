@@ -1,0 +1,38 @@
+[
+{
+    "fields": {
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2015-09-07T08:36:22.814Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$4sozFLsljJeo$NJ2vVZvZkJdGrSYMzZIqPCrvwMKlowhjb8YF3vm7XM0=",
+        "email": "olufunmilade.oshodi@andela.com",
+        "date_joined": "2015-09-03T09:01:00.053Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+},
+{
+    "fields": {
+        "username": "lade",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": false,
+        "is_staff": false,
+        "last_login": "2015-09-07T14:47:15.882Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$NkFpmmE2yg8C$iMWl1k047ZMfUkFb4xkdSsna/oUHvTxz7ILUewUQswc=",
+        "email": "olufunmilade.oshodi@andela.com",
+        "date_joined": "2015-09-03T22:06:57.468Z"
+    },
+    "model": "auth.user",
+    "pk": 2
+}
+]

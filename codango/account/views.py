@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login
 
 from .forms import LoginForm
@@ -35,11 +35,5 @@ class IndexView(View):
         return render(request, self.template_name, {'form': form})
 
 
-class HomeView(View):
+class HomeView(TemplateView):
     template_name = 'account/home.html'
-
-    def get(self, request):
-        return render(request, self.template_name)
-
-    def post(self, request):
-        return render(request, self.template_name)

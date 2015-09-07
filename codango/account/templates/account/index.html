@@ -1,89 +1,61 @@
-{% load staticfiles %}
+{% extends "account/base.html" %}
 {% load bootstrap %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Codango</title>
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/app.css" type="text/css" rel="stylesheet"/>
-  </head>
 
-  <body>
-    <!--header-->
-    <div id="header" class ="container-fluid">
-	    <div class="container">
-	      <div class="row">
-	        <h1 class="col-md-8 col-xs-8">Codango</h1>
-	        <a class="col-md-1 col-xs-2" href = "#">The Team</a>
-	        <a class="col-md-3 col-xs-2" href = "#">Contact us</a> 
-	     </div>
-        </div>
+
+{% block content %}
+<!--page content-->
+<div class="row">
+  <!--About Section-->
+  <div class="col-md-8">
+    <div class="jumbotron">
+      <h1>Join Our Community</h1>
+      <p>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programing </p>
+      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
     </div>
-    <div class="container">
-      <!--page content-->
-      <div class="row">
-        <!--About Section-->
-        <div class="col-md-8">
-          <div class="jumbotron">
-            <h1>Join Our Community</h1>
-            <p>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programing </p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-          </div>
-        </div>
+  </div>
 
-        <!--tabbed-form-->
-        <div class="col-md-4">
-          <ul class="nav nav-tabs">
-            <li class="active"><a id="tab_link" data-toggle="tab" href="#login">LOG IN</a></li>
-            <li><a id="tab_link" data-toggle="tab" href="#signup">SIGN UP</a></li>
-          </ul>
-          <div class="tab-content">
-            <!--Log in form-->
-            <div id="login" class="tab-pane fade in active">
-              <form role="form" action="" method="post">
-                {% csrf_token %}
-                {{ form|bootstrap }}
-                <button type="submit" class="btn btn-default">Log in</button>
-              </form>
-            </div>
-            <!--Sign Up form-->
-            <div id="signup" class="tab-pane fade">
-              <form role="form">
-                <div class="form-group">
-                  <label for="firstname">First name:</label>
-                  <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name">
-                </div>
-                <div class="form-group">
-                  <label for="lastname">Last name:</label>
-                  <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name">
-                </div>
-                <div class="form-group">
-                  <label for="email">Email:</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-                </div>
-                <div class="form-group">
-                  <label for="pwd">Password:</label>
-                  <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
-                </div>
-                <div class="form-group">
-                  <label for="pwd">Verify Password:</label>
-                  <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter verifying password">
-                </div>
-                <button type="submit" class="btn btn-default">Sign up</button>
-              </form>
-            </div>
+  <!--tabbed-form-->
+  <div class="col-md-4">
+    <ul class="nav nav-tabs">
+      <li class="active"><a id="tab_link" data-toggle="tab" href="#login">LOG IN</a></li>
+      <li><a id="tab_link" data-toggle="tab" href="#signup">SIGN UP</a></li>
+    </ul>
+    <div class="tab-content">
+      <!--Log in form-->
+      <div id="login" class="tab-pane fade in active">
+        <form role="form" action="" method="post">
+          {% csrf_token %}
+          {{ form|bootstrap }}
+          <button type="submit" class="btn btn-default">Log in</button>
+        </form>
+      </div>
+      <!--Sign Up form-->
+      <div id="signup" class="tab-pane fade">
+        <form role="form">
+          <div class="form-group">
+            <label for="firstname">First name:</label>
+            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name">
           </div>
-        </div>
-      </div>
-      </div>
-    <!--footer-->
-    <div id="footer" class="container-fluid">
-      <div class="panel panel-default">
-          <h4 class="pull-right"><small>&copy 2015 CODANGO</small></h4>
+          <div class="form-group">
+            <label for="lastname">Last name:</label>
+            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Verify Password:</label>
+            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter verifying password">
+          </div>
+          <button type="submit" class="btn btn-default">Sign up</button>
+        </form>
       </div>
     </div>
-    <script src="/static/js/jquery-1.11.3.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-
-  </body>
-</html>
+  </div>
+</div>
+{% endblock content %}
