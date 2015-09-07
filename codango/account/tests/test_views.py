@@ -8,7 +8,7 @@ class IndexViewTest(TestCase):
     def setUp(self):
         self.client = Client()
         User.objects.create_user(
-            username='olufunmilade.oshodi@andela.com',
+            username='lade',
             password='password'
         )
 
@@ -22,7 +22,7 @@ class IndexViewTest(TestCase):
 
     def test_can_login(self):
         response = self.client.post('/', {
-            'username': 'olufunmilade.oshodi@andela.com',
+            'username': 'lade',
             'password': 'password'
         })
         self.assertEqual(response.status_code, 302)

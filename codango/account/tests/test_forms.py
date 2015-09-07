@@ -7,7 +7,7 @@ class LoginFormTest(TestCase):
 
     def test_form_inputs(self):
         form_data = {
-            'username': 'olufunmilade.oshodi@andela.com',
+            'username': 'lade',
             'password': 'password',
         }
 
