@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from django.test import TestCase, Client
+from account import views
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.models import User
 from account.hash import UserHasher
@@ -41,10 +42,10 @@ class PasswordResetTestCase(TestCase):
         # create a test client:
         self.client = Client()
         # register a sample user:
-        self.registered_account = User.objects.create_user('inioluwafageyinbo', 'inioluwafageyinbo@gmail.com', 'codango')
-        self.registered_account.first_name = 'Inioluwa'
-        self.registered_account.last_name = 'Fageyinbo'
-        self.registered_account.save()
+        self.user_account = User.objects.create_user('inioluwafageyinbo', 'inioluwafageyinbo@gmail.com', 'codango')
+        self.user_account.first_name = 'Inioluwa'
+        self.user_account.last_name = 'Fageyinbo'
+        self.user_account.save()
 
     def test_get_returns_200(self):
         response = self.client.get('/account/recovery/')
@@ -55,12 +56,9 @@ class PasswordResetTestCase(TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_recovery_email_sent_for_registered_user(self):
-        response = self.client.post('/account/recovery/', {"email": self.registered_account.email})
-        self.assertIn('registered_account', response.context)
-        self.assertIn('recovery_mail_status', response.context)
-        self.assertEqual(response.context['recovery_mail_status'], 200)
+        response = self.client.post('/account/recovery/', {"email": self.user_account.email})
+        self.assertIn("email_status", response.context)
 
     def test_recovery_email_not_sent_for_unregistered_user(self):
         response = self.client.post('/account/recovery/', {"email":"fagemaki.iniruto@gmail.com" })
-        self.assertNotIn('registered_account', response.context)
-        self.assertNotIn('recovery_mail_status', response.context)
+        self.assertNotIn('email_status', response.context)

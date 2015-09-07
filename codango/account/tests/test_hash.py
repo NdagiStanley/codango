@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from account import hash
 from django.contrib.auth.models import User
 from account.hash import UserHasher
 

@@ -14,6 +14,7 @@ from account.hash import UserHasher
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from django.http import Http404
 
 # Create your views here.
 class IndexView(View):
