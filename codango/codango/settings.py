@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'account',
     'resources',
+    'bootstrapform',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -80,8 +81,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME' : 'codango_db',
-        'USER' : 'postgres',
-        'PASSWORD': 'Password1',
+        'USER' : 'codango',
+        'PASSWORD': 'password',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
