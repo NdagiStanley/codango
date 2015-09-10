@@ -28,6 +28,8 @@
           {{ form|bootstrap }}
           <button type="submit" class="btn btn-default">Log in</button>
         </form>
+        {% csrf_token %}
+        <a href="/recovery/">Forgot password?.. Reset</a>
       </div>
       <!--Sign Up form-->
       <div id="signup" class="tab-pane fade">

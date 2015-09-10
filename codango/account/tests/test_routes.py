@@ -1,7 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve
-
 from account import urls
 from account.views import ForgotPassword, ResetPassword
 

@@ -14,6 +14,7 @@ from account.hash import UserHasher
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from account.forms import ResetForm
 
 # Create your views here.
 class IndexView(View):
@@ -90,7 +91,7 @@ class ResetPassword(View):
                 request.session['user_pk'] = user.pk
 
                 context = {
-
+                    "password_reset_form": ResetForm(auto_id=True)
                 }
                 context.update(csrf(request))
                 return render(request, 'account/forgot_password_reset.html', context)
@@ -105,26 +106,27 @@ class ResetPassword(View):
             raise Http404("User does not exist")
 
     def post(self, request, *args, **kwargs):
-
+        password_reset_form = ResetForm(request.POST, auto_id=True)
         new_password = request.POST.get("password")
-        try:
-            user_pk = request.session['user_pk'] 
-            user = User.objects.get(pk=user_pk)
+        if password_reset_form.is_valid():
+            try:
+                user_pk = request.session['user_pk'] 
+                user = User.objects.get(pk=user_pk)
 
-            user.set_password(new_password)
-            user.save()
+                user.set_password(new_password)
+                user.save()
 
-            messages.add_message(request, messages.INFO, 'Your password was changed successfully!')
+                messages.add_message(request, messages.INFO, 'Your password has been changed successfully!')
 
-            return redirect('/account/')
-        
-        except ObjectDoesNotExist:
-            # set an error message:
-            messages.add_message(request, messages.ERROR, 'You are not allowed to perform this action!')
-            return HttpResponse( 'Action not allowed!', status_code = 403 )
+                return redirect('/')
+            
+            except ObjectDoesNotExist:
+                # set an error message:
+                messages.add_message(request, messages.ERROR, 'You are not allowed to perform this action!')
+                return HttpResponse( 'Action not allowed!', status_code = 403 )
 
         context = {
-
+            "password_reset_form": password_reset_form
         }
         context.update(csrf(request))
         return render(request, 'account/forgot_password_reset.html', context)
