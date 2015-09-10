@@ -8,6 +8,7 @@ from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from emails import send_mail
 from django.http import HttpResponse
+from django.http import Http404
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from account.hash import UserHasher

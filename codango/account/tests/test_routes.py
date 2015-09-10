@@ -49,9 +49,9 @@ class ForgotResetTestCase(TestCase):
         self.client = Client()
 
     def test_forgot_route_resolves_to_correct_view(self):
-        response = self.client.get('/account/recovery/')
+        response = self.client.get('/recovery/')
         self.assertEqual(response.resolver_match.func.__name__, ForgotPassword.as_view().__name__)
 
     def test_reset_route_resolves_to_correct_view(self):
-        response = self.client.get('/account/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
+        response = self.client.get('/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
         self.assertEqual(response.resolver_match.func.__name__, ResetPassword.as_view().__name__)

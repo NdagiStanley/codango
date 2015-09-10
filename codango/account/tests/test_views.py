@@ -47,17 +47,17 @@ class PasswordResetTestCase(TestCase):
         self.user_account.save()
 
     def test_get_returns_200(self):
-        response = self.client.get('/account/recovery/')
+        response = self.client.get('/recovery/')
         self.assertEquals(response.status_code, 200)
 
     def test_post_returns_200(self):
-        response = self.client.get('/account/recovery/')
+        response = self.client.get('/recovery/')
         self.assertEquals(response.status_code, 200)
 
     def test_recovery_email_sent_for_registered_user(self):
-        response = self.client.post('/account/recovery/', {"email": self.user_account.email})
+        response = self.client.post('/recovery/', {"email": self.user_account.email})
         self.assertIn("email_status", response.context)
 
     def test_recovery_email_not_sent_for_unregistered_user(self):
-        response = self.client.post('/account/recovery/', {"email":"fagemaki.iniruto@gmail.com" })
+        response = self.client.post('/recovery/', {"email":"fagemaki.iniruto@gmail.com" })
         self.assertNotIn('email_status', response.context)
