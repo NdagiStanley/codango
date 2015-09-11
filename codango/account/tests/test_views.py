@@ -35,6 +35,7 @@ class IndexViewTest(StaticLiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Codango Home', body.text)
 
+
 class PasswordResetTestCase(TestCase):
     
     def setUp(self):

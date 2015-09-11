@@ -5,7 +5,6 @@ from account import urls
 from account.views import ForgotPassword, ResetPassword
 
 
-
 class IndexViewTest(TestCase):
 
     def setUp(self):
@@ -24,9 +23,18 @@ class IndexViewTest(TestCase):
         self.assertEqual(match.url_name, 'index')
 
     def test_can_login(self):
-        response = self.client.post('/', {
+        response = self.client.post('/login', {
             'username': 'lade',
             'password': 'password'
+        })
+        self.assertEqual(response.status_code, 302)
+
+    def test_can_register(self):
+        response = self.client.post('/register', {
+            'username': 'lade.o',
+            'password': 'password',
+            'password_conf': 'password',
+            'email': 'olufunmilade.oshodi@andela.com'
         })
         self.assertEqual(response.status_code, 302)
 
@@ -38,11 +46,12 @@ class HomeViewTest(TestCase):
 
     def test_can_reach_home_page(self):
         response = self.client.get('/home')
-        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response.status_code, 200)
 
     def test_right_view_for_home_is_returned(self):
-        match = resolve('/home/')
+        match = resolve('/home')
         self.assertEqual(match.url_name, 'home')
+
 
 class ForgotResetTestCase(TestCase):
     def setUp(self):

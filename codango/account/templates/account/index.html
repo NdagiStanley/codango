@@ -23,9 +23,9 @@
     <div class="tab-content">
       <!--Log in form-->
       <div id="login" class="tab-pane fade in active">
-        <form role="form" action="" method="post">
+        <form role="form" action="/login" method="post">
           {% csrf_token %}
-          {{ form|bootstrap }}
+          {{ loginform|bootstrap }}
           <button type="submit" class="btn btn-default">Log in</button>
         </form>
         {% csrf_token %}
@@ -33,30 +33,14 @@
       </div>
       <!--Sign Up form-->
       <div id="signup" class="tab-pane fade">
-        <form role="form">
-          <div class="form-group">
-            <label for="firstname">First name:</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter first name">
-          </div>
-          <div class="form-group">
-            <label for="lastname">Last name:</label>
-            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name">
-          </div>
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter password">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Verify Password:</label>
-            <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Enter verifying password">
-          </div>
-          <button type="submit" class="btn btn-default">Sign up</button>
-        </form>
-      </div>
+                <form role="form" action="/register" method="post">
+                    {% csrf_token %}
+                    {{ registerform|bootstrap }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
     </div>
   </div>
 </div>
