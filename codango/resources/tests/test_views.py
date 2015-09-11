@@ -6,13 +6,4 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 class ResourceTestViews(TestCase):
-
-	def setUp(self): 
-		self.client = Client()   
-
-	def test_ListView(self):
-		url = reverse("resources.views.ListView")
-		response = self.client.get(url)
-		self.assertEqual(response.status_code, 200)
-		self.assertIn(create.title, response.content)
-		
+	pass
