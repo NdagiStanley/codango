@@ -1,0 +1,34 @@
+/* body styling */
+body {
+  background-color: #ffffff;
+  height: 100%;
+  padding-bottom:100px;
+}
+
+/* header links styling */
+#header {
+	background-color: #45818E;
+	height: 100px;
+	margin-bottom:100px;
+}
+
+#header h1 {
+	padding-left: 1.5em;
+}
+
+#header a {
+	padding-top:30px;
+}
+
+/* footer */
+#footer {
+	position: fixed;
+   	bottom:0px;
+   	height:40px;
+   	width:100%;
+   	background-color: #45818E;
+   	clear: both;	
+}
+#footer small{
+	color: #000000;
+}
