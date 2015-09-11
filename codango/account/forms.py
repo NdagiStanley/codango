@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 
 class LoginForm(forms.Form):
 
@@ -27,3 +29,29 @@ class ResetForm(forms.Form):
         "placeholder": "Confirm Your New Password"
       }
     ))
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField(max_length=300)
+    email = forms.EmailField()
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput())
+    password_conf = forms.CharField(max_length=100, widget=forms.PasswordInput())
+
+    def clean_username(self):
+        try:
+            User.objects.get(username=self.cleaned_data['username'])
+        except User.DoesNotExist:
+            return self.cleaned_data['username']
+        raise forms.ValidationError("This user already exist in the database, please choose another username")
+
+    def clean(self):
+        if 'password' in self.cleaned_data and 'password_conf' in self.cleaned_data:
+            if self.cleaned_data['password'] != self.cleaned_data['password_conf']:
+                raise forms.ValidationError("You must type in the same password each time")
+        return self.cleaned_data
+
+    def save(self):
+        new_user = User.objects.create_user(username=self.cleaned_data['username'],
+                                            email=self.cleaned_data['email'],
+                                            password=self.cleaned_data['password'])
+        return new_user

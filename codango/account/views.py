@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm
+from .forms import LoginForm, RegisterForm
 from django.views.generic.base import View
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
@@ -17,15 +17,23 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from account.forms import ResetForm
 
+
 # Create your views here.
-class IndexView(View):
-    form_class = LoginForm
+
+
+class IndexView(TemplateView):
     initial = {'key': 'value'}
     template_name = 'account/index.html'
 
-    def get(self, request):
-        form = self.form_class(initial=self.initial)
-        return render(request, self.template_name, {'form': form})
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        context['loginform'] = LoginForm()
+        context['registerform'] = RegisterForm()
+        return context
+
+
+class LoginView(IndexView):
+    form_class = LoginForm
 
     def post(self, request):
         form = self.form_class(request.POST)
@@ -41,14 +49,19 @@ class IndexView(View):
                     login(request, user)
 
                     return HttpResponseRedirect('/home')
+        context = super(LoginView, self).get_context_data(**kwargs)
+        context['loginform'] = form
+        return render(request, self.template_name, context)
 
-        return render(request, self.template_name, {'form': form})
 
 class HomeView(TemplateView):
     template_name = 'account/home.html'
 
-class ForgotPassword(View):
+    # def get(self, request):
+    #     return render(request, self.template_name)
 
+
+class ForgotPassword(View):
     def get(self, request, *args, **kwargs):
         context = {
 
@@ -59,17 +72,17 @@ class ForgotPassword(View):
     def post(self, request, *args, **kwargs):
         try:
             email_inputted = request.POST.get("email")
-            user = User.objects.get(email = email_inputted)
+            user = User.objects.get(email=email_inputted)
             user_hash = UserHasher.gen_hash(user)
             user_hash_url = request.build_absolute_uri(reverse('reset_password', kwargs={'user_hash': user_hash}))
 
             hash_email_context = RequestContext(request, {'user_hash_url': user_hash_url})
             email_reponse = send_mail(
-                sender = 'Codango <codango@andela.com>',
-                recipient = user.email,
-                subject = 'Codango: Password Recovery',
-                text = loader.get_template('account/forgot_password_email.txt').render(hash_email_context),
-                html = loader.get_template('account/forgot_password_email.html').render(hash_email_context),
+                sender='Codango <codango@andela.com>',
+                recipient=user.email,
+                subject='Codango: Password Recovery',
+                text=loader.get_template('account/forgot_password_email.txt').render(hash_email_context),
+                html=loader.get_template('account/forgot_password_email.html').render(hash_email_context),
             )
             context = {
                 "email_status": email_reponse.status_code
@@ -82,7 +95,6 @@ class ForgotPassword(View):
 
 
 class ResetPassword(View):
-
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
         user = UserHasher.reverse_hash(user_hash)
@@ -100,8 +112,8 @@ class ResetPassword(View):
                 messages.add_message(request, messages.ERROR, 'Account not activated!')
                 return HttpResponse(
                     'Account not activated!',
-                    status_code = 403,
-                    reason_phrase = 'You are not allowed to view this content because your account is not activated!'
+                    status_code=403,
+                    reason_phrase='You are not allowed to view this content because your account is not activated!'
                 )
         else:
             raise Http404("User does not exist")
@@ -111,7 +123,7 @@ class ResetPassword(View):
         new_password = request.POST.get("password")
         if password_reset_form.is_valid():
             try:
-                user_pk = request.session['user_pk'] 
+                user_pk = request.session['user_pk']
                 user = User.objects.get(pk=user_pk)
 
                 user.set_password(new_password)
@@ -120,14 +132,28 @@ class ResetPassword(View):
                 messages.add_message(request, messages.INFO, 'Your password has been changed successfully!')
 
                 return redirect('/')
-            
+
             except ObjectDoesNotExist:
                 # set an error message:
                 messages.add_message(request, messages.ERROR, 'You are not allowed to perform this action!')
-                return HttpResponse( 'Action not allowed!', status_code = 403 )
+                return HttpResponse('Action not allowed!', status_code=403)
 
         context = {
             "password_reset_form": password_reset_form
         }
         context.update(csrf(request))
         return render(request, 'account/forgot_password_reset.html', context)
+
+
+class RegisterView(IndexView):
+    form_class = RegisterForm
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect('/home')
+        else:
+            context = super(RegisterView, self).get_context_data(**kwargs)
+            context['registerform'] = form
+            return render(request, self.template_name, context)
