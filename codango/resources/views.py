@@ -61,10 +61,6 @@ class ResourceUpdate(View):
         resource_form = ResourceForm(request.POST, request.FILES, instance=resource_to_update)
         resource_form.author = request.user
 
-        if resource_form.is_valid():
-            resource_just_updated = resource_form.save(commit=False)
-            resource_just_updated.save()
-            return redirect(reverse('resources_list'))
 
 
 class ResourceDelete(View):
