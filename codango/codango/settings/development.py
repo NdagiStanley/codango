@@ -80,14 +80,13 @@ WSGI_APPLICATION = 'codango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'codango_db',
-        'USER' : 'chidieberennadi',
-        'PASSWORD': 'cidman',
+        'NAME': os.environ['DATABASE_USERNAME'],
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-
 
 
 # Internationalization
@@ -114,7 +113,10 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 APPEND_SLASH = False
+<<<<<<< HEAD:codango/codango/settings/development.py
 
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+>>>>>>> [fixed] issue #10:codango/codango/settings.py
