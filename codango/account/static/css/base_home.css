@@ -9,25 +9,39 @@ body {
 #header {
 	background-color: #45818E;
 	height: 100px;
-	margin-bottom:100px;
 }
 
 #header h1 {
 	padding-left: 1.5em;
 }
 
-#header a {
-	padding-top:30px;
+#header a{
+  color: #000000
+}
+
+.menu_item{
+  padding-top:30px; 
+  margin-right: 20px;
+}
+
+#search {
+  margin-top:25px;
+  margin-left: 20px;
+  width: 100% 
+}
+
+#search input{
+  width: 450px !important;
 }
 
 /* footer */
 #footer {
 	position: fixed;
-   	bottom:0px;
-   	height:40px;
-   	width:100%;
-   	background-color: #45818E;
-   	clear: both;	
+  bottom:0px;
+  height:40px;
+  width:100%;
+  background-color: #45818E;
+  clear: both;	
 }
 #footer small{
 	color: #000000;
