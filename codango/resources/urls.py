@@ -17,8 +17,12 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/update/$',
         views.ResourceUpdate.as_view(),
         name='resource_edit'),
-    
+
     url(r'^(?P<pk>[0-9]+)/delete/$',
         views.ResourceDelete.as_view(),
         name='resource_delete'),
+
+    url(r'^pdf/$',
+        views.PdfResource.as_view(),
+        name='pdf_create'),
 ]
