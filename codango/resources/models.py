@@ -21,7 +21,6 @@ class Resource(models.Model):
     date_added = models.DateTimeField(default=datetime.datetime.now)
     date_modified = models.DateTimeField(auto_now=True, blank=True, null=True)
 
-
     def __str__(self):
         return self.title
 

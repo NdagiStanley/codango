@@ -1,0 +1,12 @@
+{% extends "account/templates/account/base.html" %}
+
+{% block content %}
+
+<form method="POST">
+	{% csrf_token %}
+	<p>Are you sure you want to delete? {{ object.title }}</p>
+	<input type="submit" value="yes" />
+	<a href="{% url 'comment_list' %}">no</a>
+</form>
+
+{% endblock %}
