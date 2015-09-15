@@ -1,0 +1,16 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+
+	{% if object %}
+		<h2>Edit {{ object.title }}</h2>
+	{% else %}
+		<h2>Create</h2>
+	{% endif %}
+	<form method="POST">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit">
+	</form>
+	
+{% endblock %}

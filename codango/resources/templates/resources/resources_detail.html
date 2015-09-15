@@ -1,0 +1,13 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+
+<h2>{{ object.title }}</h2>
+<p><em>by {{ object.author.username }}</em></p>
+<p>{{ object.text }}</p>
+
+<a href="{% url 'resources_edit' object.pk %}">Edit</a>
+
+<a href="{% url 'resources_delete' object.pk %}">Delete</a>
+
+{% endblock %}
