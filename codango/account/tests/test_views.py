@@ -12,7 +12,7 @@ class IndexViewTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.PhantomJS()
 
     def tearDown(self):
         self.browser.quit()
