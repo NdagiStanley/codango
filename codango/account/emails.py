@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.template import RequestContext, loader
 import requests
 
-
 def send_mail(sender, recipient, subject, text=None, html=None):
     return requests.post(
         "https://api.mailgun.net/v3/sandboxb2b5451c43284f7a8bc19a345ab06b2e.mailgun.org/messages",

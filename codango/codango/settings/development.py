@@ -95,7 +95,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en'
 
-TIME_ZONE = 'Africa/lagos'
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
