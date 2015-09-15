@@ -1,0 +1,14 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+
+	{% for comment in object_list %}
+		<p>
+			{% resource.title %}
+			<a href="{% url 'resources_detail' comment.pk %}">detail...</a>
+		</p>
+	{% endfor %}
+
+	<a href="{% url 'resources_create' %}">Add...</a>
+	
+{% endblock %}
