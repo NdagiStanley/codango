@@ -1,8 +1,6 @@
 /* body styling */
 body {
-  background-color: #ffffff;
-  height: 100%;
-  padding-bottom: 100px;
+  height: 100%;  
 }
 
 /* header styling */
@@ -31,17 +29,17 @@ body {
 }
 
 #search input{
-  width: 400px;
+  width: 500px;
 }
 
 /* sidebar */
 #sidebar {
   position: fixed;
-  
-  left: 0px;
+  top: 0px;
   bottom: 0px;
-  height: 100%;
+  left: 0px;
   width: 200px;
+  z-index: -1;
   background-color: #CCCCCC;
 }
 
