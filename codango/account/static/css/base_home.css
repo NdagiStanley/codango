@@ -2,10 +2,10 @@
 body {
   background-color: #ffffff;
   height: 100%;
-  padding-bottom:100px;
+  padding-bottom: 100px;
 }
 
-/* header links styling */
+/* header styling */
 #header {
 	background-color: #45818E;
 	height: 100px;
@@ -20,40 +20,48 @@ body {
 }
 
 .menu_item{
-  padding-top:17px; 
+  padding-top: 17px; 
   margin-right: 20px;
 }
 
 #search {
-  margin-top:25px;
+  margin-top: 25px;
   margin-left: 20px;
   width: 100% 
 }
 
 #search input{
-  width: 400px !important;
+  width: 400px;
 }
 
-#sidebar-wrapper {
-    position: fixed;
-    left: 250px;
-    width: 0;
-    height: 100%;
-    margin-left: -250px;
+/* sidebar */
+#sidebar {
+  position: fixed;
+  
+  left: 0px;
+  bottom: 0px;
+  height: 100%;
+  width: 200px;
+  background-color: #CCCCCC;
 }
 
-#page-content-wrapper {
-    width: 100%;
-    position: absolute;
-    padding: 15px;
+#content {
+  position: absolute;
+  background-color: #000000;
+  padding-right: 50px;
+  padding-left: 10px;
+  padding-bottom: 100px;
+  left: 200px;
+  top: 100px;
+  right: 1px;
 }
 
 /* footer */
 #footer {
 	position: fixed;
-  bottom:0px;
-  height:40px;
-  width:100%;
+  bottom: 0px;
+  height: 40px;
+  width: 100%;
   background-color: #45818E;
   clear: both;	
 }
