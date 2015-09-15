@@ -16,21 +16,21 @@ body {
 #header a{
   color: #000000
 }
+.navbar-collapse{
+  background-color: #45818E;
+}
 
 .menu_item{
   padding-top: 17px; 
-  margin-right: 20px;
 }
 
 #search {
-  margin-top: 25px;
-  margin-left: 20px;
-  width: 100% 
+  margin-top: 25px; 
 }
 
-#search input{
-  width: 500px;
-}
+/*#search input{
+  width: 500px !important;
+}*/
 
 /* sidebar */
 #sidebar {
@@ -52,6 +52,7 @@ body {
   left: 200px;
   top: 100px;
   right: 1px;
+  z-index: -1;
 }
 
 /* footer */
