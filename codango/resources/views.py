@@ -32,7 +32,6 @@ class ResourceCreate(TemplateView):
 
 
 class ResourceList(View):
-
     def get(self, request):
         resource_list = Resource.objects.all()
         context = {'resource_list': resource_list}
@@ -59,7 +58,6 @@ class ResourceUpdate(View):
         resource_to_update = Resource.objects.get(id=kwargs.get('pk'))
         resource_form = ResourceForm(request.POST, request.FILES, instance=resource_to_update)
         resource_form.author = request.user
-
 
 
 class ResourceDelete(View):
