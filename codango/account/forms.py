@@ -18,6 +18,7 @@ class LoginForm(forms.Form):
 
 
 class RegisterForm(forms.Form):
+
     username = forms.CharField(label='Username', max_length=300,
                                widget=forms.TextInput(attrs={
                                    'placeholder': 'Create unique username'
