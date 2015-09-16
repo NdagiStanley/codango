@@ -2,13 +2,15 @@
 
 {% block content %}
 
-	{% for comment in object_list %}
-		<p>
-			{% resource.title %}
-			<a href="{% url 'resources_detail' comment.pk %}">detail...</a>
-		</p>
-	{% endfor %}
-
-	<a href="{% url 'resources_create' %}">Add...</a>
+<h1>Resources</h1>
+	<ul>
+		{% for resources in object_list %}
+			<li>{{ object.title }}  :  
+			    <a href="{% url 'resources_detail' resources.pk %}">{{ resources.title }}</a>
+		    </li>
+		{% endfor %}
+		<a href="{% url 'resources_create' %}">Add Resource</a>
+	</ul>
 	
 {% endblock %}
+
