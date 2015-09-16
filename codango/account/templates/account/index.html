@@ -33,14 +33,14 @@
 			</div>
 			<!--Sign Up form-->
 			<div id="signup" class="tab-pane fade">
-								<form role="form" action="/register" method="post">
-										{% csrf_token %}
-										{{ registerform|bootstrap }}
-										<div class="form-group">
-												<button type="submit" class="btn btn-primary">Submit</button>
-										</div>
-								</form>
-						</div>
+				<form role="form" action="/register" method="post">
+					{% csrf_token %}
+					{{ registerform|bootstrap }}
+					<div class="form-group">
+					  <button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

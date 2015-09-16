@@ -19,6 +19,10 @@ body {
 	color: #ffffff;
 }
 
+.navbar a:hover {
+	text-decoration: none;
+}
+
 .navbar-collapse {
 	background-color: #45818E;
 	vertical-align: middle;

@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
 		<link href="/static/css/base.css" type="text/css" rel="stylesheet"/>
 		<title>{% block title %}Codango{% endblock title %}</title>
@@ -13,11 +14,11 @@
 			<div class="container">
 				<div class="row">
 					{% block header %}
-					<h1 class="col-md-8 col-xs-8">Codango</h1>
-					<a class="col-md-1 col-xs-2" href = "#">The Team</a>
-					<a class="col-md-3 col-xs-2" href = "#">Contact us</a> 
+					<h1 class="col-xs-8">Codango</h1>
+					<a class="col-xs-2 pull-right" href="#">Contact us</a> 
+					<a class="col-xs-2 pull-right" href="#">The Team</a>
 					{% endblock header %}
-			 </div>
+				</div>
 			</div>
 		</div>
 		
