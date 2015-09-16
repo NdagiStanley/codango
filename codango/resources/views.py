@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView, DeleteView, View
+from django.views.generic import TemplateView, View
+>>>>>>> form validation issue resolved
 from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
 from resources.forms import ResourceForm
-from reportlab.pdfgen import canvas
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-
+from django.http import HttpResponse
+from django.contrib.auth.models import User
 # Create your views here.
+
 
 
 class ResourceCreate(TemplateView):
