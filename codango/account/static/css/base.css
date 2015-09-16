@@ -1,8 +1,8 @@
 /* body styling */
 body {
-  background-color: #45818E;
-  height: 100%;
-  padding-bottom:100px;
+	background-color: #45818E;
+	height: 100%;
+	padding-bottom:100px;
 }
 
 /* header links styling */
@@ -22,8 +22,8 @@ body {
 
 /* tab styling */
 .tab-content {
-        padding:15px;
-        background: #ffffff;
+				padding:15px;
+				background: #ffffff;
 }
 
 #tab_link {
@@ -33,11 +33,11 @@ body {
 /* footer */
 #footer {
 	position: fixed;
-   	bottom:0px;
-   	height:40px;
-   	width:100%;
-   	background-color: #ffffff;
-   	clear: both;	
+		bottom:0px;
+		height:40px;
+		width:100%;
+		background-color: #ffffff;
+		clear: both;	
 }
 #footer small{
 	color: #000000;
