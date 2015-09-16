@@ -1,7 +1,9 @@
-from django import forms
+from django.forms import ModelForm
+from .models import Resource
 
 
-class ResourceForm(forms.ModelForm):
-    username = forms.CharField(label='Name', max_length=100)
-    title = forms.CharField(label='Title', max_length=100)
-    resource = forms.CharField(label='Resource', max_length=2000)
+class ResourceForm(ModelForm):
+
+    class Meta:
+        model = Resource
+        fields = ['title', 'text', 'resource_type', 'resource_file']
