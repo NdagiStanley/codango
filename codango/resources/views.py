@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView, DeleteView, View
 from django.views.generic import TemplateView, View
->>>>>>> form validation issue resolved
 from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
 from resources.forms import ResourceForm
