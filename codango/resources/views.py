@@ -22,8 +22,6 @@ from django.contrib.auth.models import User
 
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
-    # model = Resource
-    # fields = ['author', 'title', 'text']
     template_name = 'resources/create.html'
 
     def get_context_data(self, **kwargs):
