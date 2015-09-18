@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from models import UserProfile
 
 
 class LoginForm(forms.Form):
@@ -36,6 +37,7 @@ class RegisterForm(forms.Form):
                                         'placeholder': 'Verify secret password'
                                     }))
 
+
     def clean_username(self):
         try:
             User.objects.get(username=self.cleaned_data['username'])
@@ -60,6 +62,7 @@ class RegisterForm(forms.Form):
         return new_user
 
 
+
 class ResetForm(forms.Form):
 
     password = forms.CharField(label='New Password', required=True,
@@ -73,3 +76,9 @@ class ResetForm(forms.Form):
                                         attrs={
                                             "placeholder": "Confirm Your New Password"
                                         }))
+
+class UserProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ()

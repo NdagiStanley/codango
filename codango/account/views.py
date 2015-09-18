@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from .forms import LoginForm, RegisterForm, UserProfileForm
+from django.views.generic.base import View
+from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -69,6 +72,10 @@ class RegisterView(IndexView):
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
             return render(request, self.template_name, context)
+
+
+class HomeView(TemplateView):
+    template_name = 'account/home.html'
 
 
 class LoginRequiredMixin(object):
