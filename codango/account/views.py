@@ -13,6 +13,7 @@ from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
 
+
 from account.forms import LoginForm, RegisterForm, ResetForm
 
 
@@ -39,13 +40,11 @@ class LoginView(IndexView):
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
+            if not request.POST.get('remember_me'):
+                request.session.set_expiry(0)
             if user is not None:
                 if user.is_active:
-                    if not request.POST.get('checkbox', None):
-                        request.session.set_expiry(0)
-
                     login(request, user)
-
                     return HttpResponseRedirect('/home')
         else:
             context = super(LoginView, self).get_context_data(**kwargs)
