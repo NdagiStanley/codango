@@ -1,10 +1,11 @@
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
-from django.views.generic.base import RedirectView
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
@@ -32,7 +33,7 @@ class IndexView(TemplateView):
 class LoginView(IndexView):
     form_class = LoginForm
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             username = request.POST['username']
@@ -46,9 +47,10 @@ class LoginView(IndexView):
                     login(request, user)
 
                     return HttpResponseRedirect('/home')
-        context = super(LoginView, self).get_context_data(**kwargs)
-        context['loginform'] = form
-        return render(request, self.template_name, context)
+        else:
+            context = super(LoginView, self).get_context_data(**kwargs)
+            context['loginform'] = form
+            return render(request, self.template_name, context)
 
 
 class RegisterView(IndexView):
@@ -65,15 +67,17 @@ class RegisterView(IndexView):
             return render(request, self.template_name, context)
 
 
-class HomeView(TemplateView):
+class LoginRequiredMixin(object):
+    # View mixin which requires that the user is authenticated.
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs)
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
-
-
-class LogoutView(IndexView):
-
-    def post(self, request):
-        logout(request)
-        return render(request, self.template_name)
 
 
 class ForgotPassword(View):

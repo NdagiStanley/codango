@@ -13,7 +13,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 # Quick-start development settings - unsuitable for production
@@ -113,10 +114,9 @@ STATICFILES_DIRS = (
 STATIC_URL = '/static/'
 
 APPEND_SLASH = False
-<<<<<<< HEAD:codango/codango/settings/development.py
 
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-=======
->>>>>>> [fixed] issue #10:codango/codango/settings.py
+
+LOGIN_URL = '/'
