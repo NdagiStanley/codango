@@ -58,7 +58,10 @@ class RegisterView(IndexView):
     def post(self, request, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            form.save()
+            new_user = form.save()
+            new_user = authenticate(username=request.POST['username'],
+                                    password=request.POST['password'])
+            login(request, new_user)
             return HttpResponseRedirect('/home')
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
