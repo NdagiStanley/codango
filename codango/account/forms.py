@@ -61,14 +61,14 @@ class RegisterForm(forms.Form):
 
 class ResetForm(forms.Form):
 
-    password = forms.CharField(label='New Password', required=True, max_length=200, widget=forms.PasswordInput(
-        attrs={
-            "placeholder": "Your New Password"
-        }
-    ))
+    password = forms.CharField(label='New Password', required=True,
+                               max_length=200, widget=forms.PasswordInput(
+                                   attrs={"placeholder": "Your New Password"
+                                          }))
 
-    password_conf = forms.CharField(label='Confirm New Password', required=True, max_length=200, widget=forms.PasswordInput(
-        attrs={
-            "placeholder": "Confirm Your New Password"
-        }
-    ))
+    password_conf = forms.CharField(label='Confirm New Password',
+                                    required=True, max_length=200,
+                                    widget=forms.PasswordInput(
+                                        attrs={
+                                            "placeholder": "Confirm Your New Password"
+                                        }))
