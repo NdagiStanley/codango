@@ -1,0 +1,40 @@
+textarea {
+	margin: 10px 0px;
+}
+
+.list-inline {
+	margin-left: 10px;
+}
+
+.list-inline li {
+	margin-right: 5px;
+}
+
+.list-group-item {
+	margin-bottom: 15px;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 50px;
+}
+
+h3 {
+	margin-left: 15%;
+}
+
+#more {
+	margin-left: 30%;
+	margin-bottom: 40px;
+}
+
+#more a:hover {
+	text-decoration: none;
+}
+
+.feeds {
+	margin-top: 50px;
+}
+
+#item {
+	margin: 0px 10px;
+}

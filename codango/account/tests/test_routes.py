@@ -1,8 +1,12 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from django.core.urlresolvers import resolve
-from account import urls
+from django.core.urlresolvers import resolve, reverse
 from account.views import ForgotPassword, ResetPassword
+# from django.utils.datastructures import MultiValueDictKeyError
+# from account.hash import UserHasher
+
+# from account import views
+# from account import urls
 
 
 class IndexViewTest(TestCase):
@@ -11,7 +15,7 @@ class IndexViewTest(TestCase):
         self.client = Client()
         User.objects.create_user(
             username='lade',
-            password='password'
+            password='password',
         )
 
     def test_can_reach_index_page(self):
@@ -43,10 +47,19 @@ class HomeViewTest(TestCase):
 
     def setUp(self):
         self.client = Client()
+        self.username = 'lade'
+        self.password = 'password'
+        User.objects.create_user(
+            self.username,
+            self.password
+        )
+        self.login = self.client.login(
+            username=self.username, password=self.password)
 
     def test_can_reach_home_page(self):
-        response = self.client.get('/home')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.login, True)
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 302)
 
     def test_right_view_for_home_is_returned(self):
         match = resolve('/home')
@@ -54,13 +67,48 @@ class HomeViewTest(TestCase):
 
 
 class ForgotResetTestCase(TestCase):
+
     def setUp(self):
         self.client = Client()
 
     def test_forgot_route_resolves_to_correct_view(self):
         response = self.client.get('/recovery/')
-        self.assertEqual(response.resolver_match.func.__name__, ForgotPassword.as_view().__name__)
+        self.assertEqual(
+            response.resolver_match.func.__name__, ForgotPassword.as_view().__name__)
 
     def test_reset_route_resolves_to_correct_view(self):
-        response = self.client.get('/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
-        self.assertEqual(response.resolver_match.func.__name__, ResetPassword.as_view().__name__)
+        response = self.client.get(
+            '/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
+        self.assertEqual(
+            response.resolver_match.func.__name__, ResetPassword.as_view().__name__)
+
+
+# class PasswordResetTestCase(TestCase):
+
+#     def setUp(self):
+# create a test client:
+#         self.client = Client()
+# register a sample user:
+#         self.user_account = User.objects.create_user(
+#             'inioluwafageyinbo', 'inioluwafageyinbo@gmail.com', 'codango')
+#         self.user_account.first_name = 'Inioluwa'
+#         self.user_account.last_name = 'Fageyinbo'
+#         self.user_account.save()
+
+#     def test_get_returns_200(self):
+#         response = self.client.get('/recovery/')
+#         self.assertEquals(response.status_code, 200)
+
+#     def test_post_returns_200(self):
+#         response = self.client.get('/recovery/')
+#         self.assertEquals(response.status_code, 200)
+
+#     def test_recovery_email_sent_for_registered_user(self):
+#         response = self.client.post(
+#             '/recovery/', {"email": self.user_account.email})
+#         self.assertIn("email_status", response.context)
+
+#     def test_recovery_email_not_sent_for_unregistered_user(self):
+#         response = self.client.post(
+#             '/recovery/', {"email": "fagemaki.iniruto@gmail.com"})
+#         self.assertNotIn('email_status', response.context)

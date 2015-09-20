@@ -14,7 +14,7 @@ class LoginForm(forms.Form):
                                }))
 
     remember_me = forms.BooleanField(
-        label='Remember Me', required=False, initial=True)
+        label='Remember Me', required=False)
 
 
 class RegisterForm(forms.Form):
