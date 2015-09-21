@@ -220,11 +220,22 @@ class ResetPassword(View):
 
 class UserProfileDetail(TemplateView):
     model = UserProfile
-    template_name = 'account/settings.html'
-    form = UserProfileForm
+    template_name = 'account/profile.html'
+    form_class = UserProfileForm
 
-    def post(self):
-        pass
+    def post(self, request, user_id):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/home')
+
+        else:
+
+            context = super(UserProfileDetail, self).get_context_data(**kwargs)
+            context['profileform'] = self.form_class
+            return render(request, self.template_name, context)
+
+    # def get(self, request, *args, **kwargs):
 
 
 
