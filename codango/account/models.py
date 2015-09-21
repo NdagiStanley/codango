@@ -1,6 +1,7 @@
 from bootstrapform import models
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, User
+from django.db.models.signals import post_save
 
 # Create your models here.
 
@@ -13,10 +14,11 @@ class UserProfile(models.Model):
         pass
 
     user = models.OneToOneField(User)
-    place_of_work = models.CharField(max_length=150)
-    position = models.CharField(max_length=10)
-    followers = models.IntegerField()
-    following = models.IntegerField()
+    place_of_work = models.CharField(max_length=150, blank=True)
+    position = models.CharField(max_length=10, blank=True)
+    followers = models.IntegerField(default=0)
+    following = models.IntegerField(default=0)
+
     # photo = models.FileField()
 
     # username = models.CharField(max_length=100, unique=True)
@@ -25,3 +27,8 @@ class UserProfile(models.Model):
 
 # User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)

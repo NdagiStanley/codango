@@ -2,6 +2,9 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
+from telnetlib import Telnet
+from django.http import HttpResponseRedirect
+from django.views.generic import View, TemplateView, DetailView
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, RegisterForm, UserProfileForm
 from django.views.generic.base import View
@@ -12,6 +15,7 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+
 from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
@@ -20,6 +24,10 @@ from resources.forms import ResourceForm
 
 
 from account.forms import LoginForm, RegisterForm, ResetForm
+
+from account.forms import ResetForm
+from .models import UserProfile
+
 
 
 # Create your views here.
@@ -208,3 +216,33 @@ class ResetPassword(View):
         }
         context.update(csrf(request))
         return render(request, 'account/forgot_password_reset.html', context)
+
+
+class UserProfileDetail(TemplateView):
+    model = UserProfile
+    template_name = 'account/settings.html'
+    form = UserProfileForm
+
+    def post(self):
+        pass
+
+
+
+# def user_profile(request):
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST, instance=request.user.profile)
+#         if form.is_valid():
+#             form.save()
+#             return HttpResponseRedirect('/accounts/loggedin')
+#
+#     else:
+#         user = request.user
+#         profile = user.profile
+#         form = UserProfileForm(instance=profile)
+#
+#     args= {}
+#     args.update(csrf(request))
+#
+#     args['form'] = form
+#
+#     return render('settings.html', args)

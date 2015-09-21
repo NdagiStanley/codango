@@ -4,7 +4,6 @@ from models import UserProfile
 
 
 class LoginForm(forms.Form):
-
     username = forms.CharField(label='Username', max_length=100,
                                widget=forms.TextInput(attrs={
                                    'placeholder': 'Enter unique username'
@@ -16,6 +15,7 @@ class LoginForm(forms.Form):
 
     remember_me = forms.BooleanField(
         label='Remember Me', required=False)
+
 
 
 class RegisterForm(forms.Form):
@@ -78,7 +78,21 @@ class ResetForm(forms.Form):
                                         }))
 
 class UserProfileForm(forms.ModelForm):
-
     class Meta:
         model = UserProfile
-        fields = ()
+        fields = ['place_of_work', 'position', 'followers', 'following']
+
+        labels = {
+            'place_of_work': 'Place of work',
+            'position': 'Position',
+            'followers': 'Followers',
+            'following': 'Following'
+        }
+
+    def save(self, **kwargs):
+        user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],
+                                                position=self.cleaned_data['position'],
+                                                followers=self.cleaned_data['followers'],
+                                                following=self.cleaned_data['following'])
+        return user_profile
+
