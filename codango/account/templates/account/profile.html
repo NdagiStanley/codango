@@ -32,7 +32,11 @@
 				<!-- END SIDEBAR USER TITLE -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-					<button type="button" class="btn btn-success btn-sm">Follower</button>
+                    <div class="row">
+    <span>30</span>
+      <span>30</span>
+  </div>
+					<button type="button" class="btn btn-success btn-sm">Follower </button>
 					<button type="button" class="btn btn-danger btn-sm">Following</button>
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
@@ -65,11 +69,17 @@
 			</div>
 		</div>
 
-{#		<div class="col-md-9">#}
-{#            <div class="profile-content">#}
-{#			   Some user related content goes here...#}
-{#            </div>#}
-{#		</div>#}
+		<div class="col-md-9">
+            <div class="profile-content">
+			   <form role="form" action="/profile" method="post">
+                        {% csrf_token %}
+                        {{ profileform|bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+            </div>
+		</div>
 	</div>
 
 {% endblock content %}

@@ -15,7 +15,7 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
     place_of_work = models.CharField(max_length=150, blank=True)
-    position = models.CharField(max_length=10, blank=True)
+    position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
 
@@ -25,7 +25,7 @@ class UserProfile(models.Model):
     # first_name = models.CharField(max_length=150)
     # last_name = models.CharField(max_length=150)
 
-# User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

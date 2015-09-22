@@ -95,4 +95,3 @@ class UserProfileForm(forms.ModelForm):
                                                 followers=self.cleaned_data['followers'],
                                                 following=self.cleaned_data['following'])
         return user_profile
-

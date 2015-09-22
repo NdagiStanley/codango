@@ -218,26 +218,30 @@ class ResetPassword(View):
         return render(request, 'account/forgot_password_reset.html', context)
 
 
-class UserProfileDetail(TemplateView):
+class UserProfileDetailView(TemplateView):
     model = UserProfile
     template_name = 'account/profile.html'
     form_class = UserProfileForm
 
-    def post(self, request, user_id):
-        form = self.form_class(request.POST)
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/home')
 
         else:
 
-            context = super(UserProfileDetail, self).get_context_data(**kwargs)
+            context = super(UserProfileDetailView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
+            # profileform = UserProfileForm()
             return render(request, self.template_name, context)
 
     # def get(self, request, *args, **kwargs):
 
-
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+        context['profileform'] = UserProfileForm()
+        return context
 
 # def user_profile(request):
 #     if request.method == 'POST':
