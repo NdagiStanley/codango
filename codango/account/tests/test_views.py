@@ -1,9 +1,9 @@
-from django.contrib.staticfiles.testing import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class IndexViewTest(LiveServerTestCase):
+class IndexViewTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
     def setUp(self):

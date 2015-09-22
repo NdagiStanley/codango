@@ -1,5 +1,5 @@
 # Test specific settings
-from .development import *
+from .base import *
 
 DATABASES = {
     'default': {
