@@ -4,7 +4,7 @@ from django.views.generic import View, TemplateView
 from django.contrib import messages
 from telnetlib import Telnet
 from django.http import HttpResponseRedirect
-from django.views.generic import View, TemplateView, DetailView
+from django.views.generic import View, TemplateView, DetailView,UpdateView
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, RegisterForm, UserProfileForm
 from django.views.generic.base import View
