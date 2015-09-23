@@ -8,7 +8,6 @@ from resources.forms import ResourceForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -32,14 +31,9 @@ class ResourceCreate(TemplateView):
             return HttpResponse('User is not active')
 
 class ResourceList(View):
-    def get(self, request):
+    def get(self, request, ):
         resource_list = Resource.objects.all()
-        context = {'resource_list': resource_list}
-        return render(request, 'resources/list.html', context)
-
-# class ResourceDetail(DetailView):
-#     model = Resource
-#     template_name = 'resources/resources_detail.html'
+        return render(request, 'resources/list.html',{'resource_list': resource_list})
 
 
 class ResourceDetail(View):
