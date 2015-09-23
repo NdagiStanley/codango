@@ -67,7 +67,12 @@ venv/
 # Ide environment
 *.idea/
 
+
 # media files
 codango/media
 *.pdf
+
+
+# Migrations
+codango/account/migrations/
 
