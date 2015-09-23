@@ -12,7 +12,6 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 
-
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
     template_name = 'resources/create.html'
@@ -30,14 +29,17 @@ class ResourceCreate(TemplateView):
             resource.save()
             return redirect(reverse('resources_list'))
         else:
-            return HttpResponse('Form is not valid. Try again.')
-
+            return HttpResponse('User is not active')
 
 class ResourceList(View):
     def get(self, request):
         resource_list = Resource.objects.all()
         context = {'resource_list': resource_list}
         return render(request, 'resources/list.html', context)
+
+# class ResourceDetail(DetailView):
+#     model = Resource
+#     template_name = 'resources/resources_detail.html'
 
 
 class ResourceDetail(View):
