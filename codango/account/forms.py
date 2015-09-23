@@ -18,21 +18,6 @@ class LoginForm(forms.Form):
     checkbox = forms.BooleanField(label='Remember Me', required=False)
 
 
-class ResetForm(forms.Form):
-
-    password = forms.CharField(label='New Password', required=True, max_length=200, widget=forms.PasswordInput(
-      attrs={
-        "placeholder": "Your New Password"
-      }
-    ))
-
-    password_conf = forms.CharField(label='Confirm New Password', required=True, max_length=200, widget=forms.PasswordInput(
-       attrs={
-        "placeholder": "Confirm Your New Password"
-      }
-    ))
-
-
 class RegisterForm(forms.Form):
     username = forms.CharField(label='Username', max_length=300,
                                widget=forms.TextInput(attrs={
