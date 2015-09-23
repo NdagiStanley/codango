@@ -17,12 +17,13 @@ class Resource(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     resource_type = models.CharField(max_length=30, choices=RESOURCE_TYPES, default='CODE')
-    resource_file = models.FileField(upload_to="/resources", null=True)
+    resource_file = models.FileField(upload_to="C:\Users\IniOluwa Fageyinbo\Documents\projects\codango\codango", null=True)
     date_added = models.DateTimeField(default=datetime.datetime.now)
     date_modified = models.DateTimeField(auto_now=True, blank=True, null=True)
+
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('resources_detail', args=[str(self.id)])
+        return reverse('detail', args=[str(self.id)])

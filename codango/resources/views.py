@@ -6,19 +6,9 @@ from resources.forms import ResourceForm
 from reportlab.pdfgen import canvas
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+
 # Create your views here.
-
-
-# class ResourceList(ListView):
-#     model = Resource
-#     template_name = 'resources/resources_list.html'
-
-
-# class ResourceDetail(DetailView):
-#     model = Resource
-#     template_name = 'resources/resources_detail.html'
-
-
+# photo = models.ImageField(storage=fs)
 
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
@@ -41,7 +31,21 @@ class ResourceCreate(TemplateView):
                 return HttpResponse('No')
         else:
             return HttpResponse('User is not active')
+        return render(request, 'resources/list.html')
 
+
+class ResourceList(ListView):
+    template_name = 'resources/list.html'
+    model = Resource
+
+    # def get(self):
+    #     pass
+    
+
+
+# class ResourceDetail(DetailView):
+#     model = Resource
+#     template_name = 'resources/resources_detail.html'
 
 
 # class ResourceUpdate(UpdateView):
