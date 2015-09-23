@@ -6,4 +6,4 @@ class ResourceForm(ModelForm):
 
     class Meta:
         model = Resource
-        fields = ['title', 'text', 'resource_type', 'resource_file']
+        fields = ['author', 'title', 'text', 'resource_type', 'resource_file']

@@ -1,15 +1,13 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
 from resources.forms import ResourceForm
 from reportlab.pdfgen import canvas
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 
 # Create your views here.
-# photo = models.ImageField(storage=fs)
-
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
     template_name = 'resources/create.html'
@@ -26,34 +24,22 @@ class ResourceCreate(TemplateView):
             if form.is_valid():
                 resource = form.save(commit=False)
                 resource.save()
-                return HttpResponse('Yes')
+                return HttpResponseRedirect('resources/list')
             else:
                 return HttpResponse('No')
         else:
             return HttpResponse('User is not active')
-        return render(request, 'resources/list.html')
 
 
-class ResourceList(ListView):
-    template_name = 'resources/list.html'
-    model = Resource
+class ResourceList(View):
 
-    # def get(self):
-    #     pass
-    
+    def get(self, request, ):
+        resource_list = Resource.objects.all()
+        return render(request, 'resources/list.html',{'resource_list': resource_list})
 
 
-# class ResourceDetail(DetailView):
-#     model = Resource
-#     template_name = 'resources/resources_detail.html'
-
-
-# class ResourceUpdate(UpdateView):
-#     model = Resource
-#     fields = ['author', 'title' 'text']
-#     template_name_suffix = 'resource_update_form'
-
-
-# class ResourceDelete(DeleteView):
-#     model = Resource
-#     success_url = reverse_lazy('resources_list')
+class ResourceDetail(View):
+    def get(self, request, *args, **kwargs):
+        resource_detail = Resource.objects.get(id = kwargs.get('pk'))
+        return render(request, 'resources/detail.html', {'resource_detail': resource_detail})
+        

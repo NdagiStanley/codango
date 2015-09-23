@@ -1,1 +1,9 @@
 {% extends "account/base.html" %}
+
+{% block content %}
+        <p> 
+            {{ resource_detail.author }} {{ resource_detail.title }}
+        </p>
+
+    <a href="{% url 'resources_create' %}">Add a new resource...</a>
+{% endblock %}
