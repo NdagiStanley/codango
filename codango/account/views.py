@@ -13,9 +13,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import model_to_dict
+from account.hash import UserHasher
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-
 from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
@@ -233,14 +235,18 @@ class UserProfileDetailView(TemplateView):
 
             context = super(UserProfileDetailView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
-            # profileform = UserProfileForm()
+
+            print "show"
+            print request.user.profile
             return render(request, self.template_name, context)
 
     # def get(self, request, *args, **kwargs):
 
     def get_context_data(self, **kwargs):
-        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+        context = super(UserProfileDetailView, self).get_context_data( **kwargs)
+        # profile = UserProfile.objects.get()
         context['profileform'] = UserProfileForm()
+        context['profile'] = self.request.user.profile
         return context
 
 # def user_profile(request):
