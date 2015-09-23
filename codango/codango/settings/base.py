@@ -16,7 +16,6 @@ import os
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -74,6 +73,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'codango.wsgi.application'
 
+<<<<<<< HEAD
+=======
+
+
+
+
+>>>>>>> base.py added
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -102,5 +108,8 @@ APPEND_SLASH = False
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+<<<<<<< HEAD
 
 LOGIN_URL = '/'
+=======
+>>>>>>> base.py added
