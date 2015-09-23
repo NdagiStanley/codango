@@ -220,7 +220,7 @@ class ResetPassword(View):
         return render(request, 'account/forgot_password_reset.html', context)
 
 
-class UserProfileDetailView(TemplateView):
+class UserProfileDetailView(LoginRequiredMixin, TemplateView):
     model = UserProfile
     template_name = 'account/profile.html'
     form_class = UserProfileForm
@@ -248,22 +248,3 @@ class UserProfileDetailView(TemplateView):
         context['profileform'] = UserProfileForm()
         context['profile'] = self.request.user.profile
         return context
-
-# def user_profile(request):
-#     if request.method == 'POST':
-#         form = UserProfileForm(request.POST, instance=request.user.profile)
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('/accounts/loggedin')
-#
-#     else:
-#         user = request.user
-#         profile = user.profile
-#         form = UserProfileForm(instance=profile)
-#
-#     args= {}
-#     args.update(csrf(request))
-#
-#     args['form'] = form
-#
-#     return render('settings.html', args)
