@@ -20,7 +20,7 @@ lib64/
 parts/
 sdist/
 var/
-codango/codango/settings/development.py
+codango/settings/development.py
 *.egg-info/
 .installed.cfg
 *.egg
