@@ -20,20 +20,16 @@ class ResourceCreate(TemplateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         form.author = request.user
-        if request.user.is_authenticated():
-            if form.is_valid():
-                resource = form.save(commit=False)
-                resource.save()
-                return HttpResponseRedirect('resources/list')
-            else:
-                return HttpResponse('No')
+        if form.is_valid():
+            resource = form.save(commit=False)
+            resource.save()
+            return HttpResponseRedirect('resources/list')
         else:
-            return HttpResponse('User is not active')
+            return HttpResponse('No')
 
 
 class ResourceList(View):
-
-    def get(self, request, ):
+    def get(self, request):
         resource_list = Resource.objects.all()
         return render(request, 'resources/list.html',{'resource_list': resource_list})
 
@@ -42,4 +38,3 @@ class ResourceDetail(View):
     def get(self, request, *args, **kwargs):
         resource_detail = Resource.objects.get(id = kwargs.get('pk'))
         return render(request, 'resources/detail.html', {'resource_detail': resource_detail})
-        
