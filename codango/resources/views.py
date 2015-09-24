@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import TemplateView, DeleteView, View
 from django.views.generic import TemplateView, View
-from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
 from resources.forms import ResourceForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -31,9 +29,10 @@ class ResourceCreate(TemplateView):
             return HttpResponse('No')
 
 class ResourceList(View):
+
     def get(self, request):
         resource_list = Resource.objects.all()
-        return render(request, 'resources/list.html',{'resource_list': resource_list})
+        return render(request, 'resources/list.html', {'resource_list': resource_list})
 
 
 class ResourceDetail(View):
