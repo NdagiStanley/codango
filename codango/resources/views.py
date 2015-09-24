@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
-from django.views.generic import TemplateView, UpdateView, DeleteView, View
+from django.views.generic import TemplateView, DeleteView, View
 from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
 from resources.forms import ResourceForm
@@ -66,4 +66,8 @@ class ResourceUpdate(View):
 
 
 class ResourceDelete(View):
-    pass
+    
+    def get(self, request, *args, **kwargs):
+        resource_to_delete = Resource.objects.get(id=kwargs.get('pk'))
+        resource_to_delete.delete()
+        return redirect(reverse('resources_list'))

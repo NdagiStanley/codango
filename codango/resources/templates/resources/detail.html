@@ -10,6 +10,7 @@
 	           	{{ resource_detail.resource_file}}
 	        </div>
            	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit</a>
+           	<a href="{% url 'resources_delete' pk=resource_detail.id %}">Delete</a>
         </p>
 
     <a href="{% url 'resources_create' %}">Add a new resource...</a>

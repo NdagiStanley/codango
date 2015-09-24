@@ -12,8 +12,6 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/update/$', views.ResourceUpdate.as_view(),
         name='resources_update'),
 
-    # url(r'^(?P<pk>[0-9]+)/delete/$',
-    #     views.ResourceDelete.as_view(),
-    #     name='resources_delete'),
-
+    url(r'^(?P<pk>[0-9]+)/delete/$', views.ResourceDelete.as_view(),
+        name='resources_delete')
 ]
