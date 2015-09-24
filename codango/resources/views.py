@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.views.generic import TemplateView, UpdateView, DeleteView, View
 from django.core.urlresolvers import reverse_lazy
 from resources.models import Resource
@@ -25,7 +26,7 @@ class ResourceCreate(TemplateView):
         if form.is_valid():
             resource = form.save(commit=False)
             resource.save()
-            return HttpResponseRedirect('resources/list')
+            return redirect(reverse('resources_list'))
         else:
             return HttpResponse('No')
 
@@ -44,20 +45,24 @@ class ResourceDetail(View):
         return render(request, 'resources/detail.html', {'resource_detail': resource_detail})
 
 
-class ResourceUpdate(ResourceCreate):
+class ResourceUpdate(View):
 
     def get(self, request, *args, **kwargs):
-        resource_update = Resource.get.object()
-        context = self.get_context_data().resource_update()
-        return context
+        resource_to_update = Resource.objects.get(id=kwargs.get('pk'))
+        resource_form = ResourceForm(instance = resource_to_update)
+        return render(request, 'resources/update.html',
+         {'resource_to_update': resource_to_update, 'resource_form': resource_form})
+    
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        form.author = request.user
-        if form.is_valid():
-            resource = form.save(commit=False)
-            resource.save()
-            return HttpResponseRedirect('resources/update')
+        resource_to_update = Resource.objects.get(id=kwargs.get('pk'))
+        resource_form = ResourceForm(request.POST, request.FILES, instance=resource_to_update)
+        resource_form.author = request.user
+
+        if resource_form.is_valid():
+            resource_just_updated = resource_form.save(commit=False)
+            resource_just_updated.save()
+            return redirect(reverse('resources_list'))
 
 
 class ResourceDelete(View):
