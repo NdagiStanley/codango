@@ -1,8 +1,14 @@
 {% extends "account/base.html" %}
 
 {% block content %}
-        <p> 
-            {{ resource_detail.author }} {{ resource_detail.title }}
+        <p> <div>
+	            <h3>Author: {{ resource_detail.author }}</h2>
+	            <h4>Title: {{ resource_detail.title }}</h3>
+	            <h5>{{ resource_detail.text }}</h2>
+	           	<h6>Type: {{ resource_detail.resource_type}}</h6>
+	           	{{ resource_detail.resource_file}}
+	        </div>
+           	<a href="{% url 'resources_update' pk=resource.id %}">Edit</a>
         </p>
 
     <a href="{% url 'resources_create' %}">Add a new resource...</a>
