@@ -28,10 +28,10 @@ class ResourceCreate(TemplateView):
             resource.save()
             return redirect(reverse('resources_list'))
         else:
-            return HttpResponse('User is not active')
+            return HttpResponse('No')
 
 class ResourceList(View):
-    def get(self, request, ):
+    def get(self, request):
         resource_list = Resource.objects.all()
         return render(request, 'resources/list.html',{'resource_list': resource_list})
 
