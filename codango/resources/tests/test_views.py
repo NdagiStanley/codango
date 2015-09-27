@@ -1,46 +1,75 @@
-from django.test import TestCase, Client, RequestFactory
+from django.test import TestCase, Client
 from resources import views
 from resources.models import Resource
 from django.http import HttpResponse, HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 from django.contrib.auth.models import User
-from resources.views import ResourceCreate, ResourceList, ResourceDetail
+from resources.views import ResourceCreate, ResourceList, ResourceDetail, ResourceUpdate
 from resources.forms import ResourceForm
+from resources.models import Resource
 import unittest
 
 
-class ResourceViewsTest(TestCase):
+class ResourceCreateViewTest(TestCase):
+
+    def test_get_returns_resource_form_in_template(self):
+        response = self.client.get('/resources/create/')
+
+        self.assertIsInstance(response.context['form'], ResourceForm)
+        self.assertEqual(response.status_code, 200)
+
+    # def test_post_creates_new_resource(self):
+    #     response = self.client.post('resources/create')
+
+    # def test_post_redirects_to_resources_list(self):
+    #     response = self.client.post('/resources/create/')
+
+
+class ResourceListViewTest(TestCase):
+
+    def test_get_returns_resource_list(self):
+        response = self.client.get('/resources/list/')
+
+        self.assertEqual(response.status_code, 200)
+
+
+class ResourceDetailViewTest(TestCase):
 
     def setUp(self):
-        self.factory = RequestFactory()
-        self.user = User.objects.create_user(username='inioluwa', email='fagemaki.iniruto@yahoo.com', password='iniruto')
+        self.client = Client()
+        self.user = User(username='ini')
+        self.user.set_password('blah')
+        self.user.save()
+        self.test_resource = Resource(
+            author=self.user, title='A title', text='some text')
+        self.test_resource.save()
 
-    def test_create_get(self):
-        # Creating an instance of a GET request.
-        request = self.factory.get('create')
+    def test_get_returns_resource_detail(self):
+        pk = self.test_resource.pk
+        self.test_resource_detail = Resource.objects.get(id=pk)
+        response = self.client.get(
+            reverse('resources_detail', kwargs={'pk': pk}))
 
-        # Instatiating view
-        view = ResourceCreate.as_view(template_name='create.html')
-        response = view(request)
-
-        # Testing
+        self.assertTrue(
+            response, self.test_resource_detail)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.template_name[0], 'create.html')
-        self.assertIsInstance(response.context_data['form'], ResourceForm)
 
-    def test_create_post(self):
-        pass
 
-    def test_list_get(self):
-        request = self.factory.get('list')
+class ResourceUpdateViewTest(TestCase):
 
-        view = ResourceList.as_view()
-        response = view(request)
-        resource_list = Resource.objects.all()
+    def setUp(self):
+        self.client = Client()
+        self.user = User(username='ini')
+        self.user.set_password('blah')
+        self.user.save()
+        self.test_resource = Resource(
+            author=self.user, title='A title', text='some text')
+        self.test_resource.save()
 
-        self.assertEqual(resource_list, resource_list)
-        self.assertEqual(response.template_name[1], 'list.html')
-        self.assertIsInstance(resource_list, 'list.html')
+    def test_get_returns_resource_form_with_form_data(self):
+        pk = self.test_resource.pk
+        response = self.client.get(
+            reverse('resources_update', kwargs={'pk': pk}))
 
-    def test_detail_get(self):
-        pass
+        self.assertIsInstance(response.context['resource_form'], ResourceForm)
+        self.assertEqual(response.status_code, 200)

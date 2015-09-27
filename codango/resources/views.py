@@ -28,21 +28,23 @@ class ResourceCreate(TemplateView):
             resource.save()
             return redirect(reverse('resources_list'))
         else:
-            return HttpResponse('No')
+            return HttpResponse('Form is not valid. Try again.')
 
 
 class ResourceList(View):
 
     def get(self, request):
         resource_list = Resource.objects.all()
-        return render(request, 'resources/list.html', {'resource_list': resource_list})
+        context = {'resource_list': resource_list}
+        return render(request, 'resources/list.html', context)
 
 
 class ResourceDetail(View):
 
     def get(self, request, *args, **kwargs):
         resource_detail = Resource.objects.get(id=kwargs.get('pk'))
-        return render(request, 'resources/detail.html', {'resource_detail': resource_detail})
+        context = {'resource_detail': resource_detail}
+        return render(request, 'resources/detail.html', context)
 
 
 class ResourceUpdate(View):
