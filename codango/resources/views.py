@@ -26,13 +26,14 @@ class ResourceCreate(TemplateView):
             resource.save()
             return redirect(reverse('resources_list'))
         else:
-            return HttpResponse('No')
+            return HttpResponse('Form is not valid. Try again.')
 
 class ResourceList(View):
 
     def get(self, request):
         resource_list = Resource.objects.all()
-        return render(request, 'resources/list.html', {'resource_list': resource_list})
+        context = {'resource_list': resource_list}
+        return render(request, 'resources/list.html', context)
 
 
 class ResourceDetail(View):
