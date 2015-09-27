@@ -12,20 +12,24 @@
         </p>
 
      <!-- Add resource button -->
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
     	<a href="{% url 'resources_create' %}">Add a new resource...</a>
 	</button>
 
-
     <!-- Edit resource button -->
-    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
     	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit resource</a>
 	</button>
 
     <!-- Delete trigger modal -->
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
-  Delete resource
-</button>
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+    	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit</a>
+	</button>
+
+    <!-- Delete trigger modal -->
+  <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Delete resource
+  </button>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
