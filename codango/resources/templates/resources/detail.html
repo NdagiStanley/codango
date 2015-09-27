@@ -9,9 +9,41 @@
 	           	<h6>Type: {{ resource_detail.resource_type}}</h6>
 	           	{{ resource_detail.resource_file}}
 	        </div>
-           	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit</a>
-           	<a href="{% url 'resources_delete' pk=resource_detail.id %}">Delete</a>
+           	<!-- <a href="{% url 'resources_delete' pk=resource_detail.id %}">Delete</a> -->
         </p>
 
-    <a href="{% url 'resources_create' %}">Add a new resource...</a>
+     <!-- Add resource button -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#">
+    	<a href="{% url 'resources_create' %}">Add a new resource...</a>
+	</button>
+
+
+    <!-- Edit resource button -->
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#">
+    	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit</a>
+	</button>
+
+    <!-- Delete trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Delete resource
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirm resource delete</h4>
+      </div>
+      <div class="modal-body">
+        Are you really sure you want to delete this resource?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, don't delete</button>
+        <button type="button" class="btn btn-primary"><a href="{% url 'resources_delete' pk=resource_detail.id %}">Yes, delete this resource</a></button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
