@@ -3,28 +3,27 @@
 {% block content %}
         <p> 
         	<div>
-	            <h3>Author: {{ resource_detail.author }}</h2>
-	            <h4>Title: {{ resource_detail.title }}</h3>
-	            <h5>{{ resource_detail.text }}</h2>
-	           	<h6>Type: {{ resource_detail.resource_type}}</h6>
-	           	{{ resource_detail.resource_file}}
+	            <h3><b>Author:</b> {{ resource_detail.author }}</h2>
+	            <h4><b>Title:</b> {{ resource_detail.title }}</h3>
+	            <h5><b>Text:</b> {{ resource_detail.text }}</h5>
+	           	<h6><b>Resource type:</b> {{ resource_detail.resource_type}}</h6>
+	           	<h6><b>Resource file:</b> {{ resource_detail.resource_file}}</h6>
 	        </div>
-           	<!-- <a href="{% url 'resources_delete' pk=resource_detail.id %}">Delete</a> -->
         </p>
 
      <!-- Add resource button -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#">
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
     	<a href="{% url 'resources_create' %}">Add a new resource...</a>
 	</button>
 
 
     <!-- Edit resource button -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#">
-    	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit</a>
+    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#">
+    	<a href="{% url 'resources_update' pk=resource_detail.id %}">Edit resource</a>
 	</button>
 
     <!-- Delete trigger modal -->
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
   Delete resource
 </button>
 
