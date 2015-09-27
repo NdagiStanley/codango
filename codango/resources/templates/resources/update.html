@@ -1,0 +1,12 @@
+{% extends "account/base.html" %}
+
+{% block content %}
+<h3>Update resource</h3>
+<form action="/resources/{{ resource_to_update.pk }}/update/" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	<div>
+		{{ resource_form }}
+	</div>
+	<input type="submit" value="Update"/>
+</form>
+{% endblock %}
