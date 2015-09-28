@@ -5,43 +5,43 @@
 {% block content %}
 <!--page content-->
 <div class="row">
-  <!--About Section-->
-  <div class="col-md-8">
-    <div class="jumbotron">
-      <h1>Join Our Community</h1>
-      <p>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programing </p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-    </div>
-  </div>
+	<!--About Section-->
+	<div class="col-md-8">
+		<div class="jumbotron">
+			<h1>Join Our Community</h1>
+			<p>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programing </p>
+			<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+		</div>
+	</div>
 
-  <!--tabbed-form-->
-  <div class="col-md-4">
-    <ul class="nav nav-tabs">
-      <li class="active"><a id="tab_link" data-toggle="tab" href="#login">LOG IN</a></li>
-      <li><a id="tab_link" data-toggle="tab" href="#signup">SIGN UP</a></li>
-    </ul>
-    <div class="tab-content">
-      <!--Log in form-->
-      <div id="login" class="tab-pane fade in active">
-        <form role="form" action="/login" method="post">
-          {% csrf_token %}
-          {{ loginform|bootstrap }}
-          <button type="submit" class="btn btn-default">Log in</button>
-        </form>
-        {% csrf_token %}
-        <a href="/recovery/">Forgot password?.. Reset</a>
-      </div>
-      <!--Sign Up form-->
-      <div id="signup" class="tab-pane fade">
-                <form role="form" action="/register" method="post">
-                    {% csrf_token %}
-                    {{ registerform|bootstrap }}
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-    </div>
-  </div>
+	<!--tabbed-form-->
+	<div class="col-md-4">
+		<ul class="nav nav-tabs">
+			<li class="active"><a id="tab_link" data-toggle="tab" href="#login">LOG IN</a></li>
+			<li><a id="tab_link" data-toggle="tab" href="#signup">SIGN UP</a></li>
+		</ul>
+		<div class="tab-content">
+			<!--Log in form-->
+			<div id="login" class="tab-pane fade in active">
+				<form role="form" action="/login" method="post">
+					{% csrf_token %}
+					{{ loginform|bootstrap }}
+					<button type="submit" class="btn btn-default">Log in</button>
+				</form>
+				{% csrf_token %}
+				<a href="/recovery/">Forgot password?.. Reset</a>
+			</div>
+			<!--Sign Up form-->
+			<div id="signup" class="tab-pane fade">
+				<form role="form" action="/register" method="post">
+					{% csrf_token %}
+					{{ registerform|bootstrap }}
+					<div class="form-group">
+					  <button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock content %}

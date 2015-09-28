@@ -1,1 +1,3 @@
-from .development import *
+import os
+if not os.getenv('CI'):
+    from development import *

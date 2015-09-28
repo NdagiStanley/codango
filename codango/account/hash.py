@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from hashids import Hashids
 from time import time
 
-from codango.settings import SECRET_KEY as secret_key
+from codango.settings.base import SECRET_KEY as secret_key
 
 
 class UserHasher:

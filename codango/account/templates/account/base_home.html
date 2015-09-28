@@ -1,0 +1,88 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/base_home.css" type="text/css" rel="stylesheet"/>
+		{% block head %}{% endblock head %}
+		<title>{% block title %}Codango{% endblock title %}</title>
+	</head>
+
+	<body>
+		<!--header-->
+		<nav class="navbar" role="navigation">
+			<div class ="container-fluid">
+				<div class="row">
+					<div class="col-sm-3 navbar-header">
+						<div class="pull-right visible-xs" id="nav-menu">
+							<a href="#"><span class="glyphicon glyphicon-bell"></span></a>
+						</div>
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</button>
+							<h1><a href="/home">Codango</a></h1>
+						</div>
+
+					<div class="col-sm-9 collapse navbar-collapse">
+						<div class="row">
+							<div class="col-lg-4 col-md-6 col-sm-7">
+								<ul class="nav navbar-nav">
+									<li><a href = "#">Pair Programming</a></li>
+									<li class="hidden-xs"><a href="#"><span class="glyphicon glyphicon-bell"></span></a></li>
+									<li class="dropdown">
+										<a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ request.user.username }} <span class="caret"></span></a>
+										<ul class="dropdown-menu dropdown-menu-right">
+											<li><a href="#">View Profile</a></li>
+											<li><a href="#">Settings</a></li>
+											<li><a href="/logout">LogOut</a></li>
+										</ul>
+									</li> 
+								</ul>
+							</div>
+							<div class="col-lg-6 col-md-4 col-sm-5">
+								<form class="navbar-form" action="#" id="search">
+									<div class="form-group">
+										<div class="input-group">
+											<input class="form-control" type="text" placeholder="Search">
+												<span class="input-group-btn">
+													<button type="submit" class="btn btn-default">
+														<span class="glyphicon glyphicon-search"></span>
+													</button>
+												</span>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<!--content-->
+		<div class="container-fluid main">
+			<div class="row">
+				<!-- sidebar -->
+				<div class="col-md-2 content-col" id="sidebar">
+				{% block sidebar %}{% endblock sidebar %}
+				</div>
+
+				<!--page content-->
+				<div class="col-md-10 content-col" id="page-content">
+				{% block content %}{% endblock content %}
+				</div>
+			</div>
+		</div>
+
+		<!--footer-->
+		<div id="footer" class="container-fluid">
+			<h4 class="pull-right"><small>&copy 2015 CODANGO</small></h4>
+		</div>
+
+		<script src="/static/js/jquery-1.11.3.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+	</body>
+</html>

@@ -1,21 +1,20 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from django.views.generic import View, TemplateView
-from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegisterForm
-from django.views.generic.base import View
-from django.template.context_processors import csrf
-from django.contrib.auth.models import User
-from emails import send_mail
-from django.http import HttpResponse
-from django.http import Http404
-from django.contrib import messages
-from django.core.exceptions import ObjectDoesNotExist
-from account.hash import UserHasher
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, redirect
+from django.views.generic import View, TemplateView
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-from account.forms import ResetForm
+from django.template.context_processors import csrf
+from account.hash import UserHasher
+from emails import send_mail
+
+
+from account.forms import LoginForm, RegisterForm, ResetForm
 
 
 # Create your views here.
@@ -35,33 +34,56 @@ class IndexView(TemplateView):
 class LoginView(IndexView):
     form_class = LoginForm
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
             user = authenticate(username=username, password=password)
+            if not request.POST.get('remember_me'):
+                request.session.set_expiry(0)
             if user is not None:
                 if user.is_active:
-                    if not request.POST.get('checkbox', None):
-                        request.session.set_expiry(0)
-
                     login(request, user)
-
                     return HttpResponseRedirect('/home')
-        context = super(LoginView, self).get_context_data(**kwargs)
-        context['loginform'] = form
-        return render(request, self.template_name, context)
+        else:
+            context = super(LoginView, self).get_context_data(**kwargs)
+            context['loginform'] = form
+            return render(request, self.template_name, context)
 
 
-class HomeView(TemplateView):
+class RegisterView(IndexView):
+    form_class = RegisterForm
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            new_user = authenticate(username=request.POST['username'],
+                                    password=request.POST['password'])
+            login(request, new_user)
+            return HttpResponseRedirect('/home')
+        else:
+            context = super(RegisterView, self).get_context_data(**kwargs)
+            context['registerform'] = form
+            return render(request, self.template_name, context)
+
+
+class LoginRequiredMixin(object):
+    # View mixin which requires that the user is authenticated.
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs)
+
+
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
-
-    # def get(self, request):
-    #     return render(request, self.template_name)
 
 
 class ForgotPassword(View):
+
     def get(self, request, *args, **kwargs):
         context = {
 
@@ -74,15 +96,19 @@ class ForgotPassword(View):
             email_inputted = request.POST.get("email")
             user = User.objects.get(email=email_inputted)
             user_hash = UserHasher.gen_hash(user)
-            user_hash_url = request.build_absolute_uri(reverse('reset_password', kwargs={'user_hash': user_hash}))
+            user_hash_url = request.build_absolute_uri(
+                reverse('reset_password', kwargs={'user_hash': user_hash}))
 
-            hash_email_context = RequestContext(request, {'user_hash_url': user_hash_url})
+            hash_email_context = RequestContext(
+                request, {'user_hash_url': user_hash_url})
             email_reponse = send_mail(
                 sender='Codango <codango@andela.com>',
                 recipient=user.email,
                 subject='Codango: Password Recovery',
-                text=loader.get_template('account/forgot_password_email.txt').render(hash_email_context),
-                html=loader.get_template('account/forgot_password_email.html').render(hash_email_context),
+                text=loader.get_template(
+                    'account/forgot_password_email.txt').render(hash_email_context),
+                html=loader.get_template(
+                    'account/forgot_password_email.html').render(hash_email_context),
             )
             context = {
                 "email_status": email_reponse.status_code
@@ -90,11 +116,13 @@ class ForgotPassword(View):
             return render(request, 'account/forgot_password_status.html', context)
 
         except ObjectDoesNotExist:
-            messages.add_message(request, messages.INFO, 'The email specified does not belong to any valid user.')
+            messages.add_message(
+                request, messages.INFO, 'The email specified does not belong to any valid user.')
             return render(request, 'account/forgot_password.html')
 
 
 class ResetPassword(View):
+
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
         user = UserHasher.reverse_hash(user_hash)
@@ -109,7 +137,8 @@ class ResetPassword(View):
                 context.update(csrf(request))
                 return render(request, 'account/forgot_password_reset.html', context)
             else:
-                messages.add_message(request, messages.ERROR, 'Account not activated!')
+                messages.add_message(
+                    request, messages.ERROR, 'Account not activated!')
                 return HttpResponse(
                     'Account not activated!',
                     status_code=403,
@@ -129,13 +158,15 @@ class ResetPassword(View):
                 user.set_password(new_password)
                 user.save()
 
-                messages.add_message(request, messages.INFO, 'Your password has been changed successfully!')
+                messages.add_message(
+                    request, messages.INFO, 'Your password has been changed successfully!')
 
                 return redirect('/')
 
             except ObjectDoesNotExist:
                 # set an error message:
-                messages.add_message(request, messages.ERROR, 'You are not allowed to perform this action!')
+                messages.add_message(
+                    request, messages.ERROR, 'You are not allowed to perform this action!')
                 return HttpResponse('Action not allowed!', status_code=403)
 
         context = {
@@ -143,17 +174,3 @@ class ResetPassword(View):
         }
         context.update(csrf(request))
         return render(request, 'account/forgot_password_reset.html', context)
-
-
-class RegisterView(IndexView):
-    form_class = RegisterForm
-
-    def post(self, request, **kwargs):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            return HttpResponseRedirect('/home')
-        else:
-            context = super(RegisterView, self).get_context_data(**kwargs)
-            context['registerform'] = form
-            return render(request, self.template_name, context)
