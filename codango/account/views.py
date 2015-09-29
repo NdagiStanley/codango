@@ -226,25 +226,28 @@ class UserProfileDetailView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
 
     def post(self, request, **kwargs):
-        form = self.form_class(request.POST, instance=request.user.profile)
+        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect('/home')
-
         else:
-
             context = super(UserProfileDetailView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
 
             print "show"
             print request.user.profile
-            return render(request, self.template_name, context)
 
-    # def get(self, request, *args, **kwargs):
+            return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data( **kwargs)
         # profile = UserProfile.objects.get()
-        context['profileform'] = UserProfileForm()
+        context['profileform'] = UserProfileForm(initial={
+            'place_of_work': self.request.user.profile.place_of_work,
+            'position': self.request.user.profile.position,
+            'followers': self.request.user.profile.followers,
+            'following': self.request.user.profile.following,
+        })
+
         context['profile'] = self.request.user.profile
         return context

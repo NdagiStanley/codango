@@ -19,7 +19,9 @@ class UserProfile(models.Model):
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
 
-    # photo = models.FileField()
+    photo = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    # full_name = models.CharField(max_length=100)
+
 
     # username = models.CharField(max_length=100, unique=True)
     # first_name = models.CharField(max_length=150)

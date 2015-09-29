@@ -77,10 +77,13 @@ class ResetForm(forms.Form):
                                             "placeholder": "Confirm Your New Password"
                                         }))
 
+
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['place_of_work', 'position', 'followers', 'following']
+        fields = ['place_of_work', 'position', 'followers', 'following', 'photo']
+
+
 
         labels = {
             'place_of_work': 'Place of work',
@@ -89,9 +92,16 @@ class UserProfileForm(forms.ModelForm):
             'following': 'Following'
         }
 
-    def save(self, **kwargs):
-        user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],
-                                                position=self.cleaned_data['position'],
-                                                followers=self.cleaned_data['followers'],
-                                                following=self.cleaned_data['following'])
-        return user_profile
+        widgets = {
+            'place_of_work': forms.TextInput(attrs={
+                 # "value": request.user.profile.place_of_work
+            })
+        }
+
+    # def save(self, **kwargs):
+    #     user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],
+    #                                             position=self.cleaned_data['position'],
+    #                                             followers=self.cleaned_data['followers'],
+    #                                             following=self.cleaned_data['following'],
+    #                                             photo=self.cleaned_data['photo'])
+    #     return user_profile

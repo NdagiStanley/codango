@@ -1,6 +1,8 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from django.test import TestCase, Client
+from django.contrib.auth.models import User
 
 
 class IndexViewTest(StaticLiveServerTestCase):
@@ -67,5 +69,46 @@ class PasswordResetTestCase(TestCase):
         self.assertNotIn('email_status', response.context)
 
 
-class ProfileTestCase():
-    pass
+class ProfileTestCase(StaticLiveServerTestCase):
+    fixtures = ['users.json']
+    def setUp(self):
+        self.browser = webdriver.PhantomJS()
+        self.browser.set_window_size(1400, 1000)
+        self.browser.implicitly_wait(10)
+
+    def login_user(self):
+         # logging in username and password
+        username_field = self.browser.find_element_by_name('username')
+        username_field.send_keys('lade')
+
+        password_field = self.browser.find_element_by_name('password')
+        password_field.send_keys('password')
+        password_field.send_keys(Keys.RETURN)
+
+    def test_image_upload(self):
+        self.login_user()
+        self.browser.get(self.live_server_url + '/profile')
+        file_field = self.browser.find_element_by_name('image')
+
+    def test_profile_update(self):
+        self.login_user()
+        self.browser.get(self.live_server_url + '/profile')
+
+        # Populate place of work field with dummy text
+        place_of_work = self.browser.find_element_by_name('place_of_work')
+        place_of_work.send_keys('Andela')
+        place_of_work.send_keys(Keys.RETURN)
+
+        # Waits for a maximum of 10 seconds until the element is found
+        place_of_work_field = self.browser.find_element_by_class_name("place-of-work")
+        self.assertEqual('Andela', place_of_work_field.text)
+
+        # Populate position field with dummy text
+        position = self.browser.find_element_by_name('position')
+        position.send_keys('Developer')
+        position.send_keys(Keys.RETURN)
+
+        # Waits for a maximum of 10 seconds until the element is found
+        position_field = self.browser.find_element_by_class_name("position")
+        self.assertEqual('Developer', position_field.text)
+
