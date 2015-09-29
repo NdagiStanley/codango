@@ -49,8 +49,8 @@ class ResourceUpdate(View):
     def get(self, request, *args, **kwargs):
         resource_to_update = Resource.objects.get(id=kwargs.get('pk'))
         resource_form = ResourceForm(instance = resource_to_update)
-        return render(request, 'resources/update.html',
-         {'resource_to_update': resource_to_update, 'resource_form': resource_form})
+        context = {'resource_to_update': resource_to_update, 'resource_form': resource_form}
+        return render(request, 'resources/update.html', context)
     
     def post(self, request, *args, **kwargs):
         resource_to_update = Resource.objects.get(id=kwargs.get('pk'))

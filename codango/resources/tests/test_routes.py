@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse, resolve
 from django.contrib.auth.models import User
 from resources.views import ResourceCreate, ResourceList, ResourceDetail, ResourceUpdate
-from resources.forms import ResourceForm
+from resources.forms import ResourceTextForm, ResourcePDFForm
 from resources.models import Resource
 
 
