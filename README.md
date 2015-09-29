@@ -42,9 +42,9 @@ The following are the installed requirements for codango
 ## running tests
 1. Activate virtual environment.
 2. Navigate into the project directory.
-3. Run 'python manage.py test' to test codango.
-4. Run 'python manage.py test <appname>' to test an individual app.
-5. Run 'coverage run manage.py test' to run coverage for codango. 
+3. Run `python manage.py test` to test codango.
+4. Run `python manage.py test <appname>` to test an individual app.
+5. Run `coverage run manage.py test` to run coverage for codango. 
 
 ## authors
 [Chidiebere Nnadi](https://github.com/andela-cnnadi)
