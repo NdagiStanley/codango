@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
-    template_name = '/resources/create.html'
+    template_name = '/account/home.html'
 
     def get_context_data(self, **kwargs):
         context = super(ResourceCreate, self).get_context_data(**kwargs)
@@ -22,7 +22,6 @@ class ResourceCreate(TemplateView):
         form = self.form_class(request.POST, request.FILES)
         form.author = request.user
         resource = form.save(commit=False)
-        return HttpResponse(resource)
         resource.save()
         return redirect(reverse('home'))
 

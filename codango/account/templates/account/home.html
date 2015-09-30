@@ -35,7 +35,7 @@
 		<a class="btn btn-default pull-right" href="#" role="button">All</a>
 	</div>
 	<div class="row">
-		<form id="id_share_form" role="form" action="/resources/create" method="post" enctype="multipart/form-data">
+		<form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<textarea id="id_plain_text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
 			<input id="id_pdf_file" name="resource_file" class="form-control hide" type="file" =/>

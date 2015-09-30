@@ -18,7 +18,7 @@ class Resource(models.Model):
     text = models.TextField(null=True, blank=True)
     resource_type = models.CharField(
         max_length=30, choices=RESOURCE_TYPES, default='CODE')
-    resource_file = models.FileField(upload_to="C:\\Users\\IniOluwa Fageyinbo\\Documents\\projects\\codango\\codango", null=True, blank=True)
+    resource_file = models.FileField(upload_to="pdf", null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
