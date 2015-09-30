@@ -11,7 +11,7 @@ from django.http import HttpResponse
 
 class ResourceCreate(TemplateView):
     form_class = ResourceForm
-    template_name = 'resources/create.html'
+    template_name = '/resources/create.html'
 
     def get_context_data(self, **kwargs):
         context = super(ResourceCreate, self).get_context_data(**kwargs)
@@ -21,12 +21,10 @@ class ResourceCreate(TemplateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         form.author = request.user
-        if form.is_valid():
-            resource = form.save(commit=False)
-            resource.save()
-            return redirect(reverse('resources_list'))
-        else:
-            return HttpResponse('Form is not valid. Try again.')
+        resource = form.save(commit=False)
+        return HttpResponse(resource)
+        resource.save()
+        return redirect(reverse('home'))
 
 class ResourceList(View):
 
