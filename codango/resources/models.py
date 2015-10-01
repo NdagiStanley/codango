@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import auth
 from django.core.urlresolvers import reverse
+from cloudinary.models import CloudinaryField
 import datetime
 # Create your models here.
 
@@ -23,7 +24,7 @@ class Resource(models.Model):
     text = models.TextField(null=True, blank=True)
     language_tags = models.CharField(
         max_length=30, choices=LANGUAGE_TAGS, default='Untagged')
-    resource_file = models.FileField(upload_to="pdf", null=True, blank=True)
+    resource_file = CloudinaryField('resource_file')
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 

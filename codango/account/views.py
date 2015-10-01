@@ -114,18 +114,6 @@ class CodeSnippetView(TemplateView):
     form_class = SnippetForm
     template_name = 'account/home.html'
 
-    # def snippets(request):
-    #     if request.method == 'POST':
-    #         form = self.form_class(request.POST)
-    #         if form.is_valid():
-    #             form.save()
-    #         return redirect('home')
-    #     else:
-    #         form = SnippetForm()
-    #         snippets = reversed(Snippet.objects.all())
-    #         context = {'form': form}
-    #         return render(request, 'account/home.html', context)
-
     def get(self, request):
         form = SnippetForm()
         context = {'form': form}
