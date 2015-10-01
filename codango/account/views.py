@@ -12,8 +12,8 @@ from django.template import RequestContext, loader
 from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
-from resources.models import Resource
-from resources.forms import ResourceForm
+from resources.models import Resource, Snippet
+from resources.forms import ResourceForm, SnippetForm
 
 
 from account.forms import LoginForm, RegisterForm, ResetForm
@@ -97,6 +97,48 @@ class HomeView(LoginRequiredMixin, TemplateView):
         resource.save()
         resource_pk = resource.id
         return redirect(reverse('home'))
+
+
+class CommunityView(HomeView):
+
+    def get_context_data(self, **kwargs):
+        context = super(CommunityView, self).get_context_data(**kwargs)
+        community = kwargs['community']
+        resource_list = reversed(
+            Resource.objects.filter(language_tags=community))
+        context = {'resource_list': resource_list}
+        return context
+
+
+class CodeSnippetView(TemplateView):
+    form_class = SnippetForm
+    template_name = 'account/home.html'
+
+    # def snippets(request):
+    #     if request.method == 'POST':
+    #         form = self.form_class(request.POST)
+    #         if form.is_valid():
+    #             form.save()
+    #         return redirect('home')
+    #     else:
+    #         form = SnippetForm()
+    #         snippets = reversed(Snippet.objects.all())
+    #         context = {'form': form}
+    #         return render(request, 'account/home.html', context)
+
+    def get(self, request):
+        form = SnippetForm()
+        context = {'form': form}
+        snippets = reversed(Snippet.objects.all())
+        return render(request, 'account/home.html', context)
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('home'))
+        else:
+            return HttpResponse('form is not valid.')
 
 
 class ForgotPassword(View):

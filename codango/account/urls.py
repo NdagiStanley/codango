@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^register$', views.RegisterView.as_view(), name='register'),
     url(r'^login$', views.LoginView.as_view(), name='login'),
     url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^community/(?P<community>\w+)$', views.CommunityView.as_view(), name='community'),
 ]

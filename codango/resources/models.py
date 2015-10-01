@@ -32,3 +32,11 @@ class Resource(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])
+
+
+class Snippet(models.Model):
+    text = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.text
