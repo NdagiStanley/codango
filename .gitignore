@@ -67,5 +67,6 @@ venv/
 # Ide environment
 *.idea/
 
-# PDF uploads
+# media files
+codango/media
 *.pdf
