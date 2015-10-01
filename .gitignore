@@ -70,3 +70,7 @@ venv/
 # media files
 codango/media
 *.pdf
+
+# migrations
+codango/account/migrations
+codango/resources/migrations

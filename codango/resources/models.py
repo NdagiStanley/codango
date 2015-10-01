@@ -7,17 +7,22 @@ import datetime
 
 class Resource(models.Model):
 
-    RESOURCE_TYPES = (
-        ('PDF', 'PDF Document'),
-        ('CODE', 'Code Snippet'),
-        ('LINK', 'Resource URL'),
-        ('IMAGE', 'Image file'),
-        ('VIDEO', 'Video file')
+    LANGUAGE_TAGS = (
+         ('PYTHON', 'Python'),
+         ('RUBY', 'Ruby'),
+         ('ANDROID', 'Android'),
+         ('MARKUP', 'HTML/CSS'),
+         ('JAVA', 'Java'),
+         ('PHP', 'PHP'),
+         ('IOS', 'IOS'),
+         ('JS', 'Javascript'),
+         ('C', 'C')
     )
+
     author = models.ForeignKey(auth.models.User)
     text = models.TextField(null=True, blank=True)
-    resource_type = models.CharField(
-        max_length=30, choices=RESOURCE_TYPES, default='CODE')
+    language_tags = models.CharField(
+        max_length=30, choices=LANGUAGE_TAGS, default='Untagged')
     resource_file = models.FileField(upload_to="pdf", null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

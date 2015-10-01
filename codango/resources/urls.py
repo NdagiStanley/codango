@@ -2,7 +2,7 @@ from django.conf.urls import url
 from resources import views
 
 urlpatterns = [
-    url(r'^create', views.ResourceCreate.as_view(), name='resources_create'),
+    url(r'^', views.ResourceCreate.as_view(), name='resources_create'),
 
     url(r'^list', views.ResourceList.as_view(), name='resources_list'),
 
