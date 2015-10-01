@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from models import UserProfile
+from cloudinary.forms import CloudinaryFileField
 
 
 class LoginForm(forms.Form):
@@ -15,7 +16,6 @@ class LoginForm(forms.Form):
 
     remember_me = forms.BooleanField(
         label='Remember Me', required=False)
-
 
 
 class RegisterForm(forms.Form):
@@ -81,22 +81,25 @@ class ResetForm(forms.Form):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['place_of_work', 'position', 'followers', 'following', 'photo']
+        # fields = ['place_of_work', 'position', 'followers', 'following', 'photo']
+        fields = ['place_of_work', 'position', 'photo']
 
 
 
         labels = {
             'place_of_work': 'Place of work',
             'position': 'Position',
-            'followers': 'Followers',
-            'following': 'Following'
+            # 'followers': 'Followers',
+            # 'following': 'Following'
         }
 
-        widgets = {
-            'place_of_work': forms.TextInput(attrs={
-                 # "value": request.user.profile.place_of_work
-            })
-        }
+    image = CloudinaryFileField(
+        attrs={'style': "margin-top: 30px"},
+        options={
+            'tags': "directly_uploaded",
+            'crop': 'limit', 'width': 1000, 'height': 1000,
+            # 'eager'[{'crop': 'fill', 'width': 150, 'height': 100}]
+        })
 
     # def save(self, **kwargs):
     #     user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],

@@ -1,9 +1,28 @@
+from uuid import uuid4
 from bootstrapform import models
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, User
 from django.db.models.signals import post_save
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
+
+
+def get_upload_file_name(instance, filename):
+    # path = "upload/path/"
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.pk:
+        filename = '{}.{}'.format(instance.pk, ext)
+    else:
+        # set filename as random string
+        # filename = '{}.{}'.format(uuid4().hex, ext)
+        filename = instance.userid + instance.file_extension
+        # return the whole path to the file
+        # return os.path.join(path, filename)
+    print filename
+    # return 'uploads/%s' % filename
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
 class UserProfile(models.Model):
@@ -19,7 +38,9 @@ class UserProfile(models.Model):
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
 
-    photo = models.FileField(upload_to='uploads/%Y/%m/%d/')
+    photo = models.FileField(upload_to=get_upload_file_name, blank=True)
+
+    image = CloudinaryField('image')
     # full_name = models.CharField(max_length=100)
 
 

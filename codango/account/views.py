@@ -30,10 +30,7 @@ from account.forms import LoginForm, RegisterForm, ResetForm
 from account.forms import ResetForm
 from .models import UserProfile
 
-
-
-# Create your views here.
-
+from cloudinary.forms import cl_init_js_callbacks
 
 class IndexView(TemplateView):
     initial = {'key': 'value'}
@@ -77,7 +74,7 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
-            return HttpResponseRedirect('/home')
+            return HttpResponseRedirect('/profile')
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
@@ -220,34 +217,54 @@ class ResetPassword(View):
         return render(request, 'account/forgot_password_reset.html', context)
 
 
-class UserProfileDetailView(LoginRequiredMixin, TemplateView):
+class UserProfileDetailView(TemplateView):
     model = UserProfile
     template_name = 'account/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileDetailView, self).get_context_data( **kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            user = User.objects.get(username=username)
+            if user is None:
+                return Http404("User does not exist")
+
+        context['profile'] = user.profile
+        return context
+
+
+class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
+    template_name = 'account/profile-edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileEditView, self).get_context_data( **kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            pass
+            # return HttpResponseRedirect('/profile') You are not authorized to view this page
+        context['profile'] = user.profile
+        context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
+                                                          'position': self.request.user.profile.position})
+        return context
 
     def post(self, request, **kwargs):
         form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/home')
+            return HttpResponseRedirect('/profile')
         else:
-            context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+            context = super(UserProfileEditView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
-
-            print "show"
-            print request.user.profile
-
             return render(request, self.template_name, context)
 
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileDetailView, self).get_context_data( **kwargs)
-        # profile = UserProfile.objects.get()
-        context['profileform'] = UserProfileForm(initial={
-            'place_of_work': self.request.user.profile.place_of_work,
-            'position': self.request.user.profile.position,
-            'followers': self.request.user.profile.followers,
-            'following': self.request.user.profile.following,
-        })
 
-        context['profile'] = self.request.user.profile
-        return context
+# TODO: get the media root and fix the file rename stuff plus cloudinary support
+# TODO 2: fix the username thingy for each user.
+# TODO 3: registration should lead straight to the profile
+# TODO 4: Triple test all reg feature to be sure all is set
+# TODO 4: Achieve a coverage of at least 70 % for all feature

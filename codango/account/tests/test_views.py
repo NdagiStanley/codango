@@ -89,6 +89,7 @@ class ProfileTestCase(StaticLiveServerTestCase):
         self.login_user()
         self.browser.get(self.live_server_url + '/profile')
         file_field = self.browser.find_element_by_name('image')
+        # test that image name is unique to user
 
     def test_profile_update(self):
         self.login_user()
@@ -111,4 +112,3 @@ class ProfileTestCase(StaticLiveServerTestCase):
         # Waits for a maximum of 10 seconds until the element is found
         position_field = self.browser.find_element_by_class_name("position")
         self.assertEqual('Developer', position_field.text)
-

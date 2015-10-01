@@ -1,5 +1,6 @@
 {% extends "account/base_home.html" %}
 {% load bootstrap %}
+{% load cloudinary %}
 
 {% block title %}Home{% endblock title %}
 
@@ -76,13 +77,13 @@
 
 		<div class="col-md-9">
             <div class="profile-content">
-{#			   <form role="form" action="/profile" method="post" enctype="multipart/form-data">#}
-{#                        {% csrf_token %}#}
-{#                        {{ profileform|bootstrap }}#}
-{#                        <div class="form-group">#}
-{#                            <button type="submit" class="btn btn-primary">Submit</button>#}
-{#                        </div>#}
-{#                    </form>#}
+			   <form role="form" action="/profile" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ profileform|bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
             </div>
 		</div>
 	</div>
