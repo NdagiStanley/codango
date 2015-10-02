@@ -50,12 +50,10 @@ body {
 	bottom: 0px;
 	height: 40px;
 	width: 100%;
-	background-color: #45818E;
+	background-color: #e7e7e7;
 	clear: both;  
 }
-#footer small{
-	color: #ffffff;
-}
+
 
 #editor {
 	width: 300px;
