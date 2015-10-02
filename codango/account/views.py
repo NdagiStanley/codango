@@ -209,7 +209,6 @@ class ResetPassword(View):
                 return redirect('/')
 
             except ObjectDoesNotExist:
-                # set an error message:
                 messages.add_message(
                     request, messages.ERROR, 'You are not allowed to perform this action!')
                 return HttpResponse('Action not allowed!', status_code=403)
@@ -236,15 +235,13 @@ class UserProfileDetailView(TemplateView):
                 return Http404("User does not exist")
 
         context['profile'] = user.profile
-        # context[user] = user
         return context
 
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
-    # user_update_form = UserUpdateForm
     template_name = 'account/profile-edit.html'
-    # InlineFormSet = inlineformset_factory(UserProfile, User, form=UserUpdateForm)
+
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileEditView, self).get_context_data( **kwargs)
@@ -253,7 +250,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             user = self.request.user
         else:
             pass
-            # return HttpResponseRedirect('/profile') You are not authorized to view this page
+
         context['profile'] = user.profile
         context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
                                                           'position': self.request.user.profile.position})
@@ -273,8 +270,4 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             return render(request, self.template_name, context)
 
 
-# TODO: get the media root and fix the file rename stuff plus cloudinary support
-# TODO 2: fix the username thingy for each user.
-# TODO 3: registration should lead straight to the profile
-# TODO 4: Triple test all reg feature to be sure all is set
-# TODO 4: Achieve a coverage of at least 70 % for all feature
+

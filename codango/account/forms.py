@@ -90,25 +90,9 @@ class UserProfileForm(forms.ModelForm):
         labels = {
             'place_of_work': 'Place of work',
             'position': 'Position',
-            # 'followers': 'Followers',
-            # 'following': 'Following'
         }
 
-    # image = CloudinaryFileField(
-    #     attrs={'style': "margin-top: 30px"},
-    #     options={
-    #         'tags': "directly_uploaded",
-    #         'crop': 'limit', 'width': 1000, 'height': 1000
-    #         # 'eager'[{'crop': 'fill', 'width': 150, 'height': 100}]
-    #     })
 
-    # def save(self, **kwargs):
-    #     user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],
-    #                                             position=self.cleaned_data['position'],
-    #                                             followers=self.cleaned_data['followers'],
-    #                                             following=self.cleaned_data['following'],
-    #                                             photo=self.cleaned_data['photo'])
-    #     return user_profile
 
 
 class UserUpdateForm(forms.ModelForm):
