@@ -6,14 +6,14 @@ from telnetlib import Telnet
 from django.http import HttpResponseRedirect
 from django.views.generic import View, TemplateView, DetailView,UpdateView
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegisterForm, UserProfileForm
+from .forms import LoginForm, RegisterForm, UserProfileForm, UserUpdateForm
 from django.views.generic.base import View
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import model_to_dict
+from django.forms.models import model_to_dict, inlineformset_factory
 from account.hash import UserHasher
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
@@ -242,7 +242,9 @@ class UserProfileDetailView(TemplateView):
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
+    # user_update_form = UserUpdateForm
     template_name = 'account/profile-edit.html'
+    # InlineFormSet = inlineformset_factory(UserProfile, User, form=UserUpdateForm)
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileEditView, self).get_context_data( **kwargs)
@@ -255,6 +257,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
         context['profile'] = user.profile
         context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
                                                           'position': self.request.user.profile.position})
+        # context['user_update_form'] = self.user_update_form()
         return context
 
     def post(self, request, **kwargs):

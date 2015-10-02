@@ -109,3 +109,9 @@ class UserProfileForm(forms.ModelForm):
     #                                             following=self.cleaned_data['following'],
     #                                             photo=self.cleaned_data['photo'])
     #     return user_profile
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        Model = User
+        fields = ['first_name', 'last_name']
