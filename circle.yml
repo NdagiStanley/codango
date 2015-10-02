@@ -11,3 +11,5 @@ deployment:
     branch: develop
     heroku:
       appname: codango-staging
+    commands:
+      - heroku run python manage.py migrate --app codango-staging
