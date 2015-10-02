@@ -1,0 +1,55 @@
+textarea {
+	margin: 10px 0px;
+}
+
+.activity-feed {
+	margin-top: 0;
+}
+
+.list-inline {
+	margin-left: 10px;
+}
+
+.list-inline li {
+	margin-right: 5px;
+}
+
+.list-group-item {
+	margin-bottom: 15px;
+}
+
+.list-group-item:last-child {
+    margin-bottom: 50px;
+}
+
+#more {
+	margin-left: 40%;
+	margin-bottom: 40px;
+}
+
+#more a:hover {
+	text-decoration: none;
+}
+
+.feeds {
+	margin-top: 50px;
+}
+
+#item {
+	margin: 0px 10px;
+}
+
+@media (min-width: 768px) {
+	.sidebar h3 {
+		margin-bottom: 20px;
+	}
+
+	h6 {
+		margin-left: 10%;
+		overflow: hidden;
+	}
+
+	#more {
+		margin-left: 30%;
+	}
+}

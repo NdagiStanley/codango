@@ -12,6 +12,8 @@ from django.template import RequestContext, loader
 from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
+from resources.models import Resource
+from resources.forms import ResourceForm
 
 
 from account.forms import LoginForm, RegisterForm, ResetForm
@@ -79,7 +81,32 @@ class LoginRequiredMixin(object):
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
+    form_class = ResourceForm
     template_name = 'account/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(HomeView, self).get_context_data(**kwargs)
+        resource_list = reversed(Resource.objects.all())
+        context = {'resource_list': resource_list}
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        resource = form.save(commit=False)
+        resource.author = self.request.user
+        resource.save()
+        return redirect(reverse('home'))
+
+
+class CommunityView(HomeView):
+
+    def get_context_data(self, **kwargs):
+        context = super(CommunityView, self).get_context_data(**kwargs)
+        community = kwargs['community']
+        resource_list = reversed(
+            Resource.objects.filter(language_tags=community))
+        context = {'resource_list': resource_list}
+        return context
 
 
 class ForgotPassword(View):

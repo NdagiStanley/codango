@@ -1,0 +1,13 @@
+{%extends "account/base.html"%}
+
+{% block content %}
+{% csrf_token %}
+<h1>Resources</h1>
+{% for resource in resource_list %}
+	<p>
+		<a href="{% url 'resources_detail' pk=resource.id %}">{{ resource.title }}</a>
+	</p>
+{% endfor %}
+<a href="{% url 'resources_create' %}">Add new resource</a>
+
+{% endblock %}

@@ -1,5 +1,10 @@
 {% extends "account/base_home.html" %}
 
+{% load cloudinary %}
+{% load staticfiles %}
+<script src="{% static "js/jquery.js" %}" type="text/javascript"></script>
+{% cloudinary_includes %}
+
 {% block head %} 
 <link href="/static/css/home.css" type="text/css" rel="stylesheet"/>
 {% endblock head %}
@@ -7,111 +12,111 @@
 {% block title %}Home{% endblock title %}
 
 {% block sidebar %}
-<h3> Communities </h3>
+<h3>Communities</h3>
 <div class="list-group">
-	<a href="#" class="list-group-item">All Feeds</a>
-	<a href="#" class="list-group-item">Python</a>
-	<a href="#" class="list-group-item">Ruby</a>
-	<a href="#" class="list-group-item">JS</a>
-	<a href="#" class="list-group-item">HTML/CSS</a>
-	<div id="more">
-		<a role="button" data-toggle="collapse" href=".collapse">
-		<h5>...more...</h5>
-		</a>
-	</div>
-	<div class="collapse">
-	  <a href="#" class="list-group-item">Java</a>
-	  <a href="#" class="list-group-item">C</a>
-	  <a href="#" class="list-group-item">Android</a>
-	  <a href="#" class="list-group-item">IOS</a>
-	</div>
+	<a href="/home" class="list-group-item">All Feeds</a>
+    <a href="/community/PYTHON" class="list-group-item">Python</a>
+    <a href="/community/RUBY" class="list-group-item">Ruby</a>
+    <a href="/community/JS" class="list-group-item">JS</a>
+    <a href="/community/MARKUP" class="list-group-item">HTML/CSS</a>
+    <div id="more">
+        <a role="button" data-toggle="collapse" href="#sidebar-collapse">
+        <h5>...more...</h5>
+        </a>
+    </div>
+    <div class="collapse" id="sidebar-collapse">
+      <a href="/community/JAVA" class="list-group-item">Java</a>
+      <a href="/community/C" class="list-group-item">C</a>
+      <a href="/community/ANDROID" class="list-group-item">Android</a>
+      <a href="/community/IOS" class="list-group-item">IOS</a>
+    </div>
 </div>
 
 {% endblock sidebar %}
 
 {% block content %}
+<div class="container-fluid">
 	<div class="row">
-		<a class="btn btn-default pull-right" href="#" role="button">Following</a>
-		<a class="btn btn-default pull-right" href="#" role="button">All</a>
+		<div class="col-sm-8">
+			<h3 class="activity-feed">Activity Feed</h3>
+		</div>
+		<div class="col-sm-4">
+			<div class="btn-group pull-right" role="group" aria-label="...">
+			  	<button type="button" class="btn btn-default">Following</button>
+			  	<button type="button" class="btn btn-default">All</button>
+			</div>
+		</div>
 	</div>
 	<div class="row">
-		<form role="form" action="#" method="post">
-			{% csrf_token %}
-			<textarea class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
-			<div class="dropup pull-right">
-				<button class="btn btn-default dropdown-toggle" type="button"data-toggle="dropdown">
-				<span class="glyphicon glyphicon-tag"></span>
-				</button>
-				<ul class="dropdown-menu dropdown-menu-right list-inline">
-					<li><label class="checkbox-inline"><input type="checkbox">Python</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">Android</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">HTML/CSS</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">Ruby</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">Java</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">PHP</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">IOS</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">JS</label></li>
-					<li><label class="checkbox-inline"><input type="checkbox">C</label></li>
+		<div class="col-sm-12">
+			<form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
+				<input id="id-pdf-file" name="resource_file" class="form-control hide" type="file" =/>
+				<div id="id-snippet-body" ><pre id='editor' name="snippet_text"></pre></div>
+				<textarea hidden id="snippet" name="snippet_text" ></textarea>
+				<div class="dropup pull-right">
+					<button class="btn btn-default dropdown-toggle" type="button"data-toggle="dropdown">
+					<span class="glyphicon glyphicon-tag"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right list-inline">
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="RUBY">Ruby</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="JAVA">Java</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="PHP">PHP</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="IOS">IOS</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
+						<li><label class="radio-inline"><input type="radio" name="language_tags" value="C">C</label></li>
+					</ul>
+				</div> 
+				<button type="submit" class="btn btn-default pull-right">Share</a></button>
+				<ul class="list-inline">
+					<li><a href="#">
+						<span class="glyphicon glyphicon-camera"></span>
+					</a></li>
+					<li><a href="#" id="id-pdf-button">
+						<span class="glyphicon glyphicon-file"></span>
+					</a></li>
+					<li><a href="#" id="id-snippet-button">
+						<span class="glyphicon glyphicon-edit"></span>
+					</a></li>
 				</ul>
-			</div>
-			<button type="submit" class="btn btn-default pull-right">Share</button>
-			<ul class="list-inline">
-				<li><a href="#">
-					<span class="glyphicon glyphicon-camera"></span>
-				</a></li>
-				<li><a href="#">
-					<span class="glyphicon glyphicon-file"></span>
-				</a></li>
-				<li><a href="#">
-					<span class="glyphicon glyphicon-edit"></span>
-				</a></li>
-			</ul>
-		</form>
+				</div>
 	</div>
+	{% for resource in resource_list %}
 	<div class="row feeds">
 		<div class="col-md-1 col-sm-1">
 			<img class="img-circle img-responsive" src="/static/images/sample.png"/>
-			<h6>Name</h6>
+			<h6>{{ resource.author }}</h6>
 		</div>
 		<div class="col-md-11 col-sm-11">
 			<div class="row">
-				<p class="pull-right" id="item"><em> Time Stamp</em></p>
+				<p class="pull-right" id="item"><em>{{ resource.date_added }}</em></p>
 			</div>
 			<div class="row">
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias dignissimos porro quasi, ullam et doloremque quae. Nihil, quaerat. Delectus necessitatibus vel cumque, natus laudantium. Deleniti, molestias, odio. Beatae, rerum, ad.
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur ullam quibusdam molestiae officia iusto, provident aliquid dolore sapiente temporibus quaerat odit obcaecati, magnam optio odio. Atque, fugiat tempora maiores accusantium.
-				</p>
-			</div>
-			<div class="row">
-				<span class="glyphicon glyphicon-tag" id="item"></span><small>python</small>
-				<span class="pull-right glyphicon glyphicon-comment" id="item"></span>
-				<span class="pull-right glyphicon glyphicon-thumbs-up" id="item"></span>
-			</div>
-		</div>
-	</div>
+					<p>
+					{{ resource.text }}<br>
+					</p>
 
-	<div class="row feeds">
-		<div class="col-md-1 col-sm-1">
-			<img class="img-circle img-responsive" src="/static/images/sample.png"/>
-			<h6>Name</h6>
-		</div>
-		<div class="col-md-11 col-sm-11">
-			<div class="row">
-				<p class="pull-right" id="item"><em> Time Stamp</em></p>
-			</div>
-			<div class="row">
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias dignissimos porro quasi, ullam et doloremque quae. Nihil, quaerat. Delectus necessitatibus vel cumque, natus laudantium. Deleniti, molestias, odio. Beatae, rerum, ad.
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur ullam quibusdam molestiae officia iusto, provident aliquid dolore sapiente temporibus quaerat odit obcaecati, magnam optio odio. Atque, fugiat tempora maiores accusantium.
+					<p>
+					Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+					</p>
+					
+					<p>
+					Snippet: <pre>{{ resource.snippet_text }}</pre>
+					</p>
 				</p>
 			</div>
 			<div class="row">
-				<span class="glyphicon glyphicon-tag" id="item"></span><small>python</small>
+				<span class="glyphicon glyphicon-tag" id="item"></span><small>{{ resource.get_language_tags_display }}</small>
 				<span class="pull-right glyphicon glyphicon-comment" id="item"></span>
 				<span class="pull-right glyphicon glyphicon-thumbs-up" id="item"></span>
 			</div>
 		</div>
 	</div>
-	
+	{% endfor %}
+</div>
 {% endblock content %}
