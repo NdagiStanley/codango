@@ -12,8 +12,8 @@ from django.template import RequestContext, loader
 from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
-from resources.models import Resource, Snippet
-from resources.forms import ResourceForm, SnippetForm
+from resources.models import Resource
+from resources.forms import ResourceForm
 
 
 from account.forms import LoginForm, RegisterForm, ResetForm
@@ -95,7 +95,6 @@ class HomeView(LoginRequiredMixin, TemplateView):
         resource = form.save(commit=False)
         resource.author = self.request.user
         resource.save()
-        resource_pk = resource.id
         return redirect(reverse('home'))
 
 
@@ -108,25 +107,6 @@ class CommunityView(HomeView):
             Resource.objects.filter(language_tags=community))
         context = {'resource_list': resource_list}
         return context
-
-
-class CodeSnippetView(TemplateView):
-    form_class = SnippetForm
-    template_name = 'account/home.html'
-
-    def get(self, request):
-        form = SnippetForm()
-        context = {'form': form}
-        snippets = reversed(Snippet.objects.all())
-        return render(request, 'account/home.html', context)
-
-    def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('home'))
-        else:
-            return HttpResponse('form is not valid.')
 
 
 class ForgotPassword(View):

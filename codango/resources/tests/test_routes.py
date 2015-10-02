@@ -25,61 +25,61 @@ class ResourceCreateViewTest(TestCase):
 
         self.assertEquals(response.status_code, 302)
 
-    # def test_post_creates_new_pdf_resource(self):
-    #     response = self.client.post('/resources/create/', {
-    #         'author': 'lade.o',
-    #         'title': 'lade-git',
-    #         'resource_type': 'PDF'
-    #     })
+    def test_post_creates_new_pdf_resource(self):
+        response = self.client.post('/resources/create/', {
+            'author': 'lade.o',
+            'title': 'lade-git',
+            'resource_type': 'PDF'
+        })
 
-    #     self.assertEquals(response.status_code, 302)
-
-
-# class ResourceListViewTest(TestCase):
-
-#     def test_get_returns_resource_list(self):
-#         response = self.client.get('/resources/list/')
-
-#         self.assertEqual(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
 
-# class ResourceDetailViewTest(TestCase):
+class ResourceListViewTest(TestCase):
 
-#     def setUp(self):
-#         self.client = Client()
-#         self.user = User(username='ini')
-#         self.user.set_password('blah')
-#         self.user.save()
-#         self.test_resource = Resource(
-#             author=self.user, title='A title', text='some text')
-#         self.test_resource.save()
+    def test_get_returns_resource_list(self):
+        response = self.client.get('/resources/list/')
 
-#     def test_get_returns_resource_detail(self):
-#         pk = self.test_resource.pk
-#         self.test_resource_detail = Resource.objects.get(id=pk)
-#         response = self.client.get(
-#             reverse('resources_detail', kwargs={'pk': pk}))
-
-#         self.assertTrue(
-#             response, self.test_resource_detail)
-#         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
 
-# class ResourceUpdateViewTest(TestCase):
+class ResourceDetailViewTest(TestCase):
 
-#     def setUp(self):
-#         self.client = Client()
-#         self.user = User(username='ini')
-#         self.user.set_password('blah')
-#         self.user.save()
-#         self.test_resource = Resource(
-#             author=self.user, title='A title', text='some text')
-#         self.test_resource.save()
+    def setUp(self):
+        self.client = Client()
+        self.user = User(username='ini')
+        self.user.set_password('blah')
+        self.user.save()
+        self.test_resource = Resource(
+            author=self.user, title='A title', text='some text')
+        self.test_resource.save()
 
-#     def test_get_returns_resource_form_with_form_data(self):
-#         pk = self.test_resource.pk
-#         response = self.client.get(
-#             reverse('resources_update', kwargs={'pk': pk}))
+    def test_get_returns_resource_detail(self):
+        pk = self.test_resource.pk
+        self.test_resource_detail = Resource.objects.get(id=pk)
+        response = self.client.get(
+            reverse('resources_detail', kwargs={'pk': pk}))
 
-#         self.assertIsInstance(response.context['resource_form'], ResourceForm)
-#         self.assertEqual(response.status_code, 200)
+        self.assertTrue(
+            response, self.test_resource_detail)
+        self.assertEqual(response.status_code, 200)
+
+
+class ResourceUpdateViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.user = User(username='ini')
+        self.user.set_password('blah')
+        self.user.save()
+        self.test_resource = Resource(
+            author=self.user, title='A title', text='some text')
+        self.test_resource.save()
+
+    def test_get_returns_resource_form_with_form_data(self):
+        pk = self.test_resource.pk
+        response = self.client.get(
+            reverse('resources_update', kwargs={'pk': pk}))
+
+        self.assertIsInstance(response.context['resource_form'], ResourceForm)
+        self.assertEqual(response.status_code, 200)
