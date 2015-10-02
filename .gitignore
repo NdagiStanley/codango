@@ -74,7 +74,7 @@ codango/media
 
 
 # Migrations
-codango/account/migrations/
+#codango/account/migrations/
 
 # Media
 codango/media/
