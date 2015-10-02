@@ -13,7 +13,6 @@ urlpatterns = [
     url(r'^login$', views.LoginView.as_view(), name='login'),
     url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
     url(r'^community/(?P<community>\w+)$', views.CommunityView.as_view(), name='community'),
-    url(r'^profile/(?P<user_id>[0-9])$', views.UserProfileDetail.as_view(), name='user_profile_detail'),
     url(r'^user/(?P<username>\w+)$', views.UserProfileDetailView.as_view(), name='user_profile'),
     url(r'^user/(?P<username>\w+)/edit$', views.UserProfileEditView.as_view(), name='edit_user_profile'),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
