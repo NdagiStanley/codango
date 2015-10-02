@@ -1,5 +1,6 @@
 {% extends "account/base_home.html" %}
 {% load bootstrap %}
+{% load cloudinary %}
 
 {% block title %}Home{% endblock title %}
 
@@ -18,17 +19,24 @@
 				<!-- SIDEBAR USERPIC -->
 				<div class="profile-userpic">
 
-					{% if profile.photo %}
-                    <img src="media/{{ profile.photo }}" class="img-responsive img-circle" alt="">
+{#					{% if profile.photo %}#}
+{#                    <img src="media/{{ profile.photo }}" class="img-responsive img-circle" alt="">#}
+{#                    {% else %}#}
+{#                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive img-circle" alt="">#}
+{#                    {% endif %}#}
+
+
+                    {% if profile.image %}
+                         {% cloudinary profile.image width=100 height=150 crop="fill" %}
                     {% else %}
-                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive img-circle" alt="">
+                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive img-circle" alt="">#}
                     {% endif %}
 				</div>
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR USER TITLE -->
 				<div class="profile-usertitle">
 					<div class="profile-usertitle-name">
-						{{ user.username }}
+						{{ profile.user.username }}
 					</div>
 					<div class="profile-usertitle-job">
 						{{ profile.position }} @ {{ profile.place_of_work }}

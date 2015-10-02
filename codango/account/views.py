@@ -58,6 +58,10 @@ class LoginView(IndexView):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect('/home')
+            else:
+                context = super(LoginView, self).get_context_data(**kwargs)
+                context['loginform'] = form
+                return render(request, self.template_name, context)
         else:
             context = super(LoginView, self).get_context_data(**kwargs)
             context['loginform'] = form
@@ -232,6 +236,7 @@ class UserProfileDetailView(TemplateView):
                 return Http404("User does not exist")
 
         context['profile'] = user.profile
+        # context[user] = user
         return context
 
 
@@ -256,10 +261,12 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
         form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/profile')
+            return HttpResponseRedirect('/user/'+ kwargs['username'])
         else:
+
             context = super(UserProfileEditView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
+            print "didnt work"
             return render(request, self.template_name, context)
 
 

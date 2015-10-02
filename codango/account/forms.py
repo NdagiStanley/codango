@@ -82,7 +82,7 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         # fields = ['place_of_work', 'position', 'followers', 'following', 'photo']
-        fields = ['place_of_work', 'position', 'photo']
+        fields = ['place_of_work', 'position', 'photo', 'image']
 
 
 
@@ -93,13 +93,13 @@ class UserProfileForm(forms.ModelForm):
             # 'following': 'Following'
         }
 
-    image = CloudinaryFileField(
-        attrs={'style': "margin-top: 30px"},
-        options={
-            'tags': "directly_uploaded",
-            'crop': 'limit', 'width': 1000, 'height': 1000,
-            # 'eager'[{'crop': 'fill', 'width': 150, 'height': 100}]
-        })
+    # image = CloudinaryFileField(
+    #     attrs={'style': "margin-top: 30px"},
+    #     options={
+    #         'tags': "directly_uploaded",
+    #         'crop': 'limit', 'width': 1000, 'height': 1000
+    #         # 'eager'[{'crop': 'fill', 'width': 150, 'height': 100}]
+    #     })
 
     # def save(self, **kwargs):
     #     user_profile = User.objects.create_user(place_of_work=self.cleaned_data['place_of_work'],
