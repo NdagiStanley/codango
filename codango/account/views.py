@@ -78,7 +78,7 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
-            return HttpResponseRedirect('/profile')
+            return HttpResponseRedirect('/user/' + self.request.user.username + "/edit")
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form

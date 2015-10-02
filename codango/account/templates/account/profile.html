@@ -29,7 +29,7 @@
                     {% if profile.image %}
                          {% cloudinary profile.image width=100 height=150 crop="fill" %}
                     {% else %}
-                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive img-circle" alt="">#}
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
                     {% endif %}
 				</div>
 				<!-- END SIDEBAR USERPIC -->
