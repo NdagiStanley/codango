@@ -38,7 +38,7 @@ class UserProfile(models.Model):
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
 
-    photo = models.FileField(upload_to=get_upload_file_name, blank=True)
+    # photo = models.FileField(upload_to=get_upload_file_name, blank=True)
 
     image = CloudinaryField('image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
     # full_name = models.CharField(max_length=100)
