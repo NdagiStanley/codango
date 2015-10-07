@@ -10,5 +10,5 @@ deployment:
   staging:
     branch: develop
     commands:
-      - git push git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
+      - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
       - heroku run python manage.py migrate --app codango-staging
