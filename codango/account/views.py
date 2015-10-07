@@ -2,11 +2,20 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
+from telnetlib import Telnet
+from django.http import HttpResponseRedirect
+from django.views.generic import View, TemplateView, DetailView,UpdateView
 from django.contrib.auth import authenticate, login
+from .forms import LoginForm, RegisterForm, UserProfileForm, UserUpdateForm
+from django.views.generic.base import View
+from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
+from django.forms.models import model_to_dict, inlineformset_factory
+from account.hash import UserHasher
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.template.context_processors import csrf
@@ -14,12 +23,9 @@ from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-
-
 from account.forms import LoginForm, RegisterForm, ResetForm
-
-
-# Create your views here.
+from .models import UserProfile
+from cloudinary.forms import cl_init_js_callbacks
 
 
 class IndexView(TemplateView):
@@ -48,6 +54,10 @@ class LoginView(IndexView):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect('/home')
+            else:
+                context = super(LoginView, self).get_context_data(**kwargs)
+                context['loginform'] = form
+                return render(request, self.template_name, context)
         else:
             context = super(LoginView, self).get_context_data(**kwargs)
             context['loginform'] = form
@@ -64,7 +74,7 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
-            return HttpResponseRedirect('/home')
+            return HttpResponseRedirect('/user/' + self.request.user.username + "/edit")
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
@@ -191,7 +201,6 @@ class ResetPassword(View):
                 return redirect('/')
 
             except ObjectDoesNotExist:
-                # set an error message:
                 messages.add_message(
                     request, messages.ERROR, 'You are not allowed to perform this action!')
                 return HttpResponse('Action not allowed!', status_code=403)
@@ -201,3 +210,52 @@ class ResetPassword(View):
         }
         context.update(csrf(request))
         return render(request, 'account/forgot_password_reset.html', context)
+
+
+class UserProfileDetailView(TemplateView):
+    model = UserProfile
+    template_name = 'account/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileDetailView, self).get_context_data( **kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            user = User.objects.get(username=username)
+            if user is None:
+                return Http404("User does not exist")
+
+        context['profile'] = user.profile
+        return context
+
+
+class UserProfileEditView(LoginRequiredMixin, TemplateView):
+    form_class = UserProfileForm
+    template_name = 'account/profile-edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileEditView, self).get_context_data( **kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            pass
+
+        context['profile'] = user.profile
+        context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
+                                                          'position': self.request.user.profile.position})
+        return context
+
+    def post(self, request, **kwargs):
+        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/user/'+ kwargs['username'])
+        else:
+            context = super(UserProfileEditView, self).get_context_data(**kwargs)
+            context['profileform'] = self.form_class
+            return render(request, self.template_name, context)
+
+
+
