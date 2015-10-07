@@ -8,103 +8,80 @@
 {% block title %}Home{% endblock title %}
 
 {% block header %}
-	<h1>Codango</h1>
+    <h1>Codango</h1>
 {% endblock header %}
 
 {% block content %}
-  <h1>Codango Home</h1>
-  <p>Registration Successful</p>
+    <h1>Codango Home</h1>
+    <p>Registration Successful</p>
 
     <div class="container">
-    <div class="row profile">
-		<div class="col-md-3">
-			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
 
-{#					{% if profile.photo %}#}
-{#                    <img src="media/{{ profile.photo }}" class="img-responsive img-circle" alt="">#}
-{#                    {% else %}#}
-{#                        <img src="http://keenthemes.com/preview/metronic/theme/assets/admin/pages/media/profile/profile_user.jpg" class="img-responsive img-circle" alt="">#}
-{#                    {% endif %}#}
+                        {% if profile.image %}
+                            {% cloudinary profile.image width=100 height=150 crop=fit %}
+                        {% else %}
+                        {% endif %}
 
-                    {% if profile.image %}
-                         {% cloudinary profile.image width=100 height=150 crop=fit  %}
-                    {% else %}
-                    {% endif %}
+                    </div>
+                    <div class="profile-userbuttons">
 
-				</div>
-				<!-- END SIDEBAR USERPIC -->
-				<!-- SIDEBAR USER TITLE -->
-{#				<div class="profile-usertitle">#}
-{#					<div class="profile-usertitle-name">#}
-{#						{{ profile.user.username }}#}
-{#					</div>#}
-{#					<div class="profile-usertitle-job">#}
-{#						{{ profile.position }} @ {{ profile.place_of_work }}#}
-{#					</div>#}
-{#				</div>#}
-				<!-- END SIDEBAR USER TITLE -->
-				<!-- SIDEBAR BUTTONS -->
-				<div class="profile-userbuttons">
-{#                    <div class="row">#}
-{#    <span>{{ profile.followers }}</span>#}
-{#      <span>{{ profile.following }}</span>#}
-{#  </div>#}
-{#					<button type="button" class="btn btn-success btn-sm">Follower </button>#}
-{#					<button type="button" class="btn btn-danger btn-sm">Following</button>#}
-				</div>
-				<!-- END SIDEBAR BUTTONS -->
-				<!-- SIDEBAR MENU -->
-				<div class="profile-usermenu">
-					<ul class="nav">
-                        <li>
-							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							{{ profile.user.username }} </a>
-						</li>
-						<li class="active">
-							<a href="#">
-							<i class="glyphicon glyphicon-home"></i>
-							{{ profile.position }} @ {{ profile.place_of_work }} </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							{{ profile.user.username }} </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							{{ profile.followers }} Followers </a>
-						</li>
-						<li>
-							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							{{ profile.following }} Following</a>
-						</li>
-					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li>
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    {{ profile.user.username }} </a>
+                            </li>
+                            <li class="active">
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-home"></i>
+                                    {{ profile.position }} @ {{ profile.place_of_work }} </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-user"></i>
+                                    {{ profile.user.username }} </a>
+                            </li>
+                            <li>
+                                <a href="#" target="_blank">
+                                    <i class="glyphicon glyphicon-ok"></i>
+                                    {{ profile.followers }} Followers </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="glyphicon glyphicon-flag"></i>
+                                    {{ profile.following }} Following</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
 
-		<div class="col-md-9">
-            <div class="profile-content">
-			   <form role="form" action="/user/{{ user.username }}/edit" method="post" enctype="multipart/form-data">
+            <div class="col-md-9">
+                <div class="profile-content">
+                    <form role="form" action="/user/{{ user.username }}/edit" method="post"
+                          enctype="multipart/form-data">
                         {% csrf_token %}
-{#                        {{ user_update_form|bootstrap }}#}
                         {{ profileform|bootstrap }}
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
+                </div>
             </div>
-		</div>
-	</div>
+        </div>
     </div>
 
     <script type="text/javascript">
-   $.cloudinary.config({"api_key":"415627285142925","cloud_name":"codangofile"});
-</script>
+        $.cloudinary.config({"api_key": "415627285142925", "cloud_name": "codangofile"});
+    </script>
 {% endblock content %}

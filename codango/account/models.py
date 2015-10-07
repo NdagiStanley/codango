@@ -5,8 +5,6 @@ from django.contrib.auth.models import AbstractBaseUser, User
 from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
 
-# Create your models here.
-
 
 def get_upload_file_name(instance, filename):
 
@@ -23,6 +21,7 @@ def get_upload_file_name(instance, filename):
 
 
 class UserProfile(models.Model):
+
     def get_short_name(self):
         pass
 
@@ -35,10 +34,12 @@ class UserProfile(models.Model):
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
 
-    image = CloudinaryField('image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
+    image = CloudinaryField(
+        'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

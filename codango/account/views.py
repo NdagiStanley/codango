@@ -23,14 +23,10 @@ from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-
-
 from account.forms import LoginForm, RegisterForm, ResetForm
-
-from account.forms import ResetForm
 from .models import UserProfile
-
 from cloudinary.forms import cl_init_js_callbacks
+
 
 class IndexView(TemplateView):
     initial = {'key': 'value'}
@@ -83,10 +79,6 @@ class RegisterView(IndexView):
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
             return render(request, self.template_name, context)
-
-
-class HomeView(TemplateView):
-    template_name = 'account/home.html'
 
 
 class LoginRequiredMixin(object):
@@ -253,7 +245,6 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
         context['profile'] = user.profile
         context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
                                                           'position': self.request.user.profile.position})
-        # context['user_update_form'] = self.user_update_form()
         return context
 
     def post(self, request, **kwargs):
