@@ -1,7 +1,6 @@
-from uuid import uuid4
 from bootstrapform import models
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, User
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
 

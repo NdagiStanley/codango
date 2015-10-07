@@ -1,8 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
 from models import UserProfile
-from django.forms.models import inlineformset_factory
-from cloudinary.forms import CloudinaryFileField
 
 
 class LoginForm(forms.Form):
@@ -78,13 +76,10 @@ class ResetForm(forms.Form):
 
 
 class UserProfileForm(forms.ModelForm):
+
     class Meta:
         model = UserProfile
-        # fields = ['place_of_work', 'position', 'followers', 'following', 'photo']
         fields = ['place_of_work', 'position', 'image']
-
-
-
         labels = {
             'place_of_work': 'Place of work',
             'position': 'Position',
@@ -92,6 +87,7 @@ class UserProfileForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
+
     class Meta:
         Model = User
         fields = ['first_name', 'last_name']

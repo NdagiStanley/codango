@@ -2,30 +2,20 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
-from telnetlib import Telnet
-from django.http import HttpResponseRedirect
-from django.views.generic import View, TemplateView, DetailView,UpdateView
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegisterForm, UserProfileForm, UserUpdateForm
-from django.views.generic.base import View
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import model_to_dict, inlineformset_factory
-from account.hash import UserHasher
-from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-from django.template.context_processors import csrf
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-from account.forms import LoginForm, RegisterForm, ResetForm
-from .models import UserProfile
-from cloudinary.forms import cl_init_js_callbacks
+from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
+from account.models import UserProfile
 
 
 class IndexView(TemplateView):
@@ -126,7 +116,7 @@ class ForgotPassword(View):
 
         }
         context.update(csrf(request))
-        return render(request, 'account/forgot_password.html', context)
+        return render(request, 'account/forgot-password.html', context)
 
     def post(self, request, *args, **kwargs):
         try:
@@ -143,19 +133,20 @@ class ForgotPassword(View):
                 recipient=user.email,
                 subject='Codango: Password Recovery',
                 text=loader.get_template(
-                    'account/forgot_password_email.txt').render(hash_email_context),
+                    'account/forgot-password-email.txt').render(hash_email_context),
                 html=loader.get_template(
-                    'account/forgot_password_email.html').render(hash_email_context),
+                    'account/forgot-password-email.html').render(hash_email_context),
             )
             context = {
                 "email_status": email_reponse.status_code
             }
-            return render(request, 'account/forgot_password_status.html', context)
+            return render(request, 'account/forgot-password-status.html', context)
 
         except ObjectDoesNotExist:
             messages.add_message(
-                request, messages.INFO, 'The email specified does not belong to any valid user.')
-            return render(request, 'account/forgot_password.html')
+                request, messages.INFO,
+                'The email specified does not belong to any valid user.')
+            return render(request, 'account/forgot-password.html')
 
 
 class ResetPassword(View):
@@ -172,7 +163,7 @@ class ResetPassword(View):
                     "password_reset_form": ResetForm(auto_id=True)
                 }
                 context.update(csrf(request))
-                return render(request, 'account/forgot_password_reset.html', context)
+                return render(request, 'account/forgot-password-reset.html', context)
             else:
                 messages.add_message(
                     request, messages.ERROR, 'Account not activated!')
@@ -196,20 +187,22 @@ class ResetPassword(View):
                 user.save()
 
                 messages.add_message(
-                    request, messages.INFO, 'Your password has been changed successfully!')
+                    request, messages.INFO,
+                    'Your password has been changed successfully!')
 
                 return redirect('/')
 
             except ObjectDoesNotExist:
                 messages.add_message(
-                    request, messages.ERROR, 'You are not allowed to perform this action!')
+                    request, messages.ERROR,
+                    'You are not allowed to perform this action!')
                 return HttpResponse('Action not allowed!', status_code=403)
 
         context = {
             "password_reset_form": password_reset_form
         }
         context.update(csrf(request))
-        return render(request, 'account/forgot_password_reset.html', context)
+        return render(request, 'account/forgot-password-reset.html', context)
 
 
 class UserProfileDetailView(TemplateView):
@@ -217,7 +210,7 @@ class UserProfileDetailView(TemplateView):
     template_name = 'account/profile.html'
 
     def get_context_data(self, **kwargs):
-        context = super(UserProfileDetailView, self).get_context_data( **kwargs)
+        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         username = kwargs['username']
         if self.request.user.username == username:
             user = self.request.user
@@ -235,7 +228,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
     template_name = 'account/profile-edit.html'
 
     def get_context_data(self, **kwargs):
-        context = super(UserProfileEditView, self).get_context_data( **kwargs)
+        context = super(UserProfileEditView, self).get_context_data(**kwargs)
         username = kwargs['username']
         if self.request.user.username == username:
             user = self.request.user
@@ -243,19 +236,20 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             pass
 
         context['profile'] = user.profile
-        context['profileform'] = self.form_class(initial={'place_of_work': self.request.user.profile.place_of_work,
-                                                          'position': self.request.user.profile.position})
+        context['profileform'] = self.form_class(initial={
+            'place_of_work': self.request.user.profile.place_of_work,
+            'position': self.request.user.profile.position
+        })
         return context
 
     def post(self, request, **kwargs):
-        form = self.form_class(request.POST, request.FILES, instance=request.user.profile)
+        form = self.form_class(
+            request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/user/'+ kwargs['username'])
+            return HttpResponseRedirect('/user/' + kwargs['username'])
         else:
-            context = super(UserProfileEditView, self).get_context_data(**kwargs)
+            context = super(
+                UserProfileEditView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
             return render(request, self.template_name, context)
-
-
-
