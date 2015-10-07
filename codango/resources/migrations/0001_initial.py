@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('text', models.TextField(null=True, blank=True)),
                 ('language_tags', models.CharField(default=b'Untagged', max_length=30, choices=[(b'PYTHON', b'Python'), (b'RUBY', b'Ruby'), (b'ANDROID', b'Android'), (b'MARKUP', b'HTML/CSS'), (b'JAVA', b'Java'), (b'PHP', b'PHP'), (b'IOS', b'IOS'), (b'JS', b'Javascript'), (b'C', b'C')])),
-                ('resource_file', cloudinary.models.CloudinaryField(max_length=255, verbose_name=b'resource_file')),
+                ('resource_file', cloudinary.models.CloudinaryField(max_length=255, null=True, verbose_name=b'resource_file', blank=True)),
                 ('snippet_text', models.TextField(null=True, blank=True)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),

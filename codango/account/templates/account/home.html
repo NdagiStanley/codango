@@ -1,4 +1,4 @@
-{% extends "account/base_home.html" %}
+{% extends "account/base-home.html" %}
 
 {% load cloudinary %}
 {% load staticfiles %}
@@ -31,11 +31,9 @@
       <a href="/community/IOS" class="list-group-item">IOS</a>
     </div>
 </div>
-
 {% endblock sidebar %}
 
 {% block content %}
-
 <div class="container-fluid">
 
 	<div class="row">
@@ -99,17 +97,23 @@
 			</div>
 			<div class="row">
 				<p>
-					<p>
-					{{ resource.text }}<br>
-					</p>
+					{% if resource.text %}
+						<p>
+						{{ resource.text }}<br>
+						</p>
+					{% endif %}
 
-					<p>
-					Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
-					</p>
+					{% if resource.resource_file %}
+						<p>
+						Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+						</p>
+					{% endif %}
 					
-					<p>
-					Snippet: <pre>{{ resource.snippet_text }}</pre>
-					</p>
+					{% if resource.snippet_text %}
+						<p>
+						Snippet: <pre>{{ resource.snippet_text }}</pre>
+						</p>
+					{% endif %}
 				</p>
 			</div>
 			<div class="row">
@@ -119,7 +123,6 @@
 			</div>
 		</div>
 	</div>
-
 	{% endfor %}
 </div>
 {% endblock content %}
