@@ -80,7 +80,6 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['place_of_work', 'position', 'image']
-
         labels = {
             'place_of_work': 'Place of work',
             'position': 'Position',

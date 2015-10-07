@@ -12,7 +12,7 @@
 <div class="container-fluid">
 	<h1>Codango Home</h1>
 	<p>Logged in successfully</p>
-
+	
 	<div class="row profile">
 		<div class="col-md-3">
 			<div class="profile-sidebar">
@@ -27,7 +27,6 @@
 				<!-- END SIDEBAR USERPIC -->
 				<!-- SIDEBAR BUTTONS -->
 				<div class="profile-userbuttons">
-
 				</div>
 				<!-- END SIDEBAR BUTTONS -->
 				<!-- SIDEBAR MENU -->
@@ -35,41 +34,38 @@
 					<ul class="nav">
 						<li>
 							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							{{ profile.user.username }} </a>
+								<i class="glyphicon glyphicon-user"></i>
+								{{ profile.user.username }} </a>
 						</li>
 						<li class="active">
 							<a href="#">
-							<i class="glyphicon glyphicon-home"></i>
-							{{ profile.position }} @ {{ profile.place_of_work }} </a>
+								<i class="glyphicon glyphicon-home"></i>
+								{{ profile.position }} @ {{ profile.place_of_work }} </a>
 						</li>
 						<li>
 							<a href="#">
-							<i class="glyphicon glyphicon-user"></i>
-							{{ profile.user.username }} </a>
+								<i class="glyphicon glyphicon-user"></i>
+								{{ profile.user.username }} </a>
 						</li>
 						<li>
 							<a href="#" target="_blank">
-							<i class="glyphicon glyphicon-ok"></i>
-							{{ profile.followers }} Followers </a>
+								<i class="glyphicon glyphicon-ok"></i>
+								{{ profile.followers }} Followers </a>
 						</li>
 						<li>
 							<a href="#">
-							<i class="glyphicon glyphicon-flag"></i>
-							{{ profile.following }} Following </a>
+								<i class="glyphicon glyphicon-flag"></i>
+								{{ profile.following }} Following </a>
 						</li>
 					</ul>
 				</div>
 				<!-- END MENU -->
 			</div>
 		</div>
-
 		<div class="col-md-9">
 			<div class="profile-content">
-
 			</div>
 		</div>
 	</div>
-
 </div>
 {% endblock content %}
