@@ -25,11 +25,3 @@ urlpatterns = [
     url(r'^resources/', include(resources.urls)),
     url(r'^admin/', include(admin.site.urls)),
 ]
-              # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# if settings.DEBUG:
-#     # static files (images, css, javascript, etc.)
-#     urlpatterns += ('',
-#         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-#         'document_root': settings.MEDIA_ROOT}))
-

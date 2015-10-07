@@ -7,16 +7,11 @@ from cloudinary.models import CloudinaryField
 
 
 def get_upload_file_name(instance, filename):
-
     ext = filename.split('.')[-1]
-
     if instance.pk:
         filename = '{}.{}'.format(instance.pk, ext)
     else:
-
         filename = instance.userid + instance.file_extension
-
-    print filename
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 
@@ -33,10 +28,8 @@ class UserProfile(models.Model):
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
-
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
-
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 

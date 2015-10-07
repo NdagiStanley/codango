@@ -253,10 +253,8 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             form.save()
             return HttpResponseRedirect('/user/'+ kwargs['username'])
         else:
-
             context = super(UserProfileEditView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
-            print "didnt work"
             return render(request, self.template_name, context)
 
 
