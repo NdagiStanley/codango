@@ -242,7 +242,6 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
     template_name = 'account/profile-edit.html'
 
-
     def get_context_data(self, **kwargs):
         context = super(UserProfileEditView, self).get_context_data( **kwargs)
         username = kwargs['username']

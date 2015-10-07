@@ -38,7 +38,6 @@ class RegisterForm(forms.Form):
                                         'placeholder': 'Verify secret password'
                                     }))
 
-
     def clean_username(self):
         try:
             User.objects.get(username=self.cleaned_data['username'])
@@ -61,7 +60,6 @@ class RegisterForm(forms.Form):
             password=self.cleaned_data['password']
         )
         return new_user
-
 
 
 class ResetForm(forms.Form):
@@ -91,8 +89,6 @@ class UserProfileForm(forms.ModelForm):
             'place_of_work': 'Place of work',
             'position': 'Position',
         }
-
-
 
 
 class UserUpdateForm(forms.ModelForm):
