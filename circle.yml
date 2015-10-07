@@ -11,4 +11,5 @@ deployment:
     branch: develop
     commands:
       - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
-      - heroku run python manage.py migrate --app codango-staging
+      - heroku run python codango/manage.py makemigrations codango-staging
+      - heroku run python codango/manage.py migrate codango-staging
