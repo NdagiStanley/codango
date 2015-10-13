@@ -7,6 +7,10 @@ body {
 	padding-bottom: 100px;
 }
 
+.navbar {
+    border-radius: 0px;
+}
+
 .jumbotron {
 	padding-left: 5%;
 	padding-right: 5%;
@@ -39,9 +43,6 @@ body {
 	bottom:0px;
 	height:40px;
 	width:100%;
-	background-color: #ffffff;
+	background-color: rgb(34, 34, 34);
 	clear: both;	
-}
-#footer small{
-	color: #000000;
 }

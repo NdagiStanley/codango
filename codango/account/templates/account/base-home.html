@@ -13,7 +13,7 @@
 
 	<body>
 		<!--header-->
-		<nav class="navbar navbar-default navbar-fixed-top">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
 		  	<div class="container-fluid">
 			    <div class="navbar-header">
 			      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -48,11 +48,15 @@
 		</nav>
 
 		<!--content-->
-		<div class="main">
-			<div class="sidebar">
+		<div class="main row">
+			<div class="sidebar hidden-sm hidden-xs">
 				{% block sidebar %}{% endblock sidebar %}
 			</div>
-			<div class="page-content">
+			<a href="#" class="visible-sm visible-xs" id="sidebar-mobile-link"> <i class="glyphicon glyphicon-chevron-right"></i></a>
+			<div class= "visible-sm visible-xs" id="sidebar-mobile">
+				{% block mobile-sidebar %}{% endblock mobile-sidebar %}
+			</div>
+			<div class="page-content col-md-9 col-md-offset-3">
 				{% block content %}{% endblock content %}
 			</div>
 		</div>
