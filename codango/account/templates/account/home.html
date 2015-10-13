@@ -2,7 +2,6 @@
 
 {% load cloudinary %}
 {% load staticfiles %}
-<script src="{% static "js/jquery.js" %}" type="text/javascript"></script>
 {% cloudinary_includes %}
 
 {% block head %} 
@@ -23,6 +22,13 @@
 <div class="container-fluid">
 
 	<div class="row">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+					{{ message }}
+				</div>
+			{% endfor %}	
+		{% endif %}	
 		<div class="col-sm-8">
 			<h3 class="activity-feed">Activity Feed</h3>
 		</div>

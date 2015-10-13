@@ -30,6 +30,13 @@
 				</form>
 				{% csrf_token %}
 				<p class="forgot-password-link">Forgot password. <a href="/recovery/">Reset</a></p>
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert alert-danger" role="alert" id="flash-message">
+							{{ message }}
+						</div>
+					{% endfor %}	
+				{% endif %}
 			</div>
 			<!--Sign Up form-->
 			<div id="signup" class="tab-pane fade">

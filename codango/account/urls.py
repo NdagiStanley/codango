@@ -16,6 +16,8 @@ urlpatterns = [
         views.AjaxCommunityView.as_view(), name='community'),
     url(r'^user/(?P<username>\w+)$',
         views.UserProfileDetailView.as_view(), name='user_profile'),
+    url(r'^user/(?P<username>\w+)/edit$',
+        views.UserProfileEditView.as_view(), name='edit_user_profile'),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),

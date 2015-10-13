@@ -42,6 +42,9 @@ $(document).ready(function() {
             data: fd,
             success: function(data) {
                 console.log(data);
+                if(data == "success"){
+                    _this.append("<p class='text-success'>Successfully Created Your Resource!</p>")
+                }
             },
             error: function(status) {
                 console.log(status.responseText)
