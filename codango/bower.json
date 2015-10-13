@@ -1,0 +1,19 @@
+{
+  "name": "codango",
+  "version": "1.0.0",
+  "homepage": "https://github.com/andela/codango",
+  "authors": [
+    "IniOluwa Fageyinbo <inioluwafageyinbo@gmail.com>"
+  ],
+  "description": "Social Network for Coders",
+  "main": "manage.py",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
