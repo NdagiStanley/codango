@@ -1,5 +1,5 @@
-from django.http import HttpResponseRedirect, HttpResponse, Http404
-from django.shortcuts import render, redirect, render_to_response
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
