@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'cloudinary',
     'djangobower'
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,10 +82,18 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKEND = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allaccess.backends.AuthorizedServiceBackend',
+)
+
+
 
 WSGI_APPLICATION = 'codango.wsgi.application'
 
@@ -127,3 +136,4 @@ cloudinary.config(
   api_key = "415627285142925",
   api_secret = "Ikx_NfacoPUmQlft-k9nuRVtt3Q"
 )
+

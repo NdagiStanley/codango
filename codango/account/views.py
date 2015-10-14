@@ -234,7 +234,7 @@ class ResetPassword(View):
 
 class UserProfileDetailView(TemplateView):
     model = UserProfile
-    template_name = 'account/profile.html'
+    template_name = 'account/profileediting.html'
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
