@@ -6,7 +6,8 @@ from models import UserProfile
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username', max_length=100,
                                widget=forms.TextInput(attrs={
-                                   'placeholder': 'Enter unique username'
+                                   'placeholder': 'Enter unique username',
+                                   'autocomplete': 'off'
                                }))
     password = forms.CharField(label='Password', max_length=100,
                                widget=forms.PasswordInput(attrs={
@@ -21,11 +22,13 @@ class RegisterForm(forms.Form):
 
     username = forms.CharField(label='Username', max_length=300,
                                widget=forms.TextInput(attrs={
-                                   'placeholder': 'Create unique username'
+                                   'placeholder': 'Create unique username',
+                                   'autocomplete': 'off'
                                }))
     email = forms.EmailField(label='Email', max_length=100,
                              widget=forms.EmailInput(attrs={
-                                 'placeholder': 'john.doe@example.com'
+                                 'placeholder': 'john.doe@example.com',
+                                 'autocomplete': 'off'
                              }))
     password = forms.CharField(label='Password', max_length=100,
                                widget=forms.PasswordInput(attrs={

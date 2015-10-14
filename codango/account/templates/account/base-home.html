@@ -13,7 +13,7 @@
 
 	<body>
 		<!--header-->
-		<nav class="navbar navbar-default navbar-fixed-top">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
 		  	<div class="container-fluid">
 			    <div class="navbar-header">
 			      	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -48,11 +48,15 @@
 		</nav>
 
 		<!--content-->
-		<div class="main">
-			<div class="sidebar">
+		<div class="main row">
+			<div class="sidebar hidden-sm hidden-xs">
 				{% block sidebar %}{% endblock sidebar %}
 			</div>
-			<div class="page-content">
+			<button type="button" class="visible-sm visible-xs" id="sidebar-mobile-link"> <i class="glyphicon glyphicon-chevron-right"></i></button>
+			<div class= "visible-sm visible-xs" id="sidebar-mobile">
+				{% block mobile-sidebar %}{% endblock mobile-sidebar %}
+			</div>
+			<div class="page-content col-md-9 col-md-offset-3">
 				{% block content %}{% endblock content %}
 			</div>
 		</div>
@@ -61,11 +65,11 @@
 		<div id="footer" class="container-fluid">
 			<h4 class="pull-right"><small>&copy 2015 CODANGO</small></h4>
 		</div>
-		{% block scripts %}
 		<script src="/static/js/jquery-1.11.3.min.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/static/js/src-min-noconflict/ace.js"></script>
 		<script type="text/javascript" src="/static/js/app.js"></script>
+		{% block scripts %}
 		{% endblock scripts %}
 	</body>
 </html>

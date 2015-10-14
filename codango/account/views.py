@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
@@ -22,6 +22,16 @@ class IndexView(TemplateView):
     initial = {'key': 'value'}
     template_name = 'account/index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            messages.add_message(
+                request, messages.SUCCESS, 'Welcome back!')
+            return redirect(
+                '/home',
+                context_instance=RequestContext(request)
+            )
+        return super(IndexView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['loginform'] = LoginForm()
@@ -43,11 +53,19 @@ class LoginView(IndexView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/home')
+                    messages.add_message(
+                        request, messages.SUCCESS, 'Logged in Successfully!')
+                    return redirect(
+                        '/home',
+                        context_instance=RequestContext(request)
+                    )
             else:
-                context = super(LoginView, self).get_context_data(**kwargs)
-                context['loginform'] = form
-                return render(request, self.template_name, context)
+                messages.add_message(
+                    request, messages.ERROR, 'Incorrect username or password!')
+                return redirect(
+                    '/',
+                    context_instance=RequestContext(request)
+                )
         else:
             context = super(LoginView, self).get_context_data(**kwargs)
             context['loginform'] = form
@@ -64,7 +82,12 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
-            return HttpResponseRedirect('/user/' + self.request.user.username + "/edit")
+            messages.add_message(
+                request, messages.SUCCESS, 'Registered Successfully!')
+            return redirect(
+                '/user/' + self.request.user.username + '/edit',
+                context_instance=RequestContext(request)
+            )
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
@@ -95,7 +118,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
         resource = form.save(commit=False)
         resource.author = self.request.user
         resource.save()
-        return "success"
+        return HttpResponse("success", content_type='text/plain')
 
 
 class AjaxCommunityView(HomeView):
@@ -251,7 +274,12 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/user/' + kwargs['username'])
+            messages.add_message(
+                request, messages.SUCCESS, 'Profile Updated!')
+            return redirect(
+                '/user/' + kwargs['username'],
+                context_instance=RequestContext(request)
+            )
         else:
             context = super(
                 UserProfileEditView, self).get_context_data(**kwargs)

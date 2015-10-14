@@ -2,18 +2,20 @@
 {% load bootstrap %}
 {% load cloudinary %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}{{ profile.user.username }}{% endblock title %}
 
-{% block header %}
-	<h1>Codango</h1>
-{% endblock header %}
 
 {% block content %}
-<div class="container-fluid">
-	<h1>Codango Home</h1>
-	<p>Logged in successfully</p>
-	
+<div class="container-fluid">	
 	<div class="row profile">
+		{% if messages %}
+			{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+					{{ message }}
+				</div>
+			{% endfor %}	
+		{% endif %}
+		<h1 id="h1">{{ profile.user.username }}</h1>
 		<div class="col-md-3">
 			<div class="profile-sidebar">
 				<!-- SIDEBAR USERPIC -->

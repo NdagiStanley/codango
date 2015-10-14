@@ -16,15 +16,20 @@ textarea {
 
 .list-group-item {
 	margin-bottom: 15px;
+	border-radius: 4px;
 }
 
 .list-group-item:last-child {
-    margin-bottom: 50px;
+    margin-bottom: 15px;
 }
 
 #more {
 	margin-left: 40%;
-	margin-bottom: 40px;
+}
+
+#more a {
+	color: #ccc;
+	text-decoration: none;
 }
 
 #more a:hover {
@@ -33,6 +38,10 @@ textarea {
 
 .resource-selector button .mdi {
 	margin-right: 5px;
+}
+
+#sidebar-more {
+	display: none;
 }
 
 .feeds {
@@ -111,6 +120,17 @@ textarea {
 		margin-left: 30%;
 	}
 }
+
 .spacer {
 	margin-top: 2.0em;
+}
+
+@media (max-width: 992px) {
+	#sidebar-more {
+		display: block;
+	}
+	#sidebar-mobile a {
+		font-size: 16px;
+		padding: 5px;
+	}
 }
