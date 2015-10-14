@@ -30,7 +30,6 @@ class IndexView(TemplateView):
                 '/home',
                 context_instance=RequestContext(request)
             )
-            # return redirect('/home')
         return super(IndexView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
