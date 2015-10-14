@@ -58,7 +58,7 @@ $(document).ready(function() {
                     _this.trigger("reset");
                 });
             }
-        })
+        });
     });
     // sidebar
     $("#more a").click(function(e) {
