@@ -18,14 +18,13 @@ $(document).ready(function(e){
 		// e.preventDefault();
 
 		if($(this).hasClass("glyphicon glyphicon-chevron-right")){
-			$("#sidebar-mobile-link").animate({left:'+=200px'});
-			$("#sidebar-mobile").animate({left:'0px'});
+			$("#sidebar-mobile-link").animate({'left':'+=200px'});
+			$("#sidebar-mobile").animate({'left':'0px'});
 			$(this).removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
 		}
 		else if($("#sidebar-mobile-link i").hasClass("glyphicon glyphicon-chevron-left")){
-			console.log("works");
-			$("#sidebar-mobile-link").animate({left:'-=200px'});
-			$("#sidebar-mobile").animate({left:'-=200px'});
+			$("#sidebar-mobile-link").animate({'left':'-=200px'});
+			$("#sidebar-mobile").animate({'left':'-=200px'});
 			$(this).removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
 		}
 	});
