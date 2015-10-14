@@ -14,12 +14,22 @@ $(document).ready(function(e){
 			$(this).text("...less...");
 		}
 	});
-	$("#sidebar-mobile-link").click(function(e){
-		e.preventDefault();
+	$("#sidebar-mobile-link i").click(function(){
+		// e.preventDefault();
 
-		$("#sidebar-mobile").animate({left:'0px'});
-		$(this).css('visibility','hidden');
+		if($(this).hasClass("glyphicon glyphicon-chevron-right")){
+			$("#sidebar-mobile-link").animate({left:'+=200px'});
+			$("#sidebar-mobile").animate({left:'0px'});
+			$(this).removeClass('glyphicon-chevron-right').addClass("glyphicon-chevron-left");
+		}
+		else if($("#sidebar-mobile-link i").hasClass("glyphicon glyphicon-chevron-left")){
+			console.log("works");
+			$("#sidebar-mobile-link").animate({left:'-=200px'});
+			$("#sidebar-mobile").animate({left:'-=200px'});
+			$(this).removeClass('glyphicon-chevron-left').addClass("glyphicon-chevron-right");
+		}
 	});
+
 
 	// snippet
 	var snippet = $('#snippet')

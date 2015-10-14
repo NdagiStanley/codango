@@ -20,6 +20,7 @@ body {
 .main {
 	padding: 40px;
 	padding-left:40px;
+	margin-right: 0px;
 }
 
 .sidebar {
@@ -28,8 +29,10 @@ body {
 	top: 10px;
 	bottom: 0;
 	width: 300px;
-	padding: 30px 30px;
+	padding: 40px 30px;
 	border-right: solid #dedede 1px;
+	color: #ccc;
+	background-color: #333; 
 	overflow-y: auto;
     overflow-x: hidden;	
 }
@@ -39,10 +42,10 @@ body {
 	top: 50%;
 	bottom: 50%;
 	left: 0px;
-	height: 30px;
+	height: 40px;
     font-size: 20px;
-	color: white;
-	background-color: rgb(34, 34, 34);
+	color: #ccc;
+	background-color: #333;
 }
 
 #sidebar-mobile {
@@ -55,9 +58,9 @@ body {
 	width: 200px;
     font-size: 20px;
     padding: 40px 20px;
-	color: white;
+	color: #ccc;
+	background-color: #333;
 	overflow-y:auto;
-	background-color: rgb(34, 34, 34);
 }
 
 .page-content {
@@ -84,4 +87,25 @@ body {
     margin: auto;
     height: 200px;
     width: 100%;
+}
+
+/* scrollbar styling */
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #ccc;
 }

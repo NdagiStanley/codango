@@ -16,6 +16,7 @@ textarea {
 
 .list-group-item {
 	margin-bottom: 15px;
+	border-radius: 4px;
 }
 
 .list-group-item:last-child {
@@ -24,6 +25,11 @@ textarea {
 
 #more {
 	margin-left: 40%;
+}
+
+#more a {
+	color: #ccc;
+	text-decoration: none;
 }
 
 #more a:hover {
