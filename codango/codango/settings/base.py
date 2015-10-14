@@ -18,6 +18,17 @@ import cloudinary
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+BOWER_INSTALLED_APPS = (
+    'mdi',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -43,6 +54,7 @@ INSTALLED_APPS = (
     'resources',
     'bootstrapform',
     'cloudinary',
+    'djangobower'
 )
 
 MIDDLEWARE_CLASSES = (

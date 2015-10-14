@@ -13,22 +13,22 @@
 
 {% block sidebar %}
 <h3>Communities</h3>
-<div class="list-group">
-	<a href="/home" class="list-group-item">All Feeds</a>
-    <a href="/community/PYTHON" class="list-group-item">Python</a>
-    <a href="/community/RUBY" class="list-group-item">Ruby</a>
-    <a href="/community/JS" class="list-group-item">JS</a>
-    <a href="/community/MARKUP" class="list-group-item">HTML/CSS</a>
+<div class="list-group" id="community">
+	<a href="/community/all" class="list-group-item">All Feeds</a>
+    <a href="/community/python" class="list-group-item">Python</a>
+    <a href="/community/ruby" class="list-group-item">Ruby</a>
+    <a href="/community/js" class="list-group-item">JS</a>
+    <a href="/community/markup" class="list-group-item">HTML/CSS</a>
     <div id="more">
         <a role="button" data-toggle="collapse" href="#sidebar-collapse">
         <h5>...more...</h5>
         </a>
     </div>
     <div class="collapse" id="sidebar-collapse">
-      <a href="/community/JAVA" class="list-group-item">Java</a>
+      <a href="/community/Java" class="list-group-item">Java</a>
       <a href="/community/C" class="list-group-item">C</a>
-      <a href="/community/ANDROID" class="list-group-item">Android</a>
-      <a href="/community/IOS" class="list-group-item">IOS</a>
+      <a href="/community/Android" class="list-group-item">Android</a>
+      <a href="/community/ios" class="list-group-item">IOS</a>
     </div>
 </div>
 {% endblock sidebar %}
@@ -52,77 +52,80 @@
 			<form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
 				<textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="btn-group resource-selector" role="group" aria-label="...">
+						  	<button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
+						  	<button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
+						  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>
+							<ul class="dropdown-menu dropdown-menu-right list-inline">
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="RUBY">Ruby</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="JAVA">Java</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="PHP">PHP</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="IOS">IOS</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="C">C</label></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<button type="submit" class="btn btn-primary pull-right">Share</a></button>
+					</div>
+				</div>
 				<input id="id-pdf-file" name="resource_file" class="form-control hide" type="file" =/>
 				<div id="id-snippet-body" ><pre id='editor' name="snippet_text"></pre></div>
-				<textarea hidden id="snippet" name="snippet_text" ></textarea>
-				<div class="dropup pull-right">
-					<button class="btn btn-default dropdown-toggle" type="button"data-toggle="dropdown">
-					<span class="glyphicon glyphicon-tag"></span>
-					</button>
-					<ul class="dropdown-menu dropdown-menu-right list-inline">
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="RUBY">Ruby</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="JAVA">Java</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="PHP">PHP</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="IOS">IOS</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
-						<li><label class="radio-inline"><input type="radio" name="language_tags" value="C">C</label></li>
-					</ul>
-				</div> 
-				<button type="submit" class="btn btn-default pull-right">Share</a></button>
-				<ul class="list-inline">
-					<li><a href="#">
-						<span class="glyphicon glyphicon-camera"></span>
-					</a></li>
-					<li><a href="#" id="id-pdf-button">
-						<span class="glyphicon glyphicon-file"></span>
-					</a></li>
-					<li><a href="#" id="id-snippet-button">
-						<span class="glyphicon glyphicon-edit"></span>
-					</a></li>
-				</ul>
-				</div>
+				<textarea hidden id="snippet" name="snippet_text" ></textarea> 
+			</form>
+		</div>
 	</div>
+<div id="community-content">
 	{% for resource in resource_list %}
-	<div class="row feeds">
-		<div class="col-md-1 col-sm-1">
-			<img class="img-circle img-responsive" src="/static/images/sample.png"/>
-			<h6>{{ resource.author }}</h6>
+	<div class="feed">
+		<div class="profile-img">
+			{% if profile.image %}
+				 {% cloudinary profile.image width=70 height=70 crop="fill" %}
+			{% else %}
+				{% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+			{% endif %}
 		</div>
-		<div class="col-md-11 col-sm-11">
-			<div class="row">
-				<p class="pull-right" id="item"><em>{{ resource.date_added }}</em></p>
-			</div>
-			<div class="row">
-				<p>
-					{% if resource.text %}
-						<p>
-						{{ resource.text }}<br>
-						</p>
-					{% endif %}
+		<div class="feed-content">
+			<p class="poster-details">
+				<a href="">{{ resource.author }}</a> - 
+				<small>{{ resource.date_added | timesince }} ago</small>
+			</p>
+			<h1>{{ resource.text }}</h1>
 
-					{% if resource.resource_file %}
-						<p>
-						Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
-						</p>
-					{% endif %}
-					
-					{% if resource.snippet_text %}
-						<p>
-						Snippet: <pre>{{ resource.snippet_text }}</pre>
-						</p>
-					{% endif %}
-				</p>
-			</div>
+			{% if resource.snippet_text %}
+			<p>
+				<pre>{{ resource.snippet_text }}</pre>
+			</p>
+			{% endif %}
+
+			{% if resource.resource_file %}
+			<p>
+			Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+			</p>
+			{% endif %}
+
 			<div class="row">
-				<span class="glyphicon glyphicon-tag" id="item"></span><small>{{ resource.get_language_tags_display }}</small>
-				<span class="pull-right glyphicon glyphicon-comment" id="item"></span>
-				<span class="pull-right glyphicon glyphicon-thumbs-up" id="item"></span>
+				<div class="col-sm-6">
+					<div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+				</div>
+				<div class="col-sm-6">
+					<span class="pull-right mdi mdi-comment" id="item"></span>
+					<span class="pull-right mdi mdi-thumb-up" id="item"></span>
+				</div>
 			</div>
 		</div>
 	</div>
+	{% empty %}
+	<div class="alert alert-info spacer">There are currently no posts</div>
+	
 	{% endfor %}
+	</div>
+
 </div>
 {% endblock content %}

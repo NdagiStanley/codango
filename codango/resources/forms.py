@@ -10,7 +10,7 @@ class ResourceForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ResourceForm, self).__init__(*args, **kwargs)
-        self.fields['text'].required = False
+        self.fields['text'].required = True
         self.fields['resource_file'].required = False
         self.fields['language_tags'].required = False
         self.fields['snippet_text'].required = False

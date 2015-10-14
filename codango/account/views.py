@@ -95,16 +95,20 @@ class HomeView(LoginRequiredMixin, TemplateView):
         resource = form.save(commit=False)
         resource.author = self.request.user
         resource.save()
-        return redirect(reverse('home'))
+        return "success"
 
 
-class CommunityView(HomeView):
+class AjaxCommunityView(HomeView):
+    template_name = 'account/community.html'
 
     def get_context_data(self, **kwargs):
-        context = super(CommunityView, self).get_context_data(**kwargs)
-        community = kwargs['community']
-        resource_list = reversed(
-            Resource.objects.filter(language_tags=community))
+        context = super(AjaxCommunityView, self).get_context_data(**kwargs)
+        community = kwargs['community'].upper()
+        if community == 'ALL':
+            resource_list = reversed(Resource.objects.all())
+        else:
+            resource_list = reversed(
+                Resource.objects.filter(language_tags=community))
         context = {'resource_list': resource_list}
         return context
 

@@ -19,7 +19,7 @@ class Resource(models.Model):
     )
 
     author = models.ForeignKey(auth.models.User)
-    text = models.TextField(null=True, blank=True)
+    text = models.TextField(null=True, blank=False)
     language_tags = models.CharField(
         max_length=30, choices=LANGUAGE_TAGS, default='Untagged')
     resource_file = CloudinaryField('resource_file', null=True, blank=True)

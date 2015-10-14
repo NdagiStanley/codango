@@ -31,8 +31,66 @@ textarea {
 	text-decoration: none;
 }
 
+.resource-selector button .mdi {
+	margin-right: 5px;
+}
+
 .feeds {
 	margin-top: 50px;
+}
+
+.feed {
+	position: relative;
+	margin-top: 50px;
+	min-height: 64px;
+}
+
+.feed:last-child {
+	margin-bottom: 200px;
+}
+
+.feed .profile-img {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 64px;
+	height: 64px;
+	background-color: #ccc;
+	border-radius: 4px;
+}
+
+.feed-content {
+	padding-left: 84px;
+}
+
+.feed-content .poster-details {
+	margin: 0;
+}
+
+.feed-content .poster-details a {
+	font-weight: 700;
+}
+
+.feed-content .poster-details small {
+	color: #999;
+}
+
+.feed-content h1 {
+	font-size: 2.3em;
+	font-weight: 300;
+	line-height: 1.3em;
+	margin-top: 10px;
+	margin-bottom: 15px;
+}
+
+.codango-badge {
+	padding: 5px 12px;
+	font-size: 0.9em;
+	font-weight: 700;
+	display: inline-block;
+	background: #006699;
+	border-radius: 25px;
+	color: #fff;
 }
 
 #item {
@@ -52,4 +110,7 @@ textarea {
 	#more {
 		margin-left: 30%;
 	}
+}
+.spacer {
+	margin-top: 2.0em;
 }
