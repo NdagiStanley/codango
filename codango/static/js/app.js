@@ -72,7 +72,6 @@ $(document).ready(function() {
         }
     });
     $("#sidebar-mobile-link i").click(function() {
-        // e.preventDefault();
         if ($(this).hasClass("glyphicon glyphicon-chevron-right")) {
             $("#sidebar-mobile-link").hide()
             $("#sidebar-mobile").animate({
