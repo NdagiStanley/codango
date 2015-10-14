@@ -13,8 +13,8 @@
 
 {% block sidebar %}
 <h3>Communities</h3>
-<div class="list-group">
-	<a href="/home" class="list-group-item">All Feeds</a>
+<div class="list-group" id="community">
+	<a href="/community/all" class="list-group-item">All Feeds</a>
     <a href="/community/python" class="list-group-item">Python</a>
     <a href="/community/ruby" class="list-group-item">Ruby</a>
     <a href="/community/js" class="list-group-item">JS</a>
@@ -25,10 +25,10 @@
         </a>
     </div>
     <div class="collapse" id="sidebar-collapse">
-      <a href="/community/JAVA" class="list-group-item">Java</a>
+      <a href="/community/Java" class="list-group-item">Java</a>
       <a href="/community/C" class="list-group-item">C</a>
-      <a href="/community/ANDROID" class="list-group-item">Android</a>
-      <a href="/community/IOS" class="list-group-item">IOS</a>
+      <a href="/community/Android" class="list-group-item">Android</a>
+      <a href="/community/ios" class="list-group-item">IOS</a>
     </div>
 </div>
 {% endblock sidebar %}
@@ -81,16 +81,35 @@
 			</form>
 		</div>
 	</div>
-
+<div id="community-content">
 	{% for resource in resource_list %}
 	<div class="feed">
-		<div class="profile-img"></div>
+		<div class="profile-img">
+			{% if profile.image %}
+				 {% cloudinary profile.image width=70 height=70 crop="fill" %}
+			{% else %}
+				{% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+			{% endif %}
+		</div>
 		<div class="feed-content">
 			<p class="poster-details">
 				<a href="">{{ resource.author }}</a> - 
-				<small>6 days ago</small>
+				<small>{{ resource.date_added | timesince }} ago</small>
 			</p>
 			<h1>{{ resource.text }}</h1>
+
+			{% if resource.snippet_text %}
+			<p>
+				<pre>{{ resource.snippet_text }}</pre>
+			</p>
+			{% endif %}
+
+			{% if resource.resource_file %}
+			<p>
+			Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+			</p>
+			{% endif %}
+
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="codango-badge">{{ resource.get_language_tags_display }}</div>
@@ -104,44 +123,9 @@
 	</div>
 	{% empty %}
 	<div class="alert alert-info spacer">There are currently no posts</div>
-	<!-- <div class="row feeds">
-		<div class="col-md-1 col-sm-1">
-			<img class="img-square img-responsive" src="/static/images/sample.png"/>
-			{% if profile.image %}
-				 {% cloudinary profile.image width=100 height=150 crop="fill" %}
-			{% else %}
-				{% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
-			{% endif %}
-			<h6>{{ resource.author }}</h6>
-		</div>
-		<div class="col-md-11 col-sm-11">
-			<div class="row">
-				<p class="pull-right" id="item"><em>{{ resource.date_added }}</em></p>
-			</div>
-			<div class="row">
-				<p>
-					{% if resource.text %}
-						<p>
-						{{ resource.text }}<br>
-						</p>
-					{% endif %}
-
-					{% if resource.resource_file %}
-						<p>
-						Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
-						</p>
-					{% endif %}
-					
-					{% if resource.snippet_text %}
-						<p>
-						Snippet: <pre>{{ resource.snippet_text }}</pre>
-						</p>
-					{% endif %}
-				</p>
-			</div>
-		</div>
-	</div> -->
+	
 	{% endfor %}
+	</div>
 
 </div>
 {% endblock content %}

@@ -47,10 +47,9 @@ The following are the installed requirements for codango
 5. Run `coverage run manage.py test` to run coverage for codango. 
 
 ## authors
-[Chidiebere Nnadi](https://github.com/andela-cnnadi)
-[Olufunmilade Oshodi](https://github.com/andela-ooshodi)
-[Issa Jubril](https://github.com/andela-ijubril)
-[Inioluwa Fageyinbo](https://github.com/andela-ifageyinbo)
+###### [Olufunmilade Oshodi](https://github.com/andela-ooshodi)
+###### [Issa Jubril](https://github.com/andela-ijubril)
+###### [Inioluwa Fageyinbo](https://github.com/andela-ifageyinbo)
 
 ## copyright
 Andela © 2015 CODANGO
