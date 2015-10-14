@@ -234,7 +234,7 @@ class ResetPassword(View):
 
 class UserProfileDetailView(TemplateView):
     model = UserProfile
-    template_name = 'account/profileediting.html'
+    template_name = 'account/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
@@ -247,6 +247,7 @@ class UserProfileDetailView(TemplateView):
                 return Http404("User does not exist")
 
         context['profile'] = user.profile
+        context['resources'] = user.resource_set.all()
         return context
 
 
