@@ -22,6 +22,17 @@ class IndexView(TemplateView):
     initial = {'key': 'value'}
     template_name = 'account/index.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            messages.add_message(
+                request, messages.SUCCESS, 'Welcome back!')
+            return redirect(
+                '/home',
+                context_instance=RequestContext(request)
+            )
+            # return redirect('/home')
+        return super(IndexView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
         context['loginform'] = LoginForm()
