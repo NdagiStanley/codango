@@ -83,7 +83,7 @@
 		</div>
 		<div class="feed-content">
 			<p class="poster-details">
-				<a href="">{{ resource.author }}</a> - 
+				<a href="/user/{{request.user.username}}">{{ resource.author }}</a> -
 				<small>{{ resource.date_added | timesince }} ago</small>
 			</p>
 			<h1>{{ resource.text }}</h1>
