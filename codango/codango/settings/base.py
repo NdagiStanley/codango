@@ -55,7 +55,6 @@ INSTALLED_APPS = (
     'bootstrapform',
     'cloudinary',
     'djangobower',
-    'allaccess'
 
 )
 
@@ -91,7 +90,6 @@ TEMPLATES = [
 
 AUTHENTICATION_BACKEND = (
     'django.contrib.auth.backends.ModelBackend',
-    'allaccess.backends.AuthorizedServiceBackend',
 )
 
 
