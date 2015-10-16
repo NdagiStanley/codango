@@ -54,7 +54,8 @@ INSTALLED_APPS = (
     'resources',
     'bootstrapform',
     'cloudinary',
-    'djangobower'
+    'djangobower',
+    'allaccess'
 
 )
 

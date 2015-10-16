@@ -43,6 +43,17 @@ class LoginView(IndexView):
     form_class = LoginForm
 
     def post(self, request, *args, **kwargs):
+
+        if self.request.is_ajax():
+            try:
+                userprofile = UserProfile.objects.get(fb_id=request.POST['id'])
+                user = userprofile.get_user()
+                user.backend = 'django.contrib.auth.backends.ModelBackend'
+                login(request, user)
+                return HttpResponse("success", content_type='text/plain')
+            except UserProfile.DoesNotExist:
+                return HttpResponse("register", content_type='text/plain')
+
         form = self.form_class(request.POST)
         if form.is_valid():
             username = request.POST['username']
@@ -84,6 +95,14 @@ class RegisterView(IndexView):
             login(request, new_user)
             messages.add_message(
                 request, messages.SUCCESS, 'Registered Successfully!')
+
+            if 'fb_id' not in request.POST:
+                pass
+            else:
+                new_profile = new_user.profile
+                new_profile.fb_id = request.POST['fb_id']
+                new_profile.save()
+
             return redirect(
                 '/user/' + self.request.user.username + '/edit',
                 context_instance=RequestContext(request)

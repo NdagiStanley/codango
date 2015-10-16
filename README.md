@@ -9,7 +9,7 @@ Codango is a resource Sharing Social Network for Coders
 5. Run `python manage.py runserver` to run the app.
 
 
-## codango apps
+## Codango apps
 1. **account**
 2. **resources**
 

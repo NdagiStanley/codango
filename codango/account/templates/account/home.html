@@ -4,9 +4,7 @@
 {% load staticfiles %}
 {% cloudinary_includes %}
 
-{% block head %} 
-<link href="/static/css/home.css" type="text/css" rel="stylesheet"/>
-{% endblock head %}
+
 
 {% block title %}Home{% endblock title %}
 
@@ -121,3 +119,14 @@
 
 </div>
 {% endblock content %}
+{% block scripts %}
+<script>
+var snippet = $('#snippet')
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/python");
+        editor.getSession().on('change', function() {
+            snippet.val(editor.getSession().getValue());
+        });
+        </script>
+ {% endblock scripts %}

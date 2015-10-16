@@ -1,13 +1,18 @@
+$.getScript('//connect.facebook.net/en_US/sdk.js', function() {
+    FB.init({
+        appId: '1472709103038197',
+        version: 'v2.5' // or v2.0, v2.1, v2.0
+    });
+    //FB.getLoginStatus(updateStatusCallback);
+});
+$.ajaxSetup({
+    headers: {
+        'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
+    },
+});
 $(document).ready(function() {
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
-    var snippet = $('#snippet')
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/twilight");
-    editor.session.setMode("ace/mode/python");
-    editor.getSession().on('change', function() {
-        snippet.val(editor.getSession().getValue());
-    });
     $('#id-snippet-button').click(function() {
         $('#id-snippet-body').toggle();
     });
@@ -43,7 +48,7 @@ $(document).ready(function() {
             data: fd,
             success: function(data) {
                 if (data == "success") {
-                    _this.append("<p class='text-success successmsg'>Successfully Created Your Resource!</p>");
+                    _this.append("<div class='alert-success successmsg'>Successfully Created Your Resource!</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000)
@@ -79,4 +84,40 @@ $(document).ready(function() {
             });
         }
     });
+    $("#facebook-login").click(function(e) {
+        e.preventDefault();
+        FB.login(function(response) {
+            if (response.authResponse) {
+                console.log('Welcome!  Fetching your information.... ');
+                FB.api('/me?fields=email,first_name,last_name,picture', function(user) {
+                    console.log(user);
+                    var ajaxinfo = {
+                        url: "/login",
+                        type: "POST",
+                        data: user,
+                        success: function(data) {
+                            console.log(data);
+                            if (data == "success") {
+                                location.reload()
+                            }
+                            if (data == "register") {
+                                $("#tab_link").trigger("click");
+                                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+                                $("#id_email").val(user.email);
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error.responseText);
+                        }
+                    }
+                    $.ajax(ajaxinfo);
+                });
+            } else {
+                console.log("Not logged in");
+            }
+        }, {
+            scope: 'email,user_likes'
+        })
+    });
+
 });
