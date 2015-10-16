@@ -4,177 +4,213 @@
 {% block title %} {{ profile.user.username }}'s Profile {% endblock title %}
 
 {% block sidebar %}
-{% include "account/menu.html" %}
+    {% include "account/menu.html" %}
 {% endblock sidebar %}
 
 {% block mobile-sidebar %}
-{% include "account/menu.html" %}
+    {% include "account/menu.html" %}
 {% endblock mobile-sidebar %}
 
 {% block content %}
-<div class="container-fluid">	
-	<div class="row profile">
-		{% if messages %}
-			{% for message in messages %}
-				<div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-					{{ message }}
-				</div>
-			{% endfor %}	
-		{% endif %}
+    <div class="container-fluid">
+        <div class="row profile">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                    	<div class="col-sm-12">
-                    		{% if profile.image %}
-                    			{% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
-                    		{% else %}
-                    			{% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
-                    		{% endif %}
-                    	</div>
-                    </div>
-                    <div class="row">
-                    	<div class="col-sm-12">
-                    		<h2>@{{ profile.user.username }}</h2>
-                    		<hr/>
-                            <p><strong>Work: </strong> {{ profile.position }} </p>
-                            <p><strong>Position: </strong> {{ profile.position }} </p>
-                            <hr/>
-                    	</div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-4">
-                        	<h2 class="stats text-center">{{profile.followers}}</h2>
-                            <p class="text-center"><small>Followers</small></p>
-                        </div>
-                        <div class="col-sm-4">
-                        	<h2 class="stats text-center">{{profile.following}}</h2>
-                            <p class="text-center"><small>Following</small></p>
-                        </div>
-                        <div class="col-sm-4">
-                        	<h2 class="stats text-center">{{resources.count}}</h2>
-                            <p class="text-center"><small>Snippet</small></p>
-                        </div>
-                    </div>
-                </div>
-                <!--/panel-body-->
-            </div>
-            <!--/panel-->
-        </div>
-        <div class="col-sm-8">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h3 class="activity-feed">Activity Feed</h3>
-                </div>
-                <div class="col-sm-6">
-                    <div class="btn-group pull-right" role="group" aria-label="...">
-                        <button type="button" class="btn btn-default">Following</button>
-                        <button type="button" class="btn btn-default">All</button>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="btn-group resource-selector" role="group" aria-label="...">
-                                    <button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
-                                    <button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>
-                                    <ul class="dropdown-menu dropdown-menu-right list-inline">
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="PYTHON">Python</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="ANDROID">Android</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="RUBY">Ruby</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="JAVA">Java</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="PHP">PHP</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="IOS">IOS</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="JS">JS</label>
-                                        </li>
-                                        <li>
-                                            <label class="radio-inline">
-                                                <input type="radio" name="language_tags" value="C">C</label>
-                                        </li>
-                                    </ul>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        {% if profile.image %}
+                                            {% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
+                                        {% else %}
+                                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h2>@{{ profile.user.username }}</h2>
+                                        <hr/>
+                                        <p><strong>Work: </strong> {{ profile.position }} </p>
+
+                                        <p><strong>Position: </strong> {{ profile.position }} </p>
+                                        <hr/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ profile.followers }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Followers</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ profile.following }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Following</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ resources.count }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Snippet</small>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <button type="submit" class="btn btn-primary pull-right">Share</a>
-                                </button>
-                            </div>
+                            <!--/panel-body-->
                         </div>
-                        <input id="id-pdf-file" name="resource_file" class="form-control hide" type="file"=/>
-                        <div id="id-snippet-body"><pre id='editor' name="snippet_text"></pre></div>
-                        <textarea hidden id="snippet" name="snippet_text"></textarea>
-                    </form>
-                </div>
-            </div>
-            <div id="community-content">
-                {% for resource in resources %}
-                <div class="feed">
-                    <div class="profile-img">
-                        {% if profile.image %} {% cloudinary profile.image width=70 height=70 crop="fill" %} {% else %} {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
+                        <!--/panel-->
                     </div>
-                    <div class="feed-content">
-                        <p class="poster-details">
-                            <a href="">{{ resource.author }}</a> -
-                            <small>{{ resource.date_added | timesince }} ago</small>
-                        </p>
-                        <h1>{{ resource.text }}</h1> {% if resource.snippet_text %}
-                        <p>
-                            <pre>{{ resource.snippet_text }}</pre>
-                        </p>
-                        {% endif %} {% if resource.resource_file %}
-                        <p>
-                            Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a>
-                            <br>
-                        </p>
-                        {% endif %}
+                    <div class="col-sm-8">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+                                <h3 class="activity-feed">Activity Feed</h3>
                             </div>
                             <div class="col-sm-6">
-                                <span class="pull-right mdi mdi-comment" id="item"></span>
-                                <span class="pull-right mdi mdi-thumb-up" id="item"></span>
+                                <div class="btn-group pull-right" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-default">Following</button>
+                                    <button type="button" class="btn btn-default">All</button>
+                                </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <form id="id_share_form" role="form" action="home" method="post"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                <textarea id="id-plain-text" name="text" class="form-control" rows="5"
+                                          placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
+
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div class="btn-group resource-selector" role="group" aria-label="...">
+                                                <button type="button" id="id-pdf-button" class="btn btn-default"><span
+                                                        class="mdi mdi-file"></span> Attach File
+                                                </button>
+                                                <button type="button" id="id-snippet-button"
+                                                        class="btn btn-default"><span
+                                                        class="mdi mdi-code-tags"></span> Attach Code Snippet
+                                                </button>
+                                                <button type="button" class="btn btn-default dropdown-toggle"
+                                                        data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag
+                                                    Post
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right list-inline">
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="PYTHON">Python</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags" value="ANDROID">Android</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="RUBY">Ruby</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="JAVA">Java</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="PHP">PHP</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="IOS">IOS</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags"
+                                                                   value="JS">JS</label>
+                                                    </li>
+                                                    <li>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="language_tags" value="C">C</label>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-primary pull-right">Share</a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <input id="id-pdf-file" name="resource_file" class="form-control hide" type="file"=
+                                    />
+                                    <div id="id-snippet-body">
+                                        <pre id='editor' name="snippet_text"></pre>
+                                    </div>
+                                    <textarea hidden id="snippet" name="snippet_text"></textarea>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="community-content">
+                            {% for resource in resources %}
+                                <div class="feed">
+                                    <div class="profile-img">
+                                        {% if profile.image %}
+                                            {% cloudinary profile.image width=70 height=70 crop="fill" %} {% else %}
+                                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
+                                    </div>
+                                    <div class="feed-content">
+                                        <p class="poster-details">
+                                            <a href="">{{ resource.author }}</a> -
+                                            <small>{{ resource.date_added | timesince }} ago</small>
+                                        </p>
+                                        <h1>{{ resource.text }}</h1> {% if resource.snippet_text %}
+                                        <p>
+                                        <pre>{{ resource.snippet_text }}</pre>
+                                        </p>
+                                    {% endif %} {% if resource.resource_file %}
+                                        <p>
+                                            Attached file: <a
+                                                href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a>
+                                            <br>
+                                        </p>
+                                    {% endif %}
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <span class="pull-right mdi mdi-comment" id="item"></span>
+                                                <span class="pull-right mdi mdi-thumb-up" id="item"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="alert alert-info spacer">There are currently no posts</div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
-                {% empty %}
-                <div class="alert alert-info spacer">There are currently no posts</div>
-                {% endfor %}
             </div>
         </div>
     </div>
-</div>
 {% endblock content %}
+

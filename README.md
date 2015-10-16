@@ -9,8 +9,19 @@ Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads, als
 1. Clone the repository into a Virtual Environment. Run `virtualenv <virtualenvname>` to create the virtual environment.
 2. Install all the necessary requirements by running `pip install -r requirements.txt` within the virtual environment.
 3. Configure your database setting in _codango/settings.py_.
-4. Run `python manage.py migrate` to create the user tables and everything required to run the application.
-5. Run `python manage.py runserver` to run the app.
+4. Create a .env.yml to hold all your configuration (sample shown below)
+5. Run `python manage.py migrate` to create the user tables and everything required to run the application.
+6. Run `python manage.py runserver` to run the app.
+
+## Sample .env.yml format
+```
+sample_name:
+  "sample_name"
+sample_api_key:
+  "sample_secret_key"
+sample_api_secret:
+  "sample_secret_value"
+```
 
 ## Requirements
 The following are the installed requirements for codango

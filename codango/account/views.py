@@ -129,7 +129,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         resource_list = reversed(Resource.objects.all())
-        context = {'resource_list': resource_list}
+        user = self.request.user
+        context = {'resource_list': resource_list, 'profile': user.profile}
+
         return context
 
     def post(self, request, *args, **kwargs):

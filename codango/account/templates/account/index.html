@@ -33,7 +33,7 @@
 				<a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
 				</div>
 				<div class="col-sm-6 g-signin2" data-onsuccess="onSignIn">
-				<a data-onsuccess="onSignIn" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
+				<a onclick="login()" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
 				</div>
 				</div>
 				{% csrf_token %}
@@ -61,13 +61,93 @@
 </div>
 
 {% endblock content %}
-<script>
-	 function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
-}
-</script>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+{% block scripts %}
+  <script>
+        var OAUTHURL    =   'https://accounts.google.com/o/oauth2/auth?';
+        var VALIDURL    =   'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=';
+        var SCOPE       =   'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email';
+        var CLIENTID    =   '58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com';
+        var REDIRECT    =   'http://localhost:8000'
+        var LOGOUT      =   'http://accounts.google.com/Logout';
+        var TYPE        =   'token';
+        var _url        =   OAUTHURL + 'scope=' + SCOPE + '&client_id=' + CLIENTID + '&redirect_uri=' + REDIRECT + '&response_type=' + TYPE;
+        var acToken;
+        var tokenType;
+        var expiresIn;
+        var user;
+        var loggedIn    =   false;
+
+        function login() {
+            var win         =   window.open(_url, "windowname1", 'width=800, height=600');
+            var pollTimer   =   window.setInterval(function() {
+                try {
+                    console.log(win.document.URL);
+                    if (win.document.URL.indexOf(REDIRECT) != -1) {
+                        window.clearInterval(pollTimer);
+                        var url =   win.document.URL;
+                        acToken =   gup(url, 'access_token');
+                        tokenType = gup(url, 'token_type');
+                        expiresIn = gup(url, 'expires_in');
+                        win.close();
+                        validateToken(acToken);
+                    }
+                } catch(e) {
+                }
+            }, 500);
+        }
+        function validateToken(token) {
+            $.ajax({
+                url: VALIDURL + token,
+                data: null,
+                success: function(responseText){
+                    getUserInfo();
+                    loggedIn = true;
+                    $('#loginText').hide();
+                    $('#logoutText').show();
+                },
+                dataType: "jsonp"
+            });
+        }
+        function getUserInfo() {
+            $.ajax({
+                url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + acToken,
+                data: null,
+                success: socialLogin,
+                dataType: "jsonp"
+            });
+        }
+    function socialLogin(user) {
+                    var ajaxinfo = {
+                        url: "/login",
+                        type: "POST",
+                        data: user,
+                        success: function(data) {
+                            console.log(data);
+                            if (data == "success") {
+                                location.reload()
+                            }
+                            if (data == "register") {
+                                $("#tab_link").trigger("click");
+                                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+                                $("#id_email").val(user.email);
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error.responseText);
+                        }
+                    }
+                    $.ajax(ajaxinfo);
+                }
+        //credits: http://www.netlobo.com/url_query_string_javascript.html
+        function gup(url, name) {
+            name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+            var regexS = "[\\#&]"+name+"=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( url );
+            if( results == null )
+                return "";
+            else
+                return results[1];
+        }
+    </script>
+ {% endblock scripts %}
