@@ -16,4 +16,4 @@ deployment:
       - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
       - heroku run python codango/manage.py makemigrations --app codango-staging
       - heroku run python codango/manage.py migrate --app codango-staging
-      - heroku run node codango/bower install
+      - heroku run python codango/manage.py bower install --app codango-staging
