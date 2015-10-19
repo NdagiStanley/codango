@@ -6,7 +6,7 @@ machine:
 dependencies:
   pre:
     - npm install -g bower
-    - bower install
+    - codango/bower install
 test:
   override:
     - python codango/manage.py test codango --settings=codango.settings.test
