@@ -10,6 +10,10 @@ dependencies:
     - npm install bower
 test:
   override:
+    - python codango/manage.py bower install --settings=codango.settings.test
+    - python codango/manage.py collectstatic --noinput --settings=codango.settings.test
+    - python codango/manage.py makemigrations --settings=codango.settings
+    - python codango/manage.py migrate --settings=codango.settings
     - python codango/manage.py test codango --settings=codango.settings.test
 deployment:
   staging:
