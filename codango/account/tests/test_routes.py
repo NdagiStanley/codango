@@ -107,3 +107,27 @@ class PasswordResetTestCase(TestCase):
         response = self.client.post(
             '/recovery/', {"email": "fagemaki.iniruto@gmail.com"})
         self.assertNotIn('email_status', response.context)
+
+
+class ProfileViewTestCase(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='lade',
+            password='password'
+        )
+        self.user.set_password('password')
+        self.user.save()
+        self.login = self.client.login(
+            username='lade', password='password')
+
+    def test_can_reach_profile_page(self):
+        response = self.client.get('/user/lade')
+        self.assertEqual(response.status_code, 200)
+
+    def test_can_reach_profile_edit_page(self):
+        response = self.client.post('/user/lade/edit',
+                                    {'position': 'Software Developer',
+                                     'place_of_work': 'Andela'})
+        self.assertEqual(response.status_code, 302)

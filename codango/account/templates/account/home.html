@@ -75,15 +75,15 @@
 	{% for resource in resource_list %}
 	<div class="feed">
 		<div class="profile-img">
-			{% if profile.image %}
-				 {% cloudinary profile.image width=70 height=70 crop="fill" %}
+			{% if resource.author.profile.image %}
+				 {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
 			{% else %}
 				{% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
 			{% endif %}
 		</div>
 		<div class="feed-content">
 			<p class="poster-details">
-				<a href="/user/{{request.user.username}}">{{ resource.author }}</a> -
+				<a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
 				<small>{{ resource.date_added | timesince }} ago</small>
 			</p>
 			<h1>{{ resource.text }}</h1>
