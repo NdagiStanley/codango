@@ -5,6 +5,8 @@ machine:
     DJANGO_SETTINGS_MODULE: codango.settings.test
 dependencies:
   pre:
+    - pip install --upgrade pip
+    - pip install --upgrade virtualenv
     - npm install -g bower
 test:
   override:
