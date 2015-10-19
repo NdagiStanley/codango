@@ -6,7 +6,6 @@ machine:
 dependencies:
   pre:
     - npm install -g bower
-    - codango/bower install
 test:
   override:
     - python codango/manage.py test codango --settings=codango.settings.test
@@ -17,3 +16,4 @@ deployment:
       - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
       - heroku run python codango/manage.py makemigrations --app codango-staging
       - heroku run python codango/manage.py migrate --app codango-staging
+      - heroku run node codango/bower install
