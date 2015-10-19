@@ -93,7 +93,6 @@ AUTHENTICATION_BACKEND = (
 )
 
 
-
 WSGI_APPLICATION = 'codango.wsgi.application'
 
 # Internationalization
@@ -131,8 +130,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 cloudinary.config(
-  cloud_name=os.getenv('cloud_name'),
-  api_key=os.getenv('api_key'),
-  api_secret=os.getenv('api_secret')
+    cloud_name=os.getenv('cloud_name'),
+    api_key=os.getenv('api_key'),
+    api_secret=os.getenv('api_secret')
 )
-

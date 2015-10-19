@@ -18,6 +18,8 @@
   ],
   "dependencies": {
     "moment": "~2.10.6",
-    "mdi": "~1.2.65"
+    "mdi": "~1.2.65",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5"
   }
 }

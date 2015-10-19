@@ -4,8 +4,6 @@
 {% load staticfiles %}
 {% cloudinary_includes %}
 
-
-
 {% block title %}Home{% endblock title %}
 
 {% block sidebar %}
@@ -121,12 +119,12 @@
 {% endblock content %}
 {% block scripts %}
 <script>
-var snippet = $('#snippet')
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/twilight");
-        editor.session.setMode("ace/mode/python");
-        editor.getSession().on('change', function() {
-            snippet.val(editor.getSession().getValue());
+	var snippet = $('#snippet')
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+    editor.session.setMode("ace/mode/python");
+    editor.getSession().on('change', function() {
+        snippet.val(editor.getSession().getValue());
         });
-        </script>
+ </script>
  {% endblock scripts %}
