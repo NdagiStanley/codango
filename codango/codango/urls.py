@@ -22,7 +22,6 @@ import account.urls
 
 urlpatterns = [
     url(r'^', include(account.urls)),
-    url(r'^resources/', include(resources.urls)),
     url(r'^admin/', include(admin.site.urls)),
 
 ]
