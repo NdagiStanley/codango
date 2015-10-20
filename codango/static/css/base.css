@@ -46,3 +46,11 @@ body {
 	background-color: rgb(34, 34, 34);
 	clear: both;	
 }
+
+.social-login{
+	margin-top: 20px;
+}
+
+.social-login div{
+	padding: 10px;
+}

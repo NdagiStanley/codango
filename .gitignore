@@ -73,8 +73,7 @@ codango/media
 *.pdf
 
 
-# Migrations
-#codango/account/migrations/
+
 
 # Media
 codango/media/

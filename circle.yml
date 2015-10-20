@@ -3,6 +3,11 @@ machine:
     version: 2.7.5
   environment:
     DJANGO_SETTINGS_MODULE: codango.settings.test
+dependencies:
+  pre:
+    - pip install --upgrade pip
+    - pip install --upgrade virtualenv
+    - npm install -g bower
 test:
   override:
     - python codango/manage.py test codango --settings=codango.settings.test
@@ -13,3 +18,4 @@ deployment:
       - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
       - heroku run python codango/manage.py makemigrations --app codango-staging
       - heroku run python codango/manage.py migrate --app codango-staging
+      - heroku run python codango/manage.py bower install --app codango-staging

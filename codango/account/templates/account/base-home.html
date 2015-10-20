@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta name="google-signin-client_id" content="codango-1097.apps.googleusercontent.com">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300italic,300,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
 		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -10,7 +11,6 @@
 		{% block head %}{% endblock head %}
 		<title>{% block title %}Codango{% endblock title %}</title>
 	</head>
-
 	<body>
 		<!--header-->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,7 +35,7 @@
 								<li><a href="#">Settings</a></li>
 								<li><a href="/logout">LogOut</a></li>
 							</ul>
-						</li> 
+						</li>
 					</ul>
 				    <form class="navbar-form navbar-right" role="search">
 				        <div class="form-group">
@@ -46,7 +46,6 @@
 			    </div>
 		  	</div>
 		</nav>
-
 		<!--content-->
 		<div class="main row">
 			<div class="sidebar hidden-sm hidden-xs">
@@ -60,7 +59,6 @@
 				{% block content %}{% endblock content %}
 			</div>
 		</div>
-
 		<!--footer-->
 		<div id="footer" class="container-fluid">
 			<h4 class="pull-right"><small>&copy 2015 CODANGO</small></h4>
@@ -72,4 +70,3 @@
 		{% block scripts %}
 		{% endblock scripts %}
 	</body>
-</html>

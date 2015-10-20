@@ -54,7 +54,8 @@ INSTALLED_APPS = (
     'resources',
     'bootstrapform',
     'cloudinary',
-    'djangobower'
+    'djangobower',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -81,10 +82,17 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKEND = (
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
 
 WSGI_APPLICATION = 'codango.wsgi.application'
 
@@ -123,7 +131,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 cloudinary.config(
-  cloud_name = "codangofile",
-  api_key = "415627285142925",
-  api_secret = "Ikx_NfacoPUmQlft-k9nuRVtt3Q"
+  cloud_name=os.getenv('cloud_name'),
+  api_key=os.getenv('api_key'),
+  api_secret=os.getenv('api_secret')
 )
+

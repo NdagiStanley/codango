@@ -17,7 +17,7 @@
 	<!--tabbed-form-->
 	<div class="col-md-4">
 		<ul class="nav nav-tabs">
-			<li class="active"><a id="tab_link" data-toggle="tab" href="#login">Log In</a></li>
+			<li class="active"><a id="tab_link2" data-toggle="tab" href="#login">Log In</a></li>
 			<li><a id="tab_link" data-toggle="tab" href="#signup">Sign Up</a></li>
 		</ul>
 		<div class="tab-content">
@@ -28,6 +28,14 @@
 					{{ loginform|bootstrap }}
 					<button type="submit" class="btn btn-primary">Log in</button>
 				</form>
+					<div class="row social-login">
+				<div class="col-sm-6">
+				<a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
+				</div>
+				<div class="col-sm-6 g-signin2" data-onsuccess="onSignIn">
+				<a id="google-login" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
+				</div>
+				</div>
 				{% csrf_token %}
 				<p class="forgot-password-link">Forgot password. <a href="/recovery/">Reset</a></p>
 				{% if messages %}
@@ -40,7 +48,7 @@
 			</div>
 			<!--Sign Up form-->
 			<div id="signup" class="tab-pane fade">
-				<form role="form" action="/register" method="post">
+				<form role="form" action="/register" method="post" id="signup-form">
 					{% csrf_token %}
 					{{ registerform|bootstrap }}
 					<div class="form-group">

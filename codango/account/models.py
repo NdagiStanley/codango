@@ -23,12 +23,16 @@ class UserProfile(models.Model):
         pass
 
     user = models.OneToOneField(User)
+    fb_id = models.CharField(max_length=200, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
+
+    def get_user(self):
+        return User.objects.get(id=self.user_id)
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 

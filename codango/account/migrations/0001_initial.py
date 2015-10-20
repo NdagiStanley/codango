@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('fb_id', models.CharField(max_length=200, null=True)),
                 ('place_of_work', models.CharField(max_length=150, blank=True)),
                 ('position', models.CharField(max_length=100, blank=True)),
                 ('followers', models.IntegerField(default=0)),
