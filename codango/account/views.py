@@ -136,14 +136,9 @@ class AjaxCommunityView(HomeView):
         return context
 
 
-class ForgotPassword(View):
-
-    def get(self, request, *args, **kwargs):
-        context = {
-
-        }
-        context.update(csrf(request))
-        return render(request, 'account/forgot-password.html', context)
+class ForgotPasswordView(TemplateView):
+    form_class = ResetForm
+    template_name = 'account/forgot-password.html'
 
     def post(self, request, *args, **kwargs):
         try:
@@ -176,7 +171,7 @@ class ForgotPassword(View):
             return render(request, 'account/forgot-password.html')
 
 
-class ResetPassword(View):
+class ResetPasswordView(View):
 
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
