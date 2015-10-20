@@ -227,12 +227,16 @@ var mobileNav = {
     }
 }
 $(document).ready(function() {
-    facebookLogin.init();
-    googleLogin.init();
+    facebookLogin.init(
+        {fb_id: "1472691016373339"}
+    );
+    googleLogin.init({
+        REDIRECT: "http://codango-staging.herokuapp.com/"
+    });
     shareForm.init();
     ajaxContent.init();
     mobileNav.init();
-    //This code from ini this is at its simplest form if there is a need we would create a feature if the project requires it
+    
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
@@ -242,7 +246,7 @@ $(document).ready(function() {
         hidden.preventDefault();
         $('#id-pdf-file').toggleClass('show');
     });
-    //quick fix for the show more sidebar
+    
     $("#more a").click(function(e) {
         e.preventDefault();
         if ($("#sidebar-more").css("display") == "block") {
