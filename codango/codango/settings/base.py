@@ -20,6 +20,10 @@ BASE_DIR = os.path.dirname(
 
 BOWER_INSTALLED_APPS = (
     'mdi',
+    'moment',
+    'jquery',
+    'bootstrap',
+    'ace-builds',
 )
 
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static')
@@ -33,7 +37,7 @@ STATICFILES_FINDERS = (
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '43&&)c$kur=o%eym=im^zftcu9po6-e=5r8$jk#u4t+6q&t%c8'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
