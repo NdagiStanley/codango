@@ -16,12 +16,6 @@ def get_upload_file_name(instance, filename):
 
 class UserProfile(models.Model):
 
-    def get_short_name(self):
-        pass
-
-    def get_full_name(self):
-        pass
-
     user = models.OneToOneField(User)
     fb_id = models.CharField(max_length=200, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)

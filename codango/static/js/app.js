@@ -227,9 +227,7 @@ var mobileNav = {
     }
 }
 $(document).ready(function() {
-    facebookLogin.init(
-        {fb_id: "1472691016373339"}
-    );
+    facebookLogin.init();
     googleLogin.init();
     shareForm.init();
     ajaxContent.init();

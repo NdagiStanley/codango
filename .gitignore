@@ -5,7 +5,6 @@ __pycache__/
 # C extensions
 *.so
 
-
 # Distribution / packaging
 .Python
 env/
@@ -19,7 +18,7 @@ lib64/
 parts/
 sdist/
 var/
-codango/settings/development.py
+codango/codango/settings/development.py
 *.egg-info/
 .installed.cfg
 *.egg
@@ -66,14 +65,9 @@ venv/
 # Ide environment
 *.idea/
 
-
 # media files
 codango/media
 *.pdf
 
-
-
-
-# Media
-codango/media/
-
+# environment variables
+.env.yml

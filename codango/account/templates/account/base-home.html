@@ -67,6 +67,16 @@
 		<script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'lib/ace-builds/src-min-noconflict/ace.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+		<script>
+			var snippet = $('#snippet')
+		    var editor = ace.edit("editor");
+		    editor.setTheme("ace/theme/twilight");
+		    editor.session.setMode("ace/mode/python");
+		    editor.getSession().on('change', function() {
+		        snippet.val(editor.getSession().getValue());
+		        });
+		 </script>
 		{% block scripts %}
 		{% endblock scripts %}
 	</body>
+</html>
