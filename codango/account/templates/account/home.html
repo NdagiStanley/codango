@@ -4,8 +4,6 @@
 {% load staticfiles %}
 {% cloudinary_includes %}
 
-
-
 {% block title %}Home{% endblock title %}
 
 {% block sidebar %}
@@ -99,7 +97,7 @@
 			Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
 			</p>
 			{% endif %}
-
+			
 			<div class="row">
 				<div class="col-sm-6">
 					<div class="codango-badge">{{ resource.get_language_tags_display }}</div>
@@ -112,21 +110,9 @@
 		</div>
 	</div>
 	{% empty %}
-	<div class="alert alert-info spacer">There are currently no posts</div>
-	
+	<div class="alert alert-info spacer">There are currently no posts</div>	
 	{% endfor %}
 	</div>
-
 </div>
 {% endblock content %}
-{% block scripts %}
-<script>
-var snippet = $('#snippet')
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/twilight");
-        editor.session.setMode("ace/mode/python");
-        editor.getSession().on('change', function() {
-            snippet.val(editor.getSession().getValue());
-        });
-        </script>
- {% endblock scripts %}
+

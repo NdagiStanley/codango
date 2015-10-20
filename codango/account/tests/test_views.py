@@ -1,9 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.test import TestCase, Client
-from django.contrib.auth.models import User
-from account.models import UserProfile
 
 
 class IndexViewTest(StaticLiveServerTestCase):

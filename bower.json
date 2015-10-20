@@ -1,0 +1,26 @@
+{
+  "name": "codango",
+  "version": "1.0.0",
+  "homepage": "https://github.com/andela/codango",
+  "authors": [
+    "IniOluwa Fageyinbo <inioluwafageyinbo@gmail.com>"
+  ],
+  "description": "Social Network for Coders",
+  "main": "manage.py",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "~2.10.6",
+    "mdi": "~1.2.65",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5",
+    "ace-builds": "~1.2.0"
+  }
+}
