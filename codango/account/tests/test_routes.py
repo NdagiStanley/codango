@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
-from account.views import ForgotPassword, ResetPassword
+from account.views import ForgotPasswordView, ResetPasswordView
 
 
 class IndexViewTest(TestCase):
@@ -69,13 +69,13 @@ class ForgotResetTestCase(TestCase):
     def test_forgot_route_resolves_to_correct_view(self):
         response = self.client.get('/recovery/')
         self.assertEqual(
-            response.resolver_match.func.__name__, ForgotPassword.as_view().__name__)
+            response.resolver_match.func.__name__, ForgotPasswordView.as_view().__name__)
 
     def test_reset_route_resolves_to_correct_view(self):
         response = self.client.get(
             '/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
         self.assertEqual(
-            response.resolver_match.func.__name__, ResetPassword.as_view().__name__)
+            response.resolver_match.func.__name__, ResetPasswordView.as_view().__name__)
 
 
 class PasswordResetTestCase(TestCase):

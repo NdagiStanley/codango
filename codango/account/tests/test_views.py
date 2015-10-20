@@ -42,7 +42,7 @@ class IndexViewTest(StaticLiveServerTestCase):
 
 
 class PasswordResetTestCase(TestCase):
-    
+
     def setUp(self):
         # create a test client:
         self.client = Client()
@@ -67,5 +67,4 @@ class PasswordResetTestCase(TestCase):
     def test_recovery_email_not_sent_for_unregistered_user(self):
         response = self.client.post('/recovery/', {"email":"fagemaki.iniruto@gmail.com" })
         self.assertNotIn('email_status', response.context)
-
 
