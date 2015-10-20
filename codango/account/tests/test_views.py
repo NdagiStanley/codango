@@ -42,7 +42,6 @@ class IndexViewTest(StaticLiveServerTestCase):
 class UserProfileTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
-
     def setUp(self):
         self.browser = webdriver.PhantomJS()
         self.browser.set_window_size(1400, 1000)
