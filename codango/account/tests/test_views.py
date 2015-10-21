@@ -40,7 +40,6 @@ class IndexViewTest(StaticLiveServerTestCase):
 
 
 class UserProfileTest(StaticLiveServerTestCase):
-
     fixtures = ['users.json']
 
     def setUp(self):
