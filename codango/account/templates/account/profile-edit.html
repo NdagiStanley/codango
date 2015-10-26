@@ -7,89 +7,87 @@
 {% block title %}{{ profile.user.username }}{% endblock title %}
 
 {% block sidebar %}
-  <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        {% if profile.image %}
-                                            {% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
-                                        {% else %}
-                                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
-                                        {% endif %}
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h2>@{{ profile.user.username }}</h2>
-                                        {% if user.is_authenticated  and profile.user.username == user.username%}
-                                        <a class="btn btn-primary" href="/user/{{ profile.user.username }}/edit">Edit Profile</a>
-                                        {% endif %}
-                                        <hr/>
-                                        {% if profile.place_of_work %}
-                                        <p><strong>Work: </strong> {{ profile.place_of_work }} </p>
-                                        {% endif %}
-                                        {% if profile.position %}
-                                        <p><strong>Position: </strong> {{ profile.position }} </p>
-                                        {% endif %}
-                                        <hr/>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <h2 class="stats text-center">{{ profile.followers }}</h2>
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    {% if profile.image %}
+                        {% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
+                    {% else %}
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>@{{ profile.user.username }}</h2>
+                    {% if user.is_authenticated  and profile.user.username == user.username %}
+                        <a class="btn btn-primary" href="/user/{{ profile.user.username }}/edit">Edit Profile</a>
+                    {% endif %}
+                    <hr/>
+                    {% if profile.place_of_work %}
+                        <p><strong>Work: </strong> {{ profile.place_of_work }} </p>
+                    {% endif %}
+                    {% if profile.position %}
+                        <p><strong>Position: </strong> {{ profile.position }} </p>
+                    {% endif %}
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <h2 class="stats text-center">{{ profile.followers }}</h2>
 
-                                        <p class="text-center">
-                                            <small>Followers</small>
-                                        </p>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h2 class="stats text-center">{{ profile.following }}</h2>
+                    <p class="text-center">
+                        <small>Followers</small>
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <h2 class="stats text-center">{{ profile.following }}</h2>
 
-                                        <p class="text-center">
-                                            <small>Following</small>
-                                        </p>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <h2 class="stats text-center">{{ resources.count }}</h2>
+                    <p class="text-center">
+                        <small>Following</small>
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <h2 class="stats text-center">{{ resources.count }}</h2>
 
-                                        <p class="text-center">
-                                            <small>Snippet</small>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/panel-body-->
-                        </div>
+                    <p class="text-center">
+                        <small>Snippet</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--/panel-body-->
+    </div>
 {% endblock sidebar %}
 
 {% block mobile-sidebar %}
-{% include "account/menu.html" %}
+    {% include "account/menu.html" %}
 {% endblock mobile-sidebar %}
 
 {% block content %}
-<div class="container-fluid">
-	<div class="row profile">
-		{% if messages %}
-			{% for message in messages %}
-				<div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-					{{ message }}
-				</div>
-			{% endfor %}	
-		{% endif %}
-
-
-		<div class="col-md-offset-2 col-md-10">
-			<div class="profile-content">
-				<form role="form" action="/user/{{ user.username }}/edit" method="post"
-					  enctype="multipart/form-data">
-					{% csrf_token %}
-					{{ profileform|bootstrap }}
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>	
-</div>
+    <div class="container-fluid">
+        <div class="row profile">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="col-md-offset-2 col-md-10">
+                <div class="profile-content">
+                    <form role="form" action="/user/{{ user.username }}/edit" method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ profileform|bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}
