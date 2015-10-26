@@ -7,7 +7,59 @@
 {% block title %}{{ profile.user.username }}{% endblock title %}
 
 {% block sidebar %}
-{% include "account/menu.html" %}
+  <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        {% if profile.image %}
+                                            {% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
+                                        {% else %}
+                                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h2>@{{ profile.user.username }}</h2>
+                                        {% if user.is_authenticated  and profile.user.username == user.username%}
+                                        <a class="btn btn-primary" href="/user/{{ profile.user.username }}/edit">Edit Profile</a>
+                                        {% endif %}
+                                        <hr/>
+                                        {% if profile.place_of_work %}
+                                        <p><strong>Work: </strong> {{ profile.place_of_work }} </p>
+                                        {% endif %}
+                                        {% if profile.position %}
+                                        <p><strong>Position: </strong> {{ profile.position }} </p>
+                                        {% endif %}
+                                        <hr/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ profile.followers }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Followers</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ profile.following }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Following</small>
+                                        </p>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <h2 class="stats text-center">{{ resources.count }}</h2>
+
+                                        <p class="text-center">
+                                            <small>Snippet</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/panel-body-->
+                        </div>
 {% endblock sidebar %}
 
 {% block mobile-sidebar %}
@@ -24,53 +76,9 @@
 				</div>
 			{% endfor %}	
 		{% endif %}
-		<div class="col-md-3">
-			<div class="profile-sidebar">
-				<!-- SIDEBAR USERPIC -->
-				<div class="profile-userpic">
-					{% if profile.image %}
-						{% cloudinary profile.image width=100 height=150 crop=fit %}
-					{% else %}
-					{% endif %}
-				</div>
-				<div class="profile-userbuttons">
-				</div>
-				<!-- END SIDEBAR BUTTONS -->
-				<!-- SIDEBAR MENU -->
-				<div class="profile-usermenu">
-					<ul class="nav">
-						<li>
-							<a href="#">
-								<i class="glyphicon glyphicon-user"></i>
-								{{ profile.user.username }} </a>
-						</li>
-						<li class="active">
-							<a href="#">
-								<i class="glyphicon glyphicon-home"></i>
-								{{ profile.position }} @ {{ profile.place_of_work }} </a>
-						</li>
-						<li>
-							<a href="#">
-								<i class="glyphicon glyphicon-user"></i>
-								{{ profile.user.username }} </a>
-						</li>
-						<li>
-							<a href="#" target="_blank">
-								<i class="glyphicon glyphicon-ok"></i>
-								{{ profile.followers }} Followers </a>
-						</li>
-						<li>
-							<a href="#">
-								<i class="glyphicon glyphicon-flag"></i>
-								{{ profile.following }} Following</a>
-						</li>
-					</ul>
-				</div>
-				<!-- END MENU -->
-			</div>
-		</div>
 
-		<div class="col-md-9">
+
+		<div class="col-md-offset-2 col-md-10">
 			<div class="profile-content">
 				<form role="form" action="/user/{{ user.username }}/edit" method="post"
 					  enctype="multipart/form-data">

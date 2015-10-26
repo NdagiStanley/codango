@@ -280,6 +280,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
             pass
 
         context['profile'] = user.profile
+        context['resources'] = user.resource_set.all()
         context['profileform'] = self.form_class(initial={
             'place_of_work': self.request.user.profile.place_of_work,
             'position': self.request.user.profile.position

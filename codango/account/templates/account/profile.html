@@ -4,28 +4,7 @@
 {% block title %} {{ profile.user.username }}'s Profile {% endblock title %}
 
 {% block sidebar %}
-    {% include "account/menu.html" %}
-{% endblock sidebar %}
-
-{% block mobile-sidebar %}
-    {% include "account/menu.html" %}
-{% endblock mobile-sidebar %}
-
-{% block content %}
-    <div class="container-fluid">
-        <div class="row profile">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
+     <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-sm-12">
@@ -43,7 +22,7 @@
                                         <a class="btn btn-primary" href="/user/{{ profile.user.username }}/edit">Edit Profile</a>
                                         {% endif %}
                                         <hr/>
-                                        <p><strong>Work: </strong> {{ profile.position }} </p>
+                                        <p><strong>Work: </strong> {{ profile.place_of_work }} </p>
 
                                         <p><strong>Position: </strong> {{ profile.position }} </p>
                                         <hr/>
@@ -75,105 +54,61 @@
                             </div>
                             <!--/panel-body-->
                         </div>
-                        <!--/panel-->
+{% endblock sidebar %}
+
+{% block mobile-sidebar %}
+    {% include "account/menu.html" %}
+{% endblock mobile-sidebar %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row profile">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                        {{ message }}
                     </div>
-                    <div class="col-sm-8">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h3 class="activity-feed">Activity Feed</h3>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="btn-group pull-right" role="group" aria-label="...">
-                                    <button type="button" class="btn btn-default">Following</button>
-                                    <button type="button" class="btn btn-default">All</button>
-                                </div>
-                            </div>
-                        </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
                         <div class="row">
                             <div class="col-sm-12">
-                                <form id="id_share_form" role="form" action="home" method="post"
-                                      enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                <textarea id="id-plain-text" name="text" class="form-control" rows="5"
-                                          placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
-
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <div class="btn-group resource-selector" role="group" aria-label="...">
-                                                <button type="button" id="id-pdf-button" class="btn btn-default"><span
-                                                        class="mdi mdi-file"></span> Attach File
-                                                </button>
-                                                <button type="button" id="id-snippet-button"
-                                                        class="btn btn-default"><span
-                                                        class="mdi mdi-code-tags"></span> Attach Code Snippet
-                                                </button>
-                                                <button type="button" class="btn btn-default dropdown-toggle"
-                                                        data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag
-                                                    Post
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-menu-right list-inline">
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="PYTHON">Python</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags" value="ANDROID">Android</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="RUBY">Ruby</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="JAVA">Java</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="PHP">PHP</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="IOS">IOS</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags"
-                                                                   value="JS">JS</label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="radio-inline">
-                                                            <input type="radio" name="language_tags" value="C">C</label>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <button type="submit" class="btn btn-primary pull-right">Share</a>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <input id="id-pdf-file" name="resource_file" class="form-control hide" type="file"=
-                                    />
-                                    <div id="id-snippet-body">
-                                        <pre id='editor' name="snippet_text"></pre>
-                                    </div>
-                                    <textarea hidden id="snippet" name="snippet_text"></textarea>
-                                </form>
+                                <form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
+				<div class="row">
+					<div class="col-sm-8">
+					  	<button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
+					  	<button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
+					  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>
+						<ul class="dropdown-menu dropdown-menu-right list-inline">
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="RUBY">Ruby</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="JAVA">Java</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="PHP">PHP</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="IOS">IOS</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
+							<li><label class="radio-inline"><input type="radio" name="language_tags" value="C">C</label></li>
+						</ul>
+					</div>
+					<div class="col-sm-4">
+						<button type="submit" class="btn btn-primary pull-right">Share</a></button>
+					</div>
+				</div>
+				<input id="id-pdf-file" name="resource_file" class="form-control hide" type="file" =/>
+				<div id="id-snippet-body" ><pre id='editor' name="snippet_text"></pre></div>
+				<textarea hidden id="snippet" name="snippet_text" ></textarea>
+			</form>
                             </div>
                         </div>
                         <div id="community-content">
                             {% for resource in resources %}
-                                <div class="feed">
+                                <div class="feed profile-page-feed">
                                     <div class="profile-img">
                                         {% if profile.image %}
                                             {% cloudinary profile.image width=70 height=70 crop="fill" %} {% else %}
