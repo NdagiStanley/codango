@@ -1,4 +1,4 @@
-{% extends "account/base-home.html" %}
+{% extends "account/base.html" %}
 
 {% load cloudinary %}
 {% load staticfiles %}
@@ -24,7 +24,7 @@
 					{{ message }}
 				</div>
 			{% endfor %}	
-		{% endif %}
+		{% endif %}	
 	</div>
 	<div class="row">
 		<div class="col-sm-12">
@@ -35,25 +35,21 @@
 					<div class="col-sm-8">
 					  	<button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
 					  	<button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
-					  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>
-						<ul class="dropdown-menu dropdown-menu-right list-inline">
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="MARKUP">HTML/CSS</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="RUBY">Ruby</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="JAVA">Java</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="PHP">PHP</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="IOS">IOS</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
-							<li><label class="radio-inline"><input type="radio" name="language_tags" value="C">C</label></li>
-						</ul>
+					  	<div class="btn-group">
+						  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>						
+							<ul class="dropdown-menu list-inline tag-dropdown">
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="PYTHON">Python</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="JS">JS</label></li>
+								<li><label class="radio-inline"><input type="radio" name="language_tags" value="ANDROID">Android</label></li>	
+							</ul>
+						</div>						
 					</div>
 					<div class="col-sm-4">
 						<button type="submit" class="btn btn-primary pull-right">Share</a></button>
 					</div>
 				</div>
-				<input id="id-pdf-file" name="resource_file" class="form-control hide" type="file" =/>
-				<div id="id-snippet-body" ><pre id='editor' name="snippet_text"></pre></div>
+				<input id="id-pdf-file" name="resource_file" class="form-control hide well well-sm" type="file"/>
+				<div class="well" id="id-snippet-body" ><pre id="editor" name="snippet_text"></pre></div>
 				<textarea hidden id="snippet" name="snippet_text" ></textarea> 
 			</form>
 		</div>
