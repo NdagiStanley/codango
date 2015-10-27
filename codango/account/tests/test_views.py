@@ -1,16 +1,19 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.action_chains import ActionChains
+from django.contrib.staticfiles import finders, storage
+from django.utils.functional import empty
 
 
 class IndexViewTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.PhantomJs()
         self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
+        storage.staticfiles_storage._wrapped = empty
+        finders.get_finder.cache_clear()
 
     def tearDown(self):
         self.browser.quit()
@@ -44,9 +47,11 @@ class UserProfileTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        self.browser = webdriver.PhantomJS()
+        self.browser = webdriver.PhantomJs()
         self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
+        storage.staticfiles_storage._wrapped = empty
+        finders.get_finder.cache_clear()
 
     def tearDown(self):
         self.browser.quit()
@@ -72,15 +77,5 @@ class UserProfileTest(StaticLiveServerTestCase):
         # User profile
         self.browser.find_element_by_link_text('lade').click()
         self.browser.find_element_by_link_text('View Profile').click()
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('@lade', body.text)
-
-        # Edit profile
-        profilename = self.browser.find_element_by_id('profile-name')
-        editbutton = self.browser.find_element_by_id('edit-profile')
-        ActionChains(self.browser).move_to_element(profilename).click(editbutton).perform()
-        body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('Image', body.text)
-        self.browser.find_element_by_class_name('btn-primary').click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('@lade', body.text)

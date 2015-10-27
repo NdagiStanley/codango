@@ -286,7 +286,7 @@ textarea {
 }
 
 #profile-name:hover #edit-profile {
-	display: block;
+	display: inline-block;
 	transistion: all 0.3s ease;
 }
 
