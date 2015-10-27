@@ -70,7 +70,7 @@ body {
 	left: 0px;
 	height: 40px;
     font-size: 20px;
-	background-color: #337ab7;
+	background-color: #f26521;
 }
 
 #sidebar-mobile {
@@ -224,6 +224,10 @@ body {
 	border-radius: 4px;
 }
 
+.profile-page-feed {
+	margin-top: 20px;
+}
+
 .stats {
 	color: #006699;
 	font-weight: 300;
@@ -275,6 +279,25 @@ textarea {
 	height: 42px;
 }
 
+#edit-profile {
+	visibility: hidden;
+	color: #f26521;
+	font-size: 25px;
+}
+
+h2:hover #edit-profile {
+	visibility: visible;
+	transistion: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+	#edit-profile {
+		visibility: visible;
+	}
+	.col-sm-3.col-xs-12 .col-xs-8 h2.text-center, .col-sm-3.col-xs-12 .col-xs-8 p.text-center  {
+		text-align:  left;
+	}
+}
 /* end of content styling */
 
 /* index page styling */

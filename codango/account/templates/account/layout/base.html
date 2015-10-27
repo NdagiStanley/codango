@@ -48,16 +48,10 @@
         <div class="container">
             <div class="main row">
             {% block body %} <!-- for page body structure overide -->
-                <div class="col-sm-3 hidden-sm hidden-xs">
-                    <div class="sidebar content-block">
-                        {% block sidebar %}{% endblock sidebar %}
-                    </div>
-                </div>
-                <button type="button" class="visible-sm visible-xs" id="sidebar-mobile-link"> <i class="glyphicon glyphicon-chevron-right"></i></button>
-                <div class="visible-sm visible-xs" id="sidebar-mobile">
-                    {% block mobile-sidebar %}{% endblock mobile-sidebar %}
-                </div>
-                <div class="col-sm-9">
+                {% block mobile-sidebar %}{% endblock mobile-sidebar %}
+                {% block sidebar %}
+                {% endblock sidebar %}
+                <div class="col-sm-9 col-xs-12">
                     {% block content %}{% endblock content %}
                 </div>
             </div>
