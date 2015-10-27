@@ -42,7 +42,6 @@ class IndexViewTest(StaticLiveServerTestCase):
 class UserProfileTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
-
     def setUp(self):
         self.browser = webdriver.PhantomJS()
         self.browser.set_window_size(1400, 1000)
@@ -76,10 +75,9 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.assertIn('@lade', body.text)
 
         # Edit profile
-        self.browser.find_element_by_link_text('Edit Profile').click()
+        self.browser.execute_script("document.getElementById('edit-profile').click()")
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Image', body.text)
         self.browser.find_element_by_class_name('btn-primary').click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('@lade', body.text)
-
