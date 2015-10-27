@@ -128,9 +128,9 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        resource_list = reversed(Resource.objects.all())
+        resources = reversed(Resource.objects.all())
         user = self.request.user
-        context = {'resource_list': resource_list, 'profile': user.profile}
+        context = {'resources': resources, 'profile': user.profile, 'title': 'Activity Feed'}
 
         return context
 
@@ -149,11 +149,11 @@ class AjaxCommunityView(HomeView):
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
         community = kwargs['community'].upper()
         if community == 'ALL':
-            resource_list = reversed(Resource.objects.all())
+            resources = reversed(Resource.objects.all())
         else:
-            resource_list = reversed(
+            resources = reversed(
                 Resource.objects.filter(language_tags=community))
-        context = {'resource_list': resource_list}
+        context = {'resources': resources}
         return context
 
 
@@ -264,6 +264,7 @@ class UserProfileDetailView(TemplateView):
 
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
+        context['title'] = "My Feed"
         return context
 
 

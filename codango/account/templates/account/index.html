@@ -1,63 +1,84 @@
-{% extends "account/base.html" %}
+{% extends "account/layout/base.html" %}
+{% load staticfiles %}
 {% load bootstrap %}
 
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="{% static 'img/codango-logo.png' %}"/></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock navbar %}
 
-{% block content %}
+{% block body %}
 <!--page content-->
 <div class="row">
-	<!--About Section-->
-	<div class="col-md-8">
-		<div class="jumbotron">
-			<h1>Join Our Community</h1>
-			<h3 class="section-text">Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming </h3>
-			<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
-		</div>
-	</div>
+    <!--About Section-->
+    <div class="col-md-8">
+        <div class="jumbotron">
+            <h1>Join Our Community</h1>
+            <h3 class="section-text">Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming </h3>
+            <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        </div>
+    </div>
 
-	<!--tabbed-form-->
-	<div class="col-md-4">
-		<ul class="nav nav-tabs">
-			<li class="active"><a id="tab_link2" data-toggle="tab" href="#login">Log In</a></li>
-			<li><a id="tab_link" data-toggle="tab" href="#signup">Sign Up</a></li>
-		</ul>
-		<div class="tab-content">
-			<!--Log in form-->
-			<div id="login" class="tab-pane fade in active">
-				<form role="form" action="/login" method="post">
-					{% csrf_token %}
-					{{ loginform|bootstrap }}
-					<button type="submit" class="btn btn-primary">Log in</button>
-				</form>
-					<div class="row social-login">
-				<div class="col-sm-6">
-				<a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
-				</div>
-				<div class="col-sm-6 g-signin2" data-onsuccess="onSignIn">
-				<a id="google-login" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
-				</div>
-				</div>
-				{% csrf_token %}
-				<p class="forgot-password-link">Forgot password. <a href="/recovery/">Reset</a></p>
-				{% if messages %}
-					{% for message in messages %}
-						<div class="alert alert-danger" role="alert" id="flash-message">
-							{{ message }}
-						</div>
-					{% endfor %}	
-				{% endif %}
-			</div>
-			<!--Sign Up form-->
-			<div id="signup" class="tab-pane fade">
-				<form role="form" action="/register" method="post" id="signup-form">
-					{% csrf_token %}
-					{{ registerform|bootstrap }}
-					<div class="form-group">
-					  <button type="submit" class="btn btn-primary">Submit</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+    <!--tabbed-form-->
+    <div class="col-md-4">
+        <ul class="nav nav-tabs">
+            <li class="active"><a id="tab_link2" data-toggle="tab" href="#login">Log In</a></li>
+            <li><a id="tab_link" data-toggle="tab" href="#signup">Sign Up</a></li>
+        </ul>
+        <div class="tab-content">
+            <!--Log in form-->
+            <div id="login" class="tab-pane fade in active">
+                <form role="form" action="/login" method="post">
+                    {% csrf_token %}
+                    {{ loginform|bootstrap }}
+                    <button type="submit" class="btn btn-primary">Log in</button>
+                </form>
+                <div class="row social-login">
+                    <div class="col-sm-6 col-xs-6">
+                        <a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
+                    </div>
+                    <div class="col-sm-6 col-xs-6 g-signin2" data-onsuccess="onSignIn">
+                        <a id="google-login" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
+                    </div>
+                </div>
+                {% csrf_token %}
+                <p class="forgot-password-link">Forgot password. <a href="/recovery/">Reset</a></p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" role="alert" id="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}    
+                {% endif %}
+            </div>
+            <!--Sign Up form-->
+            <div id="signup" class="tab-pane fade">
+                <form role="form" action="/register" method="post" id="signup-form">
+                    {% csrf_token %}
+                    {{ registerform|bootstrap }}
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
-
-{% endblock content %}
+{% endblock body %}
