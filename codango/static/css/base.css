@@ -280,13 +280,13 @@ textarea {
 }
 
 #edit-profile {
-	visibility: hidden;
+	display: none;
 	color: #f26521;
 	font-size: 25px;
 }
 
-h2:hover #edit-profile {
-	visibility: visible;
+#profile-name:hover #edit-profile {
+	display: block;
 	transistion: all 0.3s ease;
 }
 

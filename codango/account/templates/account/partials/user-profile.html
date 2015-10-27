@@ -12,7 +12,7 @@
                     {% endif %}
                 </div>
                 <div class="col-sm-12 col-xs-8">
-                    <h2 class="text-center">@{{ profile.user.username }} 
+                    <h2 class="text-center" id="profile-name">@{{ profile.user.username }} 
                     &nbsp;
                     {% if user.is_authenticated  and profile.user.username == user.username and request.path != '/user/'|add:profile.user.username|add:'/edit' %}
                     <a href="/user/{{ profile.user.username }}/edit" id="edit-profile"><span class="mdi mdi-pencil"></span></a>

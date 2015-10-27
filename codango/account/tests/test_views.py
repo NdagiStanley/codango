@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 class IndexViewTest(StaticLiveServerTestCase):
@@ -75,7 +76,9 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.assertIn('@lade', body.text)
 
         # Edit profile
-        self.browser.execute_script("document.getElementById('edit-profile').click()")
+        profilename = self.browser.find_element_by_id('profile-name')
+        editbutton = self.browser.find_element_by_id('edit-profile')
+        ActionChains(self.browser).move_to_element(profilename).click(editbutton).perform()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Image', body.text)
         self.browser.find_element_by_class_name('btn-primary').click()
