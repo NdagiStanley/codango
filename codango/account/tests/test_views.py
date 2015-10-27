@@ -7,8 +7,8 @@ class IndexViewTest(StaticLiveServerTestCase):
     fixtures = ['users.json']
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
-        # self.browser.set_window_size(1400, 1000)
+        self.browser = webdriver.PhantomJS()
+        self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
 
     def tearDown(self):
@@ -44,8 +44,8 @@ class UserProfileTest(StaticLiveServerTestCase):
 
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
-        # self.browser.set_window_size(1400, 1000)
+        self.browser = webdriver.PhantomJS()
+        self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
 
     def tearDown(self):
