@@ -1,8 +1,6 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.contrib.staticfiles import finders, storage
-from django.utils.functional import empty
 
 
 class IndexViewTest(StaticLiveServerTestCase):
@@ -12,8 +10,6 @@ class IndexViewTest(StaticLiveServerTestCase):
         self.browser = webdriver.PhantomJs()
         self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
-        storage.staticfiles_storage._wrapped = empty
-        finders.get_finder.cache_clear()
 
     def tearDown(self):
         self.browser.quit()
@@ -50,8 +46,6 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.browser = webdriver.PhantomJs()
         self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
-        storage.staticfiles_storage._wrapped = empty
-        finders.get_finder.cache_clear()
 
     def tearDown(self):
         self.browser.quit()
