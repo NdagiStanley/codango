@@ -18,6 +18,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
     fb_id = models.CharField(max_length=200, null=True)
+    first_name = models.CharField(max_length=100, null=True)
+    last_name = models.CharField(max_length=100, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
