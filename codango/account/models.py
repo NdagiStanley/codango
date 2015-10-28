@@ -22,6 +22,9 @@ class UserProfile(models.Model):
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    about = models.TextField(blank=True)
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
 
