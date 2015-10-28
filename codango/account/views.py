@@ -283,6 +283,9 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
         context['profileform'] = self.form_class(initial={
+            'about': self.request.user.profile.about,
+            'first_name': self.request.user.profile.first_name,
+            'last_name': self.request.user.profile.last_name,
             'place_of_work': self.request.user.profile.place_of_work,
             'position': self.request.user.profile.position
         })
