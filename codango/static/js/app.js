@@ -16,8 +16,8 @@ function socialLogin(user) {
             }
             if (data == "register") {
                 $("#tab_link").trigger("click");
-                  $("#signup-form").prepend("<input type='hidden' name='first_name' value='" + user.first_name !== undefined ? user.first_name:user.given_name + "'>");
-                  $("#signup-form").prepend("<input type='hidden' name='last_name' value='" + user.last_name !== undefined ? user.last_name:user.family_name + "'>");
+                  $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name !== undefined ? user.first_name:user.given_name + "'>");
+                  $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name !== undefined ? user.last_name:user.family_name + "'>");
                   $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
                   $("#id_email").val(user.email).attr('disabled',true);
             }
