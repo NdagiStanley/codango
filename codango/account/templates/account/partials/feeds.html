@@ -1,4 +1,5 @@
 {% load cloudinary %}
+{% load endless %}
 
 <div class="content-block">
     {% if messages %}
@@ -15,7 +16,7 @@
             <form id="id_share_form" role="form" action="home" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
-                <div class="row">
+                <div class="row form-buttons">
                     <div class="col-sm-8">
                         <button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
                         <button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
@@ -42,46 +43,7 @@
         <div class="col-sm-12">
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}</h3>
             <div id="community-content">
-                {% for resource in resources %}
-                <div class="feed">
-                    <div class="profile-img">
-                        {% if resource.author.profile.image %}
-                             {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
-                        {% else %}
-                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
-                        {% endif %}
-                    </div>
-                    <div class="feed-content">
-                        <p class="poster-details">
-                            <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
-                            <small>{{ resource.date_added | timesince }} ago</small>
-                        </p>
-                        <h1>{{ resource.text }}</h1>
-
-                        {% if resource.snippet_text %}
-                        <p>
-                            <pre>{{ resource.snippet_text }}</pre>
-                        </p>
-                        {% endif %}
-
-                        {% if resource.resource_file %}
-                        <p>Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br></p>
-                        {% endif %}
-                        
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
-                            </div>
-                            <div class="col-sm-6">
-                                <button class="pull-right btn btn-default"><span class="mdi mdi-comment" id="item"></span></button>
-                                <button class="pull-right btn btn-default right-spacer"><span class="mdi mdi-thumb-up" id="item"></span></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                <div class="alert alert-info spacer">There are currently no posts</div> 
-                {% endfor %}
+                {% include "account/community.html" %}
             </div>
         </div>
     </div>
