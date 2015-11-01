@@ -121,6 +121,9 @@ body {
     width: 100%;
 }
 
+.form-buttons{
+	margin-bottom: 5px;
+}
 .activity-feed {
 	margin-top: 30px;
 	margin-bottom: 30px;
@@ -140,6 +143,10 @@ body {
 
 .list-group-item:last-child {
     margin-bottom: 50px;
+}
+
+.endless_loading {
+	text-align: center;
 }
 
 #more {
