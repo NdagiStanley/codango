@@ -130,7 +130,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
-            self.template_name = 'account/community.html'
+            self.template_name = 'account/partials/community.html'
         return super(HomeView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -153,7 +153,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 
 class AjaxCommunityView(HomeView):
-    template_name = 'account/community.html'
+    template_name = 'account/partials/community.html'
 
     def get_context_data(self, **kwargs):
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
@@ -264,7 +264,7 @@ class UserProfileDetailView(TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
-            self.template_name = 'account/community.html'
+            self.template_name = 'account/partials/community.html'
         return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

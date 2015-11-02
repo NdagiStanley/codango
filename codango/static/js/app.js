@@ -211,7 +211,7 @@ var shareForm = {
                 console.log(status.responseText);
             },
             complete: function() {
-                $("#community-content").load("/ajax/community/all", function() {
+                $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     _this.trigger("reset");
                 });
@@ -272,4 +272,8 @@ $(document).ready(function() {
             $(this).text("...less...");
         }
     });
-});
+    $.endlessPaginate({
+        paginateOnScroll: true,
+        paginateOnScrollMargin: 20
+    });
+})
