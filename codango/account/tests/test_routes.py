@@ -129,5 +129,8 @@ class ProfileViewTestCase(TestCase):
     def test_can_reach_profile_edit_page(self):
         response = self.client.post('/user/lade/edit',
                                     {'position': 'Software Developer',
-                                     'place_of_work': 'Andela'})
+                                     'place_of_work': 'Andela'
+                                     'first_name': 'Lade',
+                                     'last_name': 'Oshodi',
+                                     'about':'I love to Code'})
         self.assertEqual(response.status_code, 302)
