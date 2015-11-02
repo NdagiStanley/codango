@@ -214,6 +214,7 @@ var shareForm = {
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     _this.trigger("reset");
+                    prettyPrint();
                 });
             }
         });
@@ -272,8 +273,14 @@ $(document).ready(function() {
             $(this).text("...less...");
         }
     });
+
+    // endless pagination plugin
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
-})
+
+    // syntax highlighter plugin
+    prettyPrint();
+});
+

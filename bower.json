@@ -21,6 +21,7 @@
     "mdi": "~1.2.65",
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "ace-builds": "~1.2.0"
+    "ace-builds": "~1.2.0",
+    "prettify-min": "~1.0.4"
   }
 }
