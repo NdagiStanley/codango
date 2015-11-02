@@ -71,3 +71,6 @@ codango/media
 
 # environment variables
 .env.yml
+
+# sqldatabase
+codango/mydatabase
