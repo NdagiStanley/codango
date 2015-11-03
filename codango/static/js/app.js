@@ -5,7 +5,7 @@ $.ajaxSetup({
 });
 
 function socialLogin(user) {
-  console.log(user);
+    console.log(user);
     var ajaxinfo = {
         url: "/login",
         type: "POST",
@@ -17,23 +17,16 @@ function socialLogin(user) {
             }
             if (data == "register") {
                 $("#tab_link").trigger("click");
-                if(user.first_name !== undefined){
-
-                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name + "'>");
-                     
-                     $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name + "'>");
-
+                if (user.first_name !== undefined) {
+                    $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name + "'>");
+                    $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name + "'>");
+                } else {
+                    $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
+                    $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
                 }
-                else{
-                    
-                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
-                      $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
-                }
-               
-              
-               $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
-               $("#id_email").val(user.email).attr('disabled',true);
-             }
+                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+                $("#id_email").val(user.email).attr('disabled', true);
+            }
         },
         error: function(error) {
             console.log(error.responseText);
@@ -245,12 +238,12 @@ var mobileNav = {
     }
 };
 $(document).ready(function() {
-    facebookLogin.init(
-        {fb_id: "1472691016373339"}
-    );
-    googleLogin.init(
-      {REDIRECT: "http://codango-staging.herokuapp.com/"}
-    );
+    facebookLogin.init({
+        fb_id: "1472691016373339"
+    });
+    googleLogin.init({
+        REDIRECT: "http://codango-staging.herokuapp.com/"
+    });
     shareForm.init();
     ajaxContent.init();
     mobileNav.init();
