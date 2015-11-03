@@ -4,6 +4,7 @@ $.ajaxSetup({
     },
 });
 function socialLogin(user) {
+  console.log(user);
     var ajaxinfo = {
         url: "/login",
         type: "POST",
@@ -11,18 +12,32 @@ function socialLogin(user) {
         success: function(data) {
             console.log(data);
             if (data == "success") {
-                location.reload()
+                location.reload();
             }
             if (data == "register") {
                 $("#tab_link").trigger("click");
-                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
-                $("#id_email").val(user.email);
-            }
+                if(user.first_name !== undefined){
+
+                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name + "'>");
+                     
+                     $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name + "'>");
+
+                }
+                else{
+                    
+                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
+                      $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
+                }
+               
+              
+               $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+               $("#id_email").val(user.email).attr('disabled',true);
+             }
         },
         error: function(error) {
             console.log(error.responseText);
         }
-    }
+    };
     $.ajax(ajaxinfo);
 }
 var facebookLogin = {
@@ -44,8 +59,8 @@ var facebookLogin = {
         });
         facebookLogin.config.login.click(function(e) {
             e.preventDefault();
-            facebookLogin.login()
-        })
+            facebookLogin.login();
+        });
     },
     login: function() {
         FB.login(function(response) {
@@ -57,7 +72,7 @@ var facebookLogin = {
             }
         }, {
             scope: 'email,user_likes'
-        })
+        });
     },
 };
 var googleLogin = {
@@ -76,8 +91,8 @@ var googleLogin = {
             $.extend(googleLogin.config, config);
         }
         googleLogin.config.login.click(function(e) {
-            googleLogin.login()
-        })
+            googleLogin.login();
+        });
     },
     login: function() {
         var __url = googleLogin.config.OAUTHURL + 'scope=' + googleLogin.config.SCOPE + '&client_id=' + googleLogin.config.CLIENTID + '&redirect_uri=' + googleLogin.config.REDIRECT + '&response_type=' + googleLogin.config.TYPE;
@@ -102,7 +117,7 @@ var googleLogin = {
         var regexS = "[\\#&]" + name + "=([^&#]*)";
         var regex = new RegExp(regexS);
         var results = regex.exec(url);
-        if (results == null) return "";
+        if (results === null) return "";
         else return results[1];
     },
     validateToken: function(token) {
@@ -146,7 +161,7 @@ var ajaxContent = {
         ajaxContent.config.contentDiv.load(url, ajaxContent.mobile);
     },
     mobile: function() {
-        $("#sidebar-mobile-link").show()
+        $("#sidebar-mobile-link").show();
         $("#sidebar-mobile").animate({
             'left': '-=200px'
         });
@@ -165,7 +180,7 @@ var shareForm = {
             var fd = shareForm.formContents($(this));
             var url = $(this).attr("action");
             shareForm.shareForm(url, fd, $(this));
-        })
+        });
     },
     formContents: function(_this) {
         var fd = new FormData();
@@ -189,7 +204,7 @@ var shareForm = {
                     _this.append("<div class='alert-success successmsg'>Successfully Created Your Resource!</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
-                    }, 5000)
+                    }, 5000);
                 }
             },
             error: function(status) {
@@ -219,24 +234,24 @@ var mobileNav = {
     },
     showNav: function(_this) {
         if (_this.hasClass("glyphicon glyphicon-chevron-right")) {
-            $("#sidebar-mobile-link").hide()
+            $("#sidebar-mobile-link").hide();
             $("#sidebar-mobile").animate({
                 "left": "0px"
             });
         }
     }
-}
+};
 $(document).ready(function() {
     facebookLogin.init(
         {fb_id: "1472691016373339"}
     );
-    googleLogin.init({
-        REDIRECT: "http://codango-staging.herokuapp.com/"
-    });
+    googleLogin.init(
+      {REDIRECT: "http://codango-staging.herokuapp.com/"}
+    );
     shareForm.init();
     ajaxContent.init();
     mobileNav.init();
-    
+
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
@@ -246,7 +261,7 @@ $(document).ready(function() {
         hidden.preventDefault();
         $('#id-pdf-file').toggleClass('show');
     });
-    
+
     $("#more a").click(function(e) {
         e.preventDefault();
         if ($("#sidebar-more").css("display") == "block") {
@@ -257,4 +272,4 @@ $(document).ready(function() {
             $(this).text("...less...");
         }
     });
-})
+});

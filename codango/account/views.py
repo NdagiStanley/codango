@@ -101,6 +101,8 @@ class RegisterView(IndexView):
             else:
                 new_profile = new_user.profile
                 new_profile.fb_id = request.POST['fb_id']
+                new_profile.first_name = request.POST['first_name']
+                new_profile.last_name = request.POST['last_name']
                 new_profile.save()
 
             return redirect(
