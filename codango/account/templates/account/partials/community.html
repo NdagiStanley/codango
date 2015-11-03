@@ -1,0 +1,47 @@
+{% load cloudinary %}
+{% load endless %}
+
+{% lazy_paginate resources %}
+{% for resource in resources %}
+<div class="feed">
+    <div class="profile-img">
+        {% if resource.author.profile.image %}
+             {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
+        {% else %}
+            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+        {% endif %}
+    </div>
+    <div class="feed-content">
+        <p class="poster-details">
+            <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
+            <small>{{ resource.date_added | timesince }} ago</small>
+        </p>
+        <h1>{{ resource.text }}</h1>
+
+        {% if resource.snippet_text %}
+        <p>
+            <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
+        </p>
+        {% endif %}
+
+        {% if resource.resource_file %}
+        <p>
+        Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+        </p>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+            </div>
+            <div class="col-sm-6">
+                <span class="pull-right mdi mdi-comment" id="item"></span>
+                <span class="pull-right mdi mdi-thumb-up" id="item"></span>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="alert alert-info spacer">There are currently no posts</div>
+{% endfor %}
+{% show_more %}

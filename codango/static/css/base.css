@@ -121,6 +121,9 @@ body {
     width: 100%;
 }
 
+.form-buttons{
+	margin-bottom: 5px;
+}
 .activity-feed {
 	margin-top: 30px;
 	margin-bottom: 30px;
@@ -140,6 +143,10 @@ body {
 
 .list-group-item:last-child {
     margin-bottom: 50px;
+}
+
+.endless_loading {
+	text-align: center;
 }
 
 #more {
@@ -329,13 +336,18 @@ textarea {
 	color: #000000;
 }
 
-.social-login{
+.social-login {
 	margin-top: 20px;
 }
 
-.social-login div{
+.social-login div {
 	padding: 10px;
 }
 
 /* end index page styling */
 
+/* google code-prettify */
+li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 { 
+	list-style-type: decimal !important
+	}
+/* end of google code-prettify */

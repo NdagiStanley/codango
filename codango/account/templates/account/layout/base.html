@@ -6,8 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300italic,300,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
         <link href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'img/codango-icon.ico' %}" type="image/x-icon">
+        <link rel="icon" href="{% static 'img/codango-icon.ico' %}" type="image/x-icon">
         <link href="{% static 'lib/mdi/css/materialdesignicons.min.css' %}" type="text/css" rel="stylesheet"/>
         <link href="{% static 'css/base.css' %}" type="text/css" rel="stylesheet"/>
+        <link href="{% static 'lib/prettify-min/prettify.min.css' %}" type="text/css" rel="stylesheet"/>
         {% block head %}{% endblock head %}
         <title>{% block title %}Codango{% endblock title %}</title>
     </head>
@@ -63,5 +66,7 @@
         <script type="text/javascript" src="{% static 'lib/ace-builds/src-min-noconflict/ace.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/snippet.js' %}"></script>
+        <script type="text/javascript" src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
+        <script src="{% static 'lib/prettify-min/prettify.min.js' %}"></script>
     </body>
 </html>

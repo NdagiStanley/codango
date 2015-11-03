@@ -118,7 +118,7 @@ class RegisterView(IndexView):
 class LoginRequiredMixin(object):
     # View mixin which requires that the user is authenticated.
 
-    @method_decorator(login_required)
+    @method_decorator(login_required(login_url='/'))
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(
             request, *args, **kwargs)
@@ -128,12 +128,20 @@ class HomeView(LoginRequiredMixin, TemplateView):
     form_class = ResourceForm
     template_name = 'account/home.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.is_ajax():
+            self.template_name = 'account/partials/community.html'
+        return super(HomeView, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
-        resources = reversed(Resource.objects.all())
         user = self.request.user
-        context = {'resources': resources, 'profile': user.profile, 'title': 'Activity Feed'}
-
+        resources = Resource.objects.order_by('-date_modified')
+        context = {
+            'resources': resources,
+            'profile': user.profile,
+            'title': 'Activity Feed'
+        }
         return context
 
     def post(self, request, *args, **kwargs):
@@ -145,16 +153,16 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
 
 class AjaxCommunityView(HomeView):
-    template_name = 'account/community.html'
+    template_name = 'account/partials/community.html'
 
     def get_context_data(self, **kwargs):
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
         community = kwargs['community'].upper()
         if community == 'ALL':
-            resources = reversed(Resource.objects.all())
+            resources = Resource.objects.order_by('-date_modified')
         else:
-            resources = reversed(
-                Resource.objects.filter(language_tags=community))
+            resources = Resource.objects.filter(
+                language_tags=community).order_by('-date_modified')
         context = {'resources': resources}
         return context
 
@@ -253,6 +261,11 @@ class ResetPasswordView(View):
 class UserProfileDetailView(TemplateView):
     model = UserProfile
     template_name = 'account/profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.is_ajax():
+            self.template_name = 'account/partials/community.html'
+        return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)

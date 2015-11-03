@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import cloudinary
-
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -27,6 +27,13 @@ BOWER_INSTALLED_APPS = (
 )
 
 BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'static')
+
+# context processor for django-endless-pagination
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
+
+ENDLESS_PAGINATION_LOADING = """<img src="/static/img/ajax-loader.gif" alt="loading"/>"""
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -59,7 +66,7 @@ INSTALLED_APPS = (
     'bootstrapform',
     'cloudinary',
     'djangobower',
-
+    'endless_pagination',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,8 +134,6 @@ APPEND_SLASH = False
 STATIC_ROOT = 'staticfiles'
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
-
-LOGIN_URL = '/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

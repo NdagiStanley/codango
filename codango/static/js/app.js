@@ -3,8 +3,9 @@ $.ajaxSetup({
         'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
     },
 });
+
 function socialLogin(user) {
-  console.log(user);
+    console.log(user);
     var ajaxinfo = {
         url: "/login",
         type: "POST",
@@ -16,23 +17,16 @@ function socialLogin(user) {
             }
             if (data == "register") {
                 $("#tab_link").trigger("click");
-                if(user.first_name !== undefined){
-
-                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name + "'>");
-                     
-                     $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name + "'>");
-
+                if (user.first_name !== undefined) {
+                    $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.first_name + "'>");
+                    $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.last_name + "'>");
+                } else {
+                    $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
+                    $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
                 }
-                else{
-                    
-                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
-                      $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
-                }
-               
-              
-               $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
-               $("#id_email").val(user.email).attr('disabled',true);
-             }
+                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+                $("#id_email").val(user.email).attr('disabled', true);
+            }
         },
         error: function(error) {
             console.log(error.responseText);
@@ -165,6 +159,7 @@ var ajaxContent = {
         $("#sidebar-mobile").animate({
             'left': '-=200px'
         });
+        prettyPrint();
     }
 };
 var shareForm = {
@@ -201,7 +196,7 @@ var shareForm = {
             data: fd,
             success: function(data) {
                 if (data == "success") {
-                    _this.append("<div class='alert-success successmsg'>Successfully Created Your Resource!</div>");
+                    _this.append("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000);
@@ -211,9 +206,10 @@ var shareForm = {
                 console.log(status.responseText);
             },
             complete: function() {
-                $("#community-content").load("/ajax/community/all", function() {
+                $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     _this.trigger("reset");
+                    prettyPrint();
                 });
             }
         });
@@ -242,16 +238,15 @@ var mobileNav = {
     }
 };
 $(document).ready(function() {
-    facebookLogin.init(
-        {fb_id: "1472691016373339"}
-    );
-    googleLogin.init(
-      {REDIRECT: "http://codango-staging.herokuapp.com/"}
-    );
+    facebookLogin.init({
+        fb_id: "1472691016373339"
+    });
+    googleLogin.init({
+        REDIRECT: "http://codango-staging.herokuapp.com/"
+    });
     shareForm.init();
     ajaxContent.init();
     mobileNav.init();
-
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
@@ -261,7 +256,6 @@ $(document).ready(function() {
         hidden.preventDefault();
         $('#id-pdf-file').toggleClass('show');
     });
-
     $("#more a").click(function(e) {
         e.preventDefault();
         if ($("#sidebar-more").css("display") == "block") {
@@ -272,4 +266,11 @@ $(document).ready(function() {
             $(this).text("...less...");
         }
     });
+    // endless pagination plugin
+    $.endlessPaginate({
+        paginateOnScroll: true,
+        paginateOnScrollMargin: 20
+    });
+    // syntax highlighter plugin
+    prettyPrint();
 });
