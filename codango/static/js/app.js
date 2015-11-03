@@ -3,6 +3,7 @@ $.ajaxSetup({
         'X-CSRFToken': $('input[name="csrfmiddlewaretoken"]').val()
     },
 });
+
 function socialLogin(user) {
   console.log(user);
     var ajaxinfo = {
@@ -165,6 +166,7 @@ var ajaxContent = {
         $("#sidebar-mobile").animate({
             'left': '-=200px'
         });
+        prettyPrint();
     }
 };
 var shareForm = {
@@ -252,7 +254,6 @@ $(document).ready(function() {
     shareForm.init();
     ajaxContent.init();
     mobileNav.init();
-
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
@@ -262,7 +263,6 @@ $(document).ready(function() {
         hidden.preventDefault();
         $('#id-pdf-file').toggleClass('show');
     });
-
     $("#more a").click(function(e) {
         e.preventDefault();
         if ($("#sidebar-more").css("display") == "block") {
@@ -273,14 +273,11 @@ $(document).ready(function() {
             $(this).text("...less...");
         }
     });
-
     // endless pagination plugin
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
-
     // syntax highlighter plugin
     prettyPrint();
 });
-
