@@ -5,7 +5,6 @@ $.ajaxSetup({
 });
 
 function socialLogin(user) {
-    console.log(user);
     var ajaxinfo = {
         url: "/login",
         type: "POST",
@@ -188,6 +187,7 @@ var shareForm = {
         return fd;
     },
     shareForm: function(url, fd, _this) {
+        // Show loading message
         $.ajax({
             url: url,
             type: 'POST',
@@ -203,9 +203,14 @@ var shareForm = {
                 }
             },
             error: function(status) {
-                console.log(status.responseText);
+                // Display errors
+                _this.prepend("<div class='alert alert-danger errormsg'>Invalid file type or greater than 10MB</div>");
+                setTimeout(function() {
+                    $(".errormsg").hide();
+                }, 5000);
             },
             complete: function() {
+                // Hide Loading Message
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     _this.trigger("reset");

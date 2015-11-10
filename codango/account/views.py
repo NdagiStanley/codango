@@ -1,4 +1,4 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
@@ -146,10 +146,16 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
-        resource = form.save(commit=False)
-        resource.author = self.request.user
-        resource.save()
-        return HttpResponse("success", content_type='text/plain')
+        try:
+            if form.files['resource_file'].size > 10485760:
+                return HttpResponseNotFound("error")
+        except KeyError:
+            pass
+        finally:
+            resource = form.save(commit=False)
+            resource.author = self.request.user
+            resource.save()
+            return HttpResponse("success", content_type='text/plain')
 
 
 class AjaxCommunityView(HomeView):
