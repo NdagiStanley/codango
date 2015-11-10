@@ -286,6 +286,10 @@ textarea {
 	height: 42px;
 }
 
+.file-icon {
+	font-size: 30px;
+}
+
 #edit-profile {
 	display: none;
 	color: #f26521;

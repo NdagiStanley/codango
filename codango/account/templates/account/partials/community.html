@@ -26,7 +26,12 @@
 
         {% if resource.resource_file %}
         <p>
-        Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+        {% if resource.resource_file.format == "pdf" %}
+        <i class="file-icon mdi mdi-file-pdf"></i>
+        {% else %}
+        <i class="file-icon mdi mdi-file-word"></i>
+        {% endif %}
+        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file }}</a><br>
         </p>
         {% endif %}
 
