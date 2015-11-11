@@ -294,10 +294,9 @@ class UserProfileDetailView(TemplateView):
         except:
              pass
 
-
+        import pdb
+        pdb.set_trace()
         context['profile'] = user.profile
-        # import pdb
-        # pdb.set_trace()
         context['resources'] = user.resource_set.all()
         context['title'] = "My Feed"
         # context['already_following'] = Follow.objects.get(followed_id=user.id)

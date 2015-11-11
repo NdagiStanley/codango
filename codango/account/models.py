@@ -33,6 +33,10 @@ class UserProfile(models.Model):
     def get_user(self):
         return User.objects.get(id=self.user_id)
 
+    def get_followers(self):
+        followers = Follow.objects.filter(follower_id=self.id)
+        return followers
+
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
 
@@ -48,9 +52,6 @@ class Follow(models.Model):
     follower_id = models.ForeignKey(User, related_name='follower')
     followed_id = models.ForeignKey(User, related_name='following')
     date_of_follow = models.DateTimeField(auto_now_add=True)
-
-    def get_followers(self):
-        pass
 
     @register.filter
     def is_following(self, id):
