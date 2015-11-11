@@ -147,15 +147,15 @@ class HomeView(LoginRequiredMixin, TemplateView):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
         try:
+            resource = form.save(commit=False)
+            resource.resource_file_name = form.files['resource_file'].name
+            resource.resource_file_size = form.files['resource_file'].size
             if form.files['resource_file'].size > 10485760:
                 return HttpResponseNotFound("error")
         except KeyError:
             pass
         finally:
-            resource = form.save(commit=False)
             resource.author = self.request.user
-            resource.resource_file_name = form.files['resource_file'].name
-            resource.resource_file_size = form.files['resource_file'].size
             resource.save()
             return HttpResponse("success", content_type='text/plain')
 

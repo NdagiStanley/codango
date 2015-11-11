@@ -100,6 +100,7 @@ class CreateResource(StaticLiveServerTestCase):
         # creating a resource
         input_field = self.browser.find_element_by_id('id-plain-text')
         input_field.send_keys('This is a post')
-        self.browser.find_element_by_xpath("//button[contains(text(),'Share')]").click()
+        self.browser.find_element_by_xpath(
+            "//button[contains(text(),'Share')]").click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('success', body.text)

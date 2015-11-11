@@ -1,7 +1,6 @@
 from django.test import TestCase
 from resources.models import Resource
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 
 
 class ResourceTestModels(TestCase):
