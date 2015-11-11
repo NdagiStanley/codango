@@ -214,7 +214,6 @@ class ForgotPasswordView(TemplateView):
 
 
 class ResetPasswordView(View):
-
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
         user = UserHasher.reverse_hash(user_hash)
@@ -289,12 +288,12 @@ class UserProfileDetailView(TemplateView):
                 return Http404("User does not exist")
 
         try:
-            follow = Follow.objects.get(followed_id=user.id)
+            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
 
             if follow is not None:
                 context['already_following'] = True
         except:
-             pass
+            pass
 
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
@@ -345,9 +344,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
 
 
 class FollowUserView(LoginRequiredMixin, View):
-
     def post(self, request, **kwargs):
-
         username = kwargs['username']
         user = User.objects.get(id=request.user.id)
         print user
@@ -357,6 +354,38 @@ class FollowUserView(LoginRequiredMixin, View):
         follow = Follow(follower_id=user, followed_id=following_id, date_of_follow=timezone.now())
         follow.save()
 
-        # update_followers = UserProfile(followers=)
+        userprofile = UserProfile.objects.get(user_id=user.id)
+        userprofile.following += 1
+        userprofile.save()
+
+        follower_user_profile = UserProfile.objects.get(user_id=following_id.id)
+        follower_user_profile.followers += 1
+        follower_user_profile.save()
 
         return HttpResponse(status=200)
+
+
+class FollowingView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/following.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FollowingView, self).get_context_data(**kwargs)
+        user_profile = UserProfile.objects.get(user_id=self.request.user.id)
+        context['followers'] = user_profile.get_following()
+        context['profile'] = user_profile
+
+        return context
+
+
+class FollowersView(LoginRequiredMixin, TemplateView):
+
+    template_name = 'account/followers.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(FollowersView, self).get_context_data(**kwargs)
+        user_profile = UserProfile.objects.get(user_id=self.request.user.id)
+        context['followers'] = user_profile.get_followers()
+        # context['profile'] = user_profile
+
+        return context
+

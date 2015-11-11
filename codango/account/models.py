@@ -39,6 +39,7 @@ class UserProfile(models.Model):
 
     def get_following(self):
         following = Follow.objects.filter(followed_id=self.id)
+        return following
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
