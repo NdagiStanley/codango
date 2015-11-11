@@ -178,8 +178,12 @@ var shareForm = {
     },
     formContents: function(_this) {
         var fd = new FormData();
-        var file_data = _this.find("input[type='file']")[0].files[0];
+
+        if(_this.hasClass('share'))
+        {
+        var file_data = _this.find('input[type="file"]')[0].files[0];
         fd.append("resource_file", file_data);
+    }
         var other_data = _this.serializeArray();
         $.each(other_data, function(key, input) {
             fd.append(input.name, input.value);
@@ -249,12 +253,13 @@ var mobileNav = {
 };
 $(document).ready(function() {
     facebookLogin.init({
-        fb_id: "1472691016373339"
+        //fb_id: "1472691016373339"
     });
     googleLogin.init({
         //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
     shareForm.init();
+    shareForm.init({share: $("#commentform")});
     ajaxContent.init();
     mobileNav.init();
     $("#id-snippet-body").hide();
@@ -308,11 +313,13 @@ $(document).ready(function() {
             }
 
         })
-    $(".mdi-comment").click(function(e){
+
+    $("body").on("click",".mdi-comment",function(e){
+
         e.preventDefault();
 
         $(this).closest('.feed-content').find('.comments-div').toggle();
         
         //$(".feed-content .comments-div").toggle();
-    })
+    });
 });

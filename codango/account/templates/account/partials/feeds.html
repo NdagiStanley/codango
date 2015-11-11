@@ -14,7 +14,7 @@
     {% endif %} 
     <div class="row">
         <div class="col-sm-12">
-            <form id="id_share_form" role="form" action="/home" method="post" enctype="multipart/form-data">
+            <form id="id_share_form" role="form" class="share" action="/home" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
                 <div class="row form-buttons">

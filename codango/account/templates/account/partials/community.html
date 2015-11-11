@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="comments-div">
-        <form name="comment_form" class="form-horizontal"  action="/home" method="POST">
+        <form name="comment_form" class="form-horizontal"  id="commentform" action="/home" method="POST">
         {% csrf_token %}
         <input type="hidden" name="resource_id" value="{{resource.id}}">
         {{ commentform|bootstrap }}
