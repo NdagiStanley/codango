@@ -37,16 +37,7 @@
         size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
-       
-        <div id="comments">
-        {% for comment in resource.comment_set.all %}
-        <p> {{ comment }}</p>
 
-        {% empty %}
-        <p> no resource here </p>
-
-        {% endfor %}
-        </div>
 
 
         <div class="row">
@@ -54,18 +45,57 @@
                 <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
             </div>
             <div class="col-sm-6">
-                <span class="pull-right mdi mdi-comment" id="item">{{ resource.comment_set.count }}</span>
-                <span class="pull-right mdi mdi-thumb-up" id="item">{{resource.upvotes}}</span>
-                 <span class="pull-right mdi mdi-thumb-down" id="item">{{resource.downvotes}}</span>
+                <span class="pull-right mdi mdi-comment item">{{ resource.comment_set.count }}</span>
+                <span class="pull-right mdi mdi-thumb-up item">{{resource.upvotes}}</span>
+                 <span class="pull-right mdi mdi-thumb-down item" >{{resource.downvotes}}</span>
             </div>
         </div>
-        <form name="comment_form" id="comment-form" action="/home" method="POST">
+        <div class="comments-div">
+        <form name="comment_form" class="form-horizontal"  action="/home" method="POST">
         {% csrf_token %}
         <input type="hidden" name="resource_id" value="{{resource.id}}">
         {{ commentform|bootstrap }}
         <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+        
         </form>
+        <div class="comments">
+        {% for comment in resource.comment_set.all %}
+
+        <article class="row">
+            <div class="col-md-2 col-sm-2 hidden-xs">
+              <figure class="thumbnail">
+        {% if comment.author.profile.image %}
+             {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %}
+        {% else %}
+            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+        {% endif %}
+              </figure>
+            </div>
+            <div class="col-md-10 col-sm-10">
+              <div class="panel panel-default arrow left">
+                <div class="panel-body">
+                  <header class="text-left">
+                    <div class="comment-user"><i class="mdi mdi-account"></i> {{comment.author}}</div>
+                     <time class="comment-date" datetime="16-12-2014 01:05"><i class="mdi mdi-alarm"></i> {{comment.date_created|timesince}} ago </time>
+                  </header>
+                  </header>
+                 <div class="comment-post">
+                    <p>
+                     {{comment}}
+                    </p>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </article>
+          {% empty %}
+        <p> no comments here </p>
+
+        {% endfor %}
+        </div>
     </div>
+</div>
 </div>
 {% empty %}
 <div class="alert alert-info spacer">There are currently no posts</div>

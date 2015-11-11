@@ -132,6 +132,16 @@ body {
 .activity-feed i {
 	margin-right: 10px;
 }
+.feed-content .comments-div{
+	display:none;
+
+}
+.feed-content .comments{
+	margin-top:50px;
+}
+.comment-post{
+	padding-top:10px;
+}
 
 .list-inline {
 	margin-left: 10px;
@@ -219,8 +229,9 @@ body {
 	color: #565c6f;
 }
 
-#item {
+.item {
 	margin: 0px 10px;
+	cursor:pointer;
 }
 
 .spacer {

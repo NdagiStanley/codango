@@ -308,5 +308,11 @@ $(document).ready(function() {
             }
 
         })
+    $(".mdi-comment").click(function(e){
+        e.preventDefault();
+
+        $(this).closest('.feed-content').find('.comments-div').toggle();
+        
+        //$(".feed-content .comments-div").toggle();
     })
 });
