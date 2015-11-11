@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
+from django.template.defaultfilters import register
 
 
 def get_upload_file_name(instance, filename):
@@ -40,3 +41,23 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class Follow(models.Model):
+
+    follower_id = models.ForeignKey(User, related_name='follower')
+    followed_id = models.ForeignKey(User, related_name='following')
+    date_of_follow = models.DateTimeField(auto_now_add=True)
+
+    def get_followers(self):
+        pass
+
+    @register.filter
+    def is_following(self, id):
+        followed_id = Follow.objects.get(followed_id=id)
+        if followed_id:
+            return True
+        else:
+            return False
+
+    # def save

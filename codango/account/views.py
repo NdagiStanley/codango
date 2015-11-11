@@ -10,12 +10,13 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from django.utils import timezone
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
 from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
-from account.models import UserProfile
+from account.models import UserProfile, Follow
 
 
 class IndexView(TemplateView):
@@ -287,9 +288,19 @@ class UserProfileDetailView(TemplateView):
             if user is None:
                 return Http404("User does not exist")
 
+        try:
+            follow = Follow.objects.get(followed_id=user.id)
+
+        except:
+             pass
+
+
         context['profile'] = user.profile
+        # import pdb
+        # pdb.set_trace()
         context['resources'] = user.resource_set.all()
         context['title'] = "My Feed"
+        # context['already_following'] = Follow.objects.get(followed_id=user.id)
         return context
 
 
@@ -332,3 +343,25 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
                 UserProfileEditView, self).get_context_data(**kwargs)
             context['profileform'] = self.form_class
             return render(request, self.template_name, context)
+
+
+class FollowUserView(LoginRequiredMixin, View):
+
+    def post(self, request, **kwargs):
+
+        username = kwargs['username']
+        user = User.objects.get(id=request.user.id)
+        print user
+        print username
+        # following_id = request.POST.get("follow_id")
+        # following_id = User.objects.get(id=request.POST.get("follow_id"))
+        following_id = User.objects.get(username=username)
+        print following_id
+        follow = Follow(follower_id=user, followed_id=following_id, date_of_follow=timezone.now())
+        # print follow
+        follow.save()
+
+        return HttpResponse(status=200)
+
+    # def get(self, request, **kwargs):
+    #     return HttpResponse("i got here")

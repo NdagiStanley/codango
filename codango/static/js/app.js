@@ -283,4 +283,26 @@ $(document).ready(function() {
     });
     // syntax highlighter plugin
     prettyPrint();
+
+    // Handling follow
+    $('#follow-btn').click(function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        console.log(id);
+        var url = $(this).attr('href');
+        console.log(url);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(data,textStatus,xhr){
+                console.log(xhr.status);
+                console.log("i still got here")
+            },
+            error: function(x){
+                console.log(x.responseText)
+            }
+
+        })
+    })
 });
