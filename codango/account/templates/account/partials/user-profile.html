@@ -26,8 +26,10 @@
                     </h2>
 
                     <hr/>
+                    {% if profile.position and profile.place_of_work %}
                     <p class="text-center">{{ profile.position }} @ {{ profile.place_of_work }} </p>
                     <hr/>
+                    {% endif %}
                     <p class="text-center">{{ profile.about }}</p>
                     <hr/>
                 </div>

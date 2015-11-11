@@ -291,11 +291,11 @@ class UserProfileDetailView(TemplateView):
         try:
             follow = Follow.objects.get(followed_id=user.id)
 
+            if follow is not None:
+                context['already_following'] = True
         except:
              pass
 
-        import pdb
-        pdb.set_trace()
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
         context['title'] = "My Feed"
@@ -352,15 +352,11 @@ class FollowUserView(LoginRequiredMixin, View):
         user = User.objects.get(id=request.user.id)
         print user
         print username
-        # following_id = request.POST.get("follow_id")
-        # following_id = User.objects.get(id=request.POST.get("follow_id"))
         following_id = User.objects.get(username=username)
         print following_id
         follow = Follow(follower_id=user, followed_id=following_id, date_of_follow=timezone.now())
-        # print follow
         follow.save()
 
-        return HttpResponse(status=200)
+        # update_followers = UserProfile(followers=)
 
-    # def get(self, request, **kwargs):
-    #     return HttpResponse("i got here")
+        return HttpResponse(status=200)
