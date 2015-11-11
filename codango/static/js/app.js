@@ -204,7 +204,11 @@ var shareForm = {
             },
             error: function(status) {
                 // Display errors
-                _this.prepend("<div class='alert alert-danger errormsg'>Invalid file type or greater than 10MB</div>");
+                if (status.responseText == "emptypost") {
+                    _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
+                } else {
+                    _this.prepend("<div class='alert alert-danger errormsg'>Invalid file type or greater than 10MB</div>");
+                }
                 setTimeout(function() {
                     $(".errormsg").hide();
                 }, 5000);

@@ -145,19 +145,22 @@ class HomeView(LoginRequiredMixin, TemplateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
         try:
+            form = self.form_class(request.POST, request.FILES)
             resource = form.save(commit=False)
-            resource.resource_file_name = form.files['resource_file'].name
-            resource.resource_file_size = form.files['resource_file'].size
-            if form.files['resource_file'].size > 10485760:
-                return HttpResponseNotFound("error")
-        except KeyError:
-            pass
-        finally:
+            try:
+                resource.resource_file_name = form.files['resource_file'].name
+                resource.resource_file_size = form.files['resource_file'].size    
+            except KeyError:
+                pass
             resource.author = self.request.user
             resource.save()
-            return HttpResponse("success", content_type='text/plain')
+            return HttpResponse("success", content_type='text/plain') 
+        except ValueError:
+            return HttpResponseNotFound("emptypost")
+        except:
+            return HttpResponseNotFound("invalidfile")
+        
 
 
 class AjaxCommunityView(HomeView):
