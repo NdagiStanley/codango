@@ -24,6 +24,8 @@ class Resource(models.Model):
         max_length=30, choices=LANGUAGE_TAGS, default='Untagged')
     resource_file = CloudinaryField(
         'resource_file', null=True, blank=True)
+    resource_file_name = models.CharField(max_length=100, null=True)
+    resource_file_size = models.IntegerField(default=0)
     snippet_text = models.TextField(null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

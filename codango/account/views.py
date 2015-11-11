@@ -154,6 +154,8 @@ class HomeView(LoginRequiredMixin, TemplateView):
         finally:
             resource = form.save(commit=False)
             resource.author = self.request.user
+            resource.resource_file_name = form.files['resource_file'].name
+            resource.resource_file_size = form.files['resource_file'].size
             resource.save()
             return HttpResponse("success", content_type='text/plain')
 

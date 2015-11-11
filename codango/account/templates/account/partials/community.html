@@ -25,13 +25,16 @@
         {% endif %}
 
         {% if resource.resource_file %}
-        <p>
+        <p id="file-icon">
         {% if resource.resource_file.format == "pdf" %}
-        <i class="file-icon mdi mdi-file-pdf"></i>
+        <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
         {% else %}
-        <i class="file-icon mdi mdi-file-word"></i>
+        <i id="file-icon-doc" class="mdi mdi-file-word"></i>
         {% endif %}
-        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file }}</a><br>
+        </p> &nbsp;
+        <p id="file-info">
+        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a><br>
+        size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
 

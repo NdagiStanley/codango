@@ -14,7 +14,7 @@ class ResourceForm(ModelForm):
         options={
             'resource_type': 'raw',
             'use_filename': True,
-            'allowed_formats': ['pdf', 'doc', 'docx']
+            'allowed_formats': ['pdf', 'doc', 'docx', 'py', 'js', 'apk']
         })
 
     def __init__(self, *args, **kwargs):

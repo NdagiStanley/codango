@@ -1,5 +1,6 @@
 {% load cloudinary %}
 {% load endless %}
+{% load staticfiles %}
 
 <div class="content-block">
     {% if messages %}
@@ -42,6 +43,9 @@
     <div class="row">
         <div class="col-sm-12">
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}</h3>
+            <div id="preloader">
+                <img src="{% static 'img/ajax-loader.gif' %}">
+            </div>
             <div id="community-content">
                 {% include "account/partials/community.html" %}
             </div>
