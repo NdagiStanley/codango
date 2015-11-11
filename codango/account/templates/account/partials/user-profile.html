@@ -19,7 +19,7 @@
                         <a href="/user/{{ profile.user.username }}/edit" id="edit-profile"><span class="mdi mdi-pencil"></span></a>
 
                         {% elif already_following %}
-                        <a href="/user/{{ profile.user.username }}/follow" class="btn btn-primary" id="follow-btn" data-id="{{ profile.user.id }}">Following</a>
+                        <a class="btn btn-primary" disabled="disabled" id="follow-btn" data-id="{{ profile.user.id }}">Following</a>
                         {% else %}
                         <a href="/user/{{ profile.user.username }}/follow" class="btn btn-primary" id="follow-btn" data-id="{{ profile.user.id }}">Follow</a>
                     {% endif %}

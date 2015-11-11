@@ -37,6 +37,9 @@ class UserProfile(models.Model):
         followers = Follow.objects.filter(follower_id=self.id)
         return followers
 
+    def get_following(self):
+        following = Follow.objects.filter(followed_id=self.id)
+
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
 
@@ -60,5 +63,3 @@ class Follow(models.Model):
             return True
         else:
             return False
-
-    # def save

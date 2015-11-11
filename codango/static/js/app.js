@@ -287,6 +287,7 @@ $(document).ready(function() {
     // Handling follow
     $('#follow-btn').click(function(e){
         e.preventDefault();
+        var _this = $(this)
         var id = $(this).data('id');
         console.log(id);
         var url = $(this).attr('href');
@@ -298,6 +299,9 @@ $(document).ready(function() {
             success: function(data,textStatus,xhr){
                 console.log(xhr.status);
                 console.log("i still got here")
+                console.log(_this)
+                _this.attr('disabled', true);
+                _this.text('following')
             },
             error: function(x){
                 console.log(x.responseText)
