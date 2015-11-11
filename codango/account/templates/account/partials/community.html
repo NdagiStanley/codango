@@ -1,6 +1,6 @@
 {% load cloudinary %}
 {% load endless %}
-
+{% load bootstrap %}
 {% lazy_paginate resources %}
 {% for resource in resources %}
 <div class="feed">
@@ -37,16 +37,34 @@
         size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
+       
+        <div id="comments">
+        {% for comment in resource.comment_set.all %}
+        <p> {{ comment }}</p>
+
+        {% empty %}
+        <p> no resource here </p>
+
+        {% endfor %}
+        </div>
+
 
         <div class="row">
             <div class="col-sm-6">
                 <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
             </div>
             <div class="col-sm-6">
-                <span class="pull-right mdi mdi-comment" id="item"></span>
-                <span class="pull-right mdi mdi-thumb-up" id="item"></span>
+                <span class="pull-right mdi mdi-comment" id="item">{{ resource.comment_set.count }}</span>
+                <span class="pull-right mdi mdi-thumb-up" id="item">{{resource.upvotes}}</span>
+                 <span class="pull-right mdi mdi-thumb-down" id="item">{{resource.downvotes}}</span>
             </div>
         </div>
+        <form name="comment_form" id="comment-form" action="/home" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="resource_id" value="{{resource.id}}">
+        {{ commentform|bootstrap }}
+        <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+        </form>
     </div>
 </div>
 {% empty %}

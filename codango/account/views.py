@@ -15,7 +15,10 @@ from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-from account.forms import LoginForm, RegisterForm, ResetForm
+from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
+from account.models import UserProfile
+from comments.forms import CommentForm
+from comments.models import Comment
 
 
 class IndexView(TemplateView):
@@ -127,6 +130,7 @@ class LoginRequiredMixin(object):
 class HomeView(LoginRequiredMixin, TemplateView):
     form_class = ResourceForm
     template_name = 'account/home.html'
+    commentform_class = CommentForm
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -137,10 +141,12 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         user = self.request.user
         resources = Resource.objects.order_by('-date_modified')
+
         context = {
             'resources': resources,
             'profile': user.profile,
-            'title': 'Activity Feed'
+            'title': 'Activity Feed',
+            'commentform': CommentForm(auto_id=False)
         }
         return context
 
