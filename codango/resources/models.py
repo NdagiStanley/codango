@@ -27,8 +27,6 @@ class Resource(models.Model):
     resource_file_name = models.CharField(max_length=100, null=True)
     resource_file_size = models.IntegerField(default=0)
     snippet_text = models.TextField(null=True, blank=True)
-    upvotes = models.IntegerField(default=0)
-    downvotes = models.IntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -37,3 +35,11 @@ class Resource(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])
+
+    def upvotes(self):
+        upvotes = [upvote for upvote in self.votes.all() if upvote.vote is True]
+        return len(upvotes)
+
+    def downvotes(self):
+        downvotes = [downvote for downvote in self.votes.all() if downvote.vote is not True]
+        return len(downvotes)

@@ -46,8 +46,8 @@
             </div>
             <div class="col-sm-6">
                 <span class="pull-right mdi mdi-comment item">{{ resource.comment_set.count }}</span>
-                <span class="pull-right mdi mdi-thumb-up item">{{resource.upvotes}}</span>
-                 <span class="pull-right mdi mdi-thumb-down item" >{{resource.downvotes}}</span>
+                <span class="pull-right mdi mdi-thumb-up item">{{resource.downvotes}}</span>
+                 <span class="pull-right mdi mdi-thumb-down item" >{{resource.upvotes}}</span>
             </div>
         </div>
         <div class="comments-div">
@@ -90,7 +90,7 @@
             </div>
           </article>
           {% empty %}
-        <p> no comments here </p>
+        <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
 
         {% endfor %}
         </div>
