@@ -13,7 +13,7 @@ class Vote(models.Model):
 		unique_together = (('user', 'resource', 'vote'),)
 
 	def __str__(self):
-		return '%s: %s on %s' % (self.user, self.vote, self.object)
+		return '%s: %s on %s' % (self.user, self.resource)
 
 	def is_upvote(self):
 		return self.vote is True

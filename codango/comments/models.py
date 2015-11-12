@@ -5,7 +5,7 @@ from resources.models import Resource
 
 class Comment(models.Model):
 	author = models.ForeignKey(auth.models.User)
-	resource = models.ForeignKey(Resource)
+	resource = models.ForeignKey(Resource,related_name="comments")
 	content = models.TextField(null=False, blank=False)
 	date_created = models.DateTimeField(auto_now=True)
 

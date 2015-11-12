@@ -45,7 +45,7 @@
                 <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
             </div>
             <div class="col-sm-6">
-                <span class="pull-right mdi mdi-comment item">{{ resource.comment_set.count }}</span>
+                <span class="pull-right mdi mdi-comment item">{{ resource.comments.count }}</span>
                 <span class="pull-right mdi mdi-thumb-up item">{{resource.downvotes}}</span>
                  <span class="pull-right mdi mdi-thumb-down item" >{{resource.upvotes}}</span>
             </div>
@@ -59,7 +59,7 @@
         
         </form>
         <div class="comments">
-        {% for comment in resource.comment_set.all %}
+        {% for comment in resource.comments.all %}
 
         <article class="row">
             <div class="col-md-2 col-sm-2 hidden-xs">
