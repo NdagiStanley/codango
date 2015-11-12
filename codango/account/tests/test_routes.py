@@ -61,6 +61,18 @@ class HomeViewTest(TestCase):
         self.assertEqual(match.url_name, 'home')
 
 
+    def test_add_a_resource(self):
+        response = self.client.post('/home', {
+            'text': 'This is a test',
+        })
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_an_empty_resource(self):
+        response = self.client.post('/home')
+        self.assertEqual(response.status_code, 404)
+    
+
+
 class ForgotResetTestCase(TestCase):
 
     def setUp(self):
@@ -98,11 +110,6 @@ class PasswordResetTestCase(TestCase):
         response = self.client.get('/recovery/')
         self.assertEquals(response.status_code, 200)
 
-    def test_recovery_email_sent_for_registered_user(self):
-        response = self.client.post(
-            '/recovery/', {"email": self.user_account.email})
-        self.assertIn("email_status", response.context)
-
     def test_recovery_email_not_sent_for_unregistered_user(self):
         response = self.client.post(
             '/recovery/', {"email": "fagemaki.iniruto@gmail.com"})
@@ -132,5 +139,5 @@ class ProfileViewTestCase(TestCase):
                                      'place_of_work': 'Andela',
                                      'first_name': 'Lade',
                                      'last_name': 'Oshodi',
-                                     'about':'I love to Code'})
+                                     'about': 'I love to Code'})
         self.assertEqual(response.status_code, 302)
