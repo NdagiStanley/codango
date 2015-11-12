@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils import timezone
+import json
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
@@ -19,6 +20,7 @@ from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
 from account.models import UserProfile
 from comments.forms import CommentForm
 from comments.models import Comment
+from votes.models import Vote
 
 
 class IndexView(TemplateView):
@@ -181,6 +183,35 @@ class AjaxCommunityView(HomeView):
                 language_tags=community).order_by('-date_modified')
         context = {'resources': resources}
         return context
+
+class VoteAjax(View):
+
+    def post(self,request, **kwargs):
+        action = kwargs['action'].upper()
+        resource_id = kwargs['resource_id']
+        resource = Resource.objects.filter(id=request.POST.get('resource_id')).first()
+        user_id = self.request.user.id
+        vote = Vote.objects.filter(resource_id=resource_id,user_id=user_id).first()
+        if vote is None:
+            vote = Vote()
+            vote.resource = resource
+            vote.user = self.request.user
+        if action == 'LIKE':
+                vote.vote = True
+                vote.save()
+                
+        else:
+                vote.vote = False
+                vote.save()
+
+        response_dict = {
+                "upvotes":resource.upvotes(),
+                "downvotes":resource.downvotes(),
+                }
+
+        response_json = json.dumps(response_dict)
+        return HttpResponse(response_json, content_type="application/json")
+   
 
 
 class ForgotPasswordView(TemplateView):

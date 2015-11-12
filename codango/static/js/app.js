@@ -286,6 +286,37 @@ $(document).ready(function() {
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
+    $(document).on("click",".like, .unlike",function(e){
+        e.preventDefault();
+        var _this = $(this);
+        var url = $(this).attr("href");
+        var resource_id = $(this).data("id");
+        $.ajax({
+            url:url,
+            type:"POST",
+            data:{
+                resource_id: resource_id
+            },
+            success: function(data){
+                console.log(data);
+               _this.find('span').addClass('active');
+            if(_this.hasClass('like')){
+                _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
+                _this.find('span').text(data['upvotes'])
+            }
+               else {
+                _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
+                _this.find('span').text(data['downvotes'])
+                //console.log(_this.siblings('.like').find('span'))
+
+            }
+
+            },
+            error: function(x){
+                console.log(x.responseText);
+            }
+        })
+    });
     // syntax highlighter plugin
     prettyPrint();
 
@@ -314,8 +345,7 @@ $(document).ready(function() {
 
         })
 
-    $("body").on("click",".mdi-comment",function(e){
-
+    $(document).on("click",".mdi-comment",function(e){
         e.preventDefault();
 
         $(this).closest('.feed-content').find('.comments-div').toggle();

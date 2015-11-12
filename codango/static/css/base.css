@@ -232,6 +232,11 @@ body {
 .item {
 	margin: 0px 10px;
 	cursor:pointer;
+	color:#333;
+}
+.item.active{
+	color:blue;
+	cursor: default;
 }
 
 .spacer {

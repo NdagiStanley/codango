@@ -43,3 +43,13 @@ class Resource(models.Model):
     def downvotes(self):
         downvotes = [downvote for downvote in self.votes.all() if downvote.vote is not True]
         return len(downvotes)
+
+    def liked(self):
+        liked_ids = [vote.user.id for vote in self.votes.all() if vote.vote is True]
+
+        return liked_ids
+    def unliked(self):
+        unliked_ids = [vote.user.id for vote in self.votes.all() if vote.vote is False]
+
+        return unliked_ids
+
