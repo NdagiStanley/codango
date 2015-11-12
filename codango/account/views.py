@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils import timezone
+from django.db.models import Count
 import json
 from account.hash import UserHasher
 from emails import send_mail
@@ -142,7 +143,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         user = self.request.user
-        resources = Resource.objects.order_by('-date_modified')
+        resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
 
         context = {
             'resources': resources,
@@ -177,11 +178,11 @@ class AjaxCommunityView(HomeView):
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
         community = kwargs['community'].upper()
         if community == 'ALL':
-            resources = Resource.objects.order_by('-date_modified')
+            resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
         else:
             resources = Resource.objects.filter(
-                language_tags=community).order_by('-date_modified')
-        context = {'resources': resources}
+                language_tags=community).annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+        context = {'resources': resources,'commentform': CommentForm(auto_id=False)}
         return context
 
 class VoteAjax(View):
@@ -205,8 +206,8 @@ class VoteAjax(View):
                 vote.save()
 
         response_dict = {
-                "upvotes":resource.upvotes(),
-                "downvotes":resource.downvotes(),
+                "upvotes":len(resource.upvotes()),
+                "downvotes":len(resource.downvotes()),
                 }
 
         response_json = json.dumps(response_dict)

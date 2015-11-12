@@ -36,19 +36,12 @@ class Resource(models.Model):
     def get_absolute_url(self):
         return reverse('detail', args=[str(self.id)])
 
+
     def upvotes(self):
-        upvotes = [upvote for upvote in self.votes.all() if upvote.vote is True]
-        return len(upvotes)
-
-    def downvotes(self):
-        downvotes = [downvote for downvote in self.votes.all() if downvote.vote is not True]
-        return len(downvotes)
-
-    def liked(self):
         liked_ids = [vote.user.id for vote in self.votes.all() if vote.vote is True]
 
         return liked_ids
-    def unliked(self):
+    def downvotes(self):
         unliked_ids = [vote.user.id for vote in self.votes.all() if vote.vote is False]
 
         return unliked_ids

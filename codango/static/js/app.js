@@ -5,12 +5,16 @@ $.ajaxSetup({
 });
 
 function socialLogin(user) {
+<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
+=======
+    
+>>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     var ajaxinfo = {
         url: "/login",
         type: "POST",
         data: user,
         success: function(data) {
-            console.log(data);
+            
             if (data == "success") {
                 location.reload();
             }
@@ -28,19 +32,28 @@ function socialLogin(user) {
             }
         },
         error: function(error) {
-            console.log(error.responseText);
+            
         }
     };
     $.ajax(ajaxinfo);
 }
 var facebookLogin = {
     config: {
+<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
         login: $("#facebook-login"),
         fb_id: "1472709103038197"
     },
     init: function(config) {
         facebookLogin.config.login.attr("disabled", true);
         if (config && typeof(config) == "object") {
+=======
+        login: "#facebook-login",
+        fb_id: '1472709103038197'
+    },
+    init: function(config) {
+        $(facebookLogin.config.login).attr("disabled", true);
+        if (config && typeof(config) == 'object') {
+>>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
             $.extend(facebookLogin.config, config);
         }
         $.getScript("//connect.facebook.net/en_US/sdk.js", function() {
@@ -48,9 +61,9 @@ var facebookLogin = {
                 appId: facebookLogin.config.fb_id,
                 version: "v2.5"
             });
-            facebookLogin.config.login.attr("disabled", false);
+            $(facebookLogin.config.login).attr("disabled", false);
         });
-        facebookLogin.config.login.click(function(e) {
+        $(facebookLogin.config.login).click(function(e) {
             e.preventDefault();
             facebookLogin.login();
         });
@@ -70,6 +83,7 @@ var facebookLogin = {
 };
 var googleLogin = {
     config: {
+<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
         login: $("#google-login"),
         OAUTHURL: "https://accounts.google.com/o/oauth2/auth?",
         VALIDURL: "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=",
@@ -78,12 +92,22 @@ var googleLogin = {
         REDIRECT: "http://localhost:8000",
         LOGOUT: "http://accounts.google.com/Logout",
         TYPE: "token",
+=======
+        login: "#google-login",
+        OAUTHURL: 'https://accounts.google.com/o/oauth2/auth?',
+        VALIDURL: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=',
+        SCOPE: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        CLIENTID: '58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com',
+        REDIRECT: 'http://localhost:8000',
+        LOGOUT: 'http://accounts.google.com/Logout',
+        TYPE: 'token',
+>>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(googleLogin.config, config);
         }
-        googleLogin.config.login.click(function(e) {
+        $(googleLogin.config.login).click(function(e) {
             googleLogin.login();
         });
     },
@@ -134,14 +158,14 @@ var googleLogin = {
 };
 var ajaxContent = {
     config: {
-        filter: $("#community a"),
-        contentDiv: $("#community-content")
+        filter: "#community a",
+        contentDiv: "#community-content"
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(ajaxContent.config, config);
         }
-        ajaxContent.config.filter.click(function(e) {
+        $(ajaxContent.config.filter).click(function(e) {
             e.preventDefault();
             var url = ajaxContent.buildUrl("/ajax", $(this));
             ajaxContent.loadContent(url);
@@ -151,9 +175,9 @@ var ajaxContent = {
         return path + _this.attr("href");
     },
     loadContent: function(url) {
-        ajaxContent.config.contentDiv.load(url, ajaxContent.mobile);
+        $(ajaxContent.config.contentDiv).load(url, ajaxContent.mobile);
     },
-    mobile: function() {
+    mobile: function(data,status,xhr) {
         $("#sidebar-mobile-link").show();
         $("#sidebar-mobile").animate({
             "left": "-=200px"
@@ -163,13 +187,13 @@ var ajaxContent = {
 };
 var shareForm = {
     config: {
-        share: $("#id_share_form")
+        share: "#id_share_form"
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(shareForm.config, config);
         }
-        shareForm.config.share.submit(function(e) {
+        $("body").on("submit",shareForm.config.share,function(e) {
             e.preventDefault();
             var fd = shareForm.formContents($(this));
             var url = $(this).attr("action");
@@ -185,7 +209,7 @@ var shareForm = {
         fd.append("resource_file", file_data);
     }
         var other_data = _this.serializeArray();
-        console.log(other_data)
+        
         $.each(other_data, function(key, input) {
             fd.append(input.name, input.value);
         });
@@ -196,6 +220,7 @@ var shareForm = {
         $("#preloader").show();
 
         //console.log(fd.get('resource_id'));
+
         var data = _this.serializeArray();
         $.ajax({
             url: url,
@@ -212,6 +237,7 @@ var shareForm = {
                 }
             },
             error: function(status) {
+<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
                 // Display errors
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
@@ -221,6 +247,8 @@ var shareForm = {
                 setTimeout(function() {
                     $(".errormsg").hide();
                 }, 5000);
+=======
+>>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
             },
             complete: function() {
 <<<<<<< 85a6e2161d84d103c95772911c6b94fe349a8bb3
@@ -247,13 +275,13 @@ var shareForm = {
 };
 var mobileNav = {
     config: {
-        linkNav: $("#sidebar-mobile-link i")
+        linkNav: "#sidebar-mobile-link i"
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(mobileNav.config, config);
         }
-        mobileNav.config.linkNav.click(function(e) {
+        $(mobileNav.config.linkNav).click(function(e) {
             e.preventDefault();
             mobileNav.showNav($(this));
         });
@@ -267,6 +295,52 @@ var mobileNav = {
         }
     }
 };
+
+var votes = {
+    config:{
+        voteButton: ".like, .unlike"
+
+    },
+    init: function(config){
+        if(config && typeof(config) == 'object') $.extend(votes.config, conifg);
+        $("body").on('click',votes.config.voteButton,function(e){
+            e.preventDefault();
+            var url = $(this).attr("href");
+            var resource_id = $(this).data("id");
+            votes.doVote(url,resource_id,$(this));
+
+        });
+    },
+    doVote: function(url,resource_id,_this){
+        $.ajax({
+            url:url,
+            type:"POST",
+            data:{
+                resource_id: resource_id
+            },
+            success: function(data){
+               _this.find('span').addClass('active');
+            if(_this.hasClass('like')){
+                _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
+                _this.find('span').text(data['upvotes'])
+            }
+            else
+            {
+                _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
+                _this.find('span').text(data['downvotes'])
+                
+
+            }
+
+            },
+            error: function(x){
+                
+            }
+        });
+
+    }
+
+}
 $(document).ready(function() {
     facebookLogin.init({
         //fb_id: "1472691016373339"
@@ -274,14 +348,21 @@ $(document).ready(function() {
     googleLogin.init({
         //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
-    shareForm.init();
-    shareForm.init({share: $(".commentform")});
+    shareForm.init({share: "#id_share_form, .commentform"});
     ajaxContent.init();
     mobileNav.init();
+<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
     $("#id-snippet-body").hide();
     $("#flash-message").fadeOut(5000);
     $("#id-snippet-button").click(function() {
         $("#id-snippet-body").toggle();
+=======
+    votes.init();
+    $('#id-snippet-body').hide();
+    $('#flash-message').fadeOut(5000);
+    $('#id-snippet-button').click(function() {
+        $('#id-snippet-body').toggle();
+>>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     });
     $("#id-pdf-button").on("click", function(hidden) {
         hidden.preventDefault();
@@ -301,38 +382,6 @@ $(document).ready(function() {
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
-    });
-    $(document).on("click",".like, .unlike",function(e){
-        e.preventDefault();
-        var _this = $(this);
-        var url = $(this).attr("href");
-        var resource_id = $(this).data("id");
-        $.ajax({
-            url:url,
-            type:"POST",
-            data:{
-                resource_id: resource_id
-            },
-            success: function(data){
-                console.log(data);
-               _this.find('span').addClass('active');
-            if(_this.hasClass('like')){
-                _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
-                _this.find('span').text(data['upvotes'])
-            }
-            else
-            {
-                _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
-                _this.find('span').text(data['downvotes'])
-                
-
-            }
-
-            },
-            error: function(x){
-                console.log(x.responseText);
-            }
-        })
     });
     // syntax highlighter plugin
     prettyPrint();
