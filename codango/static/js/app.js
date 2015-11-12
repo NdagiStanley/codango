@@ -185,13 +185,18 @@ var shareForm = {
         fd.append("resource_file", file_data);
     }
         var other_data = _this.serializeArray();
+        console.log(other_data)
         $.each(other_data, function(key, input) {
             fd.append(input.name, input.value);
         });
         return fd;
     },
     shareForm: function(url, fd, _this) {
+
         $("#preloader").show();
+
+        //console.log(fd.get('resource_id'));
+        var data = _this.serializeArray();
         $.ajax({
             url: url,
             type: "POST",
@@ -218,13 +223,24 @@ var shareForm = {
                 }, 5000);
             },
             complete: function() {
+<<<<<<< 85a6e2161d84d103c95772911c6b94fe349a8bb3
                 $("#preloader").hide();
+=======
+            if(_this.hasClass('share')){
+>>>>>>> [FEATURE #107707062] fully asyncchronous commenting system
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     $("#id-pdf-file").removeClass("show");
                     _this.trigger("reset");
                     prettyPrint();
                 });
+            }
+            else{
+                selector = "#rcomments-"+ data[1]['value'];
+                $(selector).load(document.URL + " "+ selector);
+            }
+
+            _this.trigger('reset');
             }
         });
     }
@@ -259,7 +275,7 @@ $(document).ready(function() {
         //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
     shareForm.init();
-    shareForm.init({share: $("#commentform")});
+    shareForm.init({share: $(".commentform")});
     ajaxContent.init();
     mobileNav.init();
     $("#id-snippet-body").hide();
@@ -304,10 +320,11 @@ $(document).ready(function() {
                 _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
                 _this.find('span').text(data['upvotes'])
             }
-               else {
+            else
+            {
                 _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
                 _this.find('span').text(data['downvotes'])
-                //console.log(_this.siblings('.like').find('span'))
+                
 
             }
 

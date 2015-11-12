@@ -62,14 +62,14 @@
             </div>
         </div>
         <div class="comments-div">
-        <form name="comment_form" class="form-horizontal"  id="commentform" action="/home" method="POST">
+        <form name="comment_form" class="form-horizontal commentform"action="/home" method="POST">
         {% csrf_token %}
         <input type="hidden" name="resource_id" value="{{resource.id}}">
         {{ commentform|bootstrap }}
         <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
         
         </form>
-        <div class="comments">
+        <div class="comments" id="rcomments-{{resource.id}}">
         {% for comment in resource.comments.all %}
 
         <article class="row">
