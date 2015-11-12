@@ -187,7 +187,7 @@ var shareForm = {
         return fd;
     },
     shareForm: function(url, fd, _this) {
-        $("#preloader").show()
+        $("#preloader").show();
         $.ajax({
             url: url,
             type: "POST",
@@ -214,7 +214,7 @@ var shareForm = {
                 }, 5000);
             },
             complete: function() {
-                $("#preloader").hide()
+                $("#preloader").hide();
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     $("#id-pdf-file").removeClass("show");
