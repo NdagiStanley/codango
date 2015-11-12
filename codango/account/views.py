@@ -150,17 +150,16 @@ class HomeView(LoginRequiredMixin, TemplateView):
             resource = form.save(commit=False)
             try:
                 resource.resource_file_name = form.files['resource_file'].name
-                resource.resource_file_size = form.files['resource_file'].size    
+                resource.resource_file_size = form.files['resource_file'].size
             except KeyError:
                 pass
             resource.author = self.request.user
             resource.save()
-            return HttpResponse("success", content_type='text/plain') 
+            return HttpResponse("success", content_type='text/plain')
         except ValueError:
             return HttpResponseNotFound("emptypost")
         except:
             return HttpResponseNotFound("invalidfile")
-        
 
 
 class AjaxCommunityView(HomeView):
