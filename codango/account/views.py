@@ -207,6 +207,8 @@ class AjaxCommunityView(HomeView):
 
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
         community = kwargs['community'].upper()
+        #url = self.request.POST['url'];
+        #print url
         if community == 'ALL':
             resources = resources
         else:
@@ -214,7 +216,9 @@ class AjaxCommunityView(HomeView):
                 language_tags=community).order_by('-date_modified')
         context = {'resources': resources,'commentform': CommentForm(auto_id=False)}
         return context
-()
+        def post(self,request,**kwargs):
+            pass
+
 
 class VoteAjax(View):
 

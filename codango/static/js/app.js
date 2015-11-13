@@ -148,6 +148,7 @@ var ajaxContent = {
 
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
+
         });
     },
     buildUrl: function(_this) {
@@ -155,14 +156,18 @@ var ajaxContent = {
         return _this.attr('href');
     },
     loadContent: function(url) {
-        $(ajaxContent.config.contentDiv).load($.trim(url), ajaxContent.mobile);
+        console.log($('input[name="csrfmiddlewaretoken"]').val());
+        $(ajaxContent.config.contentDiv).load($.trim(url),ajaxContent.afterAction);
 
     },
-    mobile: function(data,status,xhr) {
+    afterAction: function(data,status,xhr) {
         $("#sidebar-mobile-link").show();
         $("#sidebar-mobile").animate({
             "left": "-=200px"
         });
+
+
+        //console.log(xhr.responseText)
         prettyPrint();
     }
 };
