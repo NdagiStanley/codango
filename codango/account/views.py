@@ -141,9 +141,24 @@ class HomeView(LoginRequiredMixin, TemplateView):
         return super(HomeView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        
+        try:
+            sortby = self.request.GET['sortby']
+        except:
+            sortby = None
+
+        print sortby 
+
         context = super(HomeView, self).get_context_data(**kwargs)
         user = self.request.user
-        resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+
+        if sortby is not None and sortby == "date":
+            resources = Resource.objects.order_by('-date_modified')
+
+        elif sortby is not None:
+            resources = Resource.objects.annotate(num_sort=Count(sortby)).order_by('-num_sort')
+        else:
+            resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
 
         context = {
             'resources': resources,
@@ -170,20 +185,36 @@ class HomeView(LoginRequiredMixin, TemplateView):
         except:
             return HttpResponseNotFound("invalidfile")
 
-
 class AjaxCommunityView(HomeView):
     template_name = 'account/partials/community.html'
 
     def get_context_data(self, **kwargs):
+
+        try:
+            sortby = self.request.GET['sortby']
+        except:
+            sortby = None
+
+        if sortby is not None and sortby == "date":
+
+            resources = Resource.objects.order_by('-date_modified')
+
+        elif sortby is not None:
+            resources = Resource.objects.annotate(num_sort=Count(sortby)).order_by('-num_sort')
+        else:
+            resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+
+
         context = super(AjaxCommunityView, self).get_context_data(**kwargs)
         community = kwargs['community'].upper()
         if community == 'ALL':
-            resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+            resources = resources
         else:
-            resources = Resource.objects.filter(
-                language_tags=community).annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+            resources = resources.filter(
+                language_tags=community).order_by('-date_modified')
         context = {'resources': resources,'commentform': CommentForm(auto_id=False)}
         return context
+()
 
 class VoteAjax(View):
 
@@ -305,3 +336,87 @@ class ResetPasswordView(View):
         return render(request, 'account/forgot-password-reset.html', context)
 
 
+class UserProfileDetailView(TemplateView):
+    model = UserProfile
+    template_name = 'account/profile.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.is_ajax():
+            self.template_name = 'account/partials/community.html'
+        return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+
+        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            user = User.objects.get(username=username)
+            if user is None:
+                return Http404("User does not exist")
+
+
+        try:
+            sortby = self.request.GET['sortby']
+        except:
+            sortby = None
+
+        if sortby is not None and sortby == "date":
+
+            context['resources'] = user.resource_set.all().order_by('-date_modified')
+
+        elif sortby is not None:
+            context['resources'] = user.resource_set.all().annotate(num_sort=Count(sortby)).order_by('-num_sort')
+        else:
+            context['resources'] = user.resource_set.all().annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+
+
+ 
+
+        context['profile'] = user.profile
+        context['title'] = "My Feed"
+        context['commentform'] = CommentForm(auto_id=False)
+        return context
+
+
+class UserProfileEditView(LoginRequiredMixin, TemplateView):
+    form_class = UserProfileForm
+    template_name = 'account/profile-edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileEditView, self).get_context_data(**kwargs)
+        username = kwargs['username']
+        if self.request.user.username == username:
+            user = self.request.user
+        else:
+            pass
+
+        context['profile'] = user.profile
+        context['resources'] = user.resource_set.all()
+        context['profileform'] = self.form_class(initial={
+            'about': self.request.user.profile.about,
+            'first_name': self.request.user.profile.first_name,
+            'last_name': self.request.user.profile.last_name,
+            'place_of_work': self.request.user.profile.place_of_work,
+            'position': self.request.user.profile.position
+        })
+
+        return context
+
+    def post(self, request, **kwargs):
+        form = self.form_class(
+            request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.add_message(
+                request, messages.SUCCESS, 'Profile Updated!')
+            return redirect(
+                '/user/' + kwargs['username'],
+                context_instance=RequestContext(request)
+            )
+        else:
+            context = super(
+                UserProfileEditView, self).get_context_data(**kwargs)
+            context['profileform'] = self.form_class
+            return render(request, self.template_name, context)

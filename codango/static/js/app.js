@@ -5,10 +5,6 @@ $.ajaxSetup({
 });
 
 function socialLogin(user) {
-<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
-=======
-    
->>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     var ajaxinfo = {
         url: "/login",
         type: "POST",
@@ -37,23 +33,16 @@ function socialLogin(user) {
     };
     $.ajax(ajaxinfo);
 }
+
 var facebookLogin = {
     config: {
-<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
-        login: $("#facebook-login"),
-        fb_id: "1472709103038197"
-    },
-    init: function(config) {
-        facebookLogin.config.login.attr("disabled", true);
-        if (config && typeof(config) == "object") {
-=======
+
         login: "#facebook-login",
         fb_id: '1472709103038197'
     },
     init: function(config) {
         $(facebookLogin.config.login).attr("disabled", true);
         if (config && typeof(config) == 'object') {
->>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
             $.extend(facebookLogin.config, config);
         }
         $.getScript("//connect.facebook.net/en_US/sdk.js", function() {
@@ -83,16 +72,6 @@ var facebookLogin = {
 };
 var googleLogin = {
     config: {
-<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
-        login: $("#google-login"),
-        OAUTHURL: "https://accounts.google.com/o/oauth2/auth?",
-        VALIDURL: "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=",
-        SCOPE: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
-        CLIENTID: "58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com",
-        REDIRECT: "http://localhost:8000",
-        LOGOUT: "http://accounts.google.com/Logout",
-        TYPE: "token",
-=======
         login: "#google-login",
         OAUTHURL: 'https://accounts.google.com/o/oauth2/auth?',
         VALIDURL: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=',
@@ -101,7 +80,6 @@ var googleLogin = {
         REDIRECT: 'http://localhost:8000',
         LOGOUT: 'http://accounts.google.com/Logout',
         TYPE: 'token',
->>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
@@ -167,15 +145,18 @@ var ajaxContent = {
         }
         $(ajaxContent.config.filter).click(function(e) {
             e.preventDefault();
-            var url = ajaxContent.buildUrl("/ajax", $(this));
+
+            var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
         });
     },
-    buildUrl: function(path, _this) {
-        return path + _this.attr("href");
+    buildUrl: function(_this) {
+        _this.closest("ul").closest("li").removeClass('open');
+        return _this.attr('href');
     },
     loadContent: function(url) {
-        $(ajaxContent.config.contentDiv).load(url, ajaxContent.mobile);
+        $(ajaxContent.config.contentDiv).load($.trim(url), ajaxContent.mobile);
+
     },
     mobile: function(data,status,xhr) {
         $("#sidebar-mobile-link").show();
@@ -237,7 +218,7 @@ var shareForm = {
                 }
             },
             error: function(status) {
-<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
+
                 // Display errors
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
@@ -247,15 +228,12 @@ var shareForm = {
                 setTimeout(function() {
                     $(".errormsg").hide();
                 }, 5000);
-=======
->>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
+
             },
             complete: function() {
-<<<<<<< 85a6e2161d84d103c95772911c6b94fe349a8bb3
+
                 $("#preloader").hide();
-=======
             if(_this.hasClass('share')){
->>>>>>> [FEATURE #107707062] fully asyncchronous commenting system
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     $("#id-pdf-file").removeClass("show");
@@ -349,20 +327,13 @@ $(document).ready(function() {
         //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
     shareForm.init({share: "#id_share_form, .commentform"});
-    ajaxContent.init();
+    ajaxContent.init({filter: "#community a,.filter-menu a"});
     mobileNav.init();
-<<<<<<< 7ed06346902dc5871b85399374b5ec02135c594d
-    $("#id-snippet-body").hide();
-    $("#flash-message").fadeOut(5000);
-    $("#id-snippet-button").click(function() {
-        $("#id-snippet-body").toggle();
-=======
     votes.init();
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
         $('#id-snippet-body').toggle();
->>>>>>> [FEATURE #107707062] sort by relevance implemented and some fixes to app.js
     });
     $("#id-pdf-button").on("click", function(hidden) {
         hidden.preventDefault();
@@ -385,7 +356,6 @@ $(document).ready(function() {
     });
     // syntax highlighter plugin
     prettyPrint();
-
     // Handling follow
     $('#follow-btn').click(function(e){
         e.preventDefault();
@@ -410,6 +380,7 @@ $(document).ready(function() {
             }
 
         })
+
 
     $(document).on("click",".mdi-comment",function(e){
         e.preventDefault();

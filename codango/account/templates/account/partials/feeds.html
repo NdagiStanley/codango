@@ -42,10 +42,27 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
+
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}</h3>
             <div id="preloader">
                 <img src="{% static 'img/ajax-loader.gif' %}">
             </div>
+
+            <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}  
+<ul class="filter pull-right dropdown">
+  <li><a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Filter By
+    <span class="caret"></span>
+  </a>
+  <ul class="filter-menu dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li><a href="{{ request.path }}?sortby=date" aria-controls="home" role="tab" data-toggle="tab">Newest</a></li>
+    <li><a href="{{ request.path }}?sortby=votes" aria-controls="profile" role="tab" data-toggle="tab">Votes</a></li>
+    <li><a href="{{ request.path }}?sortby=comments" aria-controls="messages" role="tab" data-toggle="tab">Comments</a></li>
+  </ul>
+  </li>
+
+</ul>
+  </h3>
             <div id="community-content">
                 {% include "account/partials/community.html" %}
             </div>

@@ -228,7 +228,16 @@ body {
 	border-radius: 4px;
 	color: #565c6f;
 }
+.filter {
+	list-style:none;
+}
+.filter > li{
+	float:left;
 
+}
+.filter > li > a{
+	display:inline;
+}
 .item {
 	margin: 0px 10px;
 	cursor:pointer;
