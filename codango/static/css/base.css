@@ -194,6 +194,9 @@ body {
 .feed .profile-img img {
 	border-radius: 4px;
 }
+.feed article.row{
+	padding:0px 40px;
+}
 
 .feed-content {
 	padding-left: 84px;

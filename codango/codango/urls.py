@@ -19,9 +19,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 import account.urls
 import userprofile.urls
+import resources.urls
+
+
 
 urlpatterns = [
     url(r'^', include(account.urls)),
+    url(r'^resource/', include(resources.urls)),
     url(r'^user/', include(userprofile.urls)),
     url(r'^admin/', include(admin.site.urls)),
 

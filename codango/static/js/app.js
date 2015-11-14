@@ -148,16 +148,19 @@ var ajaxContent = {
 
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
+            window.history.pushState("object or string", "Title", url);
+            console.log($(location).attr('href'));
 
         });
     },
     buildUrl: function(_this) {
         _this.closest("ul").closest("li").removeClass('open');
+        if(_this.hasClass('filterby')) return location.protocol+'//'+location.host+location.pathname + _this.attr('href');
         return _this.attr('href');
     },
     loadContent: function(url) {
-        console.log($('input[name="csrfmiddlewaretoken"]').val());
-        $(ajaxContent.config.contentDiv).load($.trim(url),ajaxContent.afterAction);
+        console.log(url);
+        $(ajaxContent.config.contentDiv).load(url + " " + ajaxContent.config.contentDiv,ajaxContent.afterAction);
 
     },
     afterAction: function(data,status,xhr) {
@@ -165,6 +168,7 @@ var ajaxContent = {
         $("#sidebar-mobile").animate({
             "left": "-=200px"
         });
+        //console.log(xhr.responseText)
 
 
         //console.log(xhr.responseText)
@@ -302,7 +306,9 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data){
-               _this.find('span').addClass('active');
+                console.log(data);
+                if(data['status'] == "NoVote") _this.find('span').removeClass('active');
+                else _this.find('span').addClass('active')
             if(_this.hasClass('like')){
                 _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
                 _this.find('span').text(data['upvotes'])
@@ -317,6 +323,7 @@ var votes = {
 
             },
             error: function(x){
+                console.log(x.responseText)
                 
             }
         });
