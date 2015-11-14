@@ -160,7 +160,7 @@ var ajaxContent = {
     },
     loadContent: function(url) {
         console.log(url);
-        $(ajaxContent.config.contentDiv).load(url + " " + ajaxContent.config.contentDiv,ajaxContent.afterAction);
+        $(ajaxContent.config.contentDiv).load(url,ajaxContent.afterAction);
 
     },
     afterAction: function(data,status,xhr) {

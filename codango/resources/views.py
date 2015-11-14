@@ -18,15 +18,13 @@ from resources.forms import ResourceForm
 from comments.models import Comment
 from votes.models import Vote
 
-
 class CommunityBaseView(TemplateView):
-
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
             self.template_name = 'account/partials/community.html'
-            return super(CommunityBaseView, self).dispatch(request, *args, **kwargs)
+        return super(CommunityBaseView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 
@@ -34,11 +32,11 @@ class CommunityBaseView(TemplateView):
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
         resources = self.sort_by(sortby, Resource.objects)
-        community = kwargs[
-            'community'].upper() if 'community' in kwargs else 'ALL'
+        community = kwargs['community'].upper() if 'community' in kwargs else 'ALL'
 
         if community != 'ALL':
             resources = resources.filter(language_tags=community)
+        
 
         context = {'resources': resources, 'commentform': CommentForm(
             auto_id=False), 'title': 'Activity Feed', }
@@ -50,6 +48,8 @@ class CommunityBaseView(TemplateView):
             return object_set.order_by('-date_modified')
         else:
             return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
+
+
 
 
 class CommunityView(CommunityBaseView):
