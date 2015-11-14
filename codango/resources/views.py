@@ -20,6 +20,7 @@ from votes.models import Vote
 
 
 class CommunityBaseView(TemplateView):
+
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
