@@ -243,6 +243,7 @@ var shareForm = {
 
                 $("#preloader").hide();
             if(_this.hasClass('share')){
+                console.log(document.URL);
                 $("#community-content").load(document.URL, function() {
                     $("#id-snippet-body").hide();
                     $("#id-pdf-file").removeClass("show");
@@ -392,7 +393,22 @@ $(document).ready(function() {
             }
 
         })
+    $("body").on("click",".delete-comment",function(e){
+        e.preventDefault();
+        var _this = $(this)
+        if(!confirm("Are you sure you want to delete this comment")) return;
+        $.ajax({
+            url: _this.attr("href"),
+            type:"DELETE",
+            success:function(data){
+                console.log(data);
+            },
+            error:function(res){
+                console.log(res.responseText)
+            }
 
+        })
+    })
 
     $(document).on("click",".mdi-comment",function(e){
         e.preventDefault();

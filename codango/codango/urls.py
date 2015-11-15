@@ -20,6 +20,7 @@ from django.contrib import admin
 import account.urls
 import userprofile.urls
 import resources.urls
+import comments.urls
 
 
 
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^', include(account.urls)),
     url(r'^resource/', include(resources.urls)),
     url(r'^user/', include(userprofile.urls)),
+    url(r'^comment/', include(comments.urls)),
     url(r'^admin/', include(admin.site.urls)),
 
 ]

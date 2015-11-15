@@ -95,7 +95,9 @@
                      {{comment}}
                     </p>
                   </div>
-                  
+                  {% if comment.author.id == request.user.id %}
+                  <p class="text-right"><a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="btn btn-default btn-sm delete-comment">Delete</a></p>
+                  {% endif %}
                 </div>
               </div>
             </div>
