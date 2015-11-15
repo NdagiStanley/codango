@@ -151,13 +151,13 @@ class HomeView(LoginRequiredMixin, TemplateView):
         context = super(HomeView, self).get_context_data(**kwargs)
         user = self.request.user
 
-        if sortby is not None and sortby == "date":
+        if sortby is None or sortby == "date":
             resources = Resource.objects.order_by('-date_modified')
 
         elif sortby is not None:
             resources = Resource.objects.annotate(num_sort=Count(sortby)).order_by('-num_sort')
-        else:
-            resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
+        #else:
+            #resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
 
         context = {
             'resources': resources,

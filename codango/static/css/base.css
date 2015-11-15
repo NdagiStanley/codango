@@ -142,6 +142,9 @@ body {
 .comment-post{
 	padding-top:10px;
 }
+.edit-view{
+	display:none;
+}
 
 .list-inline {
 	margin-left: 10px;

@@ -90,12 +90,26 @@
                      <time class="comment-date" datetime="16-12-2014 01:05"><i class="mdi mdi-alarm"></i> {{comment.date_created|timesince}} ago </time>
                   </header>
                   </header>
-                 <div class="comment-post">
+                 <div class="comment-post view">
                     <p>
                      {{comment}}
                     </p>
+                    {% if comment.author.id == request.user.id %}
+                    <a href="#" class="btn btn-sm btn-warning show-edit">Edit Comment </a>
+                    {% endif %}
                   </div>
                   {% if comment.author.id == request.user.id %}
+                 <div class="comment-post edit-view">
+                 <form class="form horizontal edit-comment" action="{% url 'editcomment' comment_id=comment.id  %}" method="POST">
+                    <textarea name="content" class="form-control">
+                     {{comment}}
+                    </textarea>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn btn-warning show-view">Discard Changes</button>
+                      </div>
+                                        </form>
+                  </div>
                   <p class="text-right"><a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="btn btn-default btn-sm delete-comment">Delete</a></p>
                   {% endif %}
                 </div>

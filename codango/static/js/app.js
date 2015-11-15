@@ -402,9 +402,6 @@ $(document).ready(function() {
             type:"DELETE",
             success:function(data){
                 console.log(data);
-               var selector = "#" + _this.closest('.comments').attr("id");
-               console.log(selector);
-               $(selector).load(document.URL + " " +selector);
             },
             error:function(res){
                 console.log(res.responseText)
