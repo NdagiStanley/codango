@@ -131,9 +131,8 @@ class LoginRequiredMixin(object):
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
-    form_class = ResourceForm
     template_name = 'account/home.html'
-    commentform_class = CommentForm
+
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -184,6 +183,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
             return HttpResponseNotFound("emptypost")
         except:
             return HttpResponseNotFound("invalidfile")
+
 
 class ForgotPasswordView(TemplateView):
     form_class = ResetForm
