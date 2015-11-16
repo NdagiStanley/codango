@@ -16,7 +16,7 @@ class ResourceTestModels(TestCase):
         )
 
     def test_for_resource_creation(self):
-        self.assertTrue(Resource.objects.all())
+        self.assertIsNotNone(Resource.objects.all())
 
     # mock cloudinary pre_save function that returns a public_id for uploads
     def test_file_save(self):
