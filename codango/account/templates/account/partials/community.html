@@ -25,8 +25,16 @@
         {% endif %}
 
         {% if resource.resource_file %}
-        <p>
-        Attached file: <a href="http://res.cloudinary.com/codangofile/image/upload/{{ resource.resource_file }}.pdf">{{ resource.resource_file }}</a><br>
+        <p id="file-icon">
+        {% if resource.resource_file.format == "pdf" %}
+        <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
+        {% else %}
+        <i id="file-icon-doc" class="mdi mdi-file-word"></i>
+        {% endif %}
+        </p> &nbsp;
+        <p id="file-info">
+        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a><br>
+        size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
 
@@ -45,3 +53,7 @@
 <div class="alert alert-info spacer">There are currently no posts</div>
 {% endfor %}
 {% show_more %}
+
+<script type="text/javascript">
+prettyPrint();
+</script>

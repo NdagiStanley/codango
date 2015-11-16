@@ -1,5 +1,6 @@
 {% load cloudinary %}
 {% load endless %}
+{% load staticfiles %}
 
 <div class="content-block">
     {% if messages %}
@@ -18,7 +19,7 @@
                 <textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
                 <div class="row form-buttons">
                     <div class="col-sm-8">
-                        <button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach File</button>
+                        <button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach PDF/DOC</button>
                         <button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
                         <div class="btn-group">
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>                        
@@ -42,6 +43,9 @@
     <div class="row">
         <div class="col-sm-12">
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}</h3>
+            <div id="preloader">
+                <img src="{% static 'img/ajax-loader.gif' %}">
+            </div>
             <div id="community-content">
                 {% include "account/partials/community.html" %}
             </div>

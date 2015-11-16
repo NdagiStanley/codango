@@ -283,7 +283,31 @@ textarea {
 }
 
 #id-pdf-file {
-	height: 42px;
+	height: 100%;
+}
+
+#preloader {
+	display: none;
+	text-align: center;
+}
+
+#file-icon-pdf {
+	font-size: 40px;
+	color: #ff0000;
+}
+
+#file-icon-doc {
+	font-size: 40px;
+	color: #0000ff;
+}
+
+#file-icon {
+	margin-bottom: 0px;
+	display: inline-block;
+}
+
+#file-info {
+	display: inline-block;
 }
 
 #edit-profile {
