@@ -376,6 +376,7 @@ var editComment = {
             data:JSON.stringify({
                 'content': _this.find("textarea[name='content']").val()
             }),
+            //data:fd,
             success:loadComments(_this),
             error:function(res){
                 console.log(res.responseText);
@@ -401,9 +402,9 @@ $(document).ready(function() {
         $('#id-snippet-body').toggle();
     });
 
-    $('#id-pdf-button').on("click", function(hidden) {
+    $('#id-pdf-button').on('click', function(hidden) {
         hidden.preventDefault();
-        $("#id-pdf-file").toggleClass('show');
+        $('#id-pdf-file').toggleClass('show');
     });
     $("#more a").click(function(e) {
         e.preventDefault();
@@ -465,7 +466,7 @@ $(document).ready(function() {
     $(document).on("click",".mdi-comment",function(e){
         e.preventDefault();
 
-        $(this).closest(".feed-content").find(".comments-div").toggle();
+        $(this).closest('.feed-content').find('.comments-div').toggle();
 
     });
 });

@@ -44,6 +44,7 @@ class AjaxCommunityViewTest(TestCase):
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code,200)
 		self.assertEqual(len(resource.upvotes()),1)
+		
 	def test_user_can_downvote(self):
 		self.assertTrue(self.login)
 		resource = self.create_resources()
@@ -51,6 +52,7 @@ class AjaxCommunityViewTest(TestCase):
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code,200)
 		self.assertEqual(len(resource.downvotes()),1)
+
 	def test_user_can_get_persisten_vote(self):
 		self.assertTrue(self.login)
 		resource = self.create_resources()
@@ -60,6 +62,7 @@ class AjaxCommunityViewTest(TestCase):
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code,200)
 		self.assertEqual(len(resource.upvotes()),1)
+
 	def test_user_cannot_vote_more_than_once(self):
 		self.assertTrue(self.login)
 		resource = self.create_resources()
