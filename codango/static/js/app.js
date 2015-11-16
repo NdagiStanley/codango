@@ -332,6 +332,66 @@ var votes = {
     }
 
 }
+
+function loadComments(_this){
+    //console.log(data);
+            var selector = "#" + _this.closest('.comments').attr("id");
+            $(selector).load(document.URL + " " +selector);
+        }
+var deleteComment = {
+    config:{
+        button: ".delete-comment",
+    },
+    init: function(config){
+        if(config && typeof config == 'object') $.extend(deleteComment.config, config);
+        $("body").on('click',deleteComment.config.button, function(e){
+            e.preventDefault();
+            if(!confirm("Are you sure you want to delete this comment")) return;
+            deleteComment.sendAction($(this));
+        })
+    },
+    sendAction:function(_this){
+        $.ajax({
+            url: _this.attr("href"),
+            type:"DELETE",
+            success:loadComments(_this),
+            error:function(res){
+                console.log(res.responseText);
+            }
+        })
+    }
+
+};
+var editComment = {
+    config:{
+        button: ".edit-comment"
+    },
+    init: function(config){
+        if(config && typeof config == 'object') $.extend(editComment.config, config);
+        $("body").on('submit',editComment.config.button, function(e){
+            e.preventDefault();
+            editComment.sendAction($(this));
+        })
+    },
+    sendAction: function(_this){
+
+        $.ajax({
+            url: _this.attr("action"),
+            type:"PUT",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            data:JSON.stringify({
+                'content': _this.find("textarea[name='content']").val()
+            }),
+            //data:fd,
+            success:loadComments(_this),
+            error:function(res){
+                console.log(res.responseText);
+            }
+        });
+    }
+
+};
 $(document).ready(function() {
     facebookLogin.init({
         //fb_id: "1472691016373339"

@@ -23,9 +23,9 @@ class CommentAction(View):
 		comment.author = self.request.user
 		comment.save()
 		return HttpResponse("success", content_type='text/plain')
+		
 	def put(self, request, *args, **kwargs):
 		body = json.loads(request.body)
-		print body
 		comment_id = kwargs['comment_id']
 		comment = Comment.objects.filter(id=comment_id).first()
 		comment.content = body['content']
