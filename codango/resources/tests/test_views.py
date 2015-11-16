@@ -60,7 +60,7 @@ class AjaxCommunityViewTest(TestCase):
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code,200)
 		self.assertEqual(len(resource.upvotes()),1)
-	def test_user_can_delete_vote(self):
+	def test_user_cannot_vote_more_than_once(self):
 		self.assertTrue(self.login)
 		resource = self.create_resources()
 		response = self.client.post('/resource/100/unlike',{'resource_id':100},

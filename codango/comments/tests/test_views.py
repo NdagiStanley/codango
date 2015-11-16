@@ -41,7 +41,7 @@ class CommentActionTest(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "success")
 
-	def test_user_can_delete_comments(self):
+	def test_user_can_edit_comments(self):
 		self.assertTrue(self.login)
 		resource = self.create_resources()
 		comment = Comment(id=200, author=self.user,resource =resource,content="Test comment")
