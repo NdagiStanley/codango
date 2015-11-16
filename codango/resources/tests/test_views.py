@@ -34,7 +34,6 @@ class AjaxCommunityViewTest(TestCase):
 		response = self.client.post('/resource/newresource',
                 {'text': '1',},
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-		print response
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "success")
 

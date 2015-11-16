@@ -149,7 +149,6 @@ var ajaxContent = {
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
             window.history.pushState("object or string", "Title", url);
-            console.log($(location).attr('href'));
 
         });
     },
@@ -159,7 +158,6 @@ var ajaxContent = {
         return _this.attr('href');
     },
     loadContent: function(url) {
-        console.log(url);
         $(ajaxContent.config.contentDiv).load(url,ajaxContent.afterAction);
 
     },
@@ -168,10 +166,6 @@ var ajaxContent = {
         $("#sidebar-mobile").animate({
             "left": "-=200px"
         });
-        //console.log(xhr.responseText)
-
-
-        //console.log(xhr.responseText)
         prettyPrint();
     }
 };
@@ -334,7 +328,6 @@ var votes = {
 }
 
 function loadComments(_this){
-    //console.log(data);
             var selector = "#" + _this.closest('.comments').attr("id");
             $(selector).load(document.URL + " " +selector);
         }
@@ -383,7 +376,6 @@ var editComment = {
             data:JSON.stringify({
                 'content': _this.find("textarea[name='content']").val()
             }),
-            //data:fd,
             success:loadComments(_this),
             error:function(res){
                 console.log(res.responseText);
@@ -394,10 +386,10 @@ var editComment = {
 };
 $(document).ready(function() {
     facebookLogin.init({
-        //fb_id: "1472691016373339"
+        fb_id: "1472691016373339"
     });
     googleLogin.init({
-        //REDIRECT: "http://codango-staging.herokuapp.com/"
+        REDIRECT: "http://codango-staging.herokuapp.com/"
     });
     shareForm.init({share: "#id_share_form, .commentform"});
     ajaxContent.init({filter: "#community a,.filter-menu a"});
@@ -408,9 +400,10 @@ $(document).ready(function() {
     $('#id-snippet-button').click(function() {
         $('#id-snippet-body').toggle();
     });
-    $("#id-pdf-button").on("click", function(hidden) {
+
+    $('#id-pdf-button').on("click", function(hidden) {
         hidden.preventDefault();
-        $("#id-pdf-file").toggleClass("show");
+        $("#id-pdf-file").toggleClass('show');
     });
     $("#more a").click(function(e) {
         e.preventDefault();
@@ -427,7 +420,6 @@ $(document).ready(function() {
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
-    // syntax highlighter plugin
     prettyPrint();
     // Handling follow
     $('#follow-btn').click(function(e){
@@ -473,8 +465,7 @@ $(document).ready(function() {
     $(document).on("click",".mdi-comment",function(e){
         e.preventDefault();
 
-        $(this).closest('.feed-content').find('.comments-div').toggle();
-        
-        //$(".feed-content .comments-div").toggle();
+        $(this).closest(".feed-content").find(".comments-div").toggle();
+
     });
 });

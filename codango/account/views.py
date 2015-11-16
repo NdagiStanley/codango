@@ -156,9 +156,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
         elif sortby is not None:
             resources = Resource.objects.annotate(num_sort=Count(sortby)).order_by('-num_sort')
-        #else:
-            #resources = Resource.objects.annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
-
+       
         context = {
             'resources': resources,
             'profile': user.profile,
