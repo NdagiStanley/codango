@@ -10,7 +10,7 @@ from votes.models import Vote
 
 
 
-class AjaxCommunityView(TestCase):
+class AjaxCommunityViewTest(TestCase):
 
 	def setUp(self):
 		self.client = Client()
