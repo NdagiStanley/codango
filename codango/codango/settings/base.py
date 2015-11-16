@@ -63,6 +63,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'account',
     'resources',
+    'userprofile',
     'bootstrapform',
     'cloudinary',
     'djangobower',
