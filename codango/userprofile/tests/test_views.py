@@ -10,7 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from userprofile.models import UserProfile, Follow
-from userprofile.views import FollowUserView, UserProfileEditView,
+from userprofile.views import FollowUserView, UserProfileEditView
 
 class UserProfileTest(StaticLiveServerTestCase):
     def setUp(self):
@@ -32,5 +32,6 @@ class FollowUserProfileTest(StaticLiveServerTestCase):
 
 
     def test_a_logged_in_user_can_follow_a_registered_user(self):
-      pass
+        pass
+
 

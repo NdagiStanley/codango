@@ -97,10 +97,8 @@ class FollowUserView(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         username = kwargs['username']
         user = User.objects.get(id=request.user.id)
-        print user
-        print username
+
         following_id = User.objects.get(username=username)
-        print following_id
         follow = Follow(follower_id=user, followed_id=following_id, date_of_follow=timezone.now())
         follow.save()
 

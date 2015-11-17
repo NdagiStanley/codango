@@ -11,6 +11,6 @@ class ProfileTestModels(TestCase):
             username='adebola', password='adebolu')
 
     def test_for_profile_creation(self):
-                      
+
         userprofile = UserProfile.objects.get(user_id=self.user.id)
         self.assertTrue(isinstance(userprofile, UserProfile))
