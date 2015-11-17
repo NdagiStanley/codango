@@ -73,13 +73,13 @@ var facebookLogin = {
 var googleLogin = {
     config: {
         login: "#google-login",
-        OAUTHURL: 'https://accounts.google.com/o/oauth2/auth?',
-        VALIDURL: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=',
-        SCOPE: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-        CLIENTID: '58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com',
-        REDIRECT: 'http://localhost:8000',
-        LOGOUT: 'http://accounts.google.com/Logout',
-        TYPE: 'token',
+        OAUTHURL: "https://accounts.google.com/o/oauth2/auth?",
+        VALIDURL: "https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=",
+        SCOPE: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email",
+        CLIENTID: "58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com",
+        REDIRECT: "http://localhost:8000",
+        LOGOUT: "http://accounts.google.com/Logout",
+        TYPE: "token",
     },
     init: function(config) {
         if (config && typeof(config) == "object") {

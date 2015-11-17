@@ -95,6 +95,7 @@
                      {{comment}}
                     {% if comment.author.id == request.user.id %}
                     <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
+                     <a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="delete-comment"><span class="mdi mdi-delete"></span></a>
                     {% endif %}
                     </p>
 
@@ -111,7 +112,7 @@
                       </div>
                                         </form>
                   </div>
-                  <p class="text-right"><a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="delete-comment"><span class="mdi mdi-delete"></span></a></p>
+
                   {% endif %}
                 </div>
               </div>
