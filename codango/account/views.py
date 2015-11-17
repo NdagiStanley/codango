@@ -133,7 +133,6 @@ class LoginRequiredMixin(object):
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
 
-
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
             self.template_name = 'account/partials/community.html'
@@ -141,15 +140,17 @@ class HomeView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
 
-        sortby = self.request.GET['sortby'] if 'sortby' in self.request.GET else 'date'
+        sortby = self.request.GET[
+            'sortby'] if 'sortby' in self.request.GET else 'date'
         user = self.request.user
 
         if sortby == "date":
             resources = Resource.objects.order_by('-date_modified')
 
         elif sortby is not None:
-            resources = Resource.objects.annotate(num_sort=Count(sortby)).order_by('-num_sort')
-       
+            resources = Resource.objects.annotate(
+                num_sort=Count(sortby)).order_by('-num_sort')
+
         context = {
             'resources': resources,
             'profile': user.profile,
@@ -286,15 +287,18 @@ class UserProfileDetailView(TemplateView):
             if user is None:
                 return Http404("User does not exist")
 
-        sortby = self.request.GET['sortby'] if 'sortby' in self.request.GET else 'date'
+        sortby = self.request.GET[
+            'sortby'] if 'sortby' in self.request.GET else 'date'
 
         if sortby == "date":
 
-            context['resources'] = user.resource_set.all().order_by('-date_modified')
+            context['resources'] = user.resource_set.all().order_by(
+                '-date_modified')
 
         else:
-            context['resources'] = user.resource_set.all().annotate(num_sort=Count(sortby)).order_by('-num_sort')
-        
+            context['resources'] = user.resource_set.all().annotate(
+                num_sort=Count(sortby)).order_by('-num_sort')
+
         context['profile'] = user.profile
         context['title'] = "My Feed"
         context['commentform'] = CommentForm(auto_id=False)

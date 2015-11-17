@@ -18,11 +18,9 @@ class ResourceTestModels(TestCase):
 
     def create_resources(self, text='some more words', resource_file='resource_file'):
         return Resource.objects.create(text=text, author=self.user, resource_file=resource_file)
-        
+
     def test_for_resource_creation(self):
         self.assertIsNotNone(Resource.objects.all())
-
-
 
     # mock cloudinary pre_save function that returns a public_id for uploads
     def test_file_save(self):
@@ -44,20 +42,19 @@ class ResourceTestModels(TestCase):
         self.assertTrue(isinstance(create, Resource))
 
     def test_for_upvote(self):
-    	resource = self.create_resources()
+        resource = self.create_resources()
         vote = Vote()
-    	vote.user = self.user
-    	vote.resource = resource
-    	vote.vote = True
-    	vote.save()
-    	self.assertEqual(len(resource.upvotes()),1)
-        
-    def test_for_downvote(self):
-    	resource = self.create_resources()
-        vote = Vote()
-    	vote.user = self.user
-    	vote.resource = resource
-    	vote.vote = False
-    	vote.save()
-    	self.assertEqual(len(resource.downvotes()),1)
+        vote.user = self.user
+        vote.resource = resource
+        vote.vote = True
+        vote.save()
+        self.assertEqual(len(resource.upvotes()), 1)
 
+    def test_for_downvote(self):
+        resource = self.create_resources()
+        vote = Vote()
+        vote.user = self.user
+        vote.resource = resource
+        vote.vote = False
+        vote.save()
+        self.assertEqual(len(resource.downvotes()), 1)
