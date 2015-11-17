@@ -112,7 +112,7 @@ class FollowListView(LoginRequiredMixin, TemplateView):
     """
     View to handle both the followers and following
     """
-    template_name = 'userprofile/follow.html' 
+    template_name = 'userprofile/follow.html'
 
     def get_context_data(self, **kwargs):
 
