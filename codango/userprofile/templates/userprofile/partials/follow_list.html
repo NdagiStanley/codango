@@ -4,12 +4,13 @@
 
     <div class="panel panel-default">
         <div class="panel-heading" id="followers-heading">
-            {% if request.path == '/user/'|add:profile.user.username|add:'/following' %}
+
+            {% if following_lists %}
                 <div class="panel-heading" id="followers-heading">
                 <span class="title">Following</span>
                 </div>
                 <div class="row" id="followers-detail">
-                    {% for following in followings %}
+                    {% for following in following_lists %}
                         <div class="col-sm-3 text-center">
                             {% if following.followed.profile.image %}
                                 {% cloudinary following.followed.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
@@ -24,12 +25,12 @@
                 </div>
                 {% endif %}
 
-            {% if request.path == '/user/'|add:profile.user.username|add:'/followers' %}
+            {% if follower_lists %}
                 <div class="panel-heading" id="followers-heading">
                 <span class="title">Followers</span>
                 </div>
                 <div class="row" id="followers-detail">
-                    {% for follower in followers %}
+                    {% for follower in follower_lists %}
                         <div class="col-sm-3 text-center">
                             {% if follower.follower.profile.image %}
                                 {% cloudinary follower.follower.profile.image width=150 height=150 class="img-responsive" crop="fill" %}

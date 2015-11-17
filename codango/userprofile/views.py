@@ -108,32 +108,11 @@ class FollowUserView(LoginRequiredMixin, View):
         return HttpResponse(status=200)
 
 
-class FollowingView(LoginRequiredMixin, TemplateView):
-    template_name = 'userprofile/following.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(FollowingView, self).get_context_data(**kwargs)
-        username = kwargs['username']
-        user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get(user_id=user.id)
-
-        try:
-            follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
-
-            if follow is not None:
-                context['already_following'] = True
-        except:
-            pass
-
-        context['followings'] = user_profile.get_following()
-        context['profile'] = user_profile
-        context['resources'] = user.resource_set.all()
-
-        return context
-
-
 class FollowListView(LoginRequiredMixin, TemplateView):
-    template_name = 'userprofile/followlist.html'
+    """
+    View to handle both the followers and following
+    """
+    template_name = 'userprofile/follow.html' 
 
     def get_context_data(self, **kwargs):
 
@@ -143,33 +122,6 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=user.id)
 
-        follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
-
-        if follow is not None:
-            context['already_following'] = True
-
-        if direction is 'followers':
-            context['follow_list'] = user_profile.get_followers()
-        else:
-            context['follow_list'] = user_profile.get_following()
-
-        context['profile'] = user_profile
-        context['resources'] = user.resource_set.all()
-
-        return context
-
-
-class FollowersView(LoginRequiredMixin, TemplateView):
-
-    template_name = 'userprofile/followers.html'
-
-    def get_context_data(self, **kwargs):
-
-        context = super(FollowersView, self).get_context_data(**kwargs)
-        username = kwargs['username']
-        user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get(user_id=user.id)
-
         try:
             follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
 
@@ -178,7 +130,11 @@ class FollowersView(LoginRequiredMixin, TemplateView):
         except:
             pass
 
-        context['followers'] = user_profile.get_followers()
+        if direction == 'followers':
+            context['follower_lists'] = user_profile.get_followers()
+        else:
+            context['following_lists'] = user_profile.get_following()
+
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
 
