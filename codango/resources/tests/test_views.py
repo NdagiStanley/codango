@@ -29,6 +29,7 @@ class AjaxCommunityViewTest(TestCase):
                 HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertTrue(response.status_code == 200)
 		self.assertContains(response, "There are currently no posts")
+
 	def test_can_post_new_ajax_content(self):
 		self.assertTrue(self.login)
 		response = self.client.post('/resource/newresource',
@@ -36,6 +37,12 @@ class AjaxCommunityViewTest(TestCase):
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "success")
+
+	def test_add_an_empty_resource(self):
+		self.assertTrue(self.login)
+		response = self.client.post('/resource/newresource',
+                              HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+		self.assertEqual(response.status_code, 404)
 
 	def test_user_can_upvote(self):
 		self.assertTrue(self.login)

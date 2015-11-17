@@ -146,7 +146,6 @@ class HomeView(LoginRequiredMixin, TemplateView):
         except:
             sortby = None
 
-        print sortby 
 
         context = super(HomeView, self).get_context_data(**kwargs)
         user = self.request.user

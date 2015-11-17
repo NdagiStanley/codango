@@ -60,15 +60,6 @@ class HomeViewTest(TestCase):
         match = resolve('/home')
         self.assertEqual(match.url_name, 'home')
 
-    def test_add_a_resource(self):
-        response = self.client.post('/home', {
-            'text': 'This is a test',
-        })
-        self.assertEqual(response.status_code, 200)
-
-    def test_add_an_empty_resource(self):
-        response = self.client.post('/home')
-        self.assertEqual(response.status_code, 404)
 
 
 class ForgotResetTestCase(TestCase):
