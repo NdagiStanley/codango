@@ -12,7 +12,6 @@ urlpatterns = [
         name='forgot_password'),
     url(r'^recovery/(?P<user_hash>([a-z0-9A-Z])+)$',
         views.ResetPasswordView.as_view(), name='reset_password'),
-
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
         'document_root': settings.MEDIA_ROOT,
     }),

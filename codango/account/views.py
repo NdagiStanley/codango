@@ -140,17 +140,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
         return super(HomeView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        
-        try:
-            sortby = self.request.GET['sortby']
-        except:
-            sortby = None
 
-
-        context = super(HomeView, self).get_context_data(**kwargs)
+        sortby = self.request.GET['sortby'] if 'sortby' in self.request.GET else 'date'
         user = self.request.user
 
-        if sortby is None or sortby == "date":
+        if sortby == "date":
             resources = Resource.objects.order_by('-date_modified')
 
         elif sortby is not None:
@@ -292,24 +286,15 @@ class UserProfileDetailView(TemplateView):
             if user is None:
                 return Http404("User does not exist")
 
+        sortby = self.request.GET['sortby'] if 'sortby' in self.request.GET else 'date'
 
-        try:
-            sortby = self.request.GET['sortby']
-        except:
-            sortby = None
-
-        if sortby is not None and sortby == "date":
+        if sortby == "date":
 
             context['resources'] = user.resource_set.all().order_by('-date_modified')
 
-        elif sortby is not None:
-            context['resources'] = user.resource_set.all().annotate(num_sort=Count(sortby)).order_by('-num_sort')
         else:
-            context['resources'] = user.resource_set.all().annotate(num_comments=Count('votes')).annotate(num_votes=Count('comments')).order_by('-num_comments','-num_votes')
-
-
- 
-
+            context['resources'] = user.resource_set.all().annotate(num_sort=Count(sortby)).order_by('-num_sort')
+        
         context['profile'] = user.profile
         context['title'] = "My Feed"
         context['commentform'] = CommentForm(auto_id=False)

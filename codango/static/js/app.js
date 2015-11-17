@@ -303,7 +303,7 @@ var votes = {
             },
             success: function(data){
                 console.log(data);
-                if(data['status'] == "NoVote") _this.find('span').removeClass('active');
+                if(data['status'] == "novote") _this.find('span').removeClass('active');
                 else _this.find('span').addClass('active')
             if(_this.hasClass('like')){
                 _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])

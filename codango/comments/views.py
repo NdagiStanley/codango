@@ -10,7 +10,6 @@ from comments.forms import CommentForm
 
 class CommentAction(View):
 	def delete(self,request, **kwargs):
-		action = kwargs['action'].upper()
 		comment_id = kwargs['comment_id']
 		comment = Comment.objects.filter(id=comment_id).first()
 		comment.delete()

@@ -1,136 +1,99 @@
-{% load cloudinary %}
+{% load cloudinary %} 
 {% load endless %}
-{% load bootstrap %}
-{% paginate resources %}
+{% load bootstrap %} 
+{% paginate resources %} 
 {% for resource in resources %}
 <div class="feed">
     <div class="profile-img">
-        {% if resource.author.profile.image %}
-             {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
-        {% else %}
-            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
-        {% endif %}
+        {% if resource.author.profile.image %} 
+            {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} {% else %} {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
     </div>
     <div class="feed-content">
         <p class="poster-details">
             <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
             <small>{{ resource.date_added | timesince }} ago</small>
         </p>
-        <h1>{{ resource.text }}</h1>
-
-        {% if resource.snippet_text %}
+        <h1>{{ resource.text }}</h1> {% if resource.snippet_text %}
         <p>
             <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
         </p>
-        {% endif %}
-
-        {% if resource.resource_file %}
+        {% endif %} {% if resource.resource_file %}
         <p id="file-icon">
-        {% if resource.resource_file.format == "pdf" %}
-        <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
-        {% else %}
-        <i id="file-icon-doc" class="mdi mdi-file-word"></i>
-        {% endif %}
+            {% if resource.resource_file.format == "pdf" %}
+            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i> {% else %}
+            <i id="file-icon-doc" class="mdi mdi-file-word"></i> {% endif %}
         </p> &nbsp;
         <p id="file-info">
-        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a><br>
-        size: {{ resource.resource_file_size|filesizeformat }}
+            <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a>
+            <br> size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
-
-
-
         <div class="row">
             <div class="col-sm-6">
                 <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
             </div>
             <div class="col-sm-6">
                 <span class="pull-right mdi mdi-comment item">&nbsp;&nbsp;{{ resource.comments.count }}</span>
-                {% if request.user.id in resource.upvotes %}
-                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
-
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up active item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
-                {% elif request.user.id in resource.downvotes %}
-                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down active item">{{resource.downvotes|length}}</span></a>
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
-                {% else  %}
-                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
-                {% endif %}
-                 
-                
+                <a href="{% url 'resource_vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item {% if request.user.id in resource.downvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
+                <a href="{% url 'resource_vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item {% if request.user.id in resource.upvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
             </div>
         </div>
         <div class="comments-div">
-        <form name="comment_form" class="form-horizontal commentform" action="{% url 'newcomment' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="resource_id" value="{{resource.id}}">
-        {{ commentform|bootstrap }}
-        <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
-        
-        </form>
-        <div class="comments" id="rcomments-{{resource.id}}">
-        {% for comment in resource.comments.all %}
-
-        <article class="row">
-            <div class="col-md-2 col-sm-2 hidden-xs">
-              <figure class="thumbnail">
-        {% if comment.author.profile.image %}
-             {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %}
-        {% else %}
-            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
-        {% endif %}
-              </figure>
+            <form name="comment_form" class="form-horizontal commentform" action="{% url 'newcomment' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
+                <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+            </form>
+            <div class="comments" id="rcomments-{{resource.id}}">
+                {% for comment in resource.comments.all %}
+                <article class="row">
+                    <div class="col-md-2 col-sm-2 hidden-xs">
+                        <figure class="thumbnail">
+                            {% if comment.author.profile.image %} {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} {% else %} {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
+                        </figure>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <div class="panel panel-default arrow left">
+                            <div class="panel-body">
+                                <header class="text-left">
+                                    <div class="comment-user"><i class="mdi mdi-account"></i> {{comment.author}}</div>
+                                    <time class="comment-date" datetime="16-12-2014 01:05"><i class="mdi mdi-alarm"></i> {{comment.date_created|timesince}} ago </time>
+                                </header>
+                                </header>
+                                <div class="comment-post view">
+                                    <p>
+                                        {{comment}} {% if comment.author.id == request.user.id %}
+                                        <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
+                                        <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment"><span class="mdi mdi-delete"></span></a> {% endif %}
+                                    </p>
+                                </div>
+                                {% if comment.author.id == request.user.id %}
+                                <div class="comment-post edit-view">
+                                    <form class="form horizontal edit-comment" action="{% url 'comment_action' comment_id=comment.id  %}" method="POST">
+                                        <textarea name="content" class="form-control">
+                                            {{comment}}
+                                        </textarea>
+                                        <div>
+                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="button" class="btn btn-warning show-view">Discard Changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% empty %}
+                <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
+                {% endfor %}
             </div>
-            <div class="col-md-10 col-sm-10">
-              <div class="panel panel-default arrow left">
-                <div class="panel-body">
-                  <header class="text-left">
-                    <div class="comment-user"><i class="mdi mdi-account"></i> {{comment.author}}</div>
-                     <time class="comment-date" datetime="16-12-2014 01:05"><i class="mdi mdi-alarm"></i> {{comment.date_created|timesince}} ago </time>
-                  </header>
-                  </header>
-                 <div class="comment-post view">
-                    <p>
-                     {{comment}}
-                    {% if comment.author.id == request.user.id %}
-                    <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
-                     <a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="delete-comment"><span class="mdi mdi-delete"></span></a>
-                    {% endif %}
-                    </p>
-
-                  </div>
-                  {% if comment.author.id == request.user.id %}
-                 <div class="comment-post edit-view">
-                 <form class="form horizontal edit-comment" action="{% url 'editcomment' comment_id=comment.id  %}" method="POST">
-                    <textarea name="content" class="form-control">
-                     {{comment}}
-                    </textarea>
-                    <div>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                        <button type="button" class="btn btn-warning show-view">Discard Changes</button>
-                      </div>
-                                        </form>
-                  </div>
-
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-          </article>
-          {% empty %}
-        <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
-
-        {% endfor %}
         </div>
     </div>
 </div>
-</div>
 {% empty %}
 <div class="alert alert-info spacer">There are currently no posts</div>
-{% endfor %}
-{% show_more %}
-
+{% endfor %} {% show_more %}
 <script type="text/javascript">
 prettyPrint();
 </script>

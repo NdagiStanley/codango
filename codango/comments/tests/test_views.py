@@ -36,7 +36,7 @@ class CommentActionTest(TestCase):
 		resource = self.create_resources()
 		comment = Comment(id=200, author=self.user,resource=resource,content="Test comment")
 		comment.save()
-		response = self.client.delete('/comment/200/delete',
+		response = self.client.delete('/comment/200',
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, "success")
