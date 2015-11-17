@@ -45,17 +45,17 @@
                 <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
             </div>
             <div class="col-sm-6">
-                <span class="pull-right mdi mdi-comment item">{{ resource.comments.count }}</span>
+                <span class="pull-right mdi mdi-comment item">&nbsp;&nbsp;{{ resource.comments.count }}</span>
                 {% if request.user.id in resource.upvotes %}
-                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">{{resource.downvotes|length}}</span></a>
+                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
 
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up active item" >{{resource.upvotes|length}}</span></a>
+                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up active item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
                 {% elif request.user.id in resource.downvotes %}
                 <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down active item">{{resource.downvotes|length}}</span></a>
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >{{resource.upvotes|length}}</span></a>
+                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
                 {% else  %}
-                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">{{resource.downvotes|length}}</span></a>
-                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >{{resource.upvotes|length}}</span></a>
+                <a href="{% url 'vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
+                <a href="{% url 'vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item" >&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
                 {% endif %}
                  
                 
@@ -93,10 +93,11 @@
                  <div class="comment-post view">
                     <p>
                      {{comment}}
-                    </p>
                     {% if comment.author.id == request.user.id %}
-                    <a href="#" class="btn btn-sm btn-warning show-edit">Edit Comment </a>
+                    <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
                     {% endif %}
+                    </p>
+
                   </div>
                   {% if comment.author.id == request.user.id %}
                  <div class="comment-post edit-view">
@@ -110,7 +111,7 @@
                       </div>
                                         </form>
                   </div>
-                  <p class="text-right"><a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="btn btn-default btn-sm delete-comment">Delete</a></p>
+                  <p class="text-right"><a href="{% url 'comment' comment_id=comment.id action='delete' %}" class="delete-comment"><span class="mdi mdi-delete"></span></a></p>
                   {% endif %}
                 </div>
               </div>

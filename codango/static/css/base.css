@@ -120,6 +120,21 @@ body {
     height: 200px;
     width: 100%;
 }
+.commentform textarea{
+	display:block;
+	height:10em;
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+}
+.comment-post .mdi{
+	color:#333;
+	font-size:15px;
+}
+.mdi-delete{
+	font-size:20px;
+	color:red;
+}
 
 .form-buttons{
 	margin-bottom: 5px;
