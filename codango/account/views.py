@@ -17,11 +17,13 @@ from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
+from resources.views import CommunityBaseView
 from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
 from account.models import UserProfile
 from comments.forms import CommentForm
 from comments.models import Comment
 from votes.models import Vote
+
 
 
 class IndexView(TemplateView):
@@ -130,51 +132,8 @@ class LoginRequiredMixin(object):
             request, *args, **kwargs)
 
 
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/home.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
-        return super(HomeView, self).dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-
-        sortby = self.request.GET[
-            'sortby'] if 'sortby' in self.request.GET else 'date'
-        user = self.request.user
-
-        if sortby == "date":
-            resources = Resource.objects.order_by('-date_modified')
-
-        elif sortby is not None:
-            resources = Resource.objects.annotate(
-                num_sort=Count(sortby)).order_by('-num_sort')
-
-        context = {
-            'resources': resources,
-            'profile': user.profile,
-            'title': 'Activity Feed',
-            'commentform': CommentForm(auto_id=False)
-        }
-        return context
-
-    def post(self, request, *args, **kwargs):
-        try:
-            form = self.form_class(request.POST, request.FILES)
-            resource = form.save(commit=False)
-            try:
-                resource.resource_file_name = form.files['resource_file'].name
-                resource.resource_file_size = form.files['resource_file'].size
-            except KeyError:
-                pass
-            resource.author = self.request.user
-            resource.save()
-            return HttpResponse("success", content_type='text/plain')
-        except ValueError:
-            return HttpResponseNotFound("emptypost")
-        except:
-            return HttpResponseNotFound("invalidfile")
+class HomeView(LoginRequiredMixin, CommunityBaseView):
+    pass
 
 
 class ForgotPasswordView(TemplateView):
@@ -290,14 +249,7 @@ class UserProfileDetailView(TemplateView):
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
-        if sortby == "date":
-
-            context['resources'] = user.resource_set.all().order_by(
-                '-date_modified')
-
-        else:
-            context['resources'] = user.resource_set.all().annotate(
-                num_sort=Count(sortby)).order_by('-num_sort')
+        context['resources'] = CommunityBaseView.sort_by(sortby, user.resource_set.all())
 
         context['profile'] = user.profile
         context['title'] = "My Feed"
