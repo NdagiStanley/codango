@@ -185,6 +185,7 @@ var shareForm = {
         });
     },
     formContents: function(_this) {
+
         var fd = new FormData();
 
         if(_this.hasClass('share'))
@@ -223,6 +224,7 @@ var shareForm = {
             error: function(status) {
 
                 // Display errors
+                console.log(status.responseText)
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
                 } else {
