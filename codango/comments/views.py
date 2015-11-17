@@ -1,7 +1,7 @@
+import json
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from django.views.generic import View, TemplateView
-import json
 
 from resources.models import Resource
 from comments.models import Comment

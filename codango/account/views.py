@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -12,7 +13,6 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils import timezone
 from django.db.models import Count
-import json
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
