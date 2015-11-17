@@ -27,9 +27,6 @@ class UserProfile(models.Model):
         return User.objects.get(id=self.user_id)
 
     def get_followers(self):
-        Follow.objects.extra(select={
-            'followers': 'SELECT * Follow WHERE '
-        })
         followers = Follow.objects.filter(followed=self.user_id)
         return followers
 
