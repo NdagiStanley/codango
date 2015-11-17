@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
-from userprofile.views import UserProfileDetailView, UserProfileEditView, FollowingView, FollowersView
+from userprofile.views import UserProfileDetailView, UserProfileEditView, FollowListView
 
 
 class ProfileViewTestCase(TestCase):
