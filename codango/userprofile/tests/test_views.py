@@ -17,7 +17,7 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.client = Client()
         self.user = User.objects.create(username='jubril', password='issa')
         self.user.set_password('shuaib')
-        self.user.save()git
+        self.user.save()
         self.login = self.client.login(username='Abiodun', password='shuaib')
 
 
