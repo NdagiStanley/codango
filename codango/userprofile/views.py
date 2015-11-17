@@ -48,7 +48,6 @@ class UserProfileDetailView(TemplateView):
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
         context['title'] = "My Feed"
-        # context['already_following'] = Follow.objects.get(followed_id=user.id)
         return context
 
 
@@ -119,9 +118,20 @@ class FollowingView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(FollowingView, self).get_context_data(**kwargs)
         username = kwargs['username']
+        user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
+
+        try:
+            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
+
+            if follow is not None:
+                context['already_following'] = True
+        except:
+            pass
+
         context['followers'] = user_profile.get_following()
         context['profile'] = user_profile
+        context['resources'] = user.resource_set.all()
 
         return context
 
@@ -131,12 +141,23 @@ class FollowersView(LoginRequiredMixin, TemplateView):
     template_name = 'userprofile/followers.html'
 
     def get_context_data(self, **kwargs):
+
         context = super(FollowersView, self).get_context_data(**kwargs)
         username = kwargs['username']
+        user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
-        # user_profile = UserProfile.objects.get(user_id=self.request.user.id)
+
+        try:
+            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
+
+            if follow is not None:
+                context['already_following'] = True
+        except:
+            pass
+
         context['followers'] = user_profile.get_followers()
         context['profile'] = user_profile
+        context['resources'] = user.resource_set.all()
 
         return context
 
