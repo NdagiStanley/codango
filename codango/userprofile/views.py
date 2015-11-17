@@ -119,7 +119,7 @@ class FollowingView(LoginRequiredMixin, TemplateView):
         context = super(FollowingView, self).get_context_data(**kwargs)
         username = kwargs['username']
         user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
+        user_profile = UserProfile.objects.get(user_id=user.id)
 
         try:
             follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
@@ -132,7 +132,6 @@ class FollowingView(LoginRequiredMixin, TemplateView):
         context['followers'] = user_profile.get_following()
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
-
         return context
 
 
@@ -145,7 +144,7 @@ class FollowersView(LoginRequiredMixin, TemplateView):
         context = super(FollowersView, self).get_context_data(**kwargs)
         username = kwargs['username']
         user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
+        user_profile = UserProfile.objects.get(user_id=user.id)
 
         try:
             follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)

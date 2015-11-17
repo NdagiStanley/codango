@@ -27,12 +27,12 @@ class UserProfile(models.Model):
         return User.objects.get(id=self.user_id)
 
     def get_followers(self):
-        followers = Follow.objects.filter(follower_id=self.user_id)
+        followers = Follow.objects.filter(followed_id=self.user_id)
         return followers
 
     def get_following(self):
 
-        following = Follow.objects.filter(followed_id=self.user_id)
+        following = Follow.objects.filter(follower_id=self.user_id)
         return following
 
 
@@ -48,6 +48,6 @@ post_save.connect(create_user_profile, sender=User)
 
 class Follow(models.Model):
 
-    follower_id = models.ForeignKey(User, related_name='follower')
-    followed_id = models.ForeignKey(User, related_name='following')
+    follower = models.ForeignKey(User, related_name='follower')
+    followed = models.ForeignKey(User, related_name='following')
     date_of_follow = models.DateTimeField(auto_now_add=True)
