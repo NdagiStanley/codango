@@ -10,7 +10,7 @@ from votes.models import Vote
 
 
 
-class AjaxCommunityViewTest(TestCase):
+class CommunityViewTest(TestCase):
 
 	def setUp(self):
 		self.client = Client()
@@ -32,7 +32,7 @@ class AjaxCommunityViewTest(TestCase):
 
 	def test_can_post_new_ajax_content(self):
 		self.assertTrue(self.login)
-		response = self.client.post('/resource/newresource',
+		response = self.client.post('/resource/create',
                 {'text': '1',},
                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 		self.assertEqual(response.status_code, 200)

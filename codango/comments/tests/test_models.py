@@ -18,3 +18,9 @@ class CommentTestModels(TestCase):
         resource = self.create_resources()
         comment = Comment.objects.create(resource=resource,author=self.user,content="This is a test comment")
         self.assertTrue(isinstance(comment, Comment))
+
+    def test_for_comment_str_content(self):
+        resource = self.create_resources()
+        comment = Comment.objects.create(resource=resource,author=self.user,content="This is a test comment")
+        content = str(comment)
+        self.assertIsNotNone(content)

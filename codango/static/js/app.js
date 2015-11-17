@@ -10,7 +10,6 @@ function socialLogin(user) {
         type: "POST",
         data: user,
         success: function(data) {
-            
             if (data == "success") {
                 location.reload();
             }
@@ -24,19 +23,19 @@ function socialLogin(user) {
                     $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
                 }
                 $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
+<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
                 $("#id_email").val(user.email).attr("disabled", true);
+=======
+                $("#id_email").val(user.email);
+>>>>>>> [Fix
             }
         },
-        error: function(error) {
-            
-        }
+        error: function(error) {}
     };
     $.ajax(ajaxinfo);
 }
-
 var facebookLogin = {
     config: {
-
         login: "#facebook-login",
         fb_id: '1472709103038197'
     },
@@ -145,23 +144,20 @@ var ajaxContent = {
         }
         $(ajaxContent.config.filter).click(function(e) {
             e.preventDefault();
-
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
             window.history.pushState("object or string", "Title", url);
-
         });
     },
     buildUrl: function(_this) {
         _this.closest("ul").closest("li").removeClass('open');
-        if(_this.hasClass('filterby')) return location.protocol+'//'+location.host+location.pathname + _this.attr('href');
+        if (_this.hasClass('filterby')) return location.protocol + '//' + location.host + location.pathname + _this.attr('href');
         return _this.attr('href');
     },
     loadContent: function(url) {
-        $(ajaxContent.config.contentDiv).load(url,ajaxContent.afterAction);
-
+        $(ajaxContent.config.contentDiv).load(url, ajaxContent.afterAction);
     },
-    afterAction: function(data,status,xhr) {
+    afterAction: function(data, status, xhr) {
         $("#sidebar-mobile-link").show();
         $("#sidebar-mobile").animate({
             "left": "-=200px"
@@ -174,10 +170,17 @@ var shareForm = {
         share: "#id_share_form"
     },
     init: function(config) {
+<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
         if (config && typeof(config) == "object") {
             $.extend(shareForm.config, config);
         }
         $("body").on("submit",shareForm.config.share,function(e) {
+=======
+        if (config && typeof(config) == 'object') {
+            $.extend(formPost.config, config);
+        }
+        $("body").on("submit", formPost.config.share, function(e) {
+>>>>>>> [Fix
             e.preventDefault();
             var fd = shareForm.formContents($(this));
             var url = $(this).attr("action");
@@ -185,23 +188,23 @@ var shareForm = {
         });
     },
     formContents: function(_this) {
-
         var fd = new FormData();
-
-        if(_this.hasClass('share'))
-        {
-        var file_data = _this.find('input[type="file"]')[0].files[0];
-        fd.append("resource_file", file_data);
-    }
+        if (_this.hasClass('share')) {
+            var file_data = _this.find('input[type="file"]')[0].files[0];
+            fd.append("resource_file", file_data);
+        }
         var other_data = _this.serializeArray();
-        
         $.each(other_data, function(key, input) {
             fd.append(input.name, input.value);
         });
         return fd;
     },
+<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
     shareForm: function(url, fd, _this) {
 
+=======
+    share: function(url, fd, _this) {
+>>>>>>> [Fix
         $("#preloader").show();
 
         //console.log(fd.get('resource_id'));
@@ -222,7 +225,6 @@ var shareForm = {
                 }
             },
             error: function(status) {
-
                 // Display errors
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
@@ -232,26 +234,22 @@ var shareForm = {
                 setTimeout(function() {
                     $(".errormsg").hide();
                 }, 5000);
-
             },
             complete: function() {
-
                 $("#preloader").hide();
-            if(_this.hasClass('share')){
-                console.log(document.URL);
-                $("#community-content").load(document.URL, function() {
-                    $("#id-snippet-body").hide();
-                    $("#id-pdf-file").removeClass("show");
-                    _this.trigger("reset");
-                    prettyPrint();
-                });
-            }
-            else{
-                selector = "#rcomments-"+ data[1]['value'];
-                $(selector).load(document.URL + " "+ selector);
-            }
-
-            _this.trigger('reset');
+                if (_this.hasClass('share')) {
+                    console.log(document.URL);
+                    $("#community-content").load(document.URL, function() {
+                        $("#id-snippet-body").hide();
+                        $("#id-pdf-file").removeClass("show");
+                        _this.trigger("reset");
+                        prettyPrint();
+                    });
+                } else {
+                    selector = "#rcomments-" + data[1]['value'];
+                    $(selector).load(document.URL + " " + selector);
+                }
+                _this.trigger('reset');
             }
         });
     }
@@ -278,113 +276,107 @@ var mobileNav = {
         }
     }
 };
-
 var votes = {
-    config:{
+    config: {
         voteButton: ".like, .unlike"
-
     },
-    init: function(config){
-        if(config && typeof(config) == 'object') $.extend(votes.config, conifg);
-        $("body").on('click',votes.config.voteButton,function(e){
+    init: function(config) {
+        if (config && typeof(config) == 'object') $.extend(votes.config, conifg);
+        $("body").on('click', votes.config.voteButton, function(e) {
             e.preventDefault();
             var url = $(this).attr("href");
             var resource_id = $(this).data("id");
-            votes.doVote(url,resource_id,$(this));
-
+            votes.doVote(url, resource_id, $(this));
         });
     },
-    doVote: function(url,resource_id,_this){
+    doVote: function(url, resource_id, _this) {
         $.ajax({
-            url:url,
-            type:"POST",
-            data:{
+            url: url,
+            type: "POST",
+            data: {
                 resource_id: resource_id
             },
-            success: function(data){
+            success: function(data) {
                 console.log(data);
-                if(data['status'] == "novote") _this.find('span').removeClass('active');
+                if (data['status'] == "novote") _this.find('span').removeClass('active');
                 else _this.find('span').addClass('active')
-            if(_this.hasClass('like')){
-                _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
-                _this.find('span').text(data['upvotes'])
-            }
-            else
-            {
-                _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
-                _this.find('span').text(data['downvotes'])
-                
-
-            }
-
+                if (_this.hasClass('like')) {
+                    _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
+                    _this.find('span').text(data['upvotes'])
+                } else {
+                    _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
+                    _this.find('span').text(data['downvotes'])
+                }
             },
-            error: function(x){
+            error: function(x) {
                 console.log(x.responseText)
-                
             }
         });
-
     }
-
 }
+
+function loadComments(_this) {
+    var selector = "#" + _this.closest('.comments').attr("id");
+    $(selector).load(document.URL + " " + selector);
+}
+<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
 
 function loadComments(_this){
             var selector = "#" + _this.closest('.comments').attr("id");
             $(selector).load(document.URL + " " +selector);
         }
+=======
+>>>>>>> [Fix
 var deleteComment = {
-    config:{
+    config: {
         button: ".delete-comment",
     },
-    init: function(config){
-        if(config && typeof config == 'object') $.extend(deleteComment.config, config);
-        $("body").on('click',deleteComment.config.button, function(e){
+    init: function(config) {
+        if (config && typeof config == 'object') $.extend(deleteComment.config, config);
+        $("body").on('click', deleteComment.config.button, function(e) {
             e.preventDefault();
-            if(!confirm("Are you sure you want to delete this comment")) return;
+            if (!confirm("Are you sure you want to delete this comment")) return;
             deleteComment.sendAction($(this));
         })
     },
-    sendAction:function(_this){
+    sendAction: function(_this) {
         $.ajax({
             url: _this.attr("href"),
-            type:"DELETE",
-            success:loadComments(_this),
-            error:function(res){
+            type: "DELETE",
+            success: loadComments(_this),
+            error: function(res) {
                 console.log(res.responseText);
             }
         })
     }
-
 };
 var editComment = {
-    config:{
+    config: {
         button: ".edit-comment"
     },
-    init: function(config){
-        if(config && typeof config == 'object') $.extend(editComment.config, config);
-        $("body").on('submit',editComment.config.button, function(e){
+    init: function(config) {
+        if (config && typeof config == 'object') $.extend(editComment.config, config);
+        $("body").on('submit', editComment.config.button, function(e) {
             e.preventDefault();
             editComment.sendAction($(this));
         })
     },
-    sendAction: function(_this){
-
+    sendAction: function(_this) {
         $.ajax({
             url: _this.attr("action"),
-            type:"PUT",
+            type: "PUT",
             contentType: 'application/json; charset=utf-8',
             processData: false,
-            data:JSON.stringify({
+            data: JSON.stringify({
                 'content': _this.find("textarea[name='content']").val()
             }),
             //data:fd,
-            success:loadComments(_this),
-            error:function(res){
+            success: loadComments(_this),
+            error: function(res) {
                 console.log(res.responseText);
             }
         });
     }
-
 };
 $(document).ready(function() {
     facebookLogin.init({
@@ -393,16 +385,30 @@ $(document).ready(function() {
     googleLogin.init({
         REDIRECT: "http://codango-staging.herokuapp.com/"
     });
+<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
     shareForm.init({share: "#id_share_form, .commentform"});
     ajaxContent.init({filter: "#community a,.filter-menu a"});
     mobileNav.init();
     votes.init();
+=======
+    formPost.init({
+        share: "#id_share_form, .commentform"
+    });
+    ajaxContent.init({
+        filter: "#community a,.filter-menu a"
+    });
+    editComment.init({
+        button: ".edit-comment"
+    })
+    mobileNav.init();
+    votes.init();
+    deleteComment.init();
+>>>>>>> [Fix
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
         $('#id-snippet-body').toggle();
     });
-
     $('#id-pdf-button').on('click', function(hidden) {
         hidden.preventDefault();
         $('#id-pdf-file').toggleClass('show');
@@ -464,10 +470,19 @@ $(document).ready(function() {
         })
     })
 
-    $(document).on("click",".mdi-comment",function(e){
+
+    $("body").on("click", ".show-edit", function(e) {
         e.preventDefault();
-
+        $(this).closest("div").siblings(".edit-view").show();
+        $(this).closest(".view").hide();
+    });
+    $("body").on("click", ".show-view", function(e) {
+        e.preventDefault();
+        $(this).closest(".edit-view").hide();
+        $(".view").show();
+    })
+    $(document).on("click", ".mdi-comment", function(e) {
+        e.preventDefault();
         $(this).closest('.feed-content').find('.comments-div').toggle();
-
     });
 });
