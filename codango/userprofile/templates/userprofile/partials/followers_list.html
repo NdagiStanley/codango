@@ -9,10 +9,10 @@
         <div class="row" id="followers-detail">
             {% for follower in followers %}
                 <div class="col-sm-3 text-center">
-                    {% if follower.follower_id.profile.image %}
-                        {% cloudinary follower.follower_id.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
-                        <span><a href="/user/{{ follower.follower_id }}"
-                                 id="follower-name"> {{ follower.follower_id }}</a></span><br/>
+                    {% if follower.follower.profile.image %}
+                        {% cloudinary follower.follower.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
+                        <span><a href="/user/{{ follower.follower }}"
+                                 id="follower-name"> {{ follower.follower }}</a></span><br/>
                         <div class="clearfix"></div>
                         </div>
                     {% else %}

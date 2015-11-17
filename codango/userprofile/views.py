@@ -2,13 +2,7 @@ from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.template.context_processors import csrf
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils import timezone
 from account.views import LoginRequiredMixin
@@ -93,12 +87,14 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
 
 
 class FollowUserView(LoginRequiredMixin, View):
+
     def post(self, request, **kwargs):
+
         username = kwargs['username']
         user = User.objects.get(id=request.user.id)
 
         following_id = User.objects.get(username=username)
-        follow = Follow(follower_id=user, followed_id=following_id, date_of_follow=timezone.now())
+        follow = Follow(follower=user, followed=following_id, date_of_follow=timezone.now())
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)
@@ -122,14 +118,14 @@ class FollowingView(LoginRequiredMixin, TemplateView):
         user_profile = UserProfile.objects.get(user_id=user.id)
 
         try:
-            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
+            follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
 
             if follow is not None:
                 context['already_following'] = True
         except:
             pass
 
-        context['followers'] = user_profile.get_following()
+        context['followings'] = user_profile.get_following()
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
         return context
@@ -147,7 +143,7 @@ class FollowersView(LoginRequiredMixin, TemplateView):
         user_profile = UserProfile.objects.get(user_id=user.id)
 
         try:
-            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
+            follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
 
             if follow is not None:
                 context['already_following'] = True

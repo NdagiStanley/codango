@@ -7,12 +7,12 @@
             <span class="title">Following</span>
         </div>
         <div class="row" id="followers-detail">
-            {% for follower in followers %}
+            {% for following in followings %}
                 <div class="col-sm-3 text-center">
-                    {% if follower.followed_id.profile.image %}
-                        {% cloudinary follower.followed_id.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
-                        <span><a href="/user/{{ follower.followed_id }}"
-                                 id="follower-name"> {{ follower.followed_id }}</a></span><br/>
+                    {% if following.followed.profile.image %}
+                        {% cloudinary following.followed.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
+                        <span><a href="/user/{{ following.followed }}"
+                                 id="follower-name"> {{ following.followed }}</a></span><br/>
                         <div class="clearfix"></div>
                         </div>
                     {% else %}
@@ -24,4 +24,3 @@
 </div>
 
 </div>
-
