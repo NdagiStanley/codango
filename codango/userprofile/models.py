@@ -27,11 +27,11 @@ class UserProfile(models.Model):
         return User.objects.get(id=self.user_id)
 
     def get_followers(self):
-        followers = Follow.objects.filter(follower_id=self.id)
+        followers = Follow.objects.filter(follower_id=self.user_id)
         return followers
 
     def get_following(self):
-        following = Follow.objects.filter(followed_id=self.id)
+        following = Follow.objects.filter(followed_id=self.user_id)
         return following
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

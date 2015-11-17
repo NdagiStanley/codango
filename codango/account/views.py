@@ -15,8 +15,7 @@ from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
-from account.models import UserProfile, Follow
+from account.forms import LoginForm, RegisterForm, ResetForm
 
 
 class IndexView(TemplateView):

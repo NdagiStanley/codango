@@ -1,13 +1,24 @@
 {% load cloudinary %}
-{{ followers }}
+{#{{ followers }}#}
 
-{% for follower in followers %}
+<div class="container col-md-9">
+<div class="row">
+
+    {% for follower in followers %}
     {% if follower.followed_id.profile.image %}
+
+
+        <div class="col-sm-3">
         {% cloudinary follower.followed_id.profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
+        {{ follower.followed_id }}
+        </div>
+
     {% else %}
         {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
     {% endif %}
 
-    <li>{{ follower.followed_id }}</li>
+{#    <li>{{ follower.followed_id }}</li>#}
 
 {% endfor %}
+</div>
+</div>

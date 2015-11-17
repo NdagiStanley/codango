@@ -2,9 +2,9 @@
 
 {% block title %} {{ profile.user.username }}'s Profile {% endblock title %}
 {% block sidebar %}
-{% include "account/partials/user-profile.html" %}
+{% include "userprofile/partials/user-profile.html" %}
 {% endblock sidebar %}
 
 {% block content %}
-{% include "account/partials/following_list.html" %}
+{% include "userprofile/partials/followers_list.html" %}
 {% endblock content %}

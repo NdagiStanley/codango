@@ -1,10 +1,26 @@
-from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from django.shortcuts import render, redirect
+from django.views.generic import View, TemplateView
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.template.context_processors import csrf
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse
+from django.template import RequestContext, loader
+from django.utils import timezone
+from account.views import LoginRequiredMixin
+from userprofile.models import UserProfile, Follow
+from userprofile.forms import UserProfileForm
 
 # Create your views here.
 
+
 class UserProfileDetailView(TemplateView):
     model = UserProfile
-    template_name = 'account/profile.html'
+    template_name = 'userprofile/profile.html'
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -38,7 +54,7 @@ class UserProfileDetailView(TemplateView):
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
-    template_name = 'account/profile-edit.html'
+    template_name = 'userprofile/profile-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileEditView, self).get_context_data(**kwargs)
@@ -100,11 +116,12 @@ class FollowUserView(LoginRequiredMixin, View):
 
 
 class FollowingView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/following.html'
+    template_name = 'userprofile/following.html'
 
     def get_context_data(self, **kwargs):
         context = super(FollowingView, self).get_context_data(**kwargs)
-        user_profile = UserProfile.objects.get(user_id=self.request.user.id)
+        username = kwargs['username']
+        user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
         context['followers'] = user_profile.get_following()
         context['profile'] = user_profile
 
@@ -113,13 +130,15 @@ class FollowingView(LoginRequiredMixin, TemplateView):
 
 class FollowersView(LoginRequiredMixin, TemplateView):
 
-    template_name = 'account/followers.html'
+    template_name = 'userprofile/followers.html'
 
     def get_context_data(self, **kwargs):
         context = super(FollowersView, self).get_context_data(**kwargs)
-        user_profile = UserProfile.objects.get(user_id=self.request.user.id)
+        username = kwargs['username']
+        user_profile = UserProfile.objects.get(user_id=User.objects.get(username=username).id)
+        # user_profile = UserProfile.objects.get(user_id=self.request.user.id)
         context['followers'] = user_profile.get_followers()
-        # context['profile'] = user_profile
+        context['profile'] = user_profile
 
         return context
 

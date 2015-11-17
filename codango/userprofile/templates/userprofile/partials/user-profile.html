@@ -36,10 +36,12 @@
             </div>
             <div class="row">
                 <div class="col-xs-4">
+
                     <h2 class="stats text-center">{{ profile.followers }}</h2>
                     <p class="text-center">
-                    <small>Followers</small>
+                    <a href="/user/{{ profile.user.username }}/followers"><small>Followers</small></a>
                     </p>
+
                 </div>
                 <div class="col-xs-4">
                     <h2 class="stats text-center">{{ profile.following }}</h2>
