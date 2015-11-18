@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, Http404, HttpResponseNotFound
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -11,11 +12,17 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.utils import timezone
+from django.db.models import Count
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-from account.forms import LoginForm, RegisterForm, ResetForm
+from resources.views import CommunityBaseView
+from account.forms import LoginForm, RegisterForm, ResetForm 
+from userprofile.models import UserProfile
+from comments.models import Comment
+from votes.models import Vote
+
 
 
 class IndexView(TemplateView):
@@ -46,7 +53,7 @@ class LoginView(IndexView):
 
         if self.request.is_ajax():
             try:
-                userprofile = UserProfile.objects.get(fb_id=request.POST['id'])
+                userprofile = UserProfile.objects.get(social_id=request.POST['id'])
                 user = userprofile.get_user()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)
@@ -95,15 +102,11 @@ class RegisterView(IndexView):
             login(request, new_user)
             messages.add_message(
                 request, messages.SUCCESS, 'Registered Successfully!')
-
-            if 'fb_id' not in request.POST:
-                pass
-            else:
-                new_profile = new_user.profile
-                new_profile.fb_id = request.POST['fb_id']
-                new_profile.first_name = request.POST['first_name']
-                new_profile.last_name = request.POST['last_name']
-                new_profile.save()
+            new_profile = new_user.profile
+            new_profile.social_id = request.POST['social_id'] if 'social_id' in request.POST else None
+            new_profile.first_name = request.POST['first_name'] if 'first_name' in request.POST else None
+            new_profile.last_name = request.POST['last_name'] if 'last_name' in request.POST else None
+            new_profile.save()
 
             return redirect(
                 '/user/' + self.request.user.username + '/edit',
@@ -124,57 +127,8 @@ class LoginRequiredMixin(object):
             request, *args, **kwargs)
 
 
-class HomeView(LoginRequiredMixin, TemplateView):
-    form_class = ResourceForm
-    template_name = 'account/home.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
-        return super(HomeView, self).dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(HomeView, self).get_context_data(**kwargs)
-        user = self.request.user
-        resources = Resource.objects.order_by('-date_modified')
-        context = {
-            'resources': resources,
-            'profile': user.profile,
-            'title': 'Activity Feed'
-        }
-        return context
-
-    def post(self, request, *args, **kwargs):
-        try:
-            form = self.form_class(request.POST, request.FILES)
-            resource = form.save(commit=False)
-            try:
-                resource.resource_file_name = form.files['resource_file'].name
-                resource.resource_file_size = form.files['resource_file'].size
-            except KeyError:
-                pass
-            resource.author = self.request.user
-            resource.save()
-            return HttpResponse("success", content_type='text/plain')
-        except ValueError:
-            return HttpResponseNotFound("emptypost")
-        except:
-            return HttpResponseNotFound("invalidfile")
-
-
-class AjaxCommunityView(HomeView):
-    template_name = 'account/partials/community.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(AjaxCommunityView, self).get_context_data(**kwargs)
-        community = kwargs['community'].upper()
-        if community == 'ALL':
-            resources = Resource.objects.order_by('-date_modified')
-        else:
-            resources = Resource.objects.filter(
-                language_tags=community).order_by('-date_modified')
-        context = {'resources': resources}
-        return context
+class HomeView(LoginRequiredMixin, CommunityBaseView):
+    pass
 
 
 class ForgotPasswordView(TemplateView):
@@ -265,5 +219,3 @@ class ResetPasswordView(View):
         }
         context.update(csrf(request))
         return render(request, 'account/forgot-password-reset.html', context)
-
-

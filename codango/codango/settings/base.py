@@ -64,6 +64,8 @@ INSTALLED_APPS = (
     'account',
     'resources',
     'userprofile',
+    'comments',
+    'votes',
     'bootstrapform',
     'cloudinary',
     'djangobower',

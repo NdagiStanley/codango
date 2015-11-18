@@ -9,17 +9,22 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('account', '0001_initial'),
+        ('resources', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Follow',
+            name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('followed_id', models.IntegerField()),
-                ('date_of_follow', models.DateTimeField(auto_now_add=True)),
-                ('follower_id', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('vote', models.BooleanField()),
+                ('time_stamp', models.DateTimeField(auto_now=True)),
+                ('resource', models.ForeignKey(related_name='votes', to='resources.Resource')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.AlterUniqueTogether(
+            name='vote',
+            unique_together=set([('user', 'resource', 'vote')]),
         ),
     ]

@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date_of_follow', models.DateTimeField(auto_now_add=True)),
-                ('followed_id', models.ForeignKey(related_name='following', to=settings.AUTH_USER_MODEL)),
-                ('follower_id', models.ForeignKey(related_name='follower', to=settings.AUTH_USER_MODEL)),
+                ('followed', models.ForeignKey(related_name='following', to=settings.AUTH_USER_MODEL)),
+                ('follower', models.ForeignKey(related_name='follower', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(

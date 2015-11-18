@@ -40,17 +40,19 @@
             <div class="row">
                 <div class="col-xs-4">
 
-                    <h2 class="stats text-center">{{ profile.followers }}</h2>
+                    <h2 class="stats followers text-center">{{ profile.get_followers|length }}</h2>
 
                     <p class="text-center">
                         <a href="/user/{{ profile.user.username }}/followers">
-                            <small>Followers</small>
+                            <small>
+                            {% if profile.get_followers|length > 1 %}Followers{% else %}Follower{% endif %}
+                            </small>
                         </a>
                     </p>
 
                 </div>
                 <div class="col-xs-4">
-                    <h2 class="stats text-center">{{ profile.following }}</h2>
+                    <h2 class="stats following text-center">{{ profile.get_following|length }}</h2>
 
                     <p class="text-center">
                         <a href="/user/{{ profile.user.username }}/following">

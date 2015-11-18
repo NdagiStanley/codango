@@ -1,5 +1,6 @@
 from django.test import TestCase
 from resources.models import Resource
+from votes.models import Vote
 from django.contrib.auth.models import User
 from mock import patch
 
@@ -14,6 +15,9 @@ class ResourceTestModels(TestCase):
             author=self.user,
             resource_file='help'
         )
+
+    def create_resources(self, text='some more words', resource_file='resource_file'):
+        return Resource.objects.create(text=text, author=self.user, resource_file=resource_file)
 
     def test_for_resource_creation(self):
         self.assertIsNotNone(Resource.objects.all())
@@ -34,3 +38,23 @@ class ResourceTestModels(TestCase):
                 cloudinaryurl,
                 'http://res.cloudinary.com/codangofile/image/upload/test.pdf')
             self.assertEquals(fileformat, 'pdf')
+        create = self.create_resources()
+        self.assertTrue(isinstance(create, Resource))
+
+    def test_for_upvote(self):
+        resource = self.create_resources()
+        vote = Vote()
+        vote.user = self.user
+        vote.resource = resource
+        vote.vote = True
+        vote.save()
+        self.assertEqual(len(resource.upvotes()), 1)
+
+    def test_for_downvote(self):
+        resource = self.create_resources()
+        vote = Vote()
+        vote.user = self.user
+        vote.resource = resource
+        vote.vote = False
+        vote.save()
+        self.assertEqual(len(resource.downvotes()), 1)

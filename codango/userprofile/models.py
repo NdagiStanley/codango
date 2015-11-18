@@ -11,7 +11,7 @@ from django.template.defaultfilters import register
 class UserProfile(models.Model):
 
     user = models.OneToOneField(User)
-    fb_id = models.CharField(max_length=200, null=True)
+    social_id = models.CharField(max_length=200, null=True)
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)
@@ -50,3 +50,6 @@ class Follow(models.Model):
     follower = models.ForeignKey(User, related_name='follower')
     followed = models.ForeignKey(User, related_name='following')
     date_of_follow = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (('follower', 'followed'),)

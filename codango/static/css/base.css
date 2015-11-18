@@ -120,6 +120,21 @@ body {
     height: 200px;
     width: 100%;
 }
+.commentform textarea{
+	display:block;
+	height:10em;
+	width:100%;
+	margin-left:auto;
+	margin-right:auto;
+}
+.comment-post .mdi{
+	color:#333;
+	font-size:15px;
+}
+.mdi-delete{
+	font-size:20px;
+	color:red !important;
+}
 
 .form-buttons{
 	margin-bottom: 5px;
@@ -131,6 +146,19 @@ body {
 
 .activity-feed i {
 	margin-right: 10px;
+}
+.feed-content .comments-div{
+	display:none;
+
+}
+.feed-content .comments{
+	margin-top:50px;
+}
+.comment-post{
+	padding-top:10px;
+}
+.edit-view{
+	display:none;
 }
 
 .list-inline {
@@ -184,6 +212,9 @@ body {
 .feed .profile-img img {
 	border-radius: 4px;
 }
+.feed article.row{
+	padding:0px 40px;
+}
 
 .feed-content {
 	padding-left: 84px;
@@ -218,9 +249,24 @@ body {
 	border-radius: 4px;
 	color: #565c6f;
 }
+.filter {
+	list-style:none;
+}
+.filter > li{
+	float:left;
 
-#item {
+}
+.filter > li > a{
+	display:inline;
+}
+.item {
 	margin: 0px 10px;
+	cursor:pointer;
+	color:#333;
+}
+.item.active{
+	color:blue;
+	cursor: default;
 }
 
 .spacer {
