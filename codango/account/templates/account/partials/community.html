@@ -6,7 +6,10 @@
 <div class="feed">
     <div class="profile-img">
         {% if resource.author.profile.image %} 
-            {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} {% else %} {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
+            {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} 
+            {% else %} 
+            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+            {% endif %}
     </div>
     <div class="feed-content">
         <p class="poster-details">
@@ -49,7 +52,10 @@
                 <article class="row">
                     <div class="col-md-2 col-sm-2 hidden-xs">
                         <figure class="thumbnail">
-                            {% if comment.author.profile.image %} {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} {% else %} {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} {% endif %}
+                            {% if comment.author.profile.image %} {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
+                            {% else %} 
+                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+                            {% endif %}
                         </figure>
                     </div>
                     <div class="col-md-10 col-sm-10">
@@ -62,9 +68,11 @@
                                 </header>
                                 <div class="comment-post view">
                                     <p>
-                                        {{comment}} {% if comment.author.id == request.user.id %}
+                                        {{comment}} 
+                                        {% if comment.author.id == request.user.id %}
                                         <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
-                                        <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment"><span class="mdi mdi-delete"></span></a> {% endif %}
+                                        <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment"><span class="mdi mdi-delete"></span></a> 
+                                        {% endif %}
                                     </p>
                                 </div>
                                 {% if comment.author.id == request.user.id %}
@@ -93,7 +101,8 @@
 </div>
 {% empty %}
 <div class="alert alert-info spacer">There are currently no posts</div>
-{% endfor %} {% show_more %}
+{% endfor %} 
+{% show_more %}
 <script type="text/javascript">
 prettyPrint();
 </script>
