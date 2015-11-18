@@ -25,26 +25,30 @@
                             <ul class="dropdown-menu list-inline tag-dropdown">
                                 <li>
                                     <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="PYTHON">Python</label>
+                                        <input type="radio" name="language_tags" value="PYTHON" />Python
+                                    </label>
                                 </li>
                                 <li>
                                     <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="JS">JS</label>
+                                        <input type="radio" name="language_tags" value="JS" />JS
+                                    </label>
                                 </li>
                                 <li>
                                     <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="ANDROID">Android</label>
+                                        <input type="radio" name="language_tags" value="ANDROID" />Android
+                                    </label>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary pull-right">Share</a>
-                        </button>
+                        <button type="submit" class="btn btn-primary pull-right">Share</button>
                     </div>
                 </div>
                 <input id="id-pdf-file" name="resource_file" class="form-control hide well well-sm" type="file" />
-                <div class="well" id="id-snippet-body"><pre id="editor" name="snippet_text"></pre></div>
+                <div class="well" id="id-snippet-body">
+                    <pre id="editor" name="snippet_text"></pre>
+                </div>
                 <textarea hidden id="snippet" name="snippet_text"></textarea>
             </form>
         </div>
@@ -52,22 +56,22 @@
     <div class="row">
         <div class="col-sm-12">
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}
-            <div id="preloader">
-                <img src="{% static 'img/ajax-loader.gif' %}">
-            </div>
-
-            <ul class="filter pull-right dropdown">
-                <li><a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    Filter By
-                    <span class="caret"></span>
-                    </a>
-                    <ul class="filter-menu dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li><a href="?sortby=date" class="filterby" role="tab" data-toggle="tab">Newest</a></li>
-                        <li><a href="?sortby=votes" class="filterby" role="tab" data-toggle="tab">Votes</a></li>
-                        <li><a href="?sortby=comments" class="filterby" role="tab" data-toggle="tab">Comments</a></li>
+                    <div id="preloader">
+                        <img src="{% static 'img/ajax-loader.gif' %}"/>
+                    </div>
+                    <ul class="filter pull-right dropdown">
+                        <li>
+                            <a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Filter By
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="filter-menu dropdown-menu" aria-labelledby="dropdownMenu1">
+                                <li><a href="?sortby=date" class="filterby" role="tab" data-toggle="tab">Newest</a></li>
+                                <li><a href="?sortby=votes" class="filterby" role="tab" data-toggle="tab">Votes</a></li>
+                                <li><a href="?sortby=comments" class="filterby" role="tab" data-toggle="tab">Comments</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
             </h3>
             <div id="community-content">
                 {% include "account/partials/community.html" %}

@@ -1,30 +1,34 @@
 {% load cloudinary %} 
-{% load endless %}
+{% load endless %} 
 {% load bootstrap %} 
 {% paginate resources %} 
 {% for resource in resources %}
 <div class="feed">
     <div class="profile-img">
         {% if resource.author.profile.image %} 
-            {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} 
-            {% else %} 
-            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
-            {% endif %}
+        {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} 
+        {% else %} 
+        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+        {% endif %}
     </div>
     <div class="feed-content">
         <p class="poster-details">
             <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
             <small>{{ resource.date_added | timesince }} ago</small>
         </p>
-        <h1>{{ resource.text }}</h1> {% if resource.snippet_text %}
+        <h1>{{ resource.text }}</h1> 
+        {% if resource.snippet_text %}
         <p>
             <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
         </p>
-        {% endif %} {% if resource.resource_file %}
+        {% endif %} 
+        {% if resource.resource_file %}
         <p id="file-icon">
             {% if resource.resource_file.format == "pdf" %}
-            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i> {% else %}
-            <i id="file-icon-doc" class="mdi mdi-file-word"></i> {% endif %}
+            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i> 
+            {% else %}
+            <i id="file-icon-doc" class="mdi mdi-file-word"></i> 
+            {% endif %}
         </p> &nbsp;
         <p id="file-info">
             <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a>
@@ -52,7 +56,8 @@
                 <article class="row">
                     <div class="col-md-2 col-sm-2 hidden-xs">
                         <figure class="thumbnail">
-                            {% if comment.author.profile.image %} {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
+                            {% if comment.author.profile.image %} 
+                            {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
                             {% else %} 
                             {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
                             {% endif %}
@@ -68,8 +73,7 @@
                                 </header>
                                 <div class="comment-post view">
                                     <p>
-                                        {{comment}} 
-                                        {% if comment.author.id == request.user.id %}
+                                        {{comment}} {% if comment.author.id == request.user.id %}
                                         <a href="#" class="show-edit"><span class="mdi mdi-pencil"></span> </a>
                                         <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment"><span class="mdi mdi-delete"></span></a> 
                                         {% endif %}
@@ -101,8 +105,7 @@
 </div>
 {% empty %}
 <div class="alert alert-info spacer">There are currently no posts</div>
-{% endfor %} 
-{% show_more %}
+{% endfor %} {% show_more %}
 <script type="text/javascript">
 prettyPrint();
 </script>
