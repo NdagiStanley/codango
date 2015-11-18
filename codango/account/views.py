@@ -10,12 +10,12 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
+from django.utils import timezone
 from account.hash import UserHasher
 from emails import send_mail
 from resources.models import Resource
 from resources.forms import ResourceForm
-from account.forms import LoginForm, RegisterForm, ResetForm, UserProfileForm
-from account.models import UserProfile
+from account.forms import LoginForm, RegisterForm, ResetForm
 
 
 class IndexView(TemplateView):
@@ -213,7 +213,6 @@ class ForgotPasswordView(TemplateView):
 
 
 class ResetPasswordView(View):
-
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
         user = UserHasher.reverse_hash(user_hash)
@@ -268,67 +267,3 @@ class ResetPasswordView(View):
         return render(request, 'account/forgot-password-reset.html', context)
 
 
-class UserProfileDetailView(TemplateView):
-    model = UserProfile
-    template_name = 'account/profile.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
-        return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileDetailView, self).get_context_data(**kwargs)
-        username = kwargs['username']
-        if self.request.user.username == username:
-            user = self.request.user
-        else:
-            user = User.objects.get(username=username)
-            if user is None:
-                return Http404("User does not exist")
-
-        context['profile'] = user.profile
-        context['resources'] = user.resource_set.all()
-        context['title'] = "My Feed"
-        return context
-
-
-class UserProfileEditView(LoginRequiredMixin, TemplateView):
-    form_class = UserProfileForm
-    template_name = 'account/profile-edit.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(UserProfileEditView, self).get_context_data(**kwargs)
-        username = kwargs['username']
-        if self.request.user.username == username:
-            user = self.request.user
-        else:
-            pass
-
-        context['profile'] = user.profile
-        context['resources'] = user.resource_set.all()
-        context['profileform'] = self.form_class(initial={
-            'about': self.request.user.profile.about,
-            'first_name': self.request.user.profile.first_name,
-            'last_name': self.request.user.profile.last_name,
-            'place_of_work': self.request.user.profile.place_of_work,
-            'position': self.request.user.profile.position
-        })
-        return context
-
-    def post(self, request, **kwargs):
-        form = self.form_class(
-            request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            messages.add_message(
-                request, messages.SUCCESS, 'Profile Updated!')
-            return redirect(
-                '/user/' + kwargs['username'],
-                context_instance=RequestContext(request)
-            )
-        else:
-            context = super(
-                UserProfileEditView, self).get_context_data(**kwargs)
-            context['profileform'] = self.form_class
-            return render(request, self.template_name, context)

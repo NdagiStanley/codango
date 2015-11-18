@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.models import User
-from models import UserProfile
 
 
 class LoginForm(forms.Form):
@@ -76,20 +75,6 @@ class ResetForm(forms.Form):
                                         attrs={
                                             "placeholder": "Confirm Your New Password"
                                         }))
-
-
-class UserProfileForm(forms.ModelForm):
-
-    class Meta:
-        model = UserProfile
-        fields = ['first_name', 'last_name', 'place_of_work', 'position','about', 'image']
-        labels = {
-            'first_name': 'First name',
-            'last_name': 'Last name',
-            'place_of_work': 'Place of work',
-            'position': 'Position',
-            'about': 'About'
-        }
 
 
 class UserUpdateForm(forms.ModelForm):

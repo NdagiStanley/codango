@@ -283,4 +283,30 @@ $(document).ready(function() {
     });
     // syntax highlighter plugin
     prettyPrint();
+
+    // Handling follow
+    $('#follow-btn').click(function(e){
+        e.preventDefault();
+        var _this = $(this)
+        var id = $(this).data('id');
+        console.log(id);
+        var url = $(this).attr('href');
+        console.log(url);
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(data,textStatus,xhr){
+                console.log(xhr.status);
+                console.log("i still got here")
+                console.log(_this)
+                _this.attr('disabled', true);
+                _this.text('following')
+            },
+            error: function(x){
+                console.log(x.responseText)
+            }
+
+        })
+    })
 });

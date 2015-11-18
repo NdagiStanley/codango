@@ -375,3 +375,20 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 	list-style-type: decimal !important
 	}
 /* end of google code-prettify */
+
+#followers-list{
+	display: inline-block;
+}
+
+#followers-heading{
+	font-size: 30px;
+}
+
+#followers-detail{
+	padding: 20px;
+}
+
+#follower-name{
+	font-size: 20px;
+	color: #000000;
+}

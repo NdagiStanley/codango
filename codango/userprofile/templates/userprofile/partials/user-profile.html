@@ -1,0 +1,73 @@
+{% load cloudinary %}
+{% load bootstrap %}
+<div class="col-sm-3 col-xs-12">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12 col-xs-4">
+                    {% if profile.image %}
+                        {% cloudinary profile.image width=400 height=400 class="profile-img-lg img-responsive" crop="fill" %}
+                    {% else %}
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                    {% endif %}
+                </div>
+                <div class="col-sm-12 col-xs-8">
+                    <h2 class="text-center" id="profile-name">@{{ profile.user.username }}
+                        &nbsp;
+                        {% if user.is_authenticated  and profile.user.username == user.username and request.path != '/user/'|add:profile.user.username|add:'/edit' %}
+
+                            <a href="/user/{{ profile.user.username }}/edit" id="edit-profile"><span
+                                    class="mdi mdi-pencil"></span></a>
+                        {% endif %}
+                        {% if already_following %}
+                            <a class="btn btn-primary" disabled="disabled" id="follow-btn"
+                               data-id="{{ profile.user.id }}">Following</a>
+                        {% elif profile.user.username != user.username %}
+                            <a href="/user/{{ profile.user.username }}/follow" class="btn btn-primary" id="follow-btn"
+                               data-id="{{ profile.user.id }}">Follow</a>
+                        {% endif %}
+                    </h2>
+
+                    <hr/>
+                    {% if profile.position and profile.place_of_work %}
+                        <p class="text-center">{{ profile.position }} @ {{ profile.place_of_work }} </p>
+                        <hr/>
+                    {% endif %}
+                    <p class="text-center">{{ profile.about }}</p>
+                    <hr/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+
+                    <h2 class="stats text-center">{{ profile.followers }}</h2>
+
+                    <p class="text-center">
+                        <a href="/user/{{ profile.user.username }}/followers">
+                            <small>Followers</small>
+                        </a>
+                    </p>
+
+                </div>
+                <div class="col-xs-4">
+                    <h2 class="stats text-center">{{ profile.following }}</h2>
+
+                    <p class="text-center">
+                        <a href="/user/{{ profile.user.username }}/following">
+                            <small>Following</small>
+                        </a>
+                    </p>
+                </div>
+                <div class="col-xs-4">
+                    <h2 class="stats text-center">{{ resources.count }}</h2>
+
+                    <p class="text-center">
+                        <small>
+                            {% if resources.count > 1 %}Snippets{% else %}Snippet{% endif %}
+                        </small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
