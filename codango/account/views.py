@@ -226,15 +226,10 @@ class ResetPasswordView(View):
         return render(request, 'account/forgot-password-reset.html', context)
 
 
-class UserProfileDetailView(TemplateView):
+class UserProfileDetailView(CommunityBaseView):
     model = UserProfile
     template_name = 'account/profile.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
-        return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
-
+    
     def get_context_data(self, **kwargs):
 
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
@@ -249,7 +244,7 @@ class UserProfileDetailView(TemplateView):
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
-        context['resources'] = CommunityBaseView.sort_by(sortby, user.resource_set.all())
+        context['resources'] = self.sort_by(sortby, user.resource_set.all())
 
         context['profile'] = user.profile
         context['title'] = "My Feed"
