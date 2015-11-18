@@ -79,6 +79,7 @@ var facebookLogin = {
         });
     },
 };
+
 var googleLogin = {
     config: {
         login: "#google-login",
@@ -143,6 +144,7 @@ var googleLogin = {
         });
     }
 };
+
 var ajaxContent = {
     config: {
         filter: "#community a",
@@ -175,7 +177,9 @@ var ajaxContent = {
         prettyPrint();
     }
 };
-var shareForm = {
+
+
+var formPost = {
     config: {
         share: "#id_share_form"
     },
@@ -207,9 +211,6 @@ var shareForm = {
     share: function(url, fd, _this) {
 
         $("#preloader").show();
-
-        //console.log(fd.get('resource_id'));
-
         var data = _this.serializeArray();
         $.ajax({
             url: url,
@@ -254,6 +255,7 @@ var shareForm = {
         });
     }
 };
+
 var mobileNav = {
     config: {
         linkNav: "#sidebar-mobile-link i"
@@ -276,6 +278,7 @@ var mobileNav = {
         }
     }
 };
+
 var votes = {
     config: {
         voteButton: ".like, .unlike"
@@ -315,12 +318,15 @@ var votes = {
     }
 }
 
+<<<<<<< 7b29a9c06c8888d6f2eb8cfdca956bc655540670
 
 function loadComments(_this){
             var selector = "#" + _this.closest('.comments').attr("id");
             $(selector).load(document.URL + " " +selector);
         }
 
+=======
+>>>>>>> [Fixes  #107707062]  Changes to app.js
 var deleteComment = {
     config: {
         button: ".delete-comment",
@@ -344,6 +350,7 @@ var deleteComment = {
         })
     }
 };
+
 var editComment = {
     config: {
         button: ".edit-comment"
@@ -364,7 +371,6 @@ var editComment = {
             data: JSON.stringify({
                 'content': _this.find("textarea[name='content']").val()
             }),
-            //data:fd,
             success: loadComments(_this),
             error: function(res) {
                 console.log(res.responseText);
@@ -372,6 +378,59 @@ var editComment = {
         });
     }
 };
+
+var eventListeners = {
+    init: function() {
+        // Shows the edit comments box
+        $("body").on("click", ".show-edit", function(e) {
+            e.preventDefault();
+            $(this).closest("div").siblings(".edit-view").show();
+            $(this).closest(".view").hide();
+        });
+
+        // Shows the comments when we stop editing
+        $("body").on("click", ".show-view", function(e) {
+            e.preventDefault();
+            $(this).closest(".edit-view").hide();
+            $(".view").show();
+        })
+
+        // Shows all the comments on a resource
+        $(document).on("click", ".mdi-comment", function(e) {
+            e.preventDefault();
+            $(this).closest('.feed-content').find('.comments-div').toggle();
+        });
+
+        // Responsive view sidebar slide in
+        $("#more a").click(function(e) {
+            e.preventDefault();
+            if ($("#sidebar-more").css("display") == "block") {
+                $("#sidebar-more").css("display", "none");
+                $(this).text("...more...");
+            } else {
+                $("#sidebar-more").css("display", "block");
+                $(this).text("...less...");
+            }
+        });
+
+        // Shows the snippet box
+        $('#id-snippet-button').click(function() {
+            $('#id-snippet-body').toggle();
+        });
+
+        // Shows the file upload field
+        $('#id-pdf-button').on('click', function(hidden) {
+            hidden.preventDefault();
+            $('#id-pdf-file').toggleClass('show');
+        });
+
+        // Ensures all flash messages fadeout after 2 seconds
+        setTimeout(function() {
+            $('#flash-message').fadeOut();
+        }, 2000)
+    }
+}
+
 $(document).ready(function() {
     facebookLogin.init({
         fb_id: "1472691016373339"
@@ -389,34 +448,21 @@ $(document).ready(function() {
     editComment.init({
         button: ".edit-comment"
     })
+
+    eventListeners.init();
     mobileNav.init();
     votes.init();
     deleteComment.init();
+    
     $('#id-snippet-body').hide();
-    $('#flash-message').fadeOut(5000);
-    $('#id-snippet-button').click(function() {
-        $('#id-snippet-body').toggle();
-    });
-    $('#id-pdf-button').on('click', function(hidden) {
-        hidden.preventDefault();
-        $('#id-pdf-file').toggleClass('show');
-    });
-    $("#more a").click(function(e) {
-        e.preventDefault();
-        if ($("#sidebar-more").css("display") == "block") {
-            $("#sidebar-more").css("display", "none");
-            $(this).text("...more...");
-        } else {
-            $("#sidebar-more").css("display", "block");
-            $(this).text("...less...");
-        }
-    });
-    // endless pagination plugin
+
+    // Endless pagination plugin
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
     prettyPrint();
+<<<<<<< 7b29a9c06c8888d6f2eb8cfdca956bc655540670
     // Handling follow
     $('#follow-btn').click(function(e){
         e.preventDefault();
@@ -473,4 +519,7 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).closest('.feed-content').find('.comments-div').toggle();
     });
+=======
+    
+>>>>>>> [Fixes  #107707062]  Changes to app.js
 });
