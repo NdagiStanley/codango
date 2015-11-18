@@ -81,6 +81,7 @@ var facebookLogin = {
 };
 
 var googleLogin = {
+    //This handles the configuration file for google social login
     config: {
         login: "#google-login",
         OAUTHURL: "https://accounts.google.com/o/oauth2/auth?",
@@ -91,6 +92,7 @@ var googleLogin = {
         LOGOUT: "http://accounts.google.com/Logout",
         TYPE: "token",
     },
+    //init funciton for the click event
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(googleLogin.config, config);
@@ -99,6 +101,7 @@ var googleLogin = {
             googleLogin.login();
         });
     },
+    //Login function
     login: function() {
         var __url = googleLogin.config.OAUTHURL + "scope=" + googleLogin.config.SCOPE + "&client_id=" + googleLogin.config.CLIENTID + "&redirect_uri=" + googleLogin.config.REDIRECT + "&response_type=" + googleLogin.config.TYPE;
         var win = window.open(__url, "windowname1", "width=800, height=600");
