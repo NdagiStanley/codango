@@ -105,8 +105,8 @@ class RegisterView(IndexView):
                 request, messages.SUCCESS, 'Registered Successfully!')
             new_profile = new_user.profile
             new_profile.social_id = request.POST['social_id'] if 'social_id' in request.POST else None
-            new_profile.first_name = request.POST['first_name']
-            new_profile.last_name = request.POST['last_name']
+            new_profile.first_name = request.POST['first_name'] if 'first_name' in request.POST else None
+            new_profile.last_name = request.POST['last_name'] if 'last_name' in request.POST else None
             new_profile.save()
 
             return redirect(
