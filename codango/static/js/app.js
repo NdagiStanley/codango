@@ -33,7 +33,9 @@ function socialLogin(user) {
                 $("#id_email").val(user.email);
             }
         },
-        error: function(error) {}
+        error: function(error) {
+            console.log(error.responseText)
+        }
     };
     $.ajax(ajaxinfo);
 }
@@ -193,9 +195,9 @@ var formPost = {
         }
         $("body").on("submit", formPost.config.share, function(e) {
             e.preventDefault();
-            var fd = shareForm.formContents($(this));
+            var fd = formPost.formContents($(this));
             var url = $(this).attr("action");
-            shareForm.shareForm(url, fd, $(this));
+            formPost.share(url, fd, $(this));
         });
     },
     formContents: function(_this) {
@@ -321,15 +323,13 @@ var votes = {
     }
 }
 
-<<<<<<< 7b29a9c06c8888d6f2eb8cfdca956bc655540670
 
 function loadComments(_this){
             var selector = "#" + _this.closest('.comments').attr("id");
             $(selector).load(document.URL + " " +selector);
         }
 
-=======
->>>>>>> [Fixes  #107707062]  Changes to app.js
+
 var deleteComment = {
     config: {
         button: ".delete-comment",
@@ -436,10 +436,10 @@ var eventListeners = {
 
 $(document).ready(function() {
     facebookLogin.init({
-        fb_id: "1472691016373339"
+        //fb_id: "1472691016373339"
     });
     googleLogin.init({
-        REDIRECT: "http://codango-staging.herokuapp.com/"
+        //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
 
     formPost.init({
@@ -465,23 +465,21 @@ $(document).ready(function() {
         paginateOnScrollMargin: 20
     });
     prettyPrint();
-<<<<<<< 7b29a9c06c8888d6f2eb8cfdca956bc655540670
     // Handling follow
     $('#follow-btn').click(function(e){
         e.preventDefault();
         var _this = $(this)
         var id = $(this).data('id');
-        console.log(id);
+       
         var url = $(this).attr('href');
-        console.log(url);
 
         $.ajax({
             url: url,
             type: 'POST',
             success: function(data,textStatus,xhr){
-                console.log(xhr.status);
-                console.log("i still got here")
-                console.log(_this)
+                $("h2.stats.followers").text(data['no_of_followers']);
+                $("h2.stats.following").text(data['no_following']);
+               
                 _this.attr('disabled', true);
                 _this.text('following')
             },
@@ -490,39 +488,5 @@ $(document).ready(function() {
             }
 
         })
-    $("body").on("click",".delete-comment",function(e){
-        e.preventDefault();
-        var _this = $(this)
-        if(!confirm("Are you sure you want to delete this comment")) return;
-        $.ajax({
-            url: _this.attr("href"),
-            type:"DELETE",
-            success:function(data){
-                console.log(data);
-            },
-            error:function(res){
-                console.log(res.responseText)
-            }
-
-        })
-    })
-
-
-    $("body").on("click", ".show-edit", function(e) {
-        e.preventDefault();
-        $(this).closest("div").siblings(".edit-view").show();
-        $(this).closest(".view").hide();
     });
-    $("body").on("click", ".show-view", function(e) {
-        e.preventDefault();
-        $(this).closest(".edit-view").hide();
-        $(".view").show();
-    })
-    $(document).on("click", ".mdi-comment", function(e) {
-        e.preventDefault();
-        $(this).closest('.feed-content').find('.comments-div').toggle();
-    });
-=======
-    
->>>>>>> [Fixes  #107707062]  Changes to app.js
 });

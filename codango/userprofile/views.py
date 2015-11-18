@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -6,22 +7,20 @@ from django.contrib.auth.models import User
 from django.template import RequestContext, loader
 from django.utils import timezone
 from account.views import LoginRequiredMixin
+from comments.forms import CommentForm
 from userprofile.models import UserProfile, Follow
 from userprofile.forms import UserProfileForm
+from resources.views import CommunityBaseView
 
 # Create your views here.
 
 
-class UserProfileDetailView(TemplateView):
+class UserProfileDetailView(CommunityBaseView):
     model = UserProfile
     template_name = 'userprofile/profile.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
-        return super(UserProfileDetailView, self).dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
+
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         username = kwargs['username']
         if self.request.user.username == username:
@@ -30,19 +29,23 @@ class UserProfileDetailView(TemplateView):
             user = User.objects.get(username=username)
             if user is None:
                 return Http404("User does not exist")
-
         try:
             follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
-
             if follow is not None:
                 context['already_following'] = True
         except:
             pass
 
+        sortby = self.request.GET[
+            'sortby'] if 'sortby' in self.request.GET else 'date'
+
+        context['resources'] = self.sort_by(sortby, user.resource_set.all())
+
         context['profile'] = user.profile
-        context['resources'] = user.resource_set.all()
         context['title'] = "My Feed"
+        context['commentform'] = CommentForm(auto_id=False)
         return context
+
 
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
@@ -105,7 +108,12 @@ class FollowUserView(LoginRequiredMixin, View):
         follower_user_profile.followers += 1
         follower_user_profile.save()
 
-        return HttpResponse(status=200)
+        repsonse_json = {
+        'no_of_followers': len(follower_user_profile.get_followers()),
+        'no_following': len(follower_user_profile.get_following()),
+        }
+        json_response = json.dumps(repsonse_json)
+        return HttpResponse(json_response, content_type="application/json")
 
 
 class FollowListView(LoginRequiredMixin, TemplateView):
