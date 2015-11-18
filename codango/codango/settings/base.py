@@ -14,6 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import cloudinary
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+from django.contrib.messages import constants as message_constants
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -146,3 +147,8 @@ cloudinary.config(
     api_key=os.getenv('api_key'),
     api_secret=os.getenv('api_secret')
 )
+
+# custom message tag for django messaging middleware
+MESSAGE_TAGS = {
+    message_constants.ERROR: 'danger'
+}

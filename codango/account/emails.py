@@ -1,16 +1,39 @@
-from django.shortcuts import render
-from django.template import RequestContext, loader
-import requests
+import sendgrid
+from sendgrid import SendGridError, SendGridClientError, SendGridServerError
+import os
 
 
-def send_mail(sender, recipient, subject, text=None, html=None):
-    return requests.post(
-        "https://api.mailgun.net/v3/sandboxb2b5451c43284f7a8bc19a345ab06b2e.mailgun.org/messages",
-        auth=("api", "key-63b86d9d5953b932e5af3c1ad6f2ae4b"),
+class SendGrid:
 
-        data={"from": sender,
-              "to": recipient,
-              "subject": subject,
-              "text": text,
-              "html": html,
-              })
+    """
+    Using SendGrid email management service
+    to handle all email services for Codango
+    """
+
+    sg = sendgrid.SendGridClient(
+        os.getenv('sendgrid_apikey'),
+        raise_errors=True)
+
+    @staticmethod
+    def compose(sender, recipient, subject, text="", html=""):
+
+        message = sendgrid.Mail()
+        message.add_to(recipient)
+        message.set_subject(subject)
+        message.set_html(html)
+        message.set_text(text)
+        message.set_from(sender)
+
+        return message
+
+    @staticmethod
+    def send(message):
+
+        try:
+            http_status_code, message = SendGrid.sg.send(message)
+        except SendGridClientError:
+            pass
+        except SendGridServerError:
+            pass
+
+        return http_status_code

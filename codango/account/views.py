@@ -14,15 +14,14 @@ from django.template import RequestContext, loader
 from django.utils import timezone
 from django.db.models import Count
 from account.hash import UserHasher
-from emails import send_mail
+from emails import SendGrid
 from resources.models import Resource
 from resources.forms import ResourceForm
 from resources.views import CommunityBaseView
-from account.forms import LoginForm, RegisterForm, ResetForm 
+from account.forms import LoginForm, RegisterForm, ResetForm
 from userprofile.models import UserProfile
 from comments.models import Comment
 from votes.models import Vote
-
 
 
 class IndexView(TemplateView):
@@ -53,7 +52,8 @@ class LoginView(IndexView):
 
         if self.request.is_ajax():
             try:
-                userprofile = UserProfile.objects.get(social_id=request.POST['id'])
+                userprofile = UserProfile.objects.get(
+                    social_id=request.POST['id'])
                 user = userprofile.get_user()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)
@@ -103,9 +103,12 @@ class RegisterView(IndexView):
             messages.add_message(
                 request, messages.SUCCESS, 'Registered Successfully!')
             new_profile = new_user.profile
-            new_profile.social_id = request.POST['social_id'] if 'social_id' in request.POST else None
-            new_profile.first_name = request.POST['first_name'] if 'first_name' in request.POST else None
-            new_profile.last_name = request.POST['last_name'] if 'last_name' in request.POST else None
+            new_profile.social_id = request.POST[
+                'social_id'] if 'social_id' in request.POST else None
+            new_profile.first_name = request.POST[
+                'first_name'] if 'first_name' in request.POST else None
+            new_profile.last_name = request.POST[
+                'last_name'] if 'last_name' in request.POST else None
             new_profile.save()
 
             return redirect(
@@ -137,36 +140,54 @@ class ForgotPasswordView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         try:
+            # get the email inputted
             email_inputted = request.POST.get("email")
+
+            # query the database if that email exists
             user = User.objects.get(email=email_inputted)
+
+            # generate a recovery hash for that user
             user_hash = UserHasher.gen_hash(user)
             user_hash_url = request.build_absolute_uri(
                 reverse('reset_password', kwargs={'user_hash': user_hash}))
-
             hash_email_context = RequestContext(
                 request, {'user_hash_url': user_hash_url})
-            email_reponse = send_mail(
+
+            # compose the email
+            email_compose = SendGrid.compose(
                 sender='Codango <codango@andela.com>',
                 recipient=user.email,
                 subject='Codango: Password Recovery',
                 text=loader.get_template(
-                    'account/forgot-password-email.txt').render(hash_email_context),
+                    'account/forgot-password-email.txt'
+                ).render(hash_email_context),
                 html=loader.get_template(
-                    'account/forgot-password-email.html').render(hash_email_context),
+                    'account/forgot-password-email.html'
+                ).render(hash_email_context),
             )
+
+            # send email
+            email_response = SendGrid.send(email_compose)
+
+            # inform the user if mail sent was successful
             context = {
-                "email_status": email_reponse.status_code
+                "email_status": email_response
             }
-            return render(request, 'account/forgot-password-status.html', context)
+            return render(
+                request,
+                'account/forgot-password-status.html',
+                context
+            )
 
         except ObjectDoesNotExist:
             messages.add_message(
-                request, messages.INFO,
+                request, messages.ERROR,
                 'The email specified does not belong to any valid user.')
             return render(request, 'account/forgot-password.html')
 
 
 class ResetPasswordView(View):
+
     def get(self, request, *args, **kwargs):
         user_hash = kwargs['user_hash']
         user = UserHasher.reverse_hash(user_hash)

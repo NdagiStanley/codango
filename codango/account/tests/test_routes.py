@@ -61,14 +61,13 @@ class HomeViewTest(TestCase):
         self.assertEqual(match.url_name, 'home')
 
 
-
 class ForgotResetTestCase(TestCase):
 
     def setUp(self):
         self.client = Client()
 
     def test_forgot_route_resolves_to_correct_view(self):
-        response = self.client.get('/recovery/')
+        response = self.client.get('/recovery')
         self.assertEqual(
             response.resolver_match.func.__name__, ForgotPasswordView.as_view().__name__)
 
@@ -92,16 +91,12 @@ class PasswordResetTestCase(TestCase):
         self.user_account.save()
 
     def test_get_returns_200(self):
-        response = self.client.get('/recovery/')
-        self.assertEquals(response.status_code, 200)
-
-    def test_post_returns_200(self):
-        response = self.client.get('/recovery/')
+        response = self.client.get('/recovery')
         self.assertEquals(response.status_code, 200)
 
     def test_recovery_email_not_sent_for_unregistered_user(self):
         response = self.client.post(
-            '/recovery/', {"email": "fagemaki.iniruto@gmail.com"})
+            '/recovery', {"email": "fagemaki.iniruto@gmail.com"})
         self.assertNotIn('email_status', response.context)
 
 
