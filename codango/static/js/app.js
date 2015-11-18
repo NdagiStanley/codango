@@ -436,10 +436,10 @@ var eventListeners = {
 
 $(document).ready(function() {
     facebookLogin.init({
-        //fb_id: "1472691016373339"
+        fb_id: "1472691016373339"
     });
     googleLogin.init({
-        //REDIRECT: "http://codango-staging.herokuapp.com/"
+        REDIRECT: "http://codango-staging.herokuapp.com/"
     });
 
     formPost.init({
