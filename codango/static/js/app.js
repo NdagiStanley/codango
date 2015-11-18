@@ -2,6 +2,12 @@ $.ajaxSetup({
     headers: {
         "X-CSRFToken": $("input[name='csrfmiddlewaretoken']").val()
     },
+    beforeSend:function(){
+        $("#preloader").show();
+    },
+    complete:function(){
+        $("#preloader").hide();
+    }
 });
 
 function socialLogin(user) {
@@ -199,6 +205,7 @@ var shareForm = {
     },
 
     share: function(url, fd, _this) {
+
         $("#preloader").show();
 
         //console.log(fd.get('resource_id'));
@@ -230,7 +237,6 @@ var shareForm = {
                 }, 5000);
             },
             complete: function() {
-                $("#preloader").hide();
                 if (_this.hasClass('share')) {
                     console.log(document.URL);
                     $("#community-content").load(document.URL, function() {
