@@ -54,7 +54,7 @@ class LoginView(IndexView):
 
         if self.request.is_ajax():
             try:
-                userprofile = UserProfile.objects.get(fb_id=request.POST['id'])
+                userprofile = UserProfile.objects.get(social_id=request.POST['id'])
                 user = userprofile.get_user()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
                 login(request, user)
@@ -103,15 +103,11 @@ class RegisterView(IndexView):
             login(request, new_user)
             messages.add_message(
                 request, messages.SUCCESS, 'Registered Successfully!')
-
-            if 'fb_id' not in request.POST:
-                pass
-            else:
-                new_profile = new_user.profile
-                new_profile.fb_id = request.POST['fb_id']
-                new_profile.first_name = request.POST['first_name']
-                new_profile.last_name = request.POST['last_name']
-                new_profile.save()
+            new_profile = new_user.profile
+            new_profile.social_id = request.POST['social_id'] if 'social_id' in request.POST else None
+            new_profile.first_name = request.POST['first_name']
+            new_profile.last_name = request.POST['last_name']
+            new_profile.save()
 
             return redirect(
                 '/user/' + self.request.user.username + '/edit',
@@ -229,7 +225,7 @@ class ResetPasswordView(View):
 class UserProfileDetailView(CommunityBaseView):
     model = UserProfile
     template_name = 'account/profile.html'
-    
+
     def get_context_data(self, **kwargs):
 
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)

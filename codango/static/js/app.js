@@ -22,18 +22,22 @@ function socialLogin(user) {
                     $("#signup-form").append("<input type='hidden' name='first_name' value='" + user.given_name + "'>");
                     $("#signup-form").append("<input type='hidden' name='last_name' value='" + user.family_name + "'>");
                 }
-                $("#signup-form").append("<input type='hidden' name='fb_id' value='" + user.id + "'>");
-<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
-                $("#id_email").val(user.email).attr("disabled", true);
-=======
+
+                $("#signup-form").append("<input type='hidden' name='social_id' value='" + user.id + "'>");
                 $("#id_email").val(user.email);
->>>>>>> [Fix
             }
         },
         error: function(error) {}
     };
     $.ajax(ajaxinfo);
 }
+
+function loadComments(_this) {
+    var selector = "#" + _this.closest('.comments').attr("id");
+    $(selector).load(document.URL + " " + selector);
+}
+
+
 var facebookLogin = {
     config: {
         login: "#facebook-login",
@@ -170,17 +174,11 @@ var shareForm = {
         share: "#id_share_form"
     },
     init: function(config) {
-<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
+
         if (config && typeof(config) == "object") {
-            $.extend(shareForm.config, config);
-        }
-        $("body").on("submit",shareForm.config.share,function(e) {
-=======
-        if (config && typeof(config) == 'object') {
             $.extend(formPost.config, config);
         }
         $("body").on("submit", formPost.config.share, function(e) {
->>>>>>> [Fix
             e.preventDefault();
             var fd = shareForm.formContents($(this));
             var url = $(this).attr("action");
@@ -199,12 +197,8 @@ var shareForm = {
         });
         return fd;
     },
-<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
-    shareForm: function(url, fd, _this) {
 
-=======
     share: function(url, fd, _this) {
->>>>>>> [Fix
         $("#preloader").show();
 
         //console.log(fd.get('resource_id'));
@@ -301,11 +295,11 @@ var votes = {
                 if (data['status'] == "novote") _this.find('span').removeClass('active');
                 else _this.find('span').addClass('active')
                 if (_this.hasClass('like')) {
-                    _this.siblings('.unlike').find('span').removeClass('active').text(data['downvotes'])
-                    _this.find('span').text(data['upvotes'])
+                    _this.siblings('.unlike').find('span').removeClass('active').html("&nbsp;&nbsp;"+data['downvotes'])
+                    _this.find('span').html("&nbsp;&nbsp;"+data['upvotes'])
                 } else {
-                    _this.siblings('.like').find('span').removeClass('active').text(data['upvotes'])
-                    _this.find('span').text(data['downvotes'])
+                    _this.siblings('.like').find('span').removeClass('active').html("&nbsp;&nbsp;"+data['upvotes'])
+                    _this.find('span').html("&nbsp;&nbsp;"+data['downvotes'])
                 }
             },
             error: function(x) {
@@ -315,18 +309,12 @@ var votes = {
     }
 }
 
-function loadComments(_this) {
-    var selector = "#" + _this.closest('.comments').attr("id");
-    $(selector).load(document.URL + " " + selector);
-}
-<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
 
 function loadComments(_this){
             var selector = "#" + _this.closest('.comments').attr("id");
             $(selector).load(document.URL + " " +selector);
         }
-=======
->>>>>>> [Fix
+
 var deleteComment = {
     config: {
         button: ".delete-comment",
@@ -380,17 +368,12 @@ var editComment = {
 };
 $(document).ready(function() {
     facebookLogin.init({
-        fb_id: "1472691016373339"
+        //fb_id: "1472691016373339"
     });
     googleLogin.init({
-        REDIRECT: "http://codango-staging.herokuapp.com/"
+        //REDIRECT: "http://codango-staging.herokuapp.com/"
     });
-<<<<<<< 1bb6b569a7ce48d9360b2aec08025db81c55921e
-    shareForm.init({share: "#id_share_form, .commentform"});
-    ajaxContent.init({filter: "#community a,.filter-menu a"});
-    mobileNav.init();
-    votes.init();
-=======
+
     formPost.init({
         share: "#id_share_form, .commentform"
     });
@@ -403,7 +386,6 @@ $(document).ready(function() {
     mobileNav.init();
     votes.init();
     deleteComment.init();
->>>>>>> [Fix
     $('#id-snippet-body').hide();
     $('#flash-message').fadeOut(5000);
     $('#id-snippet-button').click(function() {
