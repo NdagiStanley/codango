@@ -30,8 +30,8 @@ class FollowUserProfileTest(StaticLiveServerTestCase):
         self.user2.save()
         self.login = self.client.login(username='golden', password='abiodun')
 
-
     def test_a_logged_in_user_can_follow_a_registered_user(self):
-        pass
+        response =self.client.post('/user/golden/follow')
+        self.assertEqual(response.status_code, 200)
 
 
