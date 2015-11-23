@@ -125,3 +125,17 @@ class ProfileViewTestCase(TestCase):
                                      'last_name': 'Oshodi',
                                      'about': 'I love to Code'})
         self.assertEqual(response.status_code, 302)
+
+
+class ContactUsViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_contact_us_page(self):
+        response = self.client.get(reverse('contactus'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_contact_us_page_is_returned(self):
+        response = self.client.get(reverse('contactus'))
+        self.assertEqual(response.templates[0].name, 'account/contact-us.html')
