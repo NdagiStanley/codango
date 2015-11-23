@@ -82,3 +82,30 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         Model = User
         fields = ['first_name', 'last_name']
+
+
+class ContactUsForm(forms.Form):
+    name = forms.CharField(
+        label='Name', max_length=100,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Enter fullname',
+            'autocomplete': 'off'
+        }))
+
+    email = forms.EmailField(
+        label='Email Address', max_length=100,
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'john.doe@example.com',
+            'autocomplete': 'off'
+        }))
+
+    subject = forms.CharField(
+        label='Subject', max_length=100,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Please give a title to your message',
+            'autocomplete': 'off'
+        }))
+
+    message = forms.CharField(
+        label='Message', widget=forms.Textarea(attrs={
+            'placeholder': 'Please enter your message here'}))
