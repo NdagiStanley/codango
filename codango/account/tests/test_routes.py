@@ -1,7 +1,9 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
-from account.views import ForgotPasswordView, ResetPasswordView
+from account.views import ForgotPasswordView, ResetPasswordView, ContactUsView
+from mock import patch
+from account.emails import SendGrid
 
 
 class IndexViewTest(TestCase):
