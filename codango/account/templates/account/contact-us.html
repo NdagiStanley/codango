@@ -25,5 +25,40 @@
 {% endblock navbar %}
 
 {% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+          <div class="panel panel-default contact-us">
+            <h1 class="panel-body h1">
+                Contact us <small>We love your feedback</small></h1>
+        </div>
+    </div>
+</div>
 
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="well well-sm">
+                <!-- contact us form -->
+                <form role="form" action="#" method="post" id="contactus-form">
+                    {% csrf_token %}
+                    {{ contactusform|bootstrap }}
+                    <div class="form-group">
+                      <button id="send-mssg-btn" type="submit" class="btn btn-primary">Send Message</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <legend><span class="mdi mdi-earth"></span> Our office</legend>
+            <address>
+                <strong>Codango, Inc.</strong><br>
+                55 Moleye Street<br>
+                Sabo, Yaba<br>
+                Nigeria<br>
+                0800-codango
+            </address>
+        </div>
+    </div>
+</div>
 {% endblock body %}

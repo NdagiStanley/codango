@@ -13,7 +13,7 @@ from django.template import RequestContext, loader
 from account.hash import UserHasher
 from emails import SendGrid
 from resources.views import CommunityBaseView
-from account.forms import LoginForm, RegisterForm, ResetForm
+from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
 
 
@@ -115,7 +115,13 @@ class RegisterView(IndexView):
 
 
 class ContactUsView(TemplateView):
+    form_class = ContactUsForm
     template_name = 'account/contact-us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactUsView, self).get_context_data(**kwargs)
+        context['contactusform'] = ContactUsForm()
+        return context
 
 
 class LoginRequiredMixin(object):

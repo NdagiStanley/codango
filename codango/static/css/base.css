@@ -438,3 +438,19 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 	font-size: 20px;
 	color: #000000;
 }
+
+/* contact-us page styling */
+.contact-us{
+	background: #f26521;
+	color: #FFF;
+	border-radius: 6px; 
+}
+
+.contact-us small {
+	color: #FFF;
+}
+
+.h1 small {
+	font-size: 15px;
+}
+/* end of styling */
