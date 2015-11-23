@@ -1,5 +1,4 @@
-import json
-from django.http import HttpResponse, Http404, HttpResponseNotFound
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
@@ -11,17 +10,11 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-from django.utils import timezone
-from django.db.models import Count
 from account.hash import UserHasher
 from emails import SendGrid
-from resources.models import Resource
-from resources.forms import ResourceForm
 from resources.views import CommunityBaseView
 from account.forms import LoginForm, RegisterForm, ResetForm
 from userprofile.models import UserProfile
-from comments.models import Comment
-from votes.models import Vote
 
 
 class IndexView(TemplateView):
@@ -119,6 +112,10 @@ class RegisterView(IndexView):
             context = super(RegisterView, self).get_context_data(**kwargs)
             context['registerform'] = form
             return render(request, self.template_name, context)
+
+
+class ContactUsView(TemplateView):
+    template_name = 'account/contact-us.html'
 
 
 class LoginRequiredMixin(object):
