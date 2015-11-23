@@ -15,6 +15,7 @@ from emails import SendGrid
 from resources.views import CommunityBaseView
 from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
+from codango.settings.base import ADMIN_EMAIL
 
 
 class IndexView(TemplateView):
@@ -122,6 +123,48 @@ class ContactUsView(TemplateView):
         context = super(ContactUsView, self).get_context_data(**kwargs)
         context['contactusform'] = ContactUsForm()
         return context
+
+    def post(self, request, *args, **kwargs):
+        # get email data from form
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            email = request.POST['email']
+            subject = request.POST['subject']
+            message = request.POST['message']
+
+            # compose the email
+            email_compose = SendGrid.compose(
+                sender='{0} <{1}>'.format(name, email),
+                recipient=ADMIN_EMAIL,
+                subject=subject,
+                text=message,
+                html=None
+            )
+
+            # send email
+            response = SendGrid.send(email_compose)
+
+            # inform the user if mail sent was successful or not
+            if response == 200:
+                messages.add_message(
+                    request, messages.SUCCESS, 'Message sent successfully!')
+                return redirect(
+                    '/contact-us',
+                    context_instance=RequestContext(request)
+                )
+            else:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'Message failed to send, please try again later')
+                return redirect(
+                    '/contact-us',
+                    context_instance=RequestContext(request)
+                )
+        else:
+            context = super(ContactUsView, self).get_context_data(**kwargs)
+            context['contactusform'] = form
+            return render(request, self.template_name, context)
 
 
 class LoginRequiredMixin(object):

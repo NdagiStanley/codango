@@ -152,3 +152,6 @@ cloudinary.config(
 MESSAGE_TAGS = {
     message_constants.ERROR: 'danger'
 }
+
+# Custom admin email
+ADMIN_EMAIL = 'olufunmilade.oshodi@andela.com'

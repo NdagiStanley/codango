@@ -1,16 +1,15 @@
 {% extends "account/layout/base.html" %}
 {% load staticfiles %}
 {% load bootstrap %}
-
 {% block navbar %}
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/"><img src="{% static 'img/codango-logo.png' %}"/></a>
         </div>
@@ -23,42 +22,50 @@
     </div>
 </nav>
 {% endblock navbar %}
-
 {% block body %}
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-lg-12">
-          <div class="panel panel-default contact-us">
-            <h1 class="panel-body h1">
+            <div class="panel panel-default contact-us">
+                <h1 class="panel-body h1">
                 Contact us <small>We love your feedback</small></h1>
-        </div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="well well-sm">
-                <!-- contact us form -->
-                <form role="form" action="#" method="post" id="contactus-form">
-                    {% csrf_token %}
-                    {{ contactusform|bootstrap }}
-                    <div class="form-group">
-                      <button id="send-mssg-btn" type="submit" class="btn btn-primary">Send Message</button>
-                    </div>
-                </form>
             </div>
         </div>
-        <div class="col-md-4">
-            <legend><span class="mdi mdi-earth"></span> Our office</legend>
-            <address>
+    </div>
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="well well-sm">
+                    <!-- contact us form -->
+                    <form role="form" action="/contact-us" method="post" id="contactus-form">
+                        {% csrf_token %}
+                        {{ contactusform|bootstrap }}
+                        <div class="form-group">
+                            <button id="send-mssg-btn" type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <legend><span class="mdi mdi-earth"></span> Our office</legend>
+                <address>
                 <strong>Codango, Inc.</strong><br>
                 55 Moleye Street<br>
                 Sabo, Yaba<br>
                 Nigeria<br>
                 0800-codango
-            </address>
+                </address>
+            </div>
         </div>
     </div>
 </div>
-{% endblock body %}
+    {% endblock body %}
