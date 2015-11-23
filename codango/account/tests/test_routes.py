@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
-from account.views import ForgotPasswordView, ResetPasswordView, ContactUsView
+from account.views import ForgotPasswordView, ResetPasswordView
 from mock import patch
 from account.emails import SendGrid
 
@@ -141,3 +141,13 @@ class ContactUsViewTest(TestCase):
     def test_right_template_for_contact_us_page_is_returned(self):
         response = self.client.get(reverse('contactus'))
         self.assertEqual(response.templates[0].name, 'account/contact-us.html')
+
+    @patch.object(SendGrid, 'send')
+    def test_send_message(self, mock_method):
+        response = self.client.post('/contact-us', {
+            'name': 'Test User',
+            'email': 'test.user@test.com',
+            'subject': 'Test',
+            'message': 'This is a test message'
+        })
+        self.assertEqual(response.status_code, 302)
