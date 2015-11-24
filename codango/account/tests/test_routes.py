@@ -165,3 +165,17 @@ class AboutUsViewTest(TestCase):
     def test_right_template_for_about_us_page_is_returned(self):
         response = self.client.get(reverse('aboutus'))
         self.assertEqual(response.templates[0].name, 'account/about-us.html')
+
+
+class TeamViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_team_page(self):
+        response = self.client.get(reverse('team'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_team_page_is_returned(self):
+        response = self.client.get(reverse('team'))
+        self.assertEqual(response.templates[0].name, 'account/team.html')

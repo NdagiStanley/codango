@@ -132,3 +132,8 @@ class StaticPages(StaticLiveServerTestCase):
         self.browser.find_element_by_link_text('Contact Us').click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Contact us', body.text)
+
+        # team page
+        self.browser.find_element_by_link_text('Team').click()
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Our Awesome Team', body.text)
