@@ -15,7 +15,7 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Contact Us</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
                 <li><a href="#">Team</a></li>
             </ul>
         </div>
@@ -32,14 +32,16 @@
             </div>
         </div>
     </div>
-    <div class="container">
-        {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-                {{ message }}
-            </div>
-            {% endfor %}
-        {% endif %}
+    <div class="row">
+        <div class="col-sm-12">
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
     <div class="container">
         <div class="row">
