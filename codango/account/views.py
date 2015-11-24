@@ -171,6 +171,10 @@ class AboutUsView(TemplateView):
     template_name = 'account/about-us.html'
 
 
+class TeamView(TemplateView):
+    template_name = 'account/team.html'
+
+
 class LoginRequiredMixin(object):
     # View mixin which requires that the user is authenticated.
 
