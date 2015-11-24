@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 {% csrf_token %}
-                <p class="forgot-password-link">Forgot password. <a href="/recovery/">Reset</a></p>
+                <p class="forgot-password-link">Forgot password. <a href="/recovery">Reset</a></p>
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
