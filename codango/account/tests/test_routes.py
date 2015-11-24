@@ -151,3 +151,17 @@ class ContactUsViewTest(TestCase):
             'message': 'This is a test message'
         })
         self.assertEqual(response.status_code, 302)
+
+
+class AboutUsViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_about_us_page(self):
+        response = self.client.get(reverse('aboutus'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_about_us_page_is_returned(self):
+        response = self.client.get(reverse('aboutus'))
+        self.assertEqual(response.templates[0].name, 'account/about-us.html')

@@ -104,3 +104,31 @@ class CreateResource(StaticLiveServerTestCase):
             "//button[contains(text(),'Share')]").click()
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('success', body.text)
+
+
+class StaticPages(StaticLiveServerTestCase):
+
+    def setUp(self):
+        self.browser = webdriver.PhantomJS()
+        self.browser.set_window_size(1400, 1000)
+        self.browser.implicitly_wait(10)
+
+    def tearDown(self):
+        self.browser.quit()
+
+    def test_can_reach_static_pages(self):
+        self.browser.get(self.live_server_url)
+
+        # index page
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Join Our Community', body.text)
+
+        # about us page
+        self.browser.find_element_by_link_text('About Us').click()
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('About us', body.text)
+
+        # contact us page
+        self.browser.find_element_by_link_text('Contact Us').click()
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('Contact us', body.text)
