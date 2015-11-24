@@ -460,4 +460,17 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 	margin-top: 20px;
 	padding-right: 30px;
 }
+
+.section {
+	padding-bottom: 10px;
+}
+
+.about-h4 {
+	color: #f26521;
+}
+
+.about-icon {
+	font-size: 100px;
+	color: #f26521;
+}
 /* end of styling */
