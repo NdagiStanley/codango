@@ -167,6 +167,10 @@ class ContactUsView(TemplateView):
             return render(request, self.template_name, context)
 
 
+class AboutUsView(TemplateView):
+    template_name = 'account/about-us.html'
+
+
 class LoginRequiredMixin(object):
     # View mixin which requires that the user is authenticated.
 

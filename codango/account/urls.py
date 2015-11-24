@@ -16,4 +16,5 @@ urlpatterns = [
         'document_root': settings.MEDIA_ROOT,
     }),
     url(r'^contact-us$', views.ContactUsView.as_view(), name='contactus'),
+    url(r'^about-us$', views.AboutUsView.as_view(), name='aboutus'),
 ]
