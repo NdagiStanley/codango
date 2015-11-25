@@ -254,14 +254,19 @@ class ResetPasswordView(View):
                     "password_reset_form": ResetForm(auto_id=True)
                 }
                 context.update(csrf(request))
-                return render(request, 'account/forgot-password-reset.html', context)
+                return render(
+                    request,
+                    'account/forgot-password-reset.html',
+                    context
+                )
             else:
                 messages.add_message(
                     request, messages.ERROR, 'Account not activated!')
                 return HttpResponse(
                     'Account not activated!',
                     status_code=403,
-                    reason_phrase='You are not allowed to view this content because your account is not activated!'
+                    reason_phrase='You are not allowed to view this\
+                    content because your account is not activated!'
                 )
         else:
             raise Http404("User does not exist")

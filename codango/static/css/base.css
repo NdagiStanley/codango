@@ -444,6 +444,22 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 }
 
 /* contact-us page styling */
+.page-title {
+    border-bottom: solid 2px #f26521;
+    color: #2d2d2d;
+    font-weight: 300;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.page-description {
+    margin-bottom: 40px;
+}
+
+.page-content {
+    margin-top: 40px;
+}
+
 .contact-us{
 	background: #f26521;
 	color: #FFF;
@@ -466,7 +482,20 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 }
 
 .section {
-	padding-bottom: 10px;
+    background: #fff;
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,0.1);
+	margin-bottom: 10px;
+    padding: 35px;
+}
+
+.section-icon {
+    margin: 20px 0;
+}
+
+.section p {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    font-weight: 500;
 }
 
 .about-h4 {
@@ -480,16 +509,6 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 /* end of styling */
 
 /* team page styling */
-#team-heading {
-	color: #f26521;
-	text-align: center;
-	padding-bottom: 20px;
-	margin-bottom: 30px;
-	letter-spacing: 2px;
-	font-weight: 400;
-	border-bottom: 1px solid #fff
-}
-
 .team-members {
 	max-width: 100%;
     cursor: pointer;
