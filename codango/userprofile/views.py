@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.template import RequestContext, loader
+from django.template import RequestContext
 from django.utils import timezone
 from account.views import LoginRequiredMixin
 from comments.forms import CommentForm
@@ -30,7 +30,8 @@ class UserProfileDetailView(CommunityBaseView):
             if user is None:
                 return Http404("User does not exist")
         try:
-            follow = Follow.objects.filter(follower_id=self.request.user.id).get(followed_id=user.id)
+            follow = Follow.objects.filter(
+                follower_id=self.request.user.id).get(followed_id=user.id)
             if follow is not None:
                 context['already_following'] = True
         except:
@@ -45,7 +46,6 @@ class UserProfileDetailView(CommunityBaseView):
         context['title'] = "My Feed"
         context['commentform'] = CommentForm(auto_id=False)
         return context
-
 
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
@@ -97,26 +97,32 @@ class FollowUserView(LoginRequiredMixin, View):
         user = User.objects.get(id=request.user.id)
 
         following_id = User.objects.get(username=username)
-        follow = Follow(follower=user, followed=following_id, date_of_follow=timezone.now())
+        follow = Follow(
+            follower=user,
+            followed=following_id,
+            date_of_follow=timezone.now()
+        )
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)
         userprofile.following += 1
         userprofile.save()
 
-        follower_user_profile = UserProfile.objects.get(user_id=following_id.id)
+        follower_user_profile = UserProfile.objects.get(
+            user_id=following_id.id)
         follower_user_profile.followers += 1
         follower_user_profile.save()
 
         repsonse_json = {
-        'no_of_followers': len(follower_user_profile.get_followers()),
-        'no_following': len(follower_user_profile.get_following()),
+            'no_of_followers': len(follower_user_profile.get_followers()),
+            'no_following': len(follower_user_profile.get_following()),
         }
         json_response = json.dumps(repsonse_json)
         return HttpResponse(json_response, content_type="application/json")
 
 
 class FollowListView(LoginRequiredMixin, TemplateView):
+
     """
     View to handle both the followers and following
     """
@@ -131,7 +137,8 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         user_profile = UserProfile.objects.get(user_id=user.id)
 
         try:
-            follow = Follow.objects.filter(follower=self.request.user.id).get(followed=user.id)
+            follow = Follow.objects.filter(
+                follower=self.request.user.id).get(followed=user.id)
 
             if follow is not None:
                 context['already_following'] = True
@@ -147,4 +154,3 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         context['resources'] = user.resource_set.all()
 
         return context
-

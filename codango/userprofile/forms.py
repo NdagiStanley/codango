@@ -6,7 +6,8 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['first_name', 'last_name', 'place_of_work', 'position','about', 'image']
+        fields = ['first_name', 'last_name',
+                  'place_of_work', 'position', 'about', 'image']
         labels = {
             'first_name': 'First name',
             'last_name': 'Last name',
