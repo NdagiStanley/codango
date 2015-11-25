@@ -1,0 +1,63 @@
+{% extends "account/layout/base.html" %}
+{% load staticfiles %}
+{% block navbar %}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><img src="{% static 'img/codango-logo.png' %}"/></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/about-us">About Us</a></li>
+                <li><a href="/contact-us">Contact Us</a></li>
+                <li><a href="/team">Team</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock navbar %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-lg-12">
+            <h1 class="page-title">About us</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h3 class="page-description"><em>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming</em></h3>
+        </div>
+    </div>
+    <div class="row about-section">
+        <div class="col-sm-4">
+            <div class="section text-center">
+                <h4 class="about-h4"><strong>Community</strong></h4>
+                <div class="section-icon"><span class="mdi mdi-earth about-icon"></span></div>
+                <p>Codango is an ever expanding community of vibrant developers from different stacks and levels, helping each other grow to be even stronger developers</p>
+            </div>  
+        </div>
+        <div class="col-sm-4">
+            <div class="section text-center">
+                <h4 class="about-h4"><strong>Sharing Resources</strong></h4>
+                <div class="section-icon"><span class="mdi mdi-share about-icon"></span></div>
+                <p>Codango provides a platform for developers from various stacks upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier.</p>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="section text-center">
+                <h4 class="about-h4"><strong>Pair Programming</strong></h4>
+                <div class="section-icon"><span class="mdi mdi-code-braces about-icon"></span></div>
+                <p>Codango provides a platform where developers can act as mentors to other developers in real time and help grow a community of stronger developers.</p>
+            </div>
+        </div>        
+    </div>
+</div>
+
+{% endblock body %}

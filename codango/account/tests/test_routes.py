@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import resolve, reverse
 from account.views import ForgotPasswordView, ResetPasswordView
+from mock import patch
+from account.emails import SendGrid
 
 
 class IndexViewTest(TestCase):
@@ -125,3 +127,55 @@ class ProfileViewTestCase(TestCase):
                                      'last_name': 'Oshodi',
                                      'about': 'I love to Code'})
         self.assertEqual(response.status_code, 302)
+
+
+class ContactUsViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_contact_us_page(self):
+        response = self.client.get(reverse('contactus'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_contact_us_page_is_returned(self):
+        response = self.client.get(reverse('contactus'))
+        self.assertEqual(response.templates[0].name, 'account/contact-us.html')
+
+    @patch.object(SendGrid, 'send')
+    def test_send_message(self, mock_method):
+        response = self.client.post('/contact-us', {
+            'name': 'Test User',
+            'email': 'test.user@test.com',
+            'subject': 'Test',
+            'message': 'This is a test message'
+        })
+        self.assertEqual(response.status_code, 302)
+
+
+class AboutUsViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_about_us_page(self):
+        response = self.client.get(reverse('aboutus'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_about_us_page_is_returned(self):
+        response = self.client.get(reverse('aboutus'))
+        self.assertEqual(response.templates[0].name, 'account/about-us.html')
+
+
+class TeamViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_can_reach_team_page(self):
+        response = self.client.get(reverse('team'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_right_template_for_team_page_is_returned(self):
+        response = self.client.get(reverse('team'))
+        self.assertEqual(response.templates[0].name, 'account/team.html')

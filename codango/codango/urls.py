@@ -23,7 +23,6 @@ import resources.urls
 import comments.urls
 
 
-
 urlpatterns = [
     url(r'^', include(account.urls)),
     url(r'^resource/', include(resources.urls)),

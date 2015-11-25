@@ -1,5 +1,4 @@
-import json
-from django.http import HttpResponse, Http404, HttpResponseNotFound
+from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
 from django.contrib import messages
@@ -11,17 +10,12 @@ from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-from django.utils import timezone
-from django.db.models import Count
 from account.hash import UserHasher
 from emails import SendGrid
-from resources.models import Resource
-from resources.forms import ResourceForm
 from resources.views import CommunityBaseView
-from account.forms import LoginForm, RegisterForm, ResetForm
+from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
-from comments.models import Comment
-from votes.models import Vote
+from codango.settings.base import ADMIN_EMAIL
 
 
 class IndexView(TemplateView):
@@ -121,6 +115,66 @@ class RegisterView(IndexView):
             return render(request, self.template_name, context)
 
 
+class ContactUsView(TemplateView):
+    form_class = ContactUsForm
+    template_name = 'account/contact-us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ContactUsView, self).get_context_data(**kwargs)
+        context['contactusform'] = ContactUsForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        # get email data from form
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            name = request.POST['name']
+            email = request.POST['email']
+            subject = request.POST['subject']
+            message = request.POST['message']
+
+            # compose the email
+            email_compose = SendGrid.compose(
+                sender='{0} <{1}>'.format(name, email),
+                recipient=ADMIN_EMAIL,
+                subject=subject,
+                text=message,
+                html=None
+            )
+
+            # send email
+            response = SendGrid.send(email_compose)
+
+            # inform the user if mail sent was successful or not
+            if response == 200:
+                messages.add_message(
+                    request, messages.SUCCESS, 'Message sent successfully!')
+                return redirect(
+                    '/contact-us',
+                    context_instance=RequestContext(request)
+                )
+            else:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'Message failed to send, please try again later')
+                return redirect(
+                    '/contact-us',
+                    context_instance=RequestContext(request)
+                )
+        else:
+            context = super(ContactUsView, self).get_context_data(**kwargs)
+            context['contactusform'] = form
+            return render(request, self.template_name, context)
+
+
+class AboutUsView(TemplateView):
+    template_name = 'account/about-us.html'
+
+
+class TeamView(TemplateView):
+    template_name = 'account/team.html'
+
+
 class LoginRequiredMixin(object):
     # View mixin which requires that the user is authenticated.
 
@@ -200,14 +254,19 @@ class ResetPasswordView(View):
                     "password_reset_form": ResetForm(auto_id=True)
                 }
                 context.update(csrf(request))
-                return render(request, 'account/forgot-password-reset.html', context)
+                return render(
+                    request,
+                    'account/forgot-password-reset.html',
+                    context
+                )
             else:
                 messages.add_message(
                     request, messages.ERROR, 'Account not activated!')
                 return HttpResponse(
                     'Account not activated!',
                     status_code=403,
-                    reason_phrase='You are not allowed to view this content because your account is not activated!'
+                    reason_phrase='You are not allowed to view this\
+                    content because your account is not activated!'
                 )
         else:
             raise Http404("User does not exist")
