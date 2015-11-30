@@ -49,3 +49,20 @@ class FollowViewTestCase(TestCase):
     def test_can_reach_following_page(self):
         response = self.client.get('/user/golden/following')
         self.assertEqual(response.status_code, 200)
+
+
+class FollowUserProfileTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.user1 = User.objects.create_user(
+            username='golden', password='abiodun')
+        self.user2 = User.objects.create_user(
+            username='jubril', password='issa')
+        self.user1.save()
+        self.user2.save()
+        self.login = self.client.login(username='golden', password='abiodun')
+
+    def test_a_logged_in_user_can_follow_a_registered_user(self):
+        response = self.client.post('/user/golden/follow')
+        self.assertEqual(response.status_code, 200)
