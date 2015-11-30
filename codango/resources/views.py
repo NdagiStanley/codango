@@ -6,9 +6,20 @@ from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
-class CommunityBaseView(TemplateView):
+class LoginRequiredMixin(object):
+    # View mixin which requires that the user is authenticated.
+
+    @method_decorator(login_required(login_url='/'))
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs)
+
+
+class CommunityBaseView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):

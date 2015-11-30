@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.conf.urls import url
 from account import views
 
@@ -12,9 +11,6 @@ urlpatterns = [
         name='forgot_password'),
     url(r'^recovery/(?P<user_hash>([a-z0-9A-Z])+)$',
         views.ResetPasswordView.as_view(), name='reset_password'),
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
-        'document_root': settings.MEDIA_ROOT,
-    }),
     url(r'^contact-us$', views.ContactUsView.as_view(), name='contactus'),
     url(r'^about-us$', views.AboutUsView.as_view(), name='aboutus'),
     url(r'^team$', views.TeamView.as_view(), name='team'),

@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.utils import timezone
-from account.views import LoginRequiredMixin
+from resources.views import LoginRequiredMixin
 from comments.forms import CommentForm
 from userprofile.models import UserProfile, Follow
 from userprofile.forms import UserProfileForm
