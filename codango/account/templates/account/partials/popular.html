@@ -4,7 +4,9 @@
     <div class="list-group">
         <a href="#" class="list-group-item">
             <h4 class="list-group-item-heading">{{ resource.text }}</h4>
-            <p class="list-group-item-text">{{resource.date_added}}</p>
+            <p class="list-group-item-text">{{resource.date_added}}<br><br>
+            <small>{{ resource.author }}</small>
+            </p>
         </a>
     </div>
     {% empty %}
