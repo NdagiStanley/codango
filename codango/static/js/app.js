@@ -161,6 +161,8 @@ var ajaxContent = {
         }
         $(ajaxContent.config.filter).click(function(e) {
             e.preventDefault();
+            $("#community a").removeClass("active");
+            $(this).addClass("active");
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
             window.history.pushState("object or string", "Title", url);
