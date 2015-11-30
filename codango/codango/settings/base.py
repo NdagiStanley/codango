@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'userprofile',
     'comments',
     'votes',
+    'pairprogram',
     'bootstrapform',
     'cloudinary',
     'djangobower',

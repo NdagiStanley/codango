@@ -160,15 +160,15 @@ var ajaxContent = {
             $.extend(ajaxContent.config, config);
         }
         $("body").on("click", ajaxContent.config.filter,function(e) {
-            e.preventDefault(); 
+            e.preventDefault();
             _this = $(this);
             if(!(_this.closest("ul").hasClass("filter-menu"))) $("#community a").removeClass("active");
-            _text = _this.text().replace(/\s+/g, "");; 
+            _text = _this.text().replace(/\s+/g, "");;
             $("#community a").each(function() {
                 if($(this).text().replace(/\s+/g, "") == _text)
-                { 
+                {
                     $(this).addClass("active")
-                    return; 
+                    return;
                 }
             });
             $(this).addClass("active");
@@ -242,7 +242,7 @@ var formPost = {
                             postData = data;
                             //set the user id to the current value
                             postData['user_id'] = value;
-                            
+
                             postActivity(postData);
 
                         });
@@ -494,7 +494,7 @@ var followAction = {
                 postActivity(data);
                 $("h2.stats.followers").text(data['no_of_followers']);
                 $("h2.stats.following").text(data['no_following']);
-               
+
                 _this.attr('disabled', true);
                 _this.text('following')
             },
@@ -516,9 +516,9 @@ var realTime = {
         newItems:false //variable to disable firebase real time loading all the ojects at once
     },
     init: function(config){
-      if (config && typeof config == 'object') $.extend(realTime.config, config); 
+      if (config && typeof config == 'object') $.extend(realTime.config, config);
 
-      //If there is changes to the databsse initalize new items to true 
+      //If there is changes to the databsse initalize new items to true
         myDataRef.once('value', function(dataSnapshot) {
             realTime.config.newItems = true;
 
@@ -529,10 +529,10 @@ var realTime = {
         var activity = snapshot.val();//Value of the newly added database values
         if(activity.user_id == parseInt($(realTime.config.ulItems).data("id")))
         {
-            realTime.loadNotifications(activity); 
-            
+            realTime.loadNotifications(activity);
+
         }
-        
+
     });
 
     },
@@ -545,7 +545,7 @@ var realTime = {
         newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
         newNotification += "</a>";
         newNotification+= "</div>";
-        
+
         return newNotification;
 
     },
@@ -671,7 +671,7 @@ $(document).ready(function() {
     });
 
     $('#id-snippet-body').hide();
-    $(document).click(function (e) {            
+    $(document).click(function (e) {
         $("#notifications").hide();
 
     });

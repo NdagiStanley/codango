@@ -19,6 +19,7 @@ import account.urls
 import userprofile.urls
 import resources.urls
 import comments.urls
+import pairprogram.urls
 
 
 urlpatterns = [
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^resource/', include(resources.urls)),
     url(r'^user/', include(userprofile.urls)),
     url(r'^comment/', include(comments.urls)),
+    url(r'^pair/', include(pairprogram.urls)),
     url(r'^admin/', include(admin.site.urls)),
 
 ]
