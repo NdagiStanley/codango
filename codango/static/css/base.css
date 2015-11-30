@@ -102,7 +102,9 @@ body {
 	box-shadow: 0 1px 6px 0 rgba(0,0,0,0.1);
 	padding: 25px 35px;
 }
-
+a.list-group-item:hover{
+    background-color:#f26521 !important;
+}
 .section-header {
 	color: #bec1c9;
 	border-bottom: solid 1px #dedede;
