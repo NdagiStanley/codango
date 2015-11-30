@@ -247,21 +247,30 @@ body {
 	border-radius: 4px;
 	color: #565c6f;
 }
+
 .filter {
 	list-style:none;
 }
+
 .filter > li{
 	float:left;
 
 }
+
 .filter > li > a{
 	display:inline;
 }
+
+#filter-button {
+    padding: 6px 12px 5px 12px
+}
+
 .item {
 	margin: 0px 10px;
 	cursor:pointer;
 	color:#333;
 }
+
 .item.active{
 	color:blue;
 	cursor: default;
