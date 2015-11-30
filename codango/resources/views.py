@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 class LoginRequiredMixin(object):
     # View mixin which requires that the user is authenticated.
 
+<<<<<<< ba977e558df8752033712f9cb83dca4ffbe51dcc
     @method_decorator(login_required(login_url='/'))
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(
@@ -20,6 +21,10 @@ class LoginRequiredMixin(object):
 
 
 class CommunityBaseView(LoginRequiredMixin, TemplateView):
+=======
+
+class CommunityBaseView(TemplateView):
+>>>>>>>  [Fix #107707578] feature-popular post re-implemented
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -43,8 +48,12 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         elif community != 'ALL':
             resources = resources.filter(language_tags=community)
 
-        context = {'resources': resources, 'commentform': CommentForm(
-            auto_id=False), 'title': 'Activity Feed', }
+        context = {
+            'resources': resources,
+            'commentform': CommentForm(auto_id=False),
+            'title': 'Activity Feed',
+            'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
+        }
         return context
 
     @staticmethod
@@ -52,8 +61,8 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         if sorting_name == 'date':
             return object_set.order_by('-date_modified')
         else:
-            return object_set.annotate(
-                num_sort=Count(sorting_name)).order_by('-num_sort')
+            return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
+
 
 
 class CommunityView(CommunityBaseView):
