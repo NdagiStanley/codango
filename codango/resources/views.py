@@ -1,22 +1,12 @@
 import json
-from django.http import HttpResponse, Http404, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.template.context_processors import csrf
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
-from django.template import RequestContext, loader
 from django.db.models import Count
 from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
-from comments.models import Comment
 from votes.models import Vote
+
 
 class CommunityBaseView(TemplateView):
     template_name = 'account/home.html'
@@ -32,14 +22,17 @@ class CommunityBaseView(TemplateView):
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
         resources = self.sort_by(sortby, Resource.objects)
-        community = kwargs['community'].upper() if 'community' in kwargs else 'ALL'
+        community = kwargs[
+            'community'].upper() if 'community' in kwargs else 'ALL'
 
         if community != 'ALL':
             resources = resources.filter(language_tags=community)
-        
-
-        context = {'resources': resources, 'commentform': CommentForm(
-            auto_id=False), 'title': 'Activity Feed', }
+        context = {
+            'resources': resources,
+            'commentform': CommentForm(auto_id=False),
+            'title': 'Activity Feed',
+            'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
+        }
         return context
 
     @staticmethod
@@ -48,8 +41,6 @@ class CommunityBaseView(TemplateView):
             return object_set.order_by('-date_modified')
         else:
             return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
-
-
 
 
 class CommunityView(CommunityBaseView):
