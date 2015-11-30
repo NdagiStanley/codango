@@ -120,7 +120,7 @@ body {
 }
 .commentform textarea{
 	display:block;
-	height:10em;
+	height:4em;
 	width:100%;
 	margin-left:auto;
 	margin-right:auto;
@@ -129,9 +129,22 @@ body {
 	color:#333;
 	font-size:15px;
 }
-.mdi-delete{
+
+.comments-div .form-group {
+    margin: 0px;
+}
+
+.comments-div .well {
+    margin-top: 10px;
+}
+
+.mdi-delete {
 	font-size:20px;
 	color:red !important;
+}
+
+.show-edit {
+    margin-right: 10px;
 }
 
 .form-buttons{
@@ -145,18 +158,23 @@ body {
 .activity-feed i {
 	margin-right: 10px;
 }
+
 .feed-content .comments-div{
 	display:none;
 
 }
+
 .feed-content .comments{
-	margin-top:50px;
+	margin-top:10px;
 }
+
 .comment-post{
 	padding-top:10px;
 }
+
 .edit-view{
 	display:none;
+    margin-bottom: 10px;
 }
 
 .list-inline {
@@ -209,9 +227,6 @@ body {
 
 .feed .profile-img img {
 	border-radius: 4px;
-}
-.feed article.row{
-	padding:0px 40px;
 }
 
 .feed-content {
