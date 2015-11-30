@@ -11,6 +11,7 @@
         {% endfor %}
     </div>
     {% endif %}
+    {% if request.path == '/user/'|add:request.user.username or request.path == '/home' %}
     <div class="row">
         <div class="col-sm-12">
             <form id="id_share_form" role="form" class="share" action="{% url 'resource_create' %}" method="POST" enctype="multipart/form-data">
@@ -59,6 +60,7 @@
             </form>
         </div>
     </div>
+    {% endif %}
     <div class="row">
         <div class="col-sm-12">
             <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}

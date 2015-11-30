@@ -43,7 +43,7 @@ class UserProfileDetailView(CommunityBaseView):
         context['resources'] = self.sort_by(sortby, user.resource_set.all())
 
         context['profile'] = user.profile
-        context['title'] = "My Feed"
+        context['title'] = "{}'s Feed".format(user.profile.user)
         context['commentform'] = CommentForm(auto_id=False)
         return context
 
