@@ -448,7 +448,7 @@ $(document).ready(function() {
         share: "#id_share_form, .commentform"
     });
     ajaxContent.init({
-        filter: "#community a,.filter-menu a"
+        filter: "#community a,.filter-menu a,a.badge-link"
     });
     editComment.init({
         button: ".edit-comment"

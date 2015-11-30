@@ -3,45 +3,42 @@
 <div class="content-block">
     <div class="panel panel-default">
         <div class="panel-heading" id="followers-heading">
-            {% if following_lists %}
+            {% for following in following_lists %}
                 <div class="panel-heading" id="followers-heading">
                     <span class="title">Following</span>
                 </div>
                 <div class="row" id="followers-detail">
-                    {% for following in following_lists %}
-                        <div class="col-sm-3 text-center">
-                            {% if following.followed.profile.image %}
-                                {% cloudinary following.followed.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
-                                <span><a href="/user/{{ following.followed }}"
-                                         id="follower-name"> {{ following.followed }}</a></span><br/>
-                                <div class="clearfix"></div>
-                                </div>
-                            {% else %}
-                                {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
-                            {% endif %}
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            {% if follower_lists %}
+                    <div class="col-sm-3 text-center">
+                        {% if following.followed.profile.image %}
+                            {% cloudinary following.followed.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
+                            <span><a href="/user/{{ following.followed }}"
+                                     id="follower-name"> {{ following.followed }}</a></span><br/>
+                            <div class="clearfix"></div>
+                        {% else %}
+                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                        {% endif %} 
+                    </div>    
+                </div>   
+             {% endfor %}
+          
+           
+            {% for follower in follower_lists %}
                 <div class="panel-heading" id="followers-heading">
                     <span class="title">Followers</span>
                 </div>
                 <div class="row" id="followers-detail">
-                    {% for follower in follower_lists %}
-                        <div class="col-sm-3 text-center">
-                            {% if follower.follower.profile.image %}
-                                {% cloudinary follower.follower.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
-                                <span><a href="/user/{{ follower.follower }}"
-                                         id="follower-name"> {{ follower.follower }}</a></span><br/>
-                                <div class="clearfix"></div>
-                                </div>
-                            {% else %}
-                                {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
-                            {% endif %}
-                    {% endfor %}
+                    <div class="col-sm-3 text-center">
+                        {% if follower.follower.profile.image %}
+                            {% cloudinary follower.follower.profile.image width=150 height=150 class="img-responsive" crop="fill" %}
+                            <span><a href="/user/{{ follower.follower }}"
+                                     id="follower-name"> {{ follower.follower }}</a></span><br/>
+                            <div class="clearfix"></div>
+                        {% else %}
+                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                        {% endif %}
+                     </div>
                 </div>
-            {% endif %}
+            {% endfor %}
         </div>
     </div>
 </div>
