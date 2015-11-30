@@ -37,7 +37,10 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         community = kwargs[
             'community'].upper() if 'community' in kwargs else 'ALL'
 
-        if community != 'ALL':
+        if community == 'UNTAGGED':
+            resources = resources
+
+        elif community != 'ALL':
             resources = resources.filter(language_tags=community)
 
         context = {'resources': resources, 'commentform': CommentForm(

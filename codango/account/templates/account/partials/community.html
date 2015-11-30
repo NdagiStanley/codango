@@ -37,7 +37,10 @@
         {% endif %}
         <div class="row">
             <div class="col-sm-6">
-                <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+                <div class="codango-badge">
+                    <a href="{% url 'community' community=resource.get_language_tags_display|lower %}">
+                    {{ resource.get_language_tags_display }}</a>
+                </div>
             </div>
             <div class="col-sm-6">
                 <span class="pull-right mdi mdi-comment item">&nbsp;&nbsp;{{ resource.comments.count }}</span>

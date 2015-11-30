@@ -11,7 +11,7 @@
         {% endfor %}
     </div>
     {% endif %}
-    {% if request.path == '/user/'|add:request.user.username or request.path == '/home' %}
+    {% if request.path == '/user/'|add:request.user.username or request.path == '/home' or '/resource/ajax/community' in request.path %}
     <div class="row">
         <div class="col-sm-12">
             <form id="id_share_form" role="form" class="share" action="{% url 'resource_create' %}" method="POST" enctype="multipart/form-data">
@@ -38,7 +38,7 @@
                                 <li>
                                     <div class="radio">
                                         <label>
-                                            <input type="radio" name="language_tags" value="JS" />JS
+                                            <input type="radio" name="language_tags" value="JAVASCRIPT" />JS
                                         </label>
                                     </div>
                                 </li>

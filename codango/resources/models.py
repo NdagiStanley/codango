@@ -14,7 +14,7 @@ class Resource(models.Model):
         ('JAVA', 'Java'),
         ('PHP', 'PHP'),
         ('IOS', 'IOS'),
-        ('JS', 'Javascript'),
+        ('JAVASCRIPT', 'Javascript'),
         ('C', 'C')
     )
 
