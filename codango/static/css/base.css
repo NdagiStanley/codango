@@ -117,6 +117,10 @@ hr {
 }
 a.list-group-item:hover{
     background-color:#f26521 !important;
+    color:#fff;
+}
+a.list-group-item:hover h4{
+    color:#fff;
 }
 .section-header {
     color: #bec1c9;
