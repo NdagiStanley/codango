@@ -1,21 +1,20 @@
 <h3 class="section-header">Popular Resources</h3>
 <div class="list-group" id="community">
-{% for resource in popular %}
-
- 
-  
-    <a href="#" class="list-group-item">
-    <h5 class="list-group-item-heading"> <span class=" mdi mdi-comment ">{{ resource.comments.count }}</span><span class="mdi mdi-thumb-down">{{resource.downvotes|length}}</span> <span class="mdi mdi-thumb-up active" >{{resource.upvotes|length}}</span></h5>
-     <p class="list-group-item-text">{{resource.text}}<br/></p>
-   
- <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
-    </a>
-   
-
+    {% for resource in popular %}
+    <div class="list-group">
+        <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">{{ resource.text }}</h4>
+            <p class="list-group-item-text">{{resource.date_added}}</p>
+        </a>
+    </div>
+    <!-- <a href="#" class="list-group-item">
+        <h5 class="list-group-item-heading"> <span class="mdi mdi-comment">{{ resource.comments.count }}</span><span class="mdi mdi-thumb-down">{{resource.downvotes|length}}</span> <span class="mdi mdi-thumb-up active" >{{resource.upvotes|length}}</span></h5>
+        <p class="list-group-item-text">{{resource.text}}
+            <br/>
+        </p>
+        <div class="codango-badge">{{ resource.get_language_tags_display }}</div>
+    </a> -->
     {% empty %}
-
     <p class="list-group-item-text">No Popular Post </p>
     {% endfor %}
-
-   
 </div>
