@@ -136,6 +136,8 @@ body {
 
 .comments-div .well {
     margin-top: 10px;
+    margin-bottom: 0px;
+    border-radius: 0px;
 }
 
 .mdi-delete {
@@ -324,7 +326,7 @@ button.btn {
 }
 
 textarea {
-	margin: 10px 0px;
+	margin: 0px 0px 10px 0px;
 	border-radius: 0 !important;
 	resize: none;
 }

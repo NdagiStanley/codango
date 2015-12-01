@@ -65,9 +65,10 @@
                         <div class="col-md-10 col-sm-10 col-xs-10">
                             <header>
                                 <div class="comment-user">
-                                    {{comment.author}} -
-                                    <em><time class="comment-date" datetime="16-12-2014 01:05">
-                                    {{comment.date_created|timesince}} ago 
+                                    {{comment.author}} - 
+                                    <em>last modified:
+                                    <time class="comment-date" datetime="16-12-2014 01:05">
+                                    {{comment.date_modified|timesince}} ago 
                                     </time></em>
                                 </div>
                             </header>
@@ -97,14 +98,14 @@
                     <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
                     {% endfor %}
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
-                        <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
-                    </form>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
+                            <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

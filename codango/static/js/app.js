@@ -227,7 +227,7 @@ var formPost = {
             data: fd,
             success: function(data) {
                 if (data == "success") {
-                    _this.append("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
+                    _this.prepend("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000);
