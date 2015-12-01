@@ -36,16 +36,16 @@
         </p>
         {% endif %}
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <div class="codango-badge">
                     <a href="{% url 'community' community=resource.get_language_tags_display|lower %}" class="badge-link">
                     {{ resource.get_language_tags_display }}</a>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <span class="pull-right mdi mdi-comment item">&nbsp;&nbsp;{{ resource.comments.count }}</span>
-                <a href="{% url 'resource_vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="pull-right mdi mdi-thumb-down item {% if request.user.id in resource.downvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
-                <a href="{% url 'resource_vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="pull-right mdi mdi-thumb-up item {% if request.user.id in resource.upvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
+                <div class="comments-icons">
+                    <a href="{% url 'resource_vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like"><span class="mdi mdi-thumb-up item {% if request.user.id in resource.upvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.upvotes|length}}</span></a>
+                    <a href="{% url 'resource_vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike"><span class="mdi mdi-thumb-down item {% if request.user.id in resource.downvotes %} active {% endif %}">&nbsp;&nbsp;{{resource.downvotes|length}}</span></a>
+                    <span id="{% if resource.comments.count > 0 %}comment-icon{% endif %}" class="mdi mdi-comment item">&nbsp;&nbsp;{{ resource.comments.count }}</span>     
+                </div>
             </div>
         </div>
         <div class="comments-div">
@@ -94,6 +94,7 @@
                             {% endif %}
                         </div>
                     </article>
+                    <hr>
                     {% empty %}
                     <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
                     {% endfor %}

@@ -140,9 +140,19 @@ body {
     border-radius: 0px;
 }
 
+.comments-icons {
+    font-size: 15px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
 .mdi-delete {
 	font-size:20px;
 	color:red !important;
+}
+
+#comment-icon {
+    color: #00F;
 }
 
 .show-edit {
@@ -285,7 +295,7 @@ body {
 .item {
 	margin: 0px 10px;
 	cursor:pointer;
-	color:#333;
+	color: #BEC1C9;
 }
 
 .item.active{
