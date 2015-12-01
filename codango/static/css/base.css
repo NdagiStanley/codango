@@ -442,6 +442,12 @@ textarea {
 	padding: 10px;
 }
 
+@media (min-width: 992px) and (max-width: 1200px) {
+    #facebook-login, #google-login {
+        font-size: 1vw;
+    }
+}
+
 /* end index page styling */
 
 /* google code-prettify */
