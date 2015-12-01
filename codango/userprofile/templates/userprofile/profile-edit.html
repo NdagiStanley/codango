@@ -14,15 +14,18 @@
 {% block content %}
     <div class="container-fluid content-block">
         <div class="row profile">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            {% endif %}
+            <div class="col-sm-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
             <div class="col-md-offset-1 col-md-10">
-                <div class="profile-content">
+                <h1 class="page-title">Update your Profile</h1>
+                <div class="page-content">
                     <form role="form" action="/user/{{ user.username }}/edit" method="post"
                           enctype="multipart/form-data">
                         {% csrf_token %}
