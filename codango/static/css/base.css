@@ -851,3 +851,9 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
     -o-transition: all 0.4s;
     transition: all 0.4s;
 }
+
+.powered-by-firepad {
+  display: none;
+}
+
+/* end of styling */

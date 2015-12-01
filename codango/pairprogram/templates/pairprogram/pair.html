@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load cloudinary %}
 <!doctype html>
 <!-- See http://www.firepad.io/docs/ for detailed embedding docs. -->
 <html>
@@ -15,6 +16,7 @@
 
   <!-- Firepad -->
   <link rel="stylesheet" href="https://cdn.firebase.com/libs/firepad/1.2.0/firepad.css" />
+    <link href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/base.css' %}" type="text/css" rel="stylesheet"/>
   <script src="https://cdn.firebase.com/libs/firepad/1.2.0/firepad.min.js"></script>
 
@@ -23,10 +25,10 @@
     body { margin: 0; height: 100%; position: relative; }
     /* Height / width / positioning can be customized for your use case.
        For demo purposes, we make firepad fill the entire browser. */
-    #firepad-container {
-      width: 100%;
-      height: 100%;
-    }
+{#    #firepad-container {#}
+{#      width: 100%;#}
+{#      height: 100%;#}
+{#    }#}
   </style>
 </head>
 
@@ -43,10 +45,66 @@
     <option value="textmate">Textmate</option>
     <option value="terminal">Terminal</option>
 </select>
-  <div id="firepad-container"></div>
+
+<div class="container-fluid">
+      <div class="row">
+          <div class="col-sm-9">
+            <div id="firepad-container" style="height: 500px;"></div>
+</div>
+          <div class="col-sm-3">
+
+            <div class="panel panel-default">
+                <div class="panel-heading c-list">
+                    <span class="title">Friends list</span>
+
+                </div>
+
+                <div class="row" style="display: none;">
+                    <div class="col-xs-12">
+                        <div class="input-group c-search">
+                            <input type="text" class="form-control" id="contact-list-search">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search text-muted"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="list-group" id="contact-list">
+
+                    {% for friendlist in friendlists %}
+
+                    <li class="list-group-item">
+                        <div class="col-xs-12 col-sm-3">
+
+                        {% if friendlist.image %}
+                        {% cloudinary friendlist.image width=400 height=400 class="profile-img-lg img-responsive img-circle" crop="fill" alt="{{friendlist.first_name}}"%}
+                    {% else %}
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
+                    {% endif %}
+
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <span class="name">{{friendlist.first_name}}</span><br/>
+
+                            <span class="glyphicon glyphicon-console text-muted c-info" data-toggle="tooltip" title="(870) 288-4149"></span>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </li>
+                    {% endfor %}
+
+
+                </ul>
+            </div>
+
+
+          </div>
+          </div>
+    </div>
 
 
 <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/pair.js' %}"></script>
 </body>
 </html>
