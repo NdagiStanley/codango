@@ -147,8 +147,10 @@ class FollowListView(LoginRequiredMixin, TemplateView):
 
         if direction == 'followers':
             context['follower_lists'] = user_profile.get_followers()
+            context['no_followers'] = 'No followers to display'
         else:
             context['following_lists'] = user_profile.get_following()
+            context['no_following'] = 'Not following anyone'
 
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()

@@ -462,6 +462,10 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 	padding: 20px;
 }
 
+#followers-detail img {
+    margin: auto;
+}
+
 #follower-name{
 	font-size: 20px;
 	color: #000000;
