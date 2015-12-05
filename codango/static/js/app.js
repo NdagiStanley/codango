@@ -438,11 +438,12 @@ $(document).ready(function() {
 
     $("#githublogin").click(function(e){
         e.preventDefault();
-        e.stopPropagation();
+        console.log("checking");
         var self = $(this);
         __url = self.attr("href");
-        console.log(__url);
-        var win = window.open(__url, "Github Login", "width=800, height=600,scrollbars=1");
+
+        var win = window.open(__url, "Github Login", "width=800, height=600,scrollbars=1")
+
 
 
     });
