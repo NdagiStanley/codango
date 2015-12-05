@@ -30,7 +30,7 @@
 
                     <hr/>
 
-                    <a href="https://github.com/login/oauth/authorize?client_id=fd631d06d9c74427b7a5&scope=user,public_repo" class="btn btn-primary" id="githublogin">Authorize With Github</a>
+                    <a href="https://github.com/login/oauth/authorize?client_id={{github_id}}&scope=user,public_repo" class="btn btn-primary" id="githublogin">Authorize With Github</a>
                     {% if profile.position and profile.place_of_work %}
                         <p class="text-center">{{ profile.position }} @ {{ profile.place_of_work }} </p>
                         <hr/>

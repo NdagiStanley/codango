@@ -1,4 +1,6 @@
 import json
+import os
+import requests
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -14,13 +16,15 @@ from resources.views import CommunityBaseView
 
 # Create your views here.
 
+CLIENT_ID = os.getenv('GITHUB_CLIENT_ID')
+CLIENT_SECRET = os.getenv('GITHUB_SECRET_KEY')
+
 
 class UserProfileDetailView(CommunityBaseView):
     model = UserProfile
     template_name = 'userprofile/profile.html'
 
     def get_context_data(self, **kwargs):
-
         context = super(UserProfileDetailView, self).get_context_data(**kwargs)
         username = kwargs['username']
         if self.request.user.username == username:
@@ -44,10 +48,53 @@ class UserProfileDetailView(CommunityBaseView):
 
         context['profile'] = user.profile
         context['title'] = "{}'s Feed".format(user.profile.user)
+        context['github_id'] = CLIENT_ID
         context['commentform'] = CommentForm(auto_id=False)
         return context
 
 
+class UserGithub(CommunityBaseView):
+    model = UserProfile
+    template_name = 'userprofile/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(UserGithub, self).get_context_data(**kwargs)
+        code = self.request.GET['code']
+        token_data = {'client_id': CLIENT_ID,
+                      'client_secret': CLIENT_SECRET,
+                      'code': code,
+                      'Accept': 'application/json',
+                      }
+
+        headers = {'Accept': 'application/json'}
+        result = requests.post(
+            'https://github.com/login/oauth/access_token',
+            data=token_data, headers=headers)
+
+        access_token = json.loads(result.content)['access_token']
+
+        auth_result = requests.get('https://api.github.com/user',
+                                   headers={'Accept': 'application/json',
+                                            'Authorization': 'token '+access_token},
+                                   )
+        user = self.request.user
+        user.profile.github_username = json.loads(auth_result.content)['login']
+        user.profile.save()
+
+        repositories = requests.get(
+            json.loads(auth_result.content)['repos_url'], headers=headers)
+        repos = json.loads(repositories.content)
+        languages = list(set([repo['language']
+                              for repo in repos if repo['language'] is not None]))
+
+        print languages
+
+        print access_token
+        context['code'] = code
+        return context
+
+
+>>>>>>> [FEATURE #108852908] accessing github's api, saving the username and getting the languages
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
     template_name = 'userprofile/profile-edit.html'
@@ -100,8 +147,12 @@ class FollowUserView(LoginRequiredMixin, View):
         follow = Follow(
             follower=user,
             followed=following_id,
+<<<<<<< a8d719c398dd7ab5a08ddaa8c94571ef5ceb081c
             date_of_follow=timezone.now()
         )
+=======
+            date_of_follow=timezone.now())
+>>>>>>> [FEATURE #108852908] accessing github's api, saving the username and getting the languages
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)

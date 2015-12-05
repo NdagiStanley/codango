@@ -18,8 +18,8 @@ class UserProfile(models.Model):
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
-    about = models.TextField(max_length=1200, blank=True)
-
+    about = models.TextField(max_length=1200,blank=True)
+    github_username = models.CharField(max_length=200, null=True)
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
 
