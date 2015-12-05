@@ -18,6 +18,7 @@ from resources.views import CommunityBaseView
 
 CLIENT_ID = os.getenv('GITHUB_CLIENT_ID')
 CLIENT_SECRET = os.getenv('GITHUB_SECRET_KEY')
+HEADERS = {'Accept': 'application/json'}
 
 
 class UserProfileDetailView(CommunityBaseView):
@@ -41,6 +42,7 @@ class UserProfileDetailView(CommunityBaseView):
         except:
             pass
 
+        print user.languages
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
@@ -48,28 +50,25 @@ class UserProfileDetailView(CommunityBaseView):
 
         context['profile'] = user.profile
         context['title'] = "{}'s Feed".format(user.profile.user)
+        context['languages'] = user.languages.all()
         context['github_id'] = CLIENT_ID
         context['commentform'] = CommentForm(auto_id=False)
         return context
 
 
 class UserGithub(CommunityBaseView):
-    model = UserProfile
-    template_name = 'userprofile/profile.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(UserGithub, self).get_context_data(**kwargs)
+    def get(self, request, **kwargs):
+        user = self.request.user
         code = self.request.GET['code']
         token_data = {'client_id': CLIENT_ID,
                       'client_secret': CLIENT_SECRET,
                       'code': code,
-                      'Accept': 'application/json',
                       }
 
-        headers = {'Accept': 'application/json'}
         result = requests.post(
             'https://github.com/login/oauth/access_token',
-            data=token_data, headers=headers)
+            data=token_data, headers=HEADERS)
 
         access_token = json.loads(result.content)['access_token']
 
@@ -77,24 +76,23 @@ class UserGithub(CommunityBaseView):
                                    headers={'Accept': 'application/json',
                                             'Authorization': 'token '+access_token},
                                    )
-        user = self.request.user
-        user.profile.github_username = json.loads(auth_result.content)['login']
-        user.profile.save()
-
+        profile = user.profile
+        profile.github_username = json.loads(auth_result.content)['login']
+        profile.save()
         repositories = requests.get(
-            json.loads(auth_result.content)['repos_url'], headers=headers)
+            'https://api.github.com/users/'+profile.github_username+'/repos', 
+            headers=HEADERS)
+
         repos = json.loads(repositories.content)
-        languages = list(set([repo['language']
-                              for repo in repos if repo['language'] is not None]))
 
-        print languages
+        for repo in repos:
+            if repo['language'] is not None:
+                try:
+                    user.languages.create(name=repo['language'])
+                except:
+                    pass
+        return redirect('/user/' + user.username, context_instance=RequestContext(request))
 
-        print access_token
-        context['code'] = code
-        return context
-
-
->>>>>>> [FEATURE #108852908] accessing github's api, saving the username and getting the languages
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
     template_name = 'userprofile/profile-edit.html'
@@ -147,12 +145,9 @@ class FollowUserView(LoginRequiredMixin, View):
         follow = Follow(
             follower=user,
             followed=following_id,
-<<<<<<< a8d719c398dd7ab5a08ddaa8c94571ef5ceb081c
             date_of_follow=timezone.now()
         )
-=======
             date_of_follow=timezone.now())
->>>>>>> [FEATURE #108852908] accessing github's api, saving the username and getting the languages
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)

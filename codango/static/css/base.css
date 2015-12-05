@@ -300,7 +300,9 @@ a.list-group-item:hover h4{
 .feed:last-child {
     margin-bottom: 200px;
 }
-
+.languages .codango-badge{
+    margin:10px 0px !important;
+}
 .feed .profile-img {
     position: absolute;
     left: 0;

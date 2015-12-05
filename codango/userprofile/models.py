@@ -32,7 +32,9 @@ class UserProfile(models.Model):
 
     def get_following(self):
         following = Follow.objects.filter(follower=self.user_id)
-        return following
+        return 
+
+
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
@@ -43,6 +45,20 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class Language(models.Model):
+
+    user = models.ForeignKey(User,related_name="languages")
+    name = models.CharField(max_length=200, null=True)
+
+    class Meta:
+        unique_together = (('user', 'name'),)
+
+    def __str__(self):
+        return self.name
+
+
 
 
 class Follow(models.Model):

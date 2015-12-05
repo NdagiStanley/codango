@@ -29,8 +29,18 @@
                     </h2>
 
                     <hr/>
-
+                    {% if not profile.github_username and profile.user == request.user %}
                     <a href="https://github.com/login/oauth/authorize?client_id={{github_id}}&scope=user,public_repo" class="btn btn-primary" id="githublogin">Authorize With Github</a>
+                    {% else %}
+                     <div class="languages">
+                    {% for language in languages %}
+
+                    <div class="codango-badge">{{language}}</div>
+                    {% empty %}
+                    <p class="alert info">This user has no repositories yet </p>
+                    {% endfor %}
+                     </div>
+                    {% endif %}
                     {% if profile.position and profile.place_of_work %}
                         <p class="text-center">{{ profile.position }} @ {{ profile.place_of_work }} </p>
                         <hr/>
