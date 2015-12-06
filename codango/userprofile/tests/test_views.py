@@ -10,9 +10,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from userprofile.models import UserProfile, Follow
-from userprofile.views import FollowUserView, UserProfileEditView
+from userprofile.views import FollowUserView, UserProfileEditView, CLIENT_ID
 
-class UserProfileTest(StaticLiveServerTestCase):
+class UserProfileTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.user = User.objects.create(username='jubril', password='issa')
@@ -20,8 +20,12 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.user.save()
         self.login = self.client.login(username='Abiodun', password='shuaib')
 
+    def test_user_can_reach_profile_page(self):
+        response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
-class FollowUserProfileTest(StaticLiveServerTestCase):
+        self.assertIn('github_id', response.context)
+
+class FollowUserProfileTest(TestCase):
     def setUp(self):
         self.client = Client()
         self.user1 = User.objects.create_user(username='golden', password='abiodun')

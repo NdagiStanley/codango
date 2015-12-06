@@ -42,7 +42,6 @@ class UserProfileDetailView(CommunityBaseView):
         except:
             pass
 
-        print user.languages
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
@@ -56,7 +55,7 @@ class UserProfileDetailView(CommunityBaseView):
         return context
 
 
-class UserGithub(CommunityBaseView):
+class UserGithub(View):
 
     def get(self, request, **kwargs):
         user = self.request.user
@@ -79,19 +78,34 @@ class UserGithub(CommunityBaseView):
         profile = user.profile
         profile.github_username = json.loads(auth_result.content)['login']
         profile.save()
+        self.update_languages(profile.github_username, user)
+
+        messages.success(request, "Successflly authenticated with github")
+        return redirect('/user/'+user.username,
+                        context_instance=RequestContext(request))
+
+    def post(self, request, **kwargs):
+        user = request.user
+        github_username = user.profile.github_username
+        new_languages = self.update_languages(github_username, user)
+        msg = 'Successfully update your languages' if user.languages != new_languages else 'No Update to your languages'
+        messages.success(request, msg)
+        return redirect('/user/' + user.username, 
+            context_instance=RequestContext(request))
+
+    @staticmethod
+    def update_languages(username, user):
         repositories = requests.get(
-            'https://api.github.com/users/'+profile.github_username+'/repos', 
+            'https://api.github.com/users/'+username+'/repos',
             headers=HEADERS)
-
         repos = json.loads(repositories.content)
-
         for repo in repos:
             if repo['language'] is not None:
                 try:
                     user.languages.create(name=repo['language'])
                 except:
                     pass
-        return redirect('/user/' + user.username, context_instance=RequestContext(request))
+            return user.languages
 
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
@@ -108,6 +122,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
 
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
+        context['languages'] = user.languages.all()
         context['profileform'] = self.form_class(initial={
             'about': self.request.user.profile.about,
             'first_name': self.request.user.profile.first_name,
