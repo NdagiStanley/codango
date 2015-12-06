@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from account.hash import UserHasher
 from emails import SendGrid
+from resources.views import CommunityBaseView
+from resources.models import Resource
 from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
 from codango.settings.base import ADMIN_EMAIL, CODANGO_EMAIL
@@ -298,3 +300,15 @@ class ResetPasswordView(View):
         }
         context.update(csrf(request))
         return render(request, 'account/forgot-password-reset.html', context)
+
+
+class SinglePostView(LoginRequiredMixin, TemplateView):
+    template_name = 'account/single-post.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SinglePostView, self).get_context_data(**kwargs)
+        try:
+            context['resource'] = Resource.objects.get(id=kwargs['resource_id'])
+        except:
+            pass
+        return context

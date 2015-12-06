@@ -1,81 +1,84 @@
 {% load cloudinary %} 
 {% load endless %} 
 {% load staticfiles %}
-<div class="content-block">
-    {% if messages %}
-    <div class="row">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    <div class="row">
-        <div class="col-sm-12">
-            <form id="id_share_form" role="form" class="share" action="{% url 'resource_create' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <textarea id="id-plain-text" name="text" class="form-control" rows="5" placeholder="Ask your Questions, Share your Knowledge... Don't forget to Tag it!!"></textarea>
-                <div class="row form-buttons">
-                    <div class="col-sm-8">
-                        <button type="button" id="id-pdf-button" class="btn btn-default"><span class="mdi mdi-file"></span> Attach PDF/DOC</button>
-                        <button type="button" id="id-snippet-button" class="btn btn-default"><span class="mdi mdi-code-tags"></span> Attach Code Snippet</button>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="mdi mdi-tag"></span> Tag Post</button>
-                            <ul class="dropdown-menu list-inline tag-dropdown">
-                                <li>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="PYTHON" />Python
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="JS" />JS
-                                    </label>
-                                </li>
-                                <li>
-                                    <label class="radio-inline">
-                                        <input type="radio" name="language_tags" value="ANDROID" />Android
-                                    </label>
-                                </li>
-                            </ul>
+
+
+
+
+
+{% if resource %}
+
+
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+<div class="container">
+    <div class="col-sm-8">
+        <div class="panel panel-white post panel-shadow">
+            <div class="post-heading">
+                <div class="pull-left image">
+                    {% if resource.author.profile.image %}
+        {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" class="img-circle avatar"%}
+        {% else %}
+        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+        {% endif %}
+
+{#                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">#}
+                </div>
+                <div class="pull-left meta">
+                    <div class="title h5">
+                        <a href="#"><b>{{ resource.author }}</b></a>
+                        made a post.
+                    </div>
+                    <h6 class="text-muted time">{{ resource.date_added | timesince }} ago</h6>
+                </div>
+            </div>
+            <div class="post-description">
+                <p>{{ resource.text }}</p>
+                <div class="stats">
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-thumbs-up icon"></i>2
+                    </a>
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-share icon"></i>12
+                    </a>
+                </div>
+            </div>
+            <div class="post-footer">
+                <div class="input-group">
+                    <input class="form-control" placeholder="Add a comment" type="text">
+                    <span class="input-group-addon">
+                        <a href="#"><i class="fa fa-edit"></i></a>
+                    </span>
+                </div>
+                <ul class="comments-list">
+                    {% for comment in resource.comments.all %}
+                    <li class="comment">
+                        <a class="pull-left" href="#">
+
+                            {% if comment.author.profile.image %}
+                            {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" class="avatar"%}
+                            {% else %}
+                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" class="avatar"%}
+                            {% endif %}
+
+{#                            <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">#}
+                        </a>
+                        <div class="comment-body">
+                            <div class="comment-heading">
+                                <h4 class="user">{{comment.author}}</h4>
+                                <h5 class="time">5 minutes ago</h5>
+                            </div>
+                            <p>{{ comment }}</p>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary pull-right">Share</button>
-                    </div>
-                </div>
-                <input id="id-pdf-file" name="resource_file" class="form-control hide well well-sm" type="file" />
-                <div class="well" id="id-snippet-body">
-                    <pre id="editor" name="snippet_text"></pre>
-                </div>
-                <textarea hidden id="snippet" name="snippet_text"></textarea>
-            </form>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{ title }}
-                    <div id="preloader">
-                        <img src="{% static 'img/ajax-loader.gif' %}"/>
-                    </div>
-                    <ul class="filter pull-right dropdown">
-                        <li>
-                            <a class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                Filter By
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="filter-menu dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="?sortby=date" class="filterby" role="tab" data-toggle="tab">Newest</a></li>
-                                <li><a href="?sortby=votes" class="filterby" role="tab" data-toggle="tab">Votes</a></li>
-                                <li><a href="?sortby=comments" class="filterby" role="tab" data-toggle="tab">Comments</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-            </h3>
-            <div id="community-content">
-                {% include "account/partials/community.html" %}
+                    </li>
+
+                    {% endfor %}
+                </ul>
             </div>
         </div>
     </div>
 </div>
+
+    {% else %}
+    There is no resource for the id
+{% endif %}
+
