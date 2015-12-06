@@ -18,12 +18,19 @@ class UserProfileTest(TestCase):
         self.user = User.objects.create(username='jubril', password='issa')
         self.user.set_password('shuaib')
         self.user.save()
-        self.login = self.client.login(username='Abiodun', password='shuaib')
+        self.login = self.client.login(username='jubril', password='shuaib')
 
     def test_user_can_reach_profile_page(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
         self.assertIn('github_id', response.context)
+    def test_user_can_update_languages(self):
+        profile = self.user.profile
+        profile.github_username = "golden0"
+        profile.save()
+        response = self.client.post(reverse('user_github'))
+        self.assertGreater(self.user.languages.all(), 1)
+        self.assertEqual(response.status_code, 302)
 
 class FollowUserProfileTest(TestCase):
     def setUp(self):
