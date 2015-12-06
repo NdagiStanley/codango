@@ -1,11 +1,10 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from userprofile.models import UserProfile, Follow
+from userprofile.views import FollowUserView, UserProfileEditView, CLIENT_ID
 
-
-class UserProfileTest(StaticLiveServerTestCase):
-    fixtures = ['users.json']
-
+class UserProfileTest(TestCase):
     def setUp(self):
         self.browser = webdriver.PhantomJS()
         self.browser.set_window_size(1400, 1000)
@@ -23,6 +22,19 @@ class UserProfileTest(StaticLiveServerTestCase):
         # logging in username and password
         username_field = self.browser.find_element_by_name('username')
         username_field.send_keys('lade')
+    def test_user_can_reach_profile_page(self):
+        response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
+
+        self.assertIn('github_id', response.context)
+
+class FollowUserProfileTest(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user1 = User.objects.create_user(username='golden', password='abiodun')
+        self.user2 = User.objects.create_user(username='jubril', password='issa')
+        self.user1.save()
+        self.user2.save()
+        self.login = self.client.login(username='golden', password='abiodun')
 
         password_field = self.browser.find_element_by_name('password')
         password_field.send_keys('password')
