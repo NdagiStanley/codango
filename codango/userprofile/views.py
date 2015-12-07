@@ -57,6 +57,7 @@ class UserProfileDetailView(CommunityBaseView):
 
 class UserGithub(View):
 
+
     def get(self, request, **kwargs):
         user = self.request.user
         code = self.request.GET['code']
@@ -68,6 +69,7 @@ class UserGithub(View):
         result = requests.post(
             'https://github.com/login/oauth/access_token',
             data=token_data, headers=HEADERS)
+
 
         access_token = json.loads(result.content)['access_token']
 
@@ -93,12 +95,15 @@ class UserGithub(View):
         return redirect('/user/' + user.username, 
             context_instance=RequestContext(request))
 
+
     @staticmethod
     def update_languages(username, user):
         repositories = requests.get(
             'https://api.github.com/users/'+username+'/repos',
             headers=HEADERS)
+        
         repos = json.loads(repositories.content)
+
         for repo in repos:
             if repo['language'] is not None:
                 try:
@@ -123,6 +128,7 @@ class UserProfileEditView(LoginRequiredMixin, TemplateView):
         context['profile'] = user.profile
         context['resources'] = user.resource_set.all()
         context['languages'] = user.languages.all()
+        context['github_id'] = CLIENT_ID
         context['profileform'] = self.form_class(initial={
             'about': self.request.user.profile.about,
             'first_name': self.request.user.profile.first_name,

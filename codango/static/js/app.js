@@ -436,17 +436,7 @@ var eventListeners = {
 
 $(document).ready(function() {
 
-    $("#githublogin").click(function(e){
-        e.preventDefault();
-        console.log("checking");
-        var self = $(this);
-        __url = self.attr("href");
 
-        var win = window.open(__url, "Github Login", "width=800, height=600,scrollbars=1")
-
-
-
-    });
     facebookLogin.init({
         fb_id: "1472691016373339"
     });
