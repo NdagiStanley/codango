@@ -15,7 +15,7 @@ from emails import SendGrid
 from resources.views import CommunityBaseView
 from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
-from codango.settings.base import ADMIN_EMAIL
+from codango.settings.base import ADMIN_EMAIL, CODANGO_EMAIL
 
 
 class IndexView(TemplateView):
@@ -209,7 +209,7 @@ class ForgotPasswordView(TemplateView):
 
             # compose the email
             email_compose = SendGrid.compose(
-                sender='Codango <codango@andela.com>',
+                sender='Codango <{}>'.format(CODANGO_EMAIL),
                 recipient=user.email,
                 subject='Codango: Password Recovery',
                 text=loader.get_template(

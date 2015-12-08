@@ -78,3 +78,4 @@ codango/mydatabase
 #db data
 codango/db-data.json
 codango/codangodb-backup.json
+codango/celerybeat-schedule
