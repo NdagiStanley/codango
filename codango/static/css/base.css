@@ -142,17 +142,12 @@ body {
 
 .comments-icons {
     font-size: 15px;
-    margin-top: 10px;
     display: inline-block;
 }
 
 .mdi-delete {
 	font-size:20px;
 	color:red !important;
-}
-
-#comment-icon {
-    color: #00F;
 }
 
 .show-edit {
@@ -176,7 +171,18 @@ body {
 
 }
 
-.feed-content .comments{
+.comments-div {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top:10px;
+}
+
+#comment-time {
+    color: #ccc;
+}
+
+.feed-content {
 	margin-top:10px;
 }
 
@@ -266,13 +272,14 @@ body {
 }
 
 .codango-badge {
-	padding:4px 10px;
-	font-size: 0.8em;
+	padding: 6px 12px;
+	font-size: 14px;
 	font-weight: 700;
 	display: inline-block;
 	background: #c2c8da;
 	border-radius: 4px;
 	color: #565c6f;
+    cursor:pointer;
 }
 
 .filter {
@@ -293,14 +300,12 @@ body {
 }
 
 .item {
-	margin: 0px 10px;
 	cursor:pointer;
-	color: #BEC1C9;
 }
 
-.item.active{
-	color:blue;
-	cursor: default;
+.btn-default.active{
+	color: #fff;
+	background-color: #006699;
 }
 
 .spacer {
