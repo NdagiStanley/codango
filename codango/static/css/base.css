@@ -8,6 +8,10 @@ body {
     padding-bottom: 20px;
 }
 
+hr {
+    margin-top: 5px;
+}
+
 
 /* navbar styling */
 
@@ -147,12 +151,6 @@ body {
     margin: 0px;
 }
 
-.comments-div .well {
-    margin-top: 10px;
-    margin-bottom: 0px;
-    border-radius: 0px;
-}
-
 .comments-icons {
     font-size: 15px;
     display: inline-block;
@@ -199,6 +197,10 @@ body {
 
 #comment-time {
     color: #ccc;
+}
+
+#comment-button {
+    border-radius: 0px;
 }
 
 .feed-content {
@@ -295,10 +297,14 @@ body {
     font-size: 14px;
     font-weight: 700;
     display: inline-block;
-    background: #c2c8da;
+    background: #39B54A;
     border-radius: 4px;
-    color: #565c6f;
+    color: #fff;
     cursor: pointer;
+}
+
+.codango-badge a {
+    color: #fff;
 }
 
 .filter {
@@ -321,9 +327,16 @@ body {
     cursor: pointer;
 }
 
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default.focus:active, .btn-default:active:focus, .btn-default:active:hover, .open > .dropdown-toggle.btn-default.focus, .open > .dropdown-toggle.btn-default:focus, .open > .dropdown-toggle.btn-default:hover {
+    color: #fff;
+    background-color: #337AB7;
+    border-color: #337AB7;
+}
+
 .btn-default.active {
     color: #fff;
-    background-color: #006699;
+    background-color: #337AB7;
+    border-color: #337AB7;
 }
 
 .spacer {
@@ -350,7 +363,7 @@ body {
 /* Utilities */
 
 button.btn {
-    border-radius: 6px;
+    border-radius: 4px;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
     transition: all .3s;
 }

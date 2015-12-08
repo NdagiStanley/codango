@@ -105,7 +105,7 @@
                     <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
-                        <button class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+                        <button id="comment-button" class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
                     </form>
                 </div>
             </div>

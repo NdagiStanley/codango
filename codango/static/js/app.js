@@ -316,13 +316,13 @@ var votes = {
             },
             success: function(data) {
                 console.log(data);
-                if (data["status"] == "novote") _this.find("span").closest("a").removeClass("active");
-                else _this.find("span").closest("a").addClass("active")
+                if (data["status"] == "novote") _this.removeClass("active");
+                else _this.addClass("active")
                 if (_this.hasClass("like")) {
-                    _this.siblings(".unlike").find("span").closest("a").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
+                    _this.siblings(".unlike").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
                     _this.find("span").html("&nbsp;&nbsp;"+data["upvotes"])
                 } else {
-                    _this.siblings(".like").find("span").closest("a").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["upvotes"])
+                    _this.siblings(".like").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["upvotes"])
                     _this.find("span").html("&nbsp;&nbsp;"+data["downvotes"])
                 }
             },
