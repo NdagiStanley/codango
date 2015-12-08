@@ -145,13 +145,19 @@ body {
     display: inline-block;
 }
 
+.comment-post:hover .show-edit, .comment-post:hover .mdi-delete {
+    display: inline-block;
+}
+
 .mdi-delete {
 	font-size:20px;
 	color:red !important;
+    display: none;
 }
 
 .show-edit {
     margin-right: 10px;
+    display: none;
 }
 
 .form-buttons{
