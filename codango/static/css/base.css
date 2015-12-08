@@ -407,6 +407,22 @@ a.list-group-item:hover h4{
     margin-bottom: 5px;
     margin-top: 0;
 }
+.unread-notificaitons{
+    position: absolute;
+    padding:1px;
+    font-size: 12px;
+    color: white;
+    top: -5px;
+    left:55%;
+    background-color:#f26521;
+}
+#notificaitons{
+    position:absolute;
+    display:none;
+    width: 250px;
+    top: 60%;
+    right:50%;
+}
 
 
 /* Utilities */

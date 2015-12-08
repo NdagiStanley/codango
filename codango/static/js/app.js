@@ -517,5 +517,10 @@ $(document).ready(function() {
     });
     prettyPrint();
 
+    $(".notification-icon").click(function(e){
+        e.preventDefault();
+        $("#notificaitons").toggle();
+    })
+
 
 });
