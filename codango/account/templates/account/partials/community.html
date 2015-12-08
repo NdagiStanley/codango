@@ -37,8 +37,8 @@
         {% endif %}
         <div class="row">
             <div class="col-sm-12">
-                <div class="codango-badge">
-                    <a href="{% url 'community' community=resource.get_language_tags_display|lower %}" class="badge-link">
+                <div id="codango-link" class="codango-badge">
+                    <a href="{% url 'community' community=resource.get_language_tags_display|lower %}">
                     {{ resource.get_language_tags_display }}</a>
                 </div>
                 <div class="comments-icons">

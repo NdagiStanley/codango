@@ -152,16 +152,24 @@ var googleLogin = {
 
 var ajaxContent = {
     config: {
-        filter: "#community a",
         contentDiv: "#community-content"
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(ajaxContent.config, config);
         }
-        $(ajaxContent.config.filter).click(function(e) {
-            e.preventDefault();
-            $("#community a").removeClass("active");
+        $("body").on("click", ajaxContent.config.filter,function(e) {
+            e.preventDefault(); 
+            _this = $(this);
+            if(!(_this.closest("ul").hasClass('filter-menu'))) $("#community a").removeClass("active");
+            _text = _this.text().replace(/\s+/g, '');; 
+            $("#community a").each(function() {
+                if($(this).text().replace(/\s+/g, '') == _text)
+                { 
+                    $(this).addClass('active')
+                    return; 
+                }
+            });
             $(this).addClass("active");
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
@@ -448,7 +456,7 @@ $(document).ready(function() {
         share: "#id_share_form, .commentform"
     });
     ajaxContent.init({
-        filter: "#community a,.filter-menu a,a.badge-link"
+        filter: "#community a,.filter-menu a,#codango-link a"
     });
     editComment.init({
         button: ".edit-comment"
