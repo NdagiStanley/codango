@@ -27,8 +27,6 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.user.set_password('shuaib')
         self.user.save()
         self.login = self.client.login(username='jubril', password='shuaib')
-
-        # logging in username and password
         username_field = self.browser.find_element_by_name('username')
         username_field.send_keys('lade')
 
@@ -50,7 +48,7 @@ class UserProfileTest(StaticLiveServerTestCase):
         m.get('https://api.github.com/users/golden0/repos', content='[{"language": "javascript"}]')
         response = self.client.get(reverse('user_github')+'?code=ieawfeaoefaojfeaoiw')
         self.assertIsNotNone(self.user.profile.github_username)
-        self.assertGreater(self.user.languages.all(),1)
+        self.assertEqual(len(self.user.languages.all()),1)
         self.assertEqual(response.status_code, 302)
 
     
@@ -61,7 +59,7 @@ class UserProfileTest(StaticLiveServerTestCase):
         profile.save()
         m.get('https://api.github.com/users/golden0/repos', content='[{"language": "javascript"}]')
         response = self.client.post(reverse('user_github'))
-        self.assertGreater(self.user.languages.all(), 1)
+        self.assertEqual(len(self.user.languages.all()), 1)
         self.assertEqual(response.status_code, 302)
 
 class FollowUserProfileTest(TestCase):

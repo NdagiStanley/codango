@@ -393,6 +393,42 @@ var editComment = {
         });
     }
 };
+// Handling follow
+
+var followAction = {
+    config: {
+        button: "#follow-btn"
+
+    },
+    init: function(config){
+        if (config && typeof config == 'object') $.extend(followAction.config, config);
+        $("body").on('click', followAction.config.button, function(e){
+            e.preventDefault();
+            var _this = $(this)
+            var url = $(this).attr('href');
+            followAction.doFollow(_this,url)
+        })
+
+    },
+    doFollow: function(_this, url){
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(data,textStatus,xhr){
+                $("h2.stats.followers").text(data['no_of_followers']);
+                $("h2.stats.following").text(data['no_following']);
+               
+                _this.attr('disabled', true);
+                _this.text('following')
+            },
+            error: function(x){
+                console.log(x.responseText)
+            }
+
+        });
+
+    }
+}
 
 var eventListeners = {
     init: function() {
@@ -470,6 +506,7 @@ $(document).ready(function() {
     mobileNav.init();
     votes.init();
     deleteComment.init();
+    followAction.init();
     
     $("#id-snippet-body").hide();
 
@@ -479,28 +516,6 @@ $(document).ready(function() {
         paginateOnScrollMargin: 20
     });
     prettyPrint();
-    // Handling follow
-    $("#follow-btn").click(function(e){
-        e.preventDefault();
-        var _this = $(this)
-        var id = $(this).data("id");
-       
-        var url = $(this).attr("href");
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            success: function(data,textStatus,xhr){
-                $("h2.stats.followers").text(data["no_of_followers"]);
-                $("h2.stats.following").text(data["no_following"]);
-               
-                _this.attr("disabled", true);
-                _this.text("following")
-            },
-            error: function(x){
-                console.log(x.responseText)
-            }
 
-        })
-    });
 });
