@@ -68,3 +68,15 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+class Notifications(models.Model):
+
+    user = models.ForeignKey(User,related_name="notifications")
+    link = models.CharField(max_length=200, null=True)
+    activity_type = models.CharField(max_length=50, null=False)
+    read = models.BooleanField()
+    content = models.TextField(max_length=1200,blank=False)
+    date_created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.content
+
