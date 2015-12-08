@@ -23,7 +23,7 @@ class UserProfileTest(TestCase):
         self.user.save()
         self.login = self.client.login(username='jubril', password='shuaib')
 
-    def test_user_can_reach_profile_page(self):
+    def test_un_authenticated_user_can_see_github_link(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
         self.assertIn('github_id', response.context)
@@ -37,7 +37,7 @@ class UserProfileTest(TestCase):
         m.get('https://api.github.com/users/golden0/repos', content='[{"language": "javascript"}]')
         response = self.client.get(reverse('user_github')+'?code=ieawfeaoefaojfeaoiw')
         self.assertIsNotNone(self.user.profile.github_username)
-        self.assertGreater(self.user.languages.all(),1)
+        self.assertEqual(len(self.user.languages.all()),1)
         self.assertEqual(response.status_code, 302)
 
     
@@ -48,7 +48,7 @@ class UserProfileTest(TestCase):
         profile.save()
         m.get('https://api.github.com/users/golden0/repos', content='[{"language": "javascript"}]')
         response = self.client.post(reverse('user_github'))
-        self.assertGreater(self.user.languages.all(), 1)
+        self.assertEqual(len(self.user.languages.all()), 1)
         self.assertEqual(response.status_code, 302)
 
 class FollowUserProfileTest(TestCase):
