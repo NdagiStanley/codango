@@ -507,8 +507,11 @@ $(document).ready(function() {
     votes.init();
     deleteComment.init();
     followAction.init();
-    
-    $("#id-snippet-body").hide();
+
+    $('#id-snippet-body').hide();
+    $(document).click(function (e) {            
+    $("#notificaitons").hide();
+});
 
     // Endless pagination plugin
     $.endlessPaginate({
@@ -518,6 +521,7 @@ $(document).ready(function() {
     prettyPrint();
 
     $(".notification-icon").click(function(e){
+        e.stopPropagation();
         e.preventDefault();
         $("#notificaitons").toggle();
     })

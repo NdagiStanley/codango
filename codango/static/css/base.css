@@ -421,7 +421,7 @@ a.list-group-item:hover h4{
     display:none;
     width: 250px;
     top: 60%;
-    right:50%;
+    right:-100%;
 }
 
 
