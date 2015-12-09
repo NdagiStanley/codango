@@ -256,3 +256,7 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         context['resources'] = user.resource_set.all()
 
         return context
+
+
+class SettingsView(TemplateView):
+    template_name = 'userprofile/settings.html'

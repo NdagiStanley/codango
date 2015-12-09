@@ -13,4 +13,6 @@ urlpatterns = [
         views.FollowUserView.as_view(), name='follow_user'),
     url(r'^(?P<username>\w+)/(?P<direction>following|followers)',
         views.FollowListView.as_view(), name='following'),
+    url(r'^(?P<username>\w+)/settings$',
+        views.SettingsView.as_view(), name='settings'),
 ]
