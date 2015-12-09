@@ -9,6 +9,7 @@ $.ajaxSetup({
         $("#preloader").hide();
     }
 });
+var myDataRef = new Firebase('https://popping-inferno-54.firebaseio.com/');
 
 function socialLogin(user) {
     var ajaxinfo = {
@@ -318,11 +319,13 @@ var votes = {
             },
             success: function(data) {
                 console.log(data);
-                if (data["status"] == "novote") _this.removeClass("active");
-                else _this.addClass("active")
-                if (_this.hasClass("like")) {
-                    _this.siblings(".unlike").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
-                    _this.find("span").html("&nbsp;&nbsp;"+data["upvotes"])
+                postVoteToFireBase(data);
+                postActivity(data);
+                if (data['status'] == "unvotes") _this.find('span').removeClass('active');
+                else _this.find('span').addClass('active')
+                if (_this.hasClass('like')) {
+                    _this.siblings('.unlike').find('span').removeClass('active').html("&nbsp;&nbsp;"+data['downvotes'])
+                    _this.find('span').html("&nbsp;&nbsp;"+data['upvotes'])
                 } else {
                     _this.siblings(".like").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["upvotes"])
                     _this.find("span").html("&nbsp;&nbsp;"+data["downvotes"])
@@ -340,6 +343,38 @@ function loadComments(_this){
             var selector = "#" + _this.closest(".comments").attr("id");
             $(selector).load(document.URL + " " +selector);
         }
+
+function postVoteToFireBase(data){
+    firebaseData = {
+        link: data["link"],
+        activity_type: data["type"],
+        read: data["read"],
+        content:data["content"],
+        user_id: data["user_id"],
+        created_at: Firebase.ServerValue.TIMESTAMP
+    };
+
+    myDataRef.push(firebaseData);
+
+
+}
+
+function postActivity(data){
+    console.log(data)
+    $.ajax({
+        url: "http://localhost:8000/user/activity/",
+        type:"POST",
+        data:data,
+        success:function(data){
+            console.log(data);
+        },
+        error: function(x){
+            console.log(x.responseText)
+
+        }
+    })
+
+}
 
 
 var deleteComment = {
@@ -483,7 +518,20 @@ var eventListeners = {
 }
 
 $(document).ready(function() {
+    //console.log(myDataRef);
 
+    // myDataRef.push({
+    //     link: "http://codango-staging.herokuapp.com",
+    //     activity_type: "vote",
+    //     read: false,
+    //     content:"jubril just upvoted on your post",
+    //     user_id: 4
+
+    // });
+
+    myDataRef.on("child_added", function(snapshot){
+        console.log(snapshot.val());
+    })
 
     facebookLogin.init({
         fb_id: "1472691016373339"
@@ -509,9 +557,11 @@ $(document).ready(function() {
     followAction.init();
 
     $('#id-snippet-body').hide();
-    $(document).click(function (e) {            
+$(document).click(function (e) {            
     $("#notificaitons").hide();
 });
+
+
 
     // Endless pagination plugin
     $.endlessPaginate({
@@ -524,7 +574,7 @@ $(document).ready(function() {
         e.stopPropagation();
         e.preventDefault();
         $("#notificaitons").toggle();
-    })
+    });
 
 
 });

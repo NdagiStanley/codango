@@ -8,6 +8,8 @@ from resources.forms import ResourceForm
 from votes.models import Vote
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
+
 
 
 class LoginRequiredMixin(object):
@@ -105,13 +107,18 @@ class ResourceVoteView(View):
             vote.save()
         else:
             vote.delete()
-            status = "novote"
+            status = "unvotes"
 
         response_dict = {
             "upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
-        }
+            "content": vote.user.username+ " " + status  + " your resource",
+            "link": "http://codango-stanging/resource/1",
+            "type": "vote",
+            "read": False,
+            "user_id": resource.author.id
+            }
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")

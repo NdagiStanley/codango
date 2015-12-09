@@ -4,6 +4,7 @@ from userprofile import views
 
 urlpatterns = [
     url(r'^auth/github$',views.UserGithub.as_view(), name='user_github'),
+    url(r'^activity/$',views.ActivityUpdate.as_view(), name='user_activity'),
     url(r'^(?P<username>\w+)$',
         views.UserProfileDetailView.as_view(), name='user_profile'),
     url(r'^(?P<username>\w+)/edit$',
