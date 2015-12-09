@@ -264,6 +264,8 @@ var formPost = {
                 } else {
                     selector = "#rcomments-" + data[1]["value"];
                     $(selector).load(document.URL + " " + selector);
+                    commentcount = ".commentcount-" + data[1]["value"];
+                    $(commentcount).load(document.URL + " " + commentcount);
                 }
                 _this.trigger("reset");
             }
@@ -360,7 +362,7 @@ var deleteComment = {
             error: function(res) {
                 console.log(res.responseText);
             }
-        })
+        });
     }
 };
 

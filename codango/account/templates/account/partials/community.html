@@ -44,7 +44,7 @@
                 <div class="comments-icons pull-right btn-group">
                     <a href="{% url 'resource_vote' resource_id=resource.id action='like' %}" data-id="{{resource.id}}" class="like btn btn-default {% if request.user.id in resource.upvotes %} active {% endif %}"><span class="mdi mdi-thumb-up item">&nbsp;&nbsp;<strong>{{resource.upvotes|length}}</strong></span></a>
                     <a href="{% url 'resource_vote' resource_id=resource.id action='unlike' %}" data-id="{{resource.id}}" class="unlike btn btn-default {% if request.user.id in resource.downvotes %} active {% endif %}"><span class="mdi mdi-thumb-down item">&nbsp;&nbsp;<strong>{{resource.downvotes|length}}</strong></span></a>
-                    <a class="btn btn-default"><span class="mdi mdi-comment item">&nbsp;&nbsp;<strong>{{ resource.comments.count }}</strong></span></a>
+                    <div id="commentcount" class="commentcount-{{resource.id}}"><a class="btn btn-default comment-count"><span class="mdi mdi-comment item">&nbsp;&nbsp;<strong>{{ resource.comments.count }}</strong></span></a></div>
                 </div>
             </div>
         </div>
