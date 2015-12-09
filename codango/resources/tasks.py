@@ -8,7 +8,6 @@ from codango.settings.base import CODANGO_EMAIL
 from django.template import Context, loader
 
 
-
 @task
 def send_recent_posts(recipient):
 
