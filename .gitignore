@@ -79,3 +79,6 @@ codango/mydatabase
 codango/db-data.json
 codango/codangodb-backup.json
 codango/celerybeat-schedule
+
+#mac file
+.DS_Store
