@@ -10,7 +10,7 @@ from django.template import RequestContext
 from django.utils import timezone
 from account.views import LoginRequiredMixin
 from comments.forms import CommentForm
-from userprofile.models import UserProfile, Follow
+from userprofile.models import UserProfile, Follow,Notification
 from userprofile.forms import UserProfileForm
 from resources.views import CommunityBaseView
 
@@ -53,6 +53,15 @@ class UserProfileDetailView(CommunityBaseView):
         context['github_id'] = CLIENT_ID
         context['commentform'] = CommentForm(auto_id=False)
         return context
+
+class ActivityUpdate(View):
+
+        def post(self, request, *args, **kwargs):
+            data = request.POST
+            user = User.objects.get(id=data['user_id'])
+            Notification.objects.create(link=data['link'], activity_type=data['type'], user=user, read=False,
+                content=data['content'])
+            return HttpResponse("success", content_type='text/plain')
 
 
 class UserGithub(View):

@@ -68,7 +68,7 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
-class Notifications(models.Model):
+class Notification(models.Model):
 
     user = models.ForeignKey(User,related_name="notifications")
     link = models.CharField(max_length=200, null=True)

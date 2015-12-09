@@ -6,6 +6,7 @@ from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
+from django.core.urlresolvers import reverse
 
 
 class CommunityBaseView(TemplateView):
@@ -91,13 +92,18 @@ class ResourceVoteView(View):
             vote.save()
         else:
             vote.delete()
-            status = "novote"
+            status = "unvotes"
 
         response_dict = {
             "upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
-        }
+            "content": vote.user.username+ " " + status  + " your resource",
+            "link": "http://codango-stanging/resource/1",
+            "type": "vote",
+            "read": False,
+            "user_id": resource.author.id
+            }
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
