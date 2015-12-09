@@ -19,6 +19,8 @@
     <link href="{% static 'lib/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/base.css' %}" type="text/css" rel="stylesheet"/>
   <script src="https://cdn.firebase.com/libs/firepad/1.2.0/firepad.min.js"></script>
+  <script src="{% static 'js/firepad-userlist.js' %}"></script>
+    <link href="{% static 'css/firepad-userlist.css' %}" type="text/css" rel="stylesheet"/>
 
   <style>
     html { height: 100%; }
@@ -45,6 +47,7 @@
     <option value="textmate">Textmate</option>
     <option value="terminal">Terminal</option>
 </select>
+    <input type="hidden" value="{{ request.user.username }}" id="username">
 
 <div class="container-fluid">
       <div class="row">
@@ -52,6 +55,8 @@
             <div id="firepad-container" style="height: 500px;"></div>
 </div>
           <div class="col-sm-3">
+
+          <div id="userlist"></div>
 
             <div class="panel panel-default">
                 <div class="panel-heading c-list">

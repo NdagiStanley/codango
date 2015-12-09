@@ -3,11 +3,7 @@
 {% load staticfiles %}
 
 
-
-
-
 {% if resource %}
-
 
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <div class="container">
@@ -21,7 +17,6 @@
         {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
         {% endif %}
 
-{#                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">#}
                 </div>
                 <div class="pull-left meta">
                     <div class="title h5">
@@ -35,10 +30,13 @@
                 <p>{{ resource.text }}</p>
                 <div class="stats">
                     <a href="#" class="btn btn-default stat-item">
-                        <i class="fa fa-thumbs-up icon"></i>2
+                        <i class="fa fa-thumbs-up icon"></i>{{resource.upvotes|length}}
                     </a>
                     <a href="#" class="btn btn-default stat-item">
-                        <i class="fa fa-share icon"></i>12
+                        <i class="fa fa-thumbs-down icon"></i>{{resource.downvotes|length}}
+                    </a>
+                    <a href="#" class="btn btn-default stat-item">
+                        <i class="fa fa-comment icon"></i>12
                     </a>
                 </div>
             </div>
@@ -60,7 +58,6 @@
                             {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" class="avatar"%}
                             {% endif %}
 
-{#                            <img class="avatar" src="http://bootdey.com/img/Content/user_1.jpg" alt="avatar">#}
                         </a>
                         <div class="comment-body">
                             <div class="comment-heading">
@@ -79,6 +76,5 @@
 </div>
 
     {% else %}
-    There is no resource for the id
+    There is no resource for this item
 {% endif %}
-

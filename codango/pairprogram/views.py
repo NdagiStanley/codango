@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404
-from pairprogram.models import PairProgram
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, redirect
+from django.template import RequestContext
+from pairprogram.models import Session, Participant
 from account.views import LoginRequiredMixin
 from userprofile.models import UserProfile, Follow
 
@@ -10,17 +12,26 @@ from userprofile.models import UserProfile, Follow
 
 class PairView(LoginRequiredMixin, TemplateView):
 
-    template_name = 'pairprogram/pair.html'
+    template_name = 'pairprogram/pair_program.html'
 
-    def get_context_data(self, **kwargs):
+    def get(self, request, *args, **kwargs):
         context = super(PairView, self).get_context_data(**kwargs)
-        context['friendlists'] = UserProfile.objects.all()
+        session_id = kwargs['session_id']
+        participants = Participant.objects.filter(session_id=session_id).all()
 
-        return context
+        # for participant in participants:
+        #     print participant.participant.username + "name"
 
-    def post(self, request, **kwargs):
+        result = any(self.request.user == x.participant for x in participants)
 
-        session_key = request.POST.get('sessionKey')
-        new_pair = PairProgram(session_id=session_key)
-        new_pair.save()
-        return HttpResponse()
+        if not result:
+            return redirect('/home')
+
+        return render(request, self.template_name, context)
+
+    # def post(self, request, **kwargs):
+    #
+    #     session_key = request.POST.get('sessionKey')
+    #     new_pair = Session(session_id=session_key)
+    #     new_pair.save()
+    #     return HttpResponse()

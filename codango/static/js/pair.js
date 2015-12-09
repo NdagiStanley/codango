@@ -20,9 +20,16 @@ function init(language, theme) {
       var firepadRef = getExampleRef();
     var sessionKey = firepadRef.key();
     sendSession(sessionKey);
+
       // TODO: Replace above line with:
       // var firepadRef = new Firebase('<YOUR FIREBASE URL>');
       //// Create ACE
+    // var user = request.user.username;
+    //console.log(user)
+        var userId = $('#username').val();
+        console.log(userId);
+    var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
+          document.getElementById('userlist'), userId);
       var editor = ace.edit("firepad-container");
       editor.setTheme("ace/theme/"+ theme);
       var session = editor.getSession();
