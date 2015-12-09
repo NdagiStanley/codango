@@ -41,7 +41,7 @@ function socialLogin(user) {
 }
 
 function loadComments(_this) {
-    var selector = "#" + _this.closest('.comments').attr("id");
+    var selector = "#" + _this.closest(".comments").attr("id");
     $(selector).load(document.URL + " " + selector);
 }
 
@@ -49,11 +49,11 @@ function loadComments(_this) {
 var facebookLogin = {
     config: {
         login: "#facebook-login",
-        fb_id: '1472709103038197'
+        fb_id: "1472709103038197"
     },
     init: function(config) {
         $(facebookLogin.config.login).attr("disabled", true);
-        if (config && typeof(config) == 'object') {
+        if (config && typeof(config) == "object") {
             $.extend(facebookLogin.config, config);
         }
         $.getScript("//connect.facebook.net/en_US/sdk.js", function() {
@@ -152,24 +152,34 @@ var googleLogin = {
 
 var ajaxContent = {
     config: {
-        filter: "#community a",
         contentDiv: "#community-content"
     },
     init: function(config) {
         if (config && typeof(config) == "object") {
             $.extend(ajaxContent.config, config);
         }
-        $(ajaxContent.config.filter).click(function(e) {
-            e.preventDefault();
+        $("body").on("click", ajaxContent.config.filter,function(e) {
+            e.preventDefault(); 
+            _this = $(this);
+            if(!(_this.closest("ul").hasClass("filter-menu"))) $("#community a").removeClass("active");
+            _text = _this.text().replace(/\s+/g, "");; 
+            $("#community a").each(function() {
+                if($(this).text().replace(/\s+/g, "") == _text)
+                { 
+                    $(this).addClass("active")
+                    return; 
+                }
+            });
+            $(this).addClass("active");
             var url = ajaxContent.buildUrl($(this));
             ajaxContent.loadContent(url);
             window.history.pushState("object or string", "Title", url);
         });
     },
     buildUrl: function(_this) {
-        _this.closest("ul").closest("li").removeClass('open');
-        if (_this.hasClass('filterby')) return location.protocol + '//' + location.host + location.pathname + _this.attr('href');
-        return _this.attr('href');
+        _this.closest("ul").closest("li").removeClass("open");
+        if (_this.hasClass("filterby")) return location.protocol + "//" + location.host + location.pathname + _this.attr("href");
+        return _this.attr("href");
     },
     loadContent: function(url) {
         $(ajaxContent.config.contentDiv).load(url, ajaxContent.afterAction);
@@ -202,8 +212,8 @@ var formPost = {
     },
     formContents: function(_this) {
         var fd = new FormData();
-        if (_this.hasClass('share')) {
-            var file_data = _this.find('input[type="file"]')[0].files[0];
+        if (_this.hasClass("share")) {
+            var file_data = _this.find("input[type='file']")[0].files[0];
             fd.append("resource_file", file_data);
         }
         var other_data = _this.serializeArray();
@@ -225,7 +235,7 @@ var formPost = {
             data: fd,
             success: function(data) {
                 if (data == "success") {
-                    _this.append("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
+                    _this.prepend("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000);
@@ -243,7 +253,7 @@ var formPost = {
                 }, 5000);
             },
             complete: function() {
-                if (_this.hasClass('share')) {
+                if (_this.hasClass("share")) {
                     console.log(document.URL);
                     $("#community-content").load(document.URL, function() {
                         $("#id-snippet-body").hide();
@@ -252,10 +262,12 @@ var formPost = {
                         prettyPrint();
                     });
                 } else {
-                    selector = "#rcomments-" + data[1]['value'];
+                    selector = "#rcomments-" + data[1]["value"];
                     $(selector).load(document.URL + " " + selector);
+                    commentcount = ".commentcount-" + data[1]["value"];
+                    $(commentcount).load(document.URL + " " + commentcount);
                 }
-                _this.trigger('reset');
+                _this.trigger("reset");
             }
         });
     }
@@ -289,8 +301,8 @@ var votes = {
         voteButton: ".like, .unlike"
     },
     init: function(config) {
-        if (config && typeof(config) == 'object') $.extend(votes.config, conifg);
-        $("body").on('click', votes.config.voteButton, function(e) {
+        if (config && typeof(config) == "object") $.extend(votes.config, conifg);
+        $("body").on("click", votes.config.voteButton, function(e) {
             e.preventDefault();
             var url = $(this).attr("href");
             var resource_id = $(this).data("id");
@@ -306,14 +318,14 @@ var votes = {
             },
             success: function(data) {
                 console.log(data);
-                if (data['status'] == "novote") _this.find('span').removeClass('active');
-                else _this.find('span').addClass('active')
-                if (_this.hasClass('like')) {
-                    _this.siblings('.unlike').find('span').removeClass('active').html("&nbsp;&nbsp;"+data['downvotes'])
-                    _this.find('span').html("&nbsp;&nbsp;"+data['upvotes'])
+                if (data["status"] == "novote") _this.removeClass("active");
+                else _this.addClass("active")
+                if (_this.hasClass("like")) {
+                    _this.siblings(".unlike").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
+                    _this.find("span").html("&nbsp;&nbsp;"+data["upvotes"])
                 } else {
-                    _this.siblings('.like').find('span').removeClass('active').html("&nbsp;&nbsp;"+data['upvotes'])
-                    _this.find('span').html("&nbsp;&nbsp;"+data['downvotes'])
+                    _this.siblings(".like").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["upvotes"])
+                    _this.find("span").html("&nbsp;&nbsp;"+data["downvotes"])
                 }
             },
             error: function(x) {
@@ -325,7 +337,7 @@ var votes = {
 
 
 function loadComments(_this){
-            var selector = "#" + _this.closest('.comments').attr("id");
+            var selector = "#" + _this.closest(".comments").attr("id");
             $(selector).load(document.URL + " " +selector);
         }
 
@@ -335,8 +347,8 @@ var deleteComment = {
         button: ".delete-comment",
     },
     init: function(config) {
-        if (config && typeof config == 'object') $.extend(deleteComment.config, config);
-        $("body").on('click', deleteComment.config.button, function(e) {
+        if (config && typeof config == "object") $.extend(deleteComment.config, config);
+        $("body").on("click", deleteComment.config.button, function(e) {
             e.preventDefault();
             if (!confirm("Are you sure you want to delete this comment")) return;
             deleteComment.sendAction($(this));
@@ -350,7 +362,7 @@ var deleteComment = {
             error: function(res) {
                 console.log(res.responseText);
             }
-        })
+        });
     }
 };
 
@@ -359,8 +371,8 @@ var editComment = {
         button: ".edit-comment"
     },
     init: function(config) {
-        if (config && typeof config == 'object') $.extend(editComment.config, config);
-        $("body").on('submit', editComment.config.button, function(e) {
+        if (config && typeof config == "object") $.extend(editComment.config, config);
+        $("body").on("submit", editComment.config.button, function(e) {
             e.preventDefault();
             editComment.sendAction($(this));
         })
@@ -369,10 +381,10 @@ var editComment = {
         $.ajax({
             url: _this.attr("action"),
             type: "PUT",
-            contentType: 'application/json; charset=utf-8',
+            contentType: "application/json; charset=utf-8",
             processData: false,
             data: JSON.stringify({
-                'content': _this.find("textarea[name='content']").val()
+                "content": _this.find("textarea[name='content']").val()
             }),
             success: loadComments(_this),
             error: function(res) {
@@ -401,7 +413,7 @@ var eventListeners = {
         // Shows all the comments on a resource
         $(document).on("click", ".mdi-comment", function(e) {
             e.preventDefault();
-            $(this).closest('.feed-content').find('.comments-div').toggle();
+            $(this).closest(".feed-content").find(".comments-div").toggle();
         });
 
         // Responsive view sidebar slide in
@@ -417,19 +429,19 @@ var eventListeners = {
         });
 
         // Shows the snippet box
-        $('#id-snippet-button').click(function() {
-            $('#id-snippet-body').toggle();
+        $("#id-snippet-button").click(function() {
+            $("#id-snippet-body").toggle();
         });
 
         // Shows the file upload field
-        $('#id-pdf-button').on('click', function(hidden) {
+        $("#id-pdf-button").on("click", function(hidden) {
             hidden.preventDefault();
-            $('#id-pdf-file').toggleClass('show');
+            $("#id-pdf-file").toggleClass("show");
         });
 
         // Ensures all flash messages fadeout after 2 seconds
         setTimeout(function() {
-            $('#flash-message').fadeOut();
+            $("#flash-message").fadeOut();
         }, 2000)
     }
 }
@@ -446,7 +458,7 @@ $(document).ready(function() {
         share: "#id_share_form, .commentform"
     });
     ajaxContent.init({
-        filter: "#community a,.filter-menu a"
+        filter: "#community a,.filter-menu a,#codango-link a"
     });
     editComment.init({
         button: ".edit-comment"
@@ -457,7 +469,7 @@ $(document).ready(function() {
     votes.init();
     deleteComment.init();
     
-    $('#id-snippet-body').hide();
+    $("#id-snippet-body").hide();
 
     // Endless pagination plugin
     $.endlessPaginate({
@@ -466,22 +478,22 @@ $(document).ready(function() {
     });
     prettyPrint();
     // Handling follow
-    $('#follow-btn').click(function(e){
+    $("#follow-btn").click(function(e){
         e.preventDefault();
         var _this = $(this)
-        var id = $(this).data('id');
+        var id = $(this).data("id");
        
-        var url = $(this).attr('href');
+        var url = $(this).attr("href");
 
         $.ajax({
             url: url,
-            type: 'POST',
+            type: "POST",
             success: function(data,textStatus,xhr){
-                $("h2.stats.followers").text(data['no_of_followers']);
-                $("h2.stats.following").text(data['no_following']);
+                $("h2.stats.followers").text(data["no_of_followers"]);
+                $("h2.stats.following").text(data["no_following"]);
                
-                _this.attr('disabled', true);
-                _this.text('following')
+                _this.attr("disabled", true);
+                _this.text("following")
             },
             error: function(x){
                 console.log(x.responseText)

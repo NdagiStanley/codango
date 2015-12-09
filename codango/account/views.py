@@ -5,8 +5,6 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.template.context_processors import csrf
 from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
@@ -175,16 +173,7 @@ class TeamView(TemplateView):
     template_name = 'account/team.html'
 
 
-class LoginRequiredMixin(object):
-    # View mixin which requires that the user is authenticated.
-
-    @method_decorator(login_required(login_url='/'))
-    def dispatch(self, request, *args, **kwargs):
-        return super(LoginRequiredMixin, self).dispatch(
-            request, *args, **kwargs)
-
-
-class HomeView(LoginRequiredMixin, CommunityBaseView):
+class HomeView(CommunityBaseView):
     pass
 
 

@@ -1,30 +1,32 @@
 import json
-from django.http import HttpResponse, Http404, HttpResponseNotFound
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from django.template.context_processors import csrf
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
-from django.template import RequestContext, loader
 from django.db.models import Count
 from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
-from comments.models import Comment
 from votes.models import Vote
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-class CommunityBaseView(TemplateView):
+
+class LoginRequiredMixin(object):
+    # View mixin which requires that the user is authenticated.
+
+    @method_decorator(login_required(login_url='/'))
+    def dispatch(self, request, *args, **kwargs):
+        return super(LoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs)
+
+
+class CommunityBaseView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
         if request.is_ajax():
             self.template_name = 'account/partials/community.html'
-        return super(CommunityBaseView, self).dispatch(request, *args, **kwargs)
+        return super(
+            CommunityBaseView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 
@@ -32,11 +34,14 @@ class CommunityBaseView(TemplateView):
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
         resources = self.sort_by(sortby, Resource.objects)
-        community = kwargs['community'].upper() if 'community' in kwargs else 'ALL'
+        community = kwargs[
+            'community'].upper() if 'community' in kwargs else 'ALL'
 
-        if community != 'ALL':
+        if community == 'UNTAGGED':
+            resources = resources
+
+        elif community != 'ALL':
             resources = resources.filter(language_tags=community)
-        
 
         context = {'resources': resources, 'commentform': CommentForm(
             auto_id=False), 'title': 'Activity Feed', }
@@ -47,9 +52,8 @@ class CommunityBaseView(TemplateView):
         if sorting_name == 'date':
             return object_set.order_by('-date_modified')
         else:
-            return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
-
-
+            return object_set.annotate(
+                num_sort=Count(sorting_name)).order_by('-num_sort')
 
 
 class CommunityView(CommunityBaseView):

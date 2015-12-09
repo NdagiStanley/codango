@@ -1,79 +1,34 @@
-from django.test.utils import setup_test_environment
-setup_test_environment()
-from django.test import Client, TestCase
-import json
-from django.contrib.auth.models import User
-from django.core.urlresolvers import resolve, reverse
-
-from resources.models import Resource
-from votes.models import Vote
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
-class CommunityViewTest(TestCase):
+class CreateResource(StaticLiveServerTestCase):
+    fixtures = ['users.json']
 
     def setUp(self):
-        self.client = Client()
-        self.user = User.objects.create(username='Abiodun', password='shuaib')
-        self.user.set_password('shuaib')
-        self.user.save()
-        self.login = self.client.login(username='Abiodun', password='shuaib')
+        self.browser = webdriver.PhantomJS()
+        self.browser.set_window_size(1400, 1000)
+        self.browser.implicitly_wait(10)
 
-    def create_resources(self, text='some more words', resource_file='resource_file'):
-        return Resource.objects.create(id=100, text=text, author=self.user, resource_file=resource_file)
+    def tearDown(self):
+        self.browser.quit()
 
-    def test_can_reach_ajax_community_page(self):
-        self.assertTrue(self.login)
-        response = self.client.get(reverse('community', args=('all',)), content_type='application/json',
-                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertTrue(response.status_code == 200)
-        self.assertContains(response, "There are currently no posts")
+    def test_can_create_resource(self):
+        self.browser.get(self.live_server_url)
 
-    def test_can_post_new_ajax_content(self):
-        self.assertTrue(self.login)
-        response = self.client.post('/resource/create',
-                                    {'text': '1', },
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "success")
+        # logging in username and password
+        username_field = self.browser.find_element_by_name('username')
+        username_field.send_keys('lade')
 
-    def test_add_an_empty_resource(self):
-        self.assertTrue(self.login)
-        response = self.client.post('/resource/newresource',
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 404)
+        password_field = self.browser.find_element_by_name('password')
+        password_field.send_keys('password')
+        password_field.send_keys(Keys.RETURN)
 
-    def test_user_can_upvote(self):
-        self.assertTrue(self.login)
-        resource = self.create_resources()
-        response = self.client.post('/resource/100/like', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(resource.upvotes()), 1)
-
-    def test_user_can_downvote(self):
-        self.assertTrue(self.login)
-        resource = self.create_resources()
-        response = self.client.post('/resource/100/unlike', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(resource.downvotes()), 1)
-
-    def test_user_can_get_persisten_vote(self):
-        self.assertTrue(self.login)
-        resource = self.create_resources()
-        response = self.client.post('/resource/100/unlike', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        response = self.client.post('/resource/100/like', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(resource.upvotes()), 1)
-
-    def test_user_cannot_vote_more_than_once(self):
-        self.assertTrue(self.login)
-        resource = self.create_resources()
-        response = self.client.post('/resource/100/unlike', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        response = self.client.post('/resource/100/unlike', {'resource_id': 100},
-                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(resource.upvotes()), 0)
+        # creating a resource
+        input_field = self.browser.find_element_by_id('id-plain-text')
+        input_field.send_keys('This is a post')
+        self.browser.find_element_by_xpath(
+            "//button[contains(text(),'Share')]").click()
+        body = self.browser.find_element_by_tag_name('body')
+        self.assertIn('success', body.text)

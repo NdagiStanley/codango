@@ -16,15 +16,23 @@ class ResourceTestModels(TestCase):
             resource_file='help'
         )
 
-    def create_resources(self, text='some more words', resource_file='resource_file'):
-        return Resource.objects.create(text=text, author=self.user, resource_file=resource_file)
+    def create_resources(
+            self, text='some more words',
+            resource_file='resource_file'):
+        return Resource.objects.create(
+            text=text,
+            author=self.user,
+            resource_file=resource_file
+        )
 
     def test_for_resource_creation(self):
         self.assertIsNotNone(Resource.objects.all())
 
     # mock cloudinary pre_save function that returns a public_id for uploads
     def test_file_save(self):
-        with patch.object(Resource.resource_file.field, 'pre_save', return_value='test.pdf') as mock_method:
+        with patch.object(
+                Resource.resource_file.field,
+                'pre_save', return_value='test.pdf') as mock_method:
             uploadlink = mock_method('test.pdf')
             self.resource.resource_file = uploadlink
             self.resource.save()
