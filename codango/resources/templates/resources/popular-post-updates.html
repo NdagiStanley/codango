@@ -12,6 +12,11 @@
                     {% for resource in popular_posts %}
                     <div style="padding-left: 0px; margin-bottom: 20px; background-color: #FFF;">
                         <h2 style="position: relative; display: block; padding: 10px 15px;">{{ resource.text }}</h2>
+                        {% if resource.snippet_text %}
+                        <p>
+                            <pre>{{ resource.snippet_text }}</pre>
+                        </p>
+                        {% endif %} 
                         <h5 style="padding: 10px 15px;">Date Posted: {{resource.date_added}}<br><br>
                         Author: {{ resource.author }}
                         </h5>
