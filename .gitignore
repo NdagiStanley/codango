@@ -75,10 +75,15 @@ codango/media
 # sqldatabase
 codango/mydatabase
 
-#db data
+# db data
 codango/db-data.json
 codango/codangodb-backup.json
 codango/celerybeat-schedule
 
-#mac file
+# mac file
 .DS_Store
+
+# codango miscellaneous
+codango/bin
+codango/lib
+codango/include
