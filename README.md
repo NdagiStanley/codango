@@ -53,11 +53,13 @@ The following are the installed requirements for codango
 3. Run `python manage.py test` to test codango.
 4. Run `python manage.py test <appname>` to test an individual app.
 5. Run `coverage run manage.py test` to run coverage for codango.
- 
+
 ## Authors
 ###### [Olufunmilade Oshodi](https://github.com/andela-ooshodi)
 ###### [Issa Jubril](https://github.com/andela-ijubril)
 ###### [Inioluwa Fageyinbo](https://github.com/andela-ifageyinbo)
+###### [Joan Ngatia](https://github.com/andela-jngatia)
+###### [Stanley Ndagi](https://github.com/andela-sndagi)
 
 ## Copyright
 Andela © 2015 CODANGO
