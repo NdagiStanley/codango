@@ -11,10 +11,17 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 """
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from __future__ import absolute_import
 import os
 import cloudinary
+
+# This will make sure the app is always imported when
+# Django starts so that shared_task will use this app.
+from .celery import app as celery_app
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.contrib.messages import constants as message_constants
+from celery.schedules import crontab
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -71,6 +78,7 @@ INSTALLED_APPS = (
     'cloudinary',
     'djangobower',
     'endless_pagination',
+    'djcelery'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -153,5 +161,25 @@ MESSAGE_TAGS = {
     message_constants.ERROR: 'danger'
 }
 
-# Custom admin email
+# Custom Email
 ADMIN_EMAIL = 'olufunmilade.oshodi@andela.com'
+CODANGO_EMAIL = 'noreply@codango.com'
+
+# Celery configuration
+# The backend used to store task results using RabbitMQ as a broker
+# This sends results back as AMQP messages
+CELERY_RESULT_BACKEND = 'amqp'
+
+
+# Scheduling periodic task with Celery
+CELERYBEAT_SCHEDULE = {
+    # Executes every 6 hours
+    'popular-post-updates': {
+        'task': 'resources.tasks.send_recent_posts',
+        'schedule': crontab(minute=0, hour='*/6'),
+        'args': (ADMIN_EMAIL,),
+    },
+}
+
+# Celery Test Runner for unit tests
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
