@@ -50,20 +50,17 @@
         </div>
         <div class="comments-div">
             <div class="comments" id="rcomments-{{resource.id}}">
-                <h4>COMMENTS ({{ resource.comments.count }})</h4>
-                <hr>
+                <div class="comments-title">COMMENTS ({{ resource.comments.count }})</div>
                 {% for comment in resource.comments.all %}
-                <article class="row">
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        <figure class="thumbnail">
-                            {% if comment.author.profile.image %} 
-                            {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
-                            {% else %} 
-                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
-                            {% endif %}
-                        </figure>
-                    </div>
-                    <div class="col-md-10 col-sm-10 col-xs-10">
+                <article class="comment">
+                    <figure>
+                        {% if comment.author.profile.image %} 
+                        {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
+                        {% else %} 
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+                        {% endif %}
+                    </figure>
+                    <div class="comment-contents">
                         <header>
                             <div class="comment-user">
                                 <strong>{{comment.author}}</strong>&nbsp;&nbsp;
@@ -95,18 +92,20 @@
                         {% endif %}
                     </div>
                 </article>
-                <hr>
                 {% empty %}
-                <p class="alert alert-info spacers"> There are currently no comments for this resource </p>
+                <p id="empty" class="alert alert-info spacers"> There are currently no comments for this resource </p>
                 {% endfor %}
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
-                        {% csrf_token %}
-                        <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
-                        <button id="comment-button" class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
-                    </form>
+                    <div class="comment-form">
+                        <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
+                            <button id="comment-button" class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

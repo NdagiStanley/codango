@@ -200,24 +200,54 @@ hr {
 .comments-div {
     border: 1px solid #eee;
     border-radius: 4px;
-    padding: 10px;
     margin-top: 10px;
+}
+
+.comments-title {
+    padding: 10px;
+    border-bottom: solid 1px #eee;
+}
+.comment {
+    position: relative;
+    padding: 10px;
+    border-bottom: solid 1px #eee;
+}
+
+.comment figure {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.comment-contents {
+    padding-left: 80px;
+    min-height: 60px;
+}
+
+.comment-form {
+    padding: 10px;
 }
 
 #comment-time {
     color: #ccc;
+    font-style: normal;
+    font-size: 12px;
 }
 
 #comment-button {
     border-radius: 0px;
 }
 
+#empty {
+    margin: 10px;
+}
+
 .feed-content {
     margin-top: 10px;
 }
 
-.comment-post {
-    padding-top: 10px;
+.comment-post h5 {
+    margin-top: 5px;
 }
 
 .edit-view {
