@@ -57,7 +57,7 @@ The following are the installed requirements for codango
 ## Authors
 ###### [Olufunmilade Oshodi](https://github.com/andela-ooshodi)
 ###### [Issa Jubril](https://github.com/andela-ijubril)
-###### [Inioluwa Fageyinbo](https://github.com/andela-ifageyinbo)
+###### [Abiodun Shuaib](https://github.com/andela-ashuaib)
 ###### [Joan Ngatia](https://github.com/andela-jngatia)
 ###### [Stanley Ndagi](https://github.com/andela-sndagi)
 
