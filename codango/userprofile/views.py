@@ -54,14 +54,24 @@ class UserProfileDetailView(CommunityBaseView):
         context['commentform'] = CommentForm(auto_id=False)
         return context
 
-class ActivityUpdate(View):
+class ActivityUpdate(TemplateView):
+    template_name = 'userprofile/partials/activity.html'
 
-        def post(self, request, *args, **kwargs):
-            data = request.POST
-            user = User.objects.get(id=data['user_id'])
-            Notification.objects.create(link=data['link'], activity_type=data['type'], user=user, read=False,
-                content=data['content'])
-            return HttpResponse("success", content_type='text/plain')
+    def get_context_data(self, **kwargs):
+        context = super(ActivityUpdate, self).get_context_data(**kwargs)
+        user = self.request.user
+
+        context['activities'] = user.notifications.all()
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST
+        user = User.objects.get(id=data['user_id'])
+        Notification.objects.create(link=data['link'], activity_type=data['type'], user=user, read=False,
+            content=data['content'])
+
+        return HttpResponse("success", content_type='text/plain')
 
 
 class UserGithub(View):
