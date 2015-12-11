@@ -30,23 +30,11 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href = "/home"><i class="mdi mdi-google-circles-communities"></i> Community</a></li>
+                        <li class="active"><a href = "/home"><i class="mdi mdi-google-circles-communities"></i> Community</a>
+                        </li>
                         <li><a href = "#"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
-                        <li><a href="#"><i class="notification-icon mdi mdi-bell"><span class="unread-notificaitons">{{user.notifications.all|length}}</span></i></a><br>
-                        <div id="notificaitons">                      
-                            <div class="list-group"> 
-                            {% for notification in user.notifications.all %}
-
-                              <a href="#" class="list-group-item">{{notification}}</a>
-                              {% empty %}
-                              <a href="#" class="list-group-item disabled">
-                                You have no recent notifications
-                              </a>
-                             {% endfor %}
-                             </div>
-                        </div>  
-
-
+                        <li id="notification-li">
+                        {% include 'userprofile/partials/activity.html'%}
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ request.user.username }} <span class="caret"></span></a>

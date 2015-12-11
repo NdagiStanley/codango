@@ -364,7 +364,6 @@ function postActivity(data){
 
 }
 
-
 var deleteComment = {
     config: {
         button: ".delete-comment",
@@ -506,23 +505,17 @@ var eventListeners = {
 }
 
 $(document).ready(function() {
-    //console.log(myDataRef);
-
-    // myDataRef.push({
-    //     link: "http://codango-staging.herokuapp.com",
-    //     activity_type: "vote",
-    //     read: false,
-    //     content:"jubril just upvoted on your post",
-    //     user_id: 4
-
-    // });
 
     myDataRef.on("child_added", function(snapshot){
-        console.log(snapshot.val());
-    })
+        //console.log(snapshot.val());
+        //console.log(document.URL + " " + "#notifications");
+        //console.log($("notification-li").closest("li"));
+        $("#notification-li").load("http://localhost:8000/user/activity/");
+        
+    });
 
     facebookLogin.init({
-        fb_id: "1472691016373339"
+        //fb_id: "1472691016373339"
     });
     googleLogin.init({
         REDIRECT: "http://codango-staging.herokuapp.com/"
@@ -545,9 +538,10 @@ $(document).ready(function() {
     followAction.init();
     
     $('#id-snippet-body').hide();
-$(document).click(function (e) {            
-    $("#notificaitons").hide();
-});
+    $(document).click(function (e) {            
+        $("#notifications").hide();
+
+    });
 
 
 
@@ -561,7 +555,7 @@ $(document).click(function (e) {
     $(".notification-icon").click(function(e){
         e.stopPropagation();
         e.preventDefault();
-        $("#notificaitons").toggle();
+        $("#notifications").toggle();
     });
 
 

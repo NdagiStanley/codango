@@ -1,0 +1,13 @@
+<a href="#" class=""><i class="notification-icon mdi mdi-bell"><span class="unread-notificaitons">{{request.user.notifications.all|length}}</span></i></a><br>
+                        <div id="notifications">                      
+                            <div class="list-group"> 
+                            {% for notification in request.user.notifications.all %}
+
+                              <a href="#" class="list-group-item">{{notification}}</a>
+                              {% empty %}
+                              <a href="#" class="list-group-item disabled">
+                                You have no recent notifications
+                              </a>
+                             {% endfor %}
+                             </div>
+                        </div> 

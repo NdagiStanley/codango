@@ -307,9 +307,9 @@ a.list-group-item:hover h4{
     left:55%;
     background-color:#f26521;
 }
-#notificaitons{
+#notifications{
     position:absolute;
-    display:none;
+    display:block;
     width: 250px;
     top: 60%;
     right:-100%;
