@@ -235,8 +235,10 @@ var formPost = {
             processData: false,
             data: fd,
             success: function(data) {
-                if (data == "success") {
-                    _this.prepend("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
+                if (typeof(data) == 'object') {
+                    postDataToFireBase(data);
+                    postActivity(data);
+                    _this.append("<div class='alert alert-success successmsg'>"+data['status']+"</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000);
@@ -244,6 +246,7 @@ var formPost = {
             },
             error: function(status) {
                 // Display errors
+                console.log(status.responseText);
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
                 } else {
@@ -318,8 +321,7 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data) {
-                console.log(data);
-                postVoteToFireBase(data);
+                postDataToFireBase(data);
                 postActivity(data);
                 if (data['status'] == "unvotes") _this.find('span').removeClass('active');
                 else _this.find('span').addClass('active')
@@ -344,7 +346,7 @@ function loadComments(_this){
             $(selector).load(document.URL + " " +selector);
         }
 
-function postVoteToFireBase(data){
+function postDataToFireBase(data){
     firebaseData = {
         link: data["link"],
         activity_type: data["type"],
@@ -449,6 +451,8 @@ var followAction = {
             url: url,
             type: 'POST',
             success: function(data,textStatus,xhr){
+                postDataToFireBase(data);
+                postActivity(data);
                 $("h2.stats.followers").text(data['no_of_followers']);
                 $("h2.stats.following").text(data['no_following']);
                
@@ -518,11 +522,15 @@ var eventListeners = {
 
 $(document).ready(function() {
 
-    myDataRef.on("child_added", function(snapshot){
-        //console.log(snapshot.val());
-        //console.log(document.URL + " " + "#notifications");
-        //console.log($("notification-li").closest("li"));
-        $("#notification-li").load("http://localhost:8000/user/activity/");
+    myDataRef.limitToLast(1).on("child_added", function(snapshot){
+        activity = snapshot.val();
+        console.log(activity);
+
+        if(activity.user_id == parseInt($("#notification-li").data("id")))
+        {
+            console.log("got here");
+            $("#notification-li").load("http://localhost:8000/user/activity/");
+        }
         
     });
 
@@ -564,7 +572,7 @@ $(document).ready(function() {
     });
     prettyPrint();
 
-    $(".notification-icon").click(function(e){
+    $("body").on("click",".notification-icon",function(e){
         e.stopPropagation();
         e.preventDefault();
         $("#notifications").toggle();

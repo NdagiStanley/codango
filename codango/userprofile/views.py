@@ -203,6 +203,11 @@ class FollowUserView(LoginRequiredMixin, View):
         repsonse_json = {
             'no_of_followers': len(follower_user_profile.get_followers()),
             'no_following': len(follower_user_profile.get_following()),
+            'content': user.username + " follows you",
+            'user_id': following_id.id,
+            "link": "http://codango-stanging/resource/1",
+            "type": "vote",
+            "read": False,
         }
         json_response = json.dumps(repsonse_json)
         return HttpResponse(json_response, content_type="application/json")
