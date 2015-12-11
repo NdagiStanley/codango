@@ -51,6 +51,20 @@ class UserProfileTest(TestCase):
         self.assertEqual(len(self.user.languages.all()), 1)
         self.assertEqual(response.status_code, 302)
 
+    def test_user_can_view_activity(self):
+        response = self.client.get(reverse('user_activity'))
+        self.assertEqual(response.status_code,200)
+
+    def test_user_can_post_activities(self):
+        response = self.client.post(reverse('user_activity'),
+                                    {'user_id':1,
+                                        'content': "brand new",
+                                        'link': "link",
+                                        'type': "vote"},
+                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
+
 class FollowUserProfileTest(TestCase):
     def setUp(self):
         self.client = Client()
