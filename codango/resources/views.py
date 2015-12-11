@@ -59,6 +59,9 @@ class CommunityView(CommunityBaseView):
                 pass
             resource.author = self.request.user
             resource.save()
+            response_dict = {
+            "status": "Successfully Post Your Commented for this resource"
+            }
             return HttpResponse("success", content_type='text/plain')
         except ValueError:
             return HttpResponseNotFound("emptypost")
