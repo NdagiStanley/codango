@@ -112,6 +112,7 @@ class UserGithub(View):
                     pass
             return user.languages
 
+
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
     form_class = UserProfileForm
     template_name = 'userprofile/profile-edit.html'
@@ -168,6 +169,7 @@ class FollowUserView(LoginRequiredMixin, View):
             followed=following_id,
             date_of_follow=timezone.now()
         )
+
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)

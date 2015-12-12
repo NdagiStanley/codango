@@ -35,6 +35,7 @@ class UserProfileTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
         
+
     def test_user_can_reach_profile_page(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
