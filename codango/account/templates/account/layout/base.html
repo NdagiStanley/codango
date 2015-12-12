@@ -33,7 +33,7 @@
                         <li class="active"><a href = "/home"><i class="mdi mdi-google-circles-communities"></i> Community</a>
                         </li>
                         <li><a href = "#"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
-                        <li id="notification-li" data-id="{{request.user.id}}">
+                        <li id="notification-li" data-id="{{request.user.id}}" data-url="{% url 'user_activity' %}">
                         {% include 'userprofile/partials/activity.html'%}
                         </li>
                         <li class="dropdown">

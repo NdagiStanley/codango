@@ -12,7 +12,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from userprofile.models import UserProfile, Follow
+from userprofile.models import UserProfile, Follow, Notification
 from userprofile.views import FollowUserView, UserProfileEditView, UserGithub
 
 class UserProfileTest(TestCase):
@@ -22,6 +22,9 @@ class UserProfileTest(TestCase):
         self.user.set_password('shuaib')
         self.user.save()
         self.login = self.client.login(username='jubril', password='shuaib')
+        self.notification = Notification.objects.create(content="Python",
+                                                        user=self.user, read=False, link="link",
+                                                        activity_type="Vote")
 
     def test_un_authenticated_user_can_see_github_link(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
@@ -62,6 +65,13 @@ class UserProfileTest(TestCase):
                                         'link': "link",
                                         'type': "vote"},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
+
+    def test_user_can_read_comments(self):
+        json_data = json.dumps({'id': '1', })
+        response = self.client.put(reverse('user_activity'), json_data, content_type='application/json',
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
 
