@@ -168,7 +168,6 @@ class FollowUserView(LoginRequiredMixin, View):
             followed=following_id,
             date_of_follow=timezone.now()
         )
-            date_of_follow=timezone.now())
         follow.save()
 
         userprofile = UserProfile.objects.get(user_id=user.id)

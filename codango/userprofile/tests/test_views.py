@@ -13,16 +13,11 @@ from selenium.webdriver.common.keys import Keys
 from userprofile.models import UserProfile, Follow
 from userprofile.views import FollowUserView, UserProfileEditView, UserGithub
 
-class UserProfileTest(TestCase):
+class UserProfileTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.PhantomJS()
         self.browser.set_window_size(1400, 1000)
         self.browser.implicitly_wait(10)
-
-    def tearDown(self):
-        self.browser.quit()
-
-    def test_can_reach_profile_page(self):
         self.browser.get(self.live_server_url)
 
         body = self.browser.find_element_by_tag_name('body')
@@ -36,6 +31,10 @@ class UserProfileTest(TestCase):
         # logging in username and password
         username_field = self.browser.find_element_by_name('username')
         username_field.send_keys('lade')
+
+    def tearDown(self):
+        self.browser.quit()
+        
     def test_user_can_reach_profile_page(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
