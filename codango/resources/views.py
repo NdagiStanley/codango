@@ -18,7 +18,6 @@ class LoginRequiredMixin(object):
 
 
 class CommunityBaseView(LoginRequiredMixin, TemplateView):
-
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -56,7 +55,6 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
             return object_set.order_by('-date_modified')
         else:
             return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
-
 
 
 class CommunityView(CommunityBaseView):
