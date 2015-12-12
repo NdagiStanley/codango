@@ -10,10 +10,10 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from account.hash import UserHasher
 from emails import SendGrid
-from resources.views import CommunityBaseView
 from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
 from codango.settings.base import ADMIN_EMAIL, CODANGO_EMAIL
+from resources.views import CommunityBaseView
 
 
 class IndexView(TemplateView):

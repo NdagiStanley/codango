@@ -11,9 +11,6 @@ from django.utils.decorators import method_decorator
 
 
 class LoginRequiredMixin(object):
-    # View mixin which requires that the user is authenticated.
-
-<<<<<<< ba977e558df8752033712f9cb83dca4ffbe51dcc
     @method_decorator(login_required(login_url='/'))
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(
@@ -21,10 +18,7 @@ class LoginRequiredMixin(object):
 
 
 class CommunityBaseView(LoginRequiredMixin, TemplateView):
-=======
 
-class CommunityBaseView(TemplateView):
->>>>>>>  [Fix #107707578] feature-popular post re-implemented
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
