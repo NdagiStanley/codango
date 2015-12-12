@@ -7,6 +7,7 @@ from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
+from django.core.urlresolvers import reverse
 from django.utils import timezone
 from resources.views import LoginRequiredMixin
 from comments.forms import CommentForm
@@ -213,7 +214,7 @@ class FollowUserView(LoginRequiredMixin, View):
             'no_following': len(follower_user_profile.get_following()),
             'content': user.username + " follows you",
             'user_id': following_id.id,
-            "link": "http://codango-stanging/resource/1",
+            "link": reverse('user_profile', kwargs={'username': user.username}),
             "type": "vote",
             "read": False,
         }

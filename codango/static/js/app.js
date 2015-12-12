@@ -1,6 +1,6 @@
 $.ajaxSetup({
     headers: {
-        "X-CSRFToken": $("input[name='csrfmiddlewaretoken']").val()
+        "X-CSRFToken": $("meta[name='csrf-token']").attr("content")
     },
     beforeSend:function(){
         $("#preloader").show();
@@ -452,7 +452,7 @@ var readNotification = {
             }),
             success: function(data){
                 console.log(data)
-                window.href = _this.attr("href")
+                location.assign(_this.attr("href"));
 
             },
             error: function(res) {
