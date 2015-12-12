@@ -235,18 +235,13 @@ var formPost = {
             processData: false,
             data: fd,
             success: function(data) {
-                console.log(data)
                 if (typeof(data) == 'object') {
-                    postData = {}
                     if(Array.isArray(data['user_id'])) {
                         data['user_id'].forEach(function(value){
-                            postData['content'] = data['content'];
-                            postData['link'] = data['link'];
-                            postData['type'] = data["type"];
-                            postData["read"] = data['content'];
-                            postData["user_id"] = value;
-                            console.log(value);
-
+                            //Re-assgin the call back variable
+                            postData = data;
+                            //set the user id to the current value
+                            postData['user_id'] = value;
                             postDataToFireBase(postData);
                             postActivity(postData);
 
@@ -380,7 +375,6 @@ function postDataToFireBase(data){
 }
 
 function postActivity(data){
-    console.log(data)
     $.ajax({
         url: "http://localhost:8000/user/activity/",
         type:"POST",
