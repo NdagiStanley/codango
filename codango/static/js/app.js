@@ -235,9 +235,27 @@ var formPost = {
             processData: false,
             data: fd,
             success: function(data) {
+                console.log(data)
                 if (typeof(data) == 'object') {
+                    postData = {}
+                    if(Array.isArray(data['user_id'])) {
+                        data['user_id'].forEach(function(value){
+                            postData['content'] = data['content'];
+                            postData['link'] = data['link'];
+                            postData['type'] = data["type"];
+                            postData["read"] = data['content'];
+                            postData["user_id"] = value;
+                            console.log(value);
+
+                            postDataToFireBase(postData);
+                            postActivity(postData);
+
+                        });
+                    }
+                else{
                     postDataToFireBase(data);
                     postActivity(data);
+                }
                     _this.append("<div class='alert alert-success successmsg'>"+data['status']+"</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();

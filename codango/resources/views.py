@@ -72,12 +72,19 @@ class CommunityView(CommunityBaseView):
                 resource.resource_file_size = form.files['resource_file'].size
             except KeyError:
                 pass
+            followers = self.request.user.profile.get_followers()
             resource.author = self.request.user
             resource.save()
             response_dict = {
-            "status": "Successfully Post Your Commented for this resource"
+            "content": self.request.user.username + " Posted a new resource",
+            "link": "#",
+            "type": "newpost",
+            "read": False,
+            "user_id": [follower.follower_id for follower in followers],
+            "status": "Successfully Posted Your Resource"
             }
-            return HttpResponse("success", content_type='text/plain')
+            response_json = json.dumps(response_dict)
+            return HttpResponse(response_json, content_type="application/json")
         except ValueError:
             return HttpResponseNotFound("emptypost")
         except:

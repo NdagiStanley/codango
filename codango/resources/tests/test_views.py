@@ -31,4 +31,4 @@ class CreateResource(StaticLiveServerTestCase):
         self.browser.find_element_by_xpath(
             "//button[contains(text(),'Share')]").click()
         body = self.browser.find_element_by_tag_name('body')
-        self.assertIn('success', body.text)
+        self.assertIn('Successfully', body.text)

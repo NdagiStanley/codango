@@ -32,7 +32,7 @@ class CommentAction(View):
                          "type": "comment",
                          "read": False,
                          "user_id": resource.author.id,
-                         "status": "Successfully Posted Your Commented for this resource"
+                         "status": "Successfully Posted Your Comment for this resource"
                          }
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
