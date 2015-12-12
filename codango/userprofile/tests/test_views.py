@@ -10,12 +10,7 @@ from django.core.urlresolvers import resolve, reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-<<<<<<< 18ef9e23f2fc7f4c5443a3efb41ea5390dd597fc
-from userprofile.models import UserProfile, Follow
-=======
-
 from userprofile.models import UserProfile, Follow, Notification
->>>>>>> [Chore #108761804] User can read notifications on click, updated test coverage
 from userprofile.views import FollowUserView, UserProfileEditView, UserGithub
 
 class UserProfileTest(StaticLiveServerTestCase):
@@ -28,13 +23,13 @@ class UserProfileTest(StaticLiveServerTestCase):
         body = self.browser.find_element_by_tag_name('body')
         self.assertIn('Codango', body.text)
         self.client = Client()
-        self.user = User.objects.create(username='jubril', password='issa')
+        self.user = User.objects.create(id=100,username='jubril', password='issa')
         self.user.set_password('shuaib')
         self.user.save()
         self.login = self.client.login(username='jubril', password='shuaib')
         username_field = self.browser.find_element_by_name('username')
         username_field.send_keys('lade')
-        self.notification = Notification.objects.create(content="Python",
+        self.notification = Notification.objects.create(id=100,content="Python",
                                                         user=self.user, read=False, link="link",
                                                         activity_type="Vote")
 
@@ -76,7 +71,7 @@ class UserProfileTest(StaticLiveServerTestCase):
 
     def test_user_can_post_activities(self):
         response = self.client.post(reverse('user_activity'),
-                                    {'user_id':1,
+                                    {'user_id':100,
                                         'content': "brand new",
                                         'link': "link",
                                         'type': "vote"},
@@ -85,7 +80,7 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.assertContains(response, "success")
 
     def test_user_can_read_comments(self):
-        json_data = json.dumps({'id': '1', })
+        json_data = json.dumps({'id': '100', })
         response = self.client.put(reverse('user_activity'), json_data, content_type='application/json',
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
