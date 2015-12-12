@@ -299,6 +299,9 @@ a.list-group-item:hover h4{
 .read{
     background-color: #eee;
 }
+.read{
+    background-color: #eee;
+}
 
 .feed:last-child {
     margin-bottom: 200px;
@@ -426,7 +429,6 @@ a.list-group-item:hover h4{
     top: 60%;
     right:-100%;
 }
-
 
 /* Utilities */
 

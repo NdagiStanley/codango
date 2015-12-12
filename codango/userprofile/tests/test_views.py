@@ -35,9 +35,9 @@ class UserProfileTest(StaticLiveServerTestCase):
 
     def tearDown(self):
         self.browser.quit()
-        
 
-    def test_user_can_reach_profile_page(self):
+
+    def test_un_authenticated_user_can_see_github_link(self):
         response = self.client.get(reverse('user_profile', kwargs={'username': self.user.username}))
 
         self.assertIn('github_id', response.context)
