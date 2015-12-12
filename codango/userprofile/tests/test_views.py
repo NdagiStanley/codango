@@ -10,7 +10,12 @@ from django.core.urlresolvers import resolve, reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+<<<<<<< 18ef9e23f2fc7f4c5443a3efb41ea5390dd597fc
 from userprofile.models import UserProfile, Follow
+=======
+
+from userprofile.models import UserProfile, Follow, Notification
+>>>>>>> [Chore #108761804] User can read notifications on click, updated test coverage
 from userprofile.views import FollowUserView, UserProfileEditView, UserGithub
 
 class UserProfileTest(StaticLiveServerTestCase):
@@ -29,6 +34,9 @@ class UserProfileTest(StaticLiveServerTestCase):
         self.login = self.client.login(username='jubril', password='shuaib')
         username_field = self.browser.find_element_by_name('username')
         username_field.send_keys('lade')
+        self.notification = Notification.objects.create(content="Python",
+                                                        user=self.user, read=False, link="link",
+                                                        activity_type="Vote")
 
     def tearDown(self):
         self.browser.quit()
@@ -73,6 +81,13 @@ class UserProfileTest(StaticLiveServerTestCase):
                                         'link': "link",
                                         'type': "vote"},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "success")
+
+    def test_user_can_read_comments(self):
+        json_data = json.dumps({'id': '1', })
+        response = self.client.put(reverse('user_activity'), json_data, content_type='application/json',
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "success")
 

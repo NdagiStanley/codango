@@ -74,7 +74,7 @@ class Notification(models.Model):
     activity_type = models.CharField(max_length=50, null=False)
     read = models.BooleanField()
     content = models.TextField(max_length=1200,blank=False)
-    date_created = models.DateTimeField(auto_now=True)
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.content

@@ -73,6 +73,14 @@ class ActivityUpdate(TemplateView):
 
         return HttpResponse("success", content_type='text/plain')
 
+    def put(self, request, *args, **kwargs):
+        body = json.loads(request.body)
+        activity = Notification.objects.filter(id=body['id']).first()
+        activity.read = True
+        activity.save()
+        return HttpResponse("success", content_type='text/plain')
+
+
 
 class UserGithub(View):
 

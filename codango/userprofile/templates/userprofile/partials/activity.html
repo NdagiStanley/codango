@@ -1,9 +1,12 @@
-<a href="#" class=""><i class="notification-icon mdi mdi-bell"><span class="unread-notificaitons">{{request.user.notifications.all|length}}</span></i></a><br>
+<a href="#"><i class="notification-icon mdi mdi-bell"><span class="unread-notificaitons">{{request.user.notifications.all|length}}</span></i></a><br>
                         <div id="notifications">                      
                             <div class="list-group"> 
                             {% for notification in request.user.notifications.all|slice:"10" %}
 
-                              <a href="#" class="list-group-item">{{notification}}</a>
+                              <a href="#" class="list-group-item {% if notification.read %} read {% endif %}" data-id="{{notification.id}}" data-url="{% url 'user_activity' %}">{{notification}}
+                              <small>about {{ notification.date_created | timesince }} ago</small>
+                              </a>
+
                               {% empty %}
                               <a href="#" class="list-group-item disabled">
                                 You have no recent notifications

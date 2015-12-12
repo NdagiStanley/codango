@@ -429,6 +429,38 @@ var editComment = {
         });
     }
 };
+
+var readNotification = {
+    config: {
+        button: "#notifications .list-group-item"
+    },
+    init: function(config) {
+        if (config && typeof config == 'object') $.extend(readNotification.config, config);
+        $("body").on('click', readNotification.config.button, function(e) {
+            e.preventDefault();
+            readNotification.readAction($(this));
+        })
+    },
+    readAction: function(_this) {
+        $.ajax({
+            url: _this.data("url"),
+            type: "PUT",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            data: JSON.stringify({
+                'id': _this.data("id")
+            }),
+            success: function(data){
+                console.log(data)
+                window.href = _this.attr("href")
+
+            },
+            error: function(res) {
+                console.log(res.responseText);
+            }
+        });
+    }
+};
 // Handling follow
 
 var followAction = {
@@ -524,12 +556,9 @@ $(document).ready(function() {
 
     myDataRef.limitToLast(1).on("child_added", function(snapshot){
         activity = snapshot.val();
-        console.log(activity);
-
         if(activity.user_id == parseInt($("#notification-li").data("id")))
         {
-            console.log("got here");
-            $("#notification-li").load("http://localhost:8000/user/activity/");
+            $("#notification-li").load($("#notification-li").data("url"));
         }
         
     });
@@ -556,6 +585,9 @@ $(document).ready(function() {
     votes.init();
     deleteComment.init();
     followAction.init();
+    readNotification.init({
+        button: "#notifications .list-group-item"
+    });
 
     $('#id-snippet-body').hide();
     $(document).click(function (e) {            
