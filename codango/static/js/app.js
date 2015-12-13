@@ -510,7 +510,7 @@ var followAction = {
         });
 
     }
-}
+};
 
 var eventListeners = {
     init: function() {
@@ -562,7 +562,7 @@ var eventListeners = {
             $("#flash-message").fadeOut();
         }, 2000)
     }
-}
+};
 
 $(document).ready(function() {
 
@@ -606,10 +606,7 @@ $(document).ready(function() {
         $("#notifications").hide();
 
     });
-
-
-
-    // Endless pagination plugin
+ // Endless pagination plugin
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
