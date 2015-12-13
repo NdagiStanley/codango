@@ -512,6 +512,66 @@ var followAction = {
     }
 };
 
+var realTime = {
+    config:{
+        ulItems: "#notification-li", //for the ul elements from the fixed navbar
+        panel: "#notifcation-panel", //the panel to add new notifcation real time
+        newNotficationDiv: "#new-notifications", //The fixed new-notifications div at the bottom right
+        timeoutid:2, //Timeout avoid memory leak
+        newItems:false //variable to disable firebase real time loading all the ojects at once
+    },
+    init: function(config){
+      if (config && typeof config == 'object') $.extend(realTime.config, config); 
+
+      //If there is changes to the databsse initalize new items to true 
+        myDataRef.once('value', function(messages) {
+            realTime.config.newItems = true;
+
+        });
+        myDataRef.on("child_added", function(snapshot){
+        if (!realTime.config.newItems) return;// if there is no new item dont load any div
+
+        var activity = snapshot.val();//Value of the newly added database values
+        if(activity.user_id == parseInt($(realTime.config.ulItems).data("id")))
+        {
+            realTime.loadNotifications(activity); 
+            
+        }
+        
+    });
+
+    },
+    newNotification: function(activity){
+        //New items from the notificativity link
+        newNotification = "<div class='list-group'>";
+        newNotification += "<a href="+activity.link+" class='list-group-item'>";
+        newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
+        newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
+        newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
+        newNotification += "</a>";
+        newNotification+= "</div>";
+        
+        return newNotification;
+
+    },
+    loadNotifications: function(activity){
+        $(realTime.config.ulItems).load($(realTime.config.ulItems).data("url"),function(){
+            realTime.callbackDiv(activity)
+        });
+
+    },
+    callbackDiv: function(activity){
+        notifyDiv = realTime.newNotification(activity)
+        $(realTime.config.panel).prepend(notifyDiv);
+        $(realTime.config.newNotficationDiv).show();
+        clearTimeout(realTime.config.timeoutid);
+        realTime.config.timeoutid = setTimeout(function(){
+            $(realTime.config.newNotficationDiv).fadeOut("slow");
+        },4000);
+    }
+};
+
+
 var eventListeners = {
     init: function() {
         // Shows the edit comments box
@@ -564,95 +624,8 @@ var eventListeners = {
     }
 };
 
-var realTime = {
-    config:{
-        ulItems: "#notification-li",
-        panel: "#notifcation-panel",
-        newNotficationDiv: "#new-notifications",
-        timeoutid:2,
-        newItems:false
-
-
-    },
-    init: function(config){
-      if (config && typeof config == 'object') $.extend(realTime.config, config);  
-        myDataRef.once('value', function(messages) {
-            realTime.config.newItems = true;
-
-        });
-        myDataRef.on("child_added", function(snapshot){
-        if (!realTime.config.newItems) return;
-        activity = snapshot.val();
-        if(activity.user_id == parseInt($(realTime.config.ulItems).data("id")))
-        {
-            realTime.loadNotifications();
-            
-        }
-        
-    });
-
-    },
-    newNotification: function(){
-        newNotification = "<div class='list-group'>";
-        newNotification += "<a href="+activity.link+" class='list-group-item'>";
-        newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
-        newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
-        newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
-        newNotification += "</a>";
-        newNotification+= "</div>";
-        
-        return newNotification;
-
-    },
-    loadNotifications: function(){
-        $(realTime.config.ulItems).load($(realTime.config.ulItems).data("url"),realTime.callbackDiv);
-
-    },
-    callbackDiv: function(){
-                notifyDiv = realTime.newNotification()
-                $(realTime.config.panel).prepend(notifyDiv);
-                 $(realTime.config.newNotficationDiv).show();
-                 clearTimeout(realTime.config.timeoutid);
-                 realTime.config.timeoutid = setTimeout(function(){
-                    $(realTime.config.newNotficationDiv).fadeOut("slow");
-                 },4000)
-    }
-};
-
 $(document).ready(function() {
-//     var timeoutid;
-//     var newItems = false;
-//     myDataRef.on("child_added", function(snapshot){
-//         if (!newItems) return;
-
-
-//         activity = snapshot.val();
-//         if(activity.user_id == parseInt($("#notification-li").data("id")))
-//         {
-            
-
-//             $("#notification-li").load($("#notification-li").data("url"),function(){
-//                       newNotification = "<div class='list-group'>";
-//                       newNotification += "<a href="+activity.link+" class='list-group-item'>";
-//                       newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
-//                       newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
-//                       newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
-//                       newNotification += "</a>";
-//                       newNotification+= "</div>";
-//                 $("#notifcaiton-panel").prepend(newNotification);
-//                  $("#new-notifications").show();
-//                  clearTimeout(timeoutid);
-//                  timeoutid = setTimeout(function(){
-//                     $("#new-notifications").fadeOut("slow");
-//                  },4000)
-//             });
-//         }
-        
-//     });
-// myDataRef.once('value', function(messages) {
-//     newItems = true;
-// });
-realTime.init();
+    realTime.init();
 
     facebookLogin.init({
         //fb_id: "1472691016373339"
@@ -697,6 +670,4 @@ realTime.init();
         e.preventDefault();
         $("#notifications").toggle();
     });
-
-
 });
