@@ -60,9 +60,6 @@ class ActivityUpdate(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(ActivityUpdate, self).get_context_data(**kwargs)
-        user = self.request.user
-
-        context['activities'] = user.notifications.all()
 
         return context
 

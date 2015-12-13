@@ -140,6 +140,13 @@ a.list-group-item:hover h4{
     height: 200px;
     width: 100%;
 }
+.glyphicon.notification-icon{
+    position: absolute;
+    top: -2%;
+    left: 60%;
+    font-size: 20px;
+    color: #337ab7;
+}
 
 .commentform textarea {
     display: block;
@@ -270,7 +277,7 @@ a.list-group-item:hover h4{
     margin-right: 5px;
 }
 
-.list-group-item:last-child {
+#community .list-group-item:last-child {
     margin-bottom: 50px;
 }
 

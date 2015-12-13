@@ -14,6 +14,6 @@ class ActivityMiddleWare(object):
         if request.user.is_authenticated():
             response.context_data.update({
                 'unread': request.user.notifications.all().filter(read=False),
-                'activites': request.user.notifications.all(),
+                'activities': request.user.notifications.all(),
                 })
         return response
