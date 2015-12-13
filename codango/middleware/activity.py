@@ -11,8 +11,9 @@ class ActivityMiddleWare(object):
         Middleware hook method called immediately after the
         view function returns a response.
         """
-        response.context_data.update({
-            'unread': request.user.notifications.all().filter(read=False),
-            'activites': request.user.notifications.all(),
-        })
+        if request.user.is_authenticated():
+            response.context_data.update({
+                'unread': request.user.notifications.all().filter(read=False),
+                'activites': request.user.notifications.all(),
+                })
         return response
