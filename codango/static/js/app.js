@@ -564,35 +564,95 @@ var eventListeners = {
     }
 };
 
-$(document).ready(function() {
+var realTime = {
+    config:{
+        ulItems: "#notification-li",
+        panel: "#notifcation-panel",
+        newNotficationDiv: "#new-notifications",
+        timeoutid:2,
+        newItems:false
 
-    myDataRef.limitToLast(1).on("child_added", function(snapshot){
 
+    },
+    init: function(config){
+      if (config && typeof config == 'object') $.extend(realTime.config, config);  
+        myDataRef.once('value', function(messages) {
+            realTime.config.newItems = true;
 
+        });
+        myDataRef.on("child_added", function(snapshot){
+        if (!realTime.config.newItems) return;
         activity = snapshot.val();
-        if(activity.user_id == parseInt($("#notification-li").data("id")))
+        if(activity.user_id == parseInt($(realTime.config.ulItems).data("id")))
         {
+            realTime.loadNotifications();
             
-
-            $("#notification-li").load($("#notification-li").data("url"),function(){
-                      newNotification = "<div class='list-group'>";
-                      newNotification += "<a href="+activity.link+" class='list-group-item'>";
-                      newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
-                      newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
-                      newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
-                      newNotification += "</a>";
-                      newNotification+= "</div>";
-                $("#notifcaiton-panel").prepend(newNotification);
-                 $("#new-notifications").show();
-                 timeoutid = setTimeout(function(){
-                    $("#new-notifications").hide();
-                 },3000)
-
-                 console.log(timeoutid);
-            });
         }
         
     });
+
+    },
+    newNotification: function(){
+        newNotification = "<div class='list-group'>";
+        newNotification += "<a href="+activity.link+" class='list-group-item'>";
+        newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
+        newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
+        newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
+        newNotification += "</a>";
+        newNotification+= "</div>";
+        
+        return newNotification;
+
+    },
+    loadNotifications: function(){
+        $(realTime.config.ulItems).load($(realTime.config.ulItems).data("url"),realTime.callbackDiv);
+
+    },
+    callbackDiv: function(){
+                notifyDiv = realTime.newNotification()
+                $(realTime.config.panel).prepend(notifyDiv);
+                 $(realTime.config.newNotficationDiv).show();
+                 clearTimeout(realTime.config.timeoutid);
+                 realTime.config.timeoutid = setTimeout(function(){
+                    $(realTime.config.newNotficationDiv).fadeOut("slow");
+                 },4000)
+    }
+};
+
+$(document).ready(function() {
+//     var timeoutid;
+//     var newItems = false;
+//     myDataRef.on("child_added", function(snapshot){
+//         if (!newItems) return;
+
+
+//         activity = snapshot.val();
+//         if(activity.user_id == parseInt($("#notification-li").data("id")))
+//         {
+            
+
+//             $("#notification-li").load($("#notification-li").data("url"),function(){
+//                       newNotification = "<div class='list-group'>";
+//                       newNotification += "<a href="+activity.link+" class='list-group-item'>";
+//                       newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
+//                       newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
+//                       newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
+//                       newNotification += "</a>";
+//                       newNotification+= "</div>";
+//                 $("#notifcaiton-panel").prepend(newNotification);
+//                  $("#new-notifications").show();
+//                  clearTimeout(timeoutid);
+//                  timeoutid = setTimeout(function(){
+//                     $("#new-notifications").fadeOut("slow");
+//                  },4000)
+//             });
+//         }
+        
+//     });
+// myDataRef.once('value', function(messages) {
+//     newItems = true;
+// });
+realTime.init();
 
     facebookLogin.init({
         //fb_id: "1472691016373339"
