@@ -285,6 +285,16 @@ a.list-group-item:hover h4{
     text-align: center;
 }
 
+#new-notifications{
+    width:400px;
+    min-height:1px;
+    position:fixed;
+    right:0;
+    bottom:0;
+    z-index:10000;
+    display:none;
+}
+
 #more {
     margin-left: 40%;
     margin-bottom: 40px;

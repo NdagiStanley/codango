@@ -567,10 +567,29 @@ var eventListeners = {
 $(document).ready(function() {
 
     myDataRef.limitToLast(1).on("child_added", function(snapshot){
+
+
         activity = snapshot.val();
         if(activity.user_id == parseInt($("#notification-li").data("id")))
         {
-            $("#notification-li").load($("#notification-li").data("url"));
+            
+
+            $("#notification-li").load($("#notification-li").data("url"),function(){
+                      newNotification = "<div class='list-group'>";
+                      newNotification += "<a href="+activity.link+" class='list-group-item'>";
+                      newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
+                      newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
+                      newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
+                      newNotification += "</a>";
+                      newNotification+= "</div>";
+                $("#notifcaiton-panel").prepend(newNotification);
+                 $("#new-notifications").show();
+                 timeoutid = setTimeout(function(){
+                    $("#new-notifications").hide();
+                 },3000)
+
+                 console.log(timeoutid);
+            });
         }
         
     });
