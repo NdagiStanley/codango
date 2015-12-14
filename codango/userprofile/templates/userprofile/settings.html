@@ -12,24 +12,53 @@
     <div class="container-fluid content-block">
         <div class="row profile">
             <div class="col-md-12">
-                <h1 class="page-title">{{request.user.username}}'s Settings</h1>
+                <h1 class="page-title">Manage your Settings</h1>
                 <div class="page-content">
-                    <form role="form" action="#" method="post"
-                          enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ newpassword|bootstrap }}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                    <div class="passwordform">
+                        <div class="formtitle">
+                            <strong>Change Password</strong>
                         </div>
-                    </form>
-                    <form role="form" action="#" method="post"
-                          enctype="multipart/form-data">
-                        {% csrf_token %}
-                        {{ newusername|bootstrap }}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <form role="form" action="#" method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ newpassword|bootstrap }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="usernameform">
+                        <div class="formtitle">
+                            <strong>Change Username</strong>
                         </div>
-                    </form>
+                        <form role="form" action="#" method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ newusername|bootstrap }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Change Username</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="frequencyform">
+                        <div class="formtitle">
+                            <strong>Frequency of Updates</strong>
+                        </div>
+                        <div class="frequencyinput">
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="none">None</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="daily">Daily</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="weekly">Weekly</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="monthly">Monthly</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
