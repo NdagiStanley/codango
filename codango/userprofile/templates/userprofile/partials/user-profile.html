@@ -42,15 +42,18 @@
 
                      </div>
                     {% if profile.github_username and profile.user == request.user %}
+
                     <form action="{% url 'user_github' %}" method="post" class="form-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary"> Update Languages</button>
+                    
                     </form>
+
                     {% endif %}
-                    {% if profile.position and profile.place_of_work %}
-                        <p class="text-center">{{ profile.position }} @ {{ profile.place_of_work }} </p>
-                        <hr/>
-                    {% endif %}
+                    {% if profile.position or profile.place_of_work %}
+                       <p class="text-center">Works {% if profile.position %}as a {{ profile.position }}{% endif %}{% if profile.place_of_work %} @ {{ profile.place_of_work }}{% endif %} </p>
+                       <hr/>
+                   {% endif %}
                     {% if profile.about %}
                     <p class="text-center">{{ profile.about }}</p>
                     <hr/>
