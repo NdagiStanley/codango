@@ -1,1 +1,37 @@
 {% extends "account/layout/base.html" %}
+{% load bootstrap %}
+
+{% block title %}{{request.user.username}}'s Settings{% endblock title %}
+
+{% block sidebar %}
+    {% include "userprofile/partials/user-profile.html" %}
+{% endblock sidebar %}
+
+
+{% block content %}
+    <div class="container-fluid content-block">
+        <div class="row profile">
+            <div class="col-md-12">
+                <h1 class="page-title">{{request.user.username}}'s Settings</h1>
+                <div class="page-content">
+                    <form role="form" action="#" method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ newpassword|bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                    <form role="form" action="#" method="post"
+                          enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ newusername|bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
