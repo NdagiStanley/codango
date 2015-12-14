@@ -242,13 +242,12 @@ var formPost = {
                             postData = data;
                             //set the user id to the current value
                             postData['user_id'] = value;
-                            postDataToFireBase(postData);
+                            
                             postActivity(postData);
 
                         });
                     }
                 else{
-                    postDataToFireBase(data);
                     postActivity(data);
                 }
                     _this.append("<div class='alert alert-success successmsg'>"+data['status']+"</div>");
@@ -334,7 +333,6 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data) {
-                postDataToFireBase(data);
                 postActivity(data);
                 if (data["status"] == "novote") _this.removeClass("active");
                 else _this.addClass("active")
@@ -376,11 +374,11 @@ function postDataToFireBase(data){
 
 function postActivity(data){
     $.ajax({
-        url: "http://localhost:8000/user/activity/",
+        url: $("#notification-li").data("url"),
         type:"POST",
         data:data,
-        success:function(data){
-            console.log(data);
+        success:function(response){
+            postDataToFireBase(data);
         },
         error: function(x){
             console.log(x.responseText)
@@ -388,7 +386,7 @@ function postActivity(data){
         }
     })
 
-}
+};
 
 var deleteComment = {
     config: {
@@ -495,7 +493,6 @@ var followAction = {
             url: url,
             type: 'POST',
             success: function(data,textStatus,xhr){
-                postDataToFireBase(data);
                 postActivity(data);
                 $("h2.stats.followers").text(data['no_of_followers']);
                 $("h2.stats.following").text(data['no_following']);
@@ -524,7 +521,7 @@ var realTime = {
       if (config && typeof config == 'object') $.extend(realTime.config, config); 
 
       //If there is changes to the databsse initalize new items to true 
-        myDataRef.once('value', function(messages) {
+        myDataRef.once('value', function(dataSnapshot) {
             realTime.config.newItems = true;
 
         });
