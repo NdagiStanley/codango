@@ -1,6 +1,6 @@
 $.ajaxSetup({
     headers: {
-        "X-CSRFToken": $("input[name='csrfmiddlewaretoken']").val()
+        "X-CSRFToken": $("meta[name='csrf-token']").attr("content")
     },
     beforeSend:function(){
         $("#preloader").show();
@@ -9,6 +9,7 @@ $.ajaxSetup({
         $("#preloader").hide();
     }
 });
+var myDataRef = new Firebase('https://popping-inferno-54.firebaseio.com/');
 
 function socialLogin(user) {
     var ajaxinfo = {
@@ -234,8 +235,22 @@ var formPost = {
             processData: false,
             data: fd,
             success: function(data) {
-                if (data == "success") {
-                    _this.prepend("<div class='alert alert-success successmsg'>Successfully Created Your Resource!</div>");
+                if (typeof(data) == 'object') {
+                    if(Array.isArray(data['user_id'])) {
+                        data['user_id'].forEach(function(value){
+                            //Re-assgin the call back variable
+                            postData = data;
+                            //set the user id to the current value
+                            postData['user_id'] = value;
+                            
+                            postActivity(postData);
+
+                        });
+                    }
+                else{
+                    postActivity(data);
+                }
+                    _this.append("<div class='alert alert-success successmsg'>"+data['status']+"</div>");
                     setTimeout(function() {
                         $(".successmsg").hide();
                     }, 5000);
@@ -243,6 +258,7 @@ var formPost = {
             },
             error: function(status) {
                 // Display errors
+                console.log(status.responseText);
                 if (status.responseText == "emptypost") {
                     _this.prepend("<div class='alert alert-danger errormsg'>Empty Post!!</div>");
                 } else {
@@ -317,7 +333,7 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data) {
-                console.log(data);
+                postActivity(data);
                 if (data["status"] == "novote") _this.removeClass("active");
                 else _this.addClass("active")
                 if (_this.hasClass("like")) {
@@ -341,6 +357,36 @@ function loadComments(_this){
             $(selector).load(document.URL + " " +selector);
         }
 
+function postDataToFireBase(data){
+    firebaseData = {
+        link: data["link"],
+        activity_type: data["type"],
+        read: data["read"],
+        content:data["content"],
+        user_id: data["user_id"],
+        created_at: Firebase.ServerValue.TIMESTAMP
+    };
+
+    myDataRef.push(firebaseData);
+
+
+}
+
+function postActivity(data){
+    $.ajax({
+        url: $("#notification-li").data("url"),
+        type:"POST",
+        data:data,
+        success:function(response){
+            postDataToFireBase(data);
+        },
+        error: function(x){
+            console.log(x.responseText)
+
+        }
+    })
+
+};
 
 var deleteComment = {
     config: {
@@ -394,6 +440,135 @@ var editComment = {
     }
 };
 
+var readNotification = {
+    config: {
+        button: "#notifications .list-group-item"
+    },
+    init: function(config) {
+        if (config && typeof config == 'object') $.extend(readNotification.config, config);
+        $("body").on('click', readNotification.config.button, function(e) {
+            e.preventDefault();
+            readNotification.readAction($(this));
+        })
+    },
+    readAction: function(_this) {
+        $.ajax({
+            url: _this.data("url"),
+            type: "PUT",
+            contentType: 'application/json; charset=utf-8',
+            processData: false,
+            data: JSON.stringify({
+                'id': _this.data("id")
+            }),
+            success: function(data){
+                console.log(data)
+                location.assign(_this.attr("href"));
+
+            },
+            error: function(res) {
+                console.log(res.responseText);
+            }
+        });
+    }
+};
+// Handling follow
+
+var followAction = {
+    config: {
+        button: "#follow-btn"
+
+    },
+    init: function(config){
+        if (config && typeof config == 'object') $.extend(followAction.config, config);
+        $("body").on('click', followAction.config.button, function(e){
+            e.preventDefault();
+            var _this = $(this)
+            var url = $(this).attr('href');
+            followAction.doFollow(_this,url)
+        })
+
+    },
+    doFollow: function(_this, url){
+        $.ajax({
+            url: url,
+            type: 'POST',
+            success: function(data,textStatus,xhr){
+                postActivity(data);
+                $("h2.stats.followers").text(data['no_of_followers']);
+                $("h2.stats.following").text(data['no_following']);
+               
+                _this.attr('disabled', true);
+                _this.text('following')
+            },
+            error: function(x){
+                console.log(x.responseText)
+            }
+
+        });
+
+    }
+};
+
+var realTime = {
+    config:{
+        ulItems: "#notification-li", //for the ul elements from the fixed navbar
+        panel: "#notifcation-panel", //the panel to add new notifcation real time
+        newNotficationDiv: "#new-notifications", //The fixed new-notifications div at the bottom right
+        timeoutid:2, //Timeout avoid memory leak
+        newItems:false //variable to disable firebase real time loading all the ojects at once
+    },
+    init: function(config){
+      if (config && typeof config == 'object') $.extend(realTime.config, config); 
+
+      //If there is changes to the databsse initalize new items to true 
+        myDataRef.once('value', function(dataSnapshot) {
+            realTime.config.newItems = true;
+
+        });
+        myDataRef.on("child_added", function(snapshot){
+        if (!realTime.config.newItems) return;// if there is no new item dont load any div
+
+        var activity = snapshot.val();//Value of the newly added database values
+        if(activity.user_id == parseInt($(realTime.config.ulItems).data("id")))
+        {
+            realTime.loadNotifications(activity); 
+            
+        }
+        
+    });
+
+    },
+    newNotification: function(activity){
+        //New items from the notification firebase realtime link
+        newNotification = "<div class='list-group'>";
+        newNotification += "<a href="+activity.link+" class='list-group-item'>";
+        newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";
+        newNotification += "<p class='list-group-item-text'>"+ activity.content + "<br>";
+        newNotification +="<small>about "+ Math.round((new Date() - new Date(activity.created_at))/60000) +" minutes ago<small></p>";
+        newNotification += "</a>";
+        newNotification+= "</div>";
+        
+        return newNotification;
+
+    },
+    loadNotifications: function(activity){
+        $(realTime.config.ulItems).load($(realTime.config.ulItems).data("url"),function(){
+            realTime.callbackDiv(activity)
+        });
+
+    },
+    callbackDiv: function(activity){
+        notifyDiv = realTime.newNotification(activity)
+        $(realTime.config.panel).prepend(notifyDiv);
+        $(realTime.config.newNotficationDiv).show();
+        clearTimeout(realTime.config.timeoutid);
+        realTime.config.timeoutid = setTimeout(function(){
+            $(realTime.config.newNotficationDiv).fadeOut("slow");
+        },4000);
+    }
+};
+
+
 var eventListeners = {
     init: function() {
         // Shows the edit comments box
@@ -444,9 +619,11 @@ var eventListeners = {
             $("#flash-message").fadeOut();
         }, 2000)
     }
-}
+};
 
 $(document).ready(function() {
+    realTime.init();
+
     facebookLogin.init({
         fb_id: "1472691016373339"
     });
@@ -468,37 +645,26 @@ $(document).ready(function() {
     mobileNav.init();
     votes.init();
     deleteComment.init();
-    
-    $("#id-snippet-body").hide();
+    followAction.init();
+    readNotification.init({
+        button: "#notifications .list-group-item"
+    });
 
-    // Endless pagination plugin
+    $('#id-snippet-body').hide();
+    $(document).click(function (e) {            
+        $("#notifications").hide();
+
+    });
+ // Endless pagination plugin
     $.endlessPaginate({
         paginateOnScroll: true,
         paginateOnScrollMargin: 20
     });
     prettyPrint();
-    // Handling follow
-    $("#follow-btn").click(function(e){
+
+    $("body").on("click",".notification-icon",function(e){
+        e.stopPropagation();
         e.preventDefault();
-        var _this = $(this)
-        var id = $(this).data("id");
-       
-        var url = $(this).attr("href");
-
-        $.ajax({
-            url: url,
-            type: "POST",
-            success: function(data,textStatus,xhr){
-                $("h2.stats.followers").text(data["no_of_followers"]);
-                $("h2.stats.following").text(data["no_following"]);
-               
-                _this.attr("disabled", true);
-                _this.text("following")
-            },
-            error: function(x){
-                console.log(x.responseText)
-            }
-
-        })
+        $("#notifications").toggle();
     });
 });

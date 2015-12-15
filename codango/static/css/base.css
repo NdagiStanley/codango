@@ -12,9 +12,7 @@ hr {
     margin-top: 5px;
 }
 
-
 /* navbar styling */
-
 .navbar-default {
     background: #fff;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
@@ -109,10 +107,24 @@ hr {
     margin-top: 100px;
 }
 
-.content-block {
-    background: #fff;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
-    padding: 25px 35px;
+.content-block, .popular-block {
+	background: #fff;
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,0.1);
+	padding: 25px 35px;
+}
+
+.popular-block{
+    margin: 40px 0px;
+    padding:15px;
+}
+
+a.list-group-item:hover{
+    background-color:#f26521 !important;
+    color:#fff;
+}
+
+a.list-group-item:hover h4{
+    color:#fff;
 }
 
 .section-header {
@@ -132,6 +144,13 @@ hr {
     margin: auto;
     height: 200px;
     width: 100%;
+}
+.glyphicon.notification-icon{
+    position: absolute;
+    top: -2%;
+    left: 60%;
+    font-size: 20px;
+    color: #337ab7;
 }
 
 .commentform textarea {
@@ -263,12 +282,22 @@ hr {
     margin-right: 5px;
 }
 
-.list-group-item:last-child {
+#community .list-group-item:last-child {
     margin-bottom: 50px;
 }
 
 .endless_loading {
     text-align: center;
+}
+
+#new-notifications{
+    width:400px;
+    min-height:1px;
+    position:fixed;
+    right:0;
+    bottom:0;
+    z-index:10000;
+    display:none;
 }
 
 #more {
@@ -289,11 +318,20 @@ hr {
     margin-bottom: 50px;
     min-height: 64px;
 }
+.read{
+    background-color: #eee;
+}
+.read{
+    background-color: #eee;
+}
 
 .feed:last-child {
     margin-bottom: 200px;
 }
 
+.languages .codango-badge{
+    margin:10px 0px !important;
+}
 .feed .profile-img {
     position: absolute;
     left: 0;
@@ -397,7 +435,22 @@ hr {
     margin-bottom: 5px;
     margin-top: 0;
 }
-
+.unread-notificaitons{
+    position: absolute;
+    padding:1px;
+    font-size: 12px;
+    color: white;
+    top: -5px;
+    left:55%;
+    background-color:#f26521;
+}
+#notifications{
+    position:absolute;
+    display:none;
+    width: 250px;
+    top: 60%;
+    right:-100%;
+}
 
 /* Utilities */
 
@@ -417,7 +470,7 @@ textarea {
     resize: none;
 }
 
-#community .list-group-item {
+#community .list-group-item, #popular .list-group-item {
     border: none;
 }
 
@@ -428,6 +481,9 @@ textarea {
 #community .list-group-item:hover {
     background: #006699;
     color: #fff;
+}
+#popular .list-group-item{
+    margin-bottom:20px;
 }
 
 .radio {

@@ -1,0 +1,15 @@
+<h3 class="section-header">Popular Resources</h3>
+<div class="list-group" id="popular">
+    {% for resource in popular %}
+    <div class="list-group">
+        <a href="#" class="list-group-item">
+        <h5 class="list-group-item-heading">Posted by {{ resource.author }} <small><em>{{ resource.date_added | timesince }} ago</em></small>
+            </h5>
+            <p class="list-group-item-text">{{resource.text}}<br><br>
+            </p>
+        </a>
+    </div>
+    {% empty %}
+    <p class="list-group-item-text">No Popular Post </p>
+    {% endfor %}
+</div>

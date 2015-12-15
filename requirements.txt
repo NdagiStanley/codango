@@ -29,6 +29,7 @@ pytz==2015.7
 PyYAML==3.11
 reportlab==3.2.0
 requests==2.7.0
+requests-mock==0.7.0
 requests-oauthlib==0.5.0
 selenium==2.47.1
 sendgrid==1.5.14

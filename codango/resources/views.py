@@ -8,11 +8,11 @@ from resources.forms import ResourceForm
 from votes.models import Vote
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
+
 
 
 class LoginRequiredMixin(object):
-    # View mixin which requires that the user is authenticated.
-
     @method_decorator(login_required(login_url='/'))
     def dispatch(self, request, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(
@@ -43,17 +43,28 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         elif community != 'ALL':
             resources = resources.filter(language_tags=community)
 
-        context = {'resources': resources, 'commentform': CommentForm(
-            auto_id=False), 'title': 'Activity Feed', }
+        context = {
+            'resources': resources,
+            'commentform': CommentForm(auto_id=False),
+            'title': 'Activity Feed',
+            'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
+        }
         return context
 
     @staticmethod
     def sort_by(sorting_name, object_set):
         if sorting_name == 'date':
             return object_set.order_by('-date_modified')
+        elif sorting_name == 'votes':
+            results = object_set.raw("SELECT resources_resource.id, votes_vote.resource_id, resources_resource.date_added,\
+                sum(case when votes_vote.vote=true then 1  when votes_vote.vote=false then -1 else 0 end)  \
+                as vote_diff from votes_vote right join resources_resource \
+                on resources_resource.id = votes_vote.resource_id \
+                group by votes_vote.resource_id, resources_resource.id \
+                order by vote_diff desc, resources_resource.date_added desc")
+            return list(results)
         else:
-            return object_set.annotate(
-                num_sort=Count(sorting_name)).order_by('-num_sort')
+            return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
 
 
 class CommunityView(CommunityBaseView):
@@ -69,9 +80,19 @@ class CommunityView(CommunityBaseView):
                 resource.resource_file_size = form.files['resource_file'].size
             except KeyError:
                 pass
+            followers = self.request.user.profile.get_followers()
             resource.author = self.request.user
             resource.save()
-            return HttpResponse("success", content_type='text/plain')
+            response_dict = {
+            "content": self.request.user.username + " Posted a new resource",
+            "link": "#",
+            "type": "newpost",
+            "read": False,
+            "user_id": [follower.follower_id for follower in followers],
+            "status": "Successfully Posted Your Resource"
+            }
+            response_json = json.dumps(response_dict)
+            return HttpResponse(response_json, content_type="application/json")
         except ValueError:
             return HttpResponseNotFound("emptypost")
         except:
@@ -104,13 +125,18 @@ class ResourceVoteView(View):
             vote.save()
         else:
             vote.delete()
-            status = "novote"
+            status = "unvotes"
 
         response_dict = {
             "upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
-        }
+            "content": vote.user.username+ " " + status  + " your resource",
+            "link": "http://codango-stanging/resource/1",
+            "type": "vote",
+            "read": False,
+            "user_id": resource.author.id
+            }
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")

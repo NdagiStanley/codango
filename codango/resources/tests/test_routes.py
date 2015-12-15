@@ -43,7 +43,7 @@ class CommunityViewTest(TestCase):
             {'text': '1', },
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "success")
+        self.assertContains(response, "status")
 
     def test_add_an_empty_resource(self):
         self.assertTrue(self.login)

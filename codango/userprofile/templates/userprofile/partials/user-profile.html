@@ -11,7 +11,7 @@
                         {% cloudinary "vqr7n59zfxyeybttleug.gif" width=100 height=150 crop="fill" %}
                     {% endif %}
                 </div>
-                <div class="col-sm-12 col-xs-8">
+                <div class="col-sm-12 col-xs-8 text-center">
                     <h2 class="text-center" id="profile-name">@{{ profile.user.username }}
                         &nbsp;
                         {% if user.is_authenticated  and profile.user.username == user.username and request.path != '/user/'|add:profile.user.username|add:'/edit' %}
@@ -29,10 +29,31 @@
                     </h2>
 
                     <hr/>
-                    {% if profile.position or profile.place_of_work %}
-                        <p class="text-center">Works {% if profile.position %}as a {{ profile.position }}{% endif %}{% if profile.place_of_work %} @ {{ profile.place_of_work }}{% endif %} </p>
-                        <hr/>
+                    {% if not profile.github_username and profile.user == request.user %}
+                    <a href="https://github.com/login/oauth/authorize?client_id={{github_id}}&scope=user,public_repo" class="btn btn-primary" id="githublogin">Authorize With Github</a>
                     {% endif %}
+                     <div class="languages">
+                    {% for language in languages %}
+
+                    <div class="codango-badge">{{language}}</div>
+                    {% empty %}
+                    <p class="alert info">This user has no repositories yet </p>
+                    {% endfor %}
+
+                     </div>
+                    {% if profile.github_username and profile.user == request.user %}
+
+                    <form action="{% url 'user_github' %}" method="post" class="form-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary"> Update Languages</button>
+                    
+                    </form>
+
+                    {% endif %}
+                    {% if profile.position or profile.place_of_work %}
+                       <p class="text-center">Works {% if profile.position %}as a {{ profile.position }}{% endif %}{% if profile.place_of_work %} @ {{ profile.place_of_work }}{% endif %} </p>
+                       <hr/>
+                   {% endif %}
                     {% if profile.about %}
                     <p class="text-center">{{ profile.about }}</p>
                     <hr/>
