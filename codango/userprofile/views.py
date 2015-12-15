@@ -15,6 +15,7 @@ from comments.forms import CommentForm
 from userprofile.models import UserProfile, Follow, Notification
 from userprofile.forms import UserProfileForm, ChangePasswordForm, ChangeUsernameForm
 from resources.views import CommunityBaseView
+from django.contrib.auth import authenticate, login
 
 
 # Create your views here.
@@ -262,7 +263,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
     template_name = 'userprofile/settings.html'
 
     def get_context_data(self, **kwargs):
-        username = kwargs['username']
+        username = self.request.user.get_username()
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=user.id)
 
@@ -274,13 +275,22 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         return context
 
     def post(self, request, **kwargs):
-        username = kwargs['username']
 
         # password form
         if 'new_password' in request.POST.keys():
             form = ChangePasswordForm(request.POST)
             if form.is_valid():
                 new_password = request.POST.get('new_password')
+                user = User.objects.get(id=request.user.id)
+                user.set_password(new_password)
+                user.save()
+
+                # login the user again
+                current_user = authenticate(
+                    username=request.user.get_username(),
+                    password=new_password)
+                login(request, current_user)
+
                 messages.add_message(
                     request,
                     messages.SUCCESS, 'Password changed successfully!')
@@ -294,6 +304,10 @@ class SettingsView(LoginRequiredMixin, TemplateView):
             form = ChangeUsernameForm(request.POST)
             if form.is_valid():
                 new_username = request.POST.get('new_username')
+                user = User.objects.get(id=request.user.id)
+                user.username = new_username
+                user.save()
+
                 messages.add_message(
                     request,
                     messages.SUCCESS, 'Username changed successfully!')
@@ -310,4 +324,4 @@ class SettingsView(LoginRequiredMixin, TemplateView):
                 messages.SUCCESS, 'Frequency set!')
 
         return redirect(reverse(
-            'settings', kwargs={'username': username}))
+            'settings', kwargs={'username': request.user.get_username()}))
