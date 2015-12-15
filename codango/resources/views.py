@@ -34,6 +34,7 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
         resources = self.sort_by(sortby, Resource.objects)
+        print resources
         community = kwargs[
             'community'].upper() if 'community' in kwargs else 'ALL'
 
@@ -55,6 +56,15 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
     def sort_by(sorting_name, object_set):
         if sorting_name == 'date':
             return object_set.order_by('-date_modified')
+        elif sorting_name == 'votes':
+            # return list(object_set.raw("SELECT * FROM resources_resource"))
+            results = object_set.raw("SELECT resources_resource.id, votes_vote.resource_id, resources_resource.date_added,\
+                sum(case when votes_vote.vote=true then 1  when votes_vote.vote=false then -1 else 0 end)  \
+                as vote_diff from votes_vote right join resources_resource \
+                on resources_resource.id = votes_vote.resource_id \
+                group by votes_vote.resource_id, resources_resource.id \
+                order by vote_diff desc, resources_resource.date_added desc")
+            return list(results)
         else:
             return object_set.annotate(num_sort=Count(sorting_name)).order_by('-num_sort')
 

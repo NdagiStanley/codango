@@ -539,7 +539,7 @@ var realTime = {
 
     },
     newNotification: function(activity){
-        //New items from the notificativity link
+        //New items from the notification firebase realtime link
         newNotification = "<div class='list-group'>";
         newNotification += "<a href="+activity.link+" class='list-group-item'>";
         newNotification += "<h4 class='list-group-item-heading'>"+activity.activity_type + "</h4>";

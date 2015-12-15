@@ -109,11 +109,14 @@ hr {
     margin-top: 100px;
 }
 
-.content-block {
+.content-block, .popular-block {
     margin: 40px 0px;
 	background: #fff;
 	box-shadow: 0 1px 6px 0 rgba(0,0,0,0.1);
 	padding: 25px 35px;
+}
+.popular-block{
+    padding:15px;
 }
 a.list-group-item:hover{
     background-color:#f26521 !important;
@@ -465,7 +468,7 @@ textarea {
     resize: none;
 }
 
-#community .list-group-item {
+#community .list-group-item, #popular .list-group-item {
     border: none;
 }
 
@@ -476,6 +479,9 @@ textarea {
 #community .list-group-item:hover {
     background: #006699;
     color: #fff;
+}
+#popular .list-group-item{
+    margin-bottom:20px;
 }
 
 .radio {
