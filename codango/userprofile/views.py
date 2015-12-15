@@ -3,6 +3,7 @@ import os
 import requests
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -271,3 +272,42 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         context['newusername'] = ChangeUsernameForm()
         context['newpassword'] = ChangePasswordForm()
         return context
+
+    def post(self, request, **kwargs):
+        username = kwargs['username']
+
+        # password form
+        if 'new_password' in request.POST.keys():
+            form = ChangePasswordForm(request.POST)
+            if form.is_valid():
+                new_password = request.POST.get('new_password')
+                messages.add_message(
+                    request,
+                    messages.SUCCESS, 'Password changed successfully!')
+            else:
+                messages.add_message(
+                    request,
+                    messages.ERROR, 'Empty or Passwords don\'t match!')
+
+        # username form
+        elif 'new_username' in request.POST.keys():
+            form = ChangeUsernameForm(request.POST)
+            if form.is_valid():
+                new_username = request.POST.get('new_username')
+                messages.add_message(
+                    request,
+                    messages.SUCCESS, 'Username changed successfully!')
+            else:
+                messages.add_message(
+                    request,
+                    messages.ERROR, 'Empty or Username has been taken!')
+
+        # frequency form
+        else:
+            frequency = request.POST.get('frequency')
+            messages.add_message(
+                request,
+                messages.SUCCESS, 'Frequency set!')
+
+        return redirect(reverse(
+            'settings', kwargs={'username': username}))
