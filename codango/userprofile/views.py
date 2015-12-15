@@ -82,7 +82,6 @@ class ActivityUpdate(TemplateView):
 
 class UserGithub(View):
 
-
     def get(self, request, **kwargs):
         user = self.request.user
         code = self.request.GET['code']
