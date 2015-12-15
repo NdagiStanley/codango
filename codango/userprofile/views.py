@@ -134,7 +134,8 @@ class UserGithub(View):
                     user.languages.create(name=repo['language'])
                 except:
                     pass
-            return user.languages
+
+        return user.languages
 
 
 class UserProfileEditView(LoginRequiredMixin, TemplateView):
