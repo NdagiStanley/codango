@@ -132,7 +132,7 @@ class ResourceVoteView(View):
             "downvotes": len(resource.downvotes()),
             "status": status,
             "content": vote.user.username+ " " + status  + " your resource",
-            "link": "http://codango-stanging/resource/1",
+            "link": "#",
             "type": "vote",
             "read": False,
             "user_id": resource.author.id
