@@ -35,6 +35,7 @@
             <br> size: {{ resource.resource_file_size|filesizeformat }}
         </p>
         {% endif %}
+        <div class="comments" id="rcomments-{{resource.id}}">
         <div class="row">
             <div class="col-sm-12">
                 <div id="codango-link" class="codango-badge">
@@ -49,7 +50,7 @@
             </div>
         </div>
         <div class="comments-div">
-            <div class="comments" id="rcomments-{{resource.id}}">
+            <div>
                 <div class="comments-title">COMMENTS ({{ resource.comments.count }})</div>
                 {% for comment in resource.comments.all %}
                 <article class="comment">
@@ -108,6 +109,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </div>

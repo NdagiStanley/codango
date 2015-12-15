@@ -625,7 +625,7 @@ $(document).ready(function() {
     realTime.init();
 
     facebookLogin.init({
-        //fb_id: "1472691016373339"
+        fb_id: "1472691016373339"
     });
     googleLogin.init({
         REDIRECT: "http://codango-staging.herokuapp.com/"

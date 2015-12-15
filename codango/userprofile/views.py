@@ -251,6 +251,7 @@ class FollowListView(LoginRequiredMixin, TemplateView):
             context['no_following'] = 'Not following anyone'
 
         context['profile'] = user_profile
+        context['github_id'] = CLIENT_ID
         context['languages'] = user.languages.all()
         context['resources'] = user.resource_set.all()
 
