@@ -82,6 +82,12 @@ class ActivityUpdate(TemplateView):
         activity.save()
         return HttpResponse("success", content_type='text/plain')
 
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        user.notifications.all().delete()
+        return HttpResponse("success", content_type='text/plain')
+ 
+
 
 class UserGithub(View):
 
