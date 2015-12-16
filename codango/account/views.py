@@ -176,6 +176,11 @@ class TeamView(TemplateView):
 class HomeView(CommunityBaseView):
     pass
 
+class SearchView(CommunityBaseView):
+    template_name = 'account/search.html'
+
+
+
 
 class ForgotPasswordView(TemplateView):
     form_class = ResetForm
