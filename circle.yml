@@ -23,3 +23,4 @@ deployment:
       - heroku run python codango/manage.py makemigrations --settings=codango.settings --app codango-staging
       - heroku run python codango/manage.py migrate --settings=codango.settings --app codango-staging
       - heroku ps:scale web=1 --app codango-staging
+      - heroku ps:scale worker=1 --app codango-staging
