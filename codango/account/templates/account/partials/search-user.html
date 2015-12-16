@@ -1,0 +1,28 @@
+{% load cloudinary %} 
+{% load endless %} 
+{% load bootstrap %} 
+{% paginate users %} 
+{% for user in users %}
+<div class="feed">
+    <div class="profile-img">
+        {% if user.profile.image %} 
+        {% cloudinary user.profile.image width=70 height=70 crop="fill" %} 
+        {% else %} 
+        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+        {% endif %}
+    </div>
+    <div class="feed-content">
+        <p class="poster-details">
+            <a href="/user/{{ user }}">{{ user }}</a> -
+            <small><em>joined since {{ user.date_joined | timesince }} ago</em></small>
+        </p>
+       
+    </div>
+    </div>
+
+{% empty %}
+<div class="alert alert-info spacer">There are currently no users matching your search</div>
+{% endfor %} {% show_more %}
+<script type="text/javascript">
+prettyPrint();
+</script>
