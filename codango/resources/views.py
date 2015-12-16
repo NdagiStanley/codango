@@ -23,12 +23,13 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.is_ajax():
-            self.template_name = 'account/partials/community.html'
+        
         return super(
             CommunityBaseView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        if self.request.is_ajax():
+            self.template_name = 'account/partials/community.html'
 
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
@@ -109,8 +110,8 @@ class ResourceVoteView(View):
         vote = Vote.objects.filter(
             resource_id=resource_id, user_id=user_id).first()
         vote_mapping = {
-            'like': True,
-            'unlike': False,
+            'likes': True,
+            'unlikes': False,
         }
         # Create a vote object if the user has not voted yet
         if vote is None:
@@ -132,7 +133,7 @@ class ResourceVoteView(View):
             "downvotes": len(resource.downvotes()),
             "status": status,
             "content": vote.user.username+ " " + status  + " your resource",
-            "link": "http://codango-stanging/resource/1",
+            "link": "#",
             "type": "vote",
             "read": False,
             "user_id": resource.author.id

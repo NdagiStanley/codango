@@ -451,7 +451,10 @@ a.list-group-item:hover h4{
     top: 60%;
     right:-100%;
 }
-
+#notifications .list-group{
+    height:400px;
+    overflow-y:auto;
+}
 /* Utilities */
 
 button.btn {
