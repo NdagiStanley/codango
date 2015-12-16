@@ -6,7 +6,7 @@
         <div class="panel-heading">Notifications</div>
         <!-- List group -->
         <div class="list-group">
-            {% for notification in activities|slice:"10" %}
+            {% for notification in activities|slice:"20" %}
             <a href="{{notification.link}}" class="list-group-item {% if notification.read %} read {% endif %}" data-id="{{notification.id}}" data-url="{% url 'user_activity' %}">{{notification}}
                               <small><br>about {{ notification.date_created | timesince }} ago</small>
                               </a> {% empty %}
