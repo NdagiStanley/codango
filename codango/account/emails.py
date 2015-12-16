@@ -15,10 +15,11 @@ class SendGrid:
         raise_errors=True)
 
     @staticmethod
-    def compose(sender, recipient, subject, text="", html=""):
+    def compose(sender, recipient, subject, recipients=None, text="", html=""):
 
         message = sendgrid.Mail()
         message.add_to(recipient)
+        message.add_bcc(recipients)
         message.set_subject(subject)
         message.set_html(html)
         message.set_text(text)

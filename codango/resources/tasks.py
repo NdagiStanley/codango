@@ -1,4 +1,5 @@
 import os
+from userprofile import frequency_updates
 
 from celery.task import task
 from account.emails import SendGrid
@@ -9,7 +10,13 @@ from django.template import Context, loader
 
 
 @task
-def send_recent_posts(recipient):
+def send_recent_posts(frequency):
+    if frequency == 'daily':
+        recipients = frequency_updates.daily_updates()
+    elif frequency == 'weekly':
+        recipients = frequency_updates.weekly_updates()
+    else:
+        recipients = frequency_updates.monthly_updates()
 
     # Top 5 posts on Codango
     popular_posts = Resource.objects.annotate(
@@ -23,8 +30,9 @@ def send_recent_posts(recipient):
     # Compose the email
     message = SendGrid.compose(
         sender='Codango <{}>'.format(CODANGO_EMAIL),
-        recipient=recipient,
+        recipient=None,
         subject="Top Posts on Codango",
+        recipients=recipients,
         text=None,
         html=loader.get_template(
             'resources/popular-post-updates.html'
