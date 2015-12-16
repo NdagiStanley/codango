@@ -564,7 +564,8 @@ var realTime = {
         clearTimeout(realTime.config.timeoutid);
         realTime.config.timeoutid = setTimeout(function(){
             $(realTime.config.newNotficationDiv).fadeOut("slow");
-        },4000);
+            $(realTime.config.panel).empty();
+        },3000);
     }
 };
 

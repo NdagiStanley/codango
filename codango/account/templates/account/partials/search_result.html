@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<div class="content-block">
+    {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="row">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{title}}
+                    <div id="preloader">
+                        <img src="{% static 'img/ajax-loader.gif' %}"/>
+                    </div>
+            </h3>
+                <div id="community-content">
+                     {% include "account/partials/community.html" %}
+                </div>
+            </div>
+        </div>
+    </div>

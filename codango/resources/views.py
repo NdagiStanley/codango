@@ -9,6 +9,7 @@ from votes.models import Vote
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 
 
 
@@ -34,7 +35,11 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
-        resources = self.sort_by(sortby, Resource.objects)
+        query = self.request.GET[
+            'q'] if 'q' in self.request.GET else ''
+
+        resources = self.sort_by(sortby, Resource.objects.filter(Q(text__contains=query) | Q(snippet_text__contains=query) |
+            Q(resource_file_name__contains=query)))
         community = kwargs[
             'community'].upper() if 'community' in kwargs else 'ALL'
 
@@ -47,7 +52,8 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         context = {
             'resources': resources,
             'commentform': CommentForm(auto_id=False),
-            'title': 'Activity Feed',
+            'title': 'Activity Feed' if query == '' else query + " Search results",
+            'q':query,
             'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
         }
         return context

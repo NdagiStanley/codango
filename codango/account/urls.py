@@ -4,6 +4,9 @@ from account import views
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^home$', views.HomeView.as_view(), name='home'),
+    url(r'^search$', views.SearchView.as_view(), name='search'),
+    url(r'^search/(?P<searchby>resource|users)$',
+        views.SearchView.as_view(), name='search_by'),
     url(r'^login$', views.LoginView.as_view(), name='login'),
     url(r'^register$', views.RegisterView.as_view(), name='register'),
     url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
