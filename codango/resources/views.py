@@ -128,16 +128,19 @@ class ResourceVoteView(View):
             vote.delete()
             status = "unvotes"
 
-        response_dict = {
-            "upvotes": len(resource.upvotes()),
+        response_dict = {"upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
+            }
+
+        if user_id != resource.author.id:
+            response_dict.update({
             "content": vote.user.username+ " " + status  + " your resource",
             "link": "#",
             "type": "vote",
             "read": False,
-            "user_id": resource.author.id
-            }
+            "user_id": resource.author.id})
+
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")

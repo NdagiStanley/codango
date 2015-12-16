@@ -452,11 +452,14 @@ a.list-group-item:hover h4{
     right:-100%;
 }
 #notifications .list-group{
-    height:400px;
+    max-height:400px;
     overflow-y:auto;
 }
 /* Utilities */
 
+form.navbar-form{
+    line-height:45px;
+}
 button.btn {
     border-radius: 4px;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
@@ -465,6 +468,9 @@ button.btn {
 
 .right-spacer {
     margin-right: 5px;
+}
+#delete-notifications{
+
 }
 
 textarea {

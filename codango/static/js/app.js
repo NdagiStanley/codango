@@ -333,8 +333,8 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data) {
-                postActivity(data);
-                if (data["status"] == "novote") _this.removeClass("active");
+                if(data['user_id']!== undefined) postActivity(data);
+                if (data["status"] == "unvotes") _this.removeClass("active");
                 else _this.addClass("active")
                 if (_this.hasClass("like")) {
                     _this.siblings(".unlike").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
@@ -578,6 +578,23 @@ var eventListeners = {
             $(this).closest(".view").hide();
         });
 
+        //Deletes all notifications
+        $("body").on("click", "#delete-notifications",function(e){
+            e.preventDefault();
+            if(!confirm("Are you sure you want to clear your notifications")) return;
+            $.ajax({
+                url: $("#notification-li").data("url"),
+                type:"DELETE",
+                data:{sample: "data"},
+                success:function(data){
+                    $("#notification-li").load($("#notification-li").data("url"));
+                },
+                error: function(x){
+                    console.log(x.responseText);
+                }
+    });
+    });
+
         // Shows the comments when we stop editing
         $("body").on("click", ".show-view", function(e) {
             e.preventDefault();
@@ -623,6 +640,7 @@ var eventListeners = {
 
 $(document).ready(function() {
     realTime.init();
+
 
     facebookLogin.init({
         fb_id: "1472691016373339"
