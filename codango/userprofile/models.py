@@ -18,8 +18,10 @@ class UserProfile(models.Model):
     position = models.CharField(max_length=100, blank=True)
     followers = models.IntegerField(default=0)
     following = models.IntegerField(default=0)
-    about = models.TextField(max_length=1200,blank=True)
+    about = models.TextField(max_length=1200, blank=True)
     github_username = models.CharField(max_length=200, null=True)
+    frequency = models.CharField(max_length=200, default='none')
+
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
 
@@ -55,10 +57,9 @@ class Follow(models.Model):
         unique_together = (('follower', 'followed'),)
 
 
-
 class Language(models.Model):
 
-    user = models.ForeignKey(User,related_name="languages")
+    user = models.ForeignKey(User, related_name="languages")
     name = models.CharField(max_length=200, null=True)
 
     class Meta:
@@ -67,13 +68,14 @@ class Language(models.Model):
     def __str__(self):
         return self.name
 
+
 class Notification(models.Model):
 
-    user = models.ForeignKey(User,related_name="notifications")
+    user = models.ForeignKey(User, related_name="notifications")
     link = models.CharField(max_length=200, null=True)
     activity_type = models.CharField(max_length=50, null=False)
     read = models.BooleanField()
-    content = models.TextField(max_length=1200,blank=False)
+    content = models.TextField(max_length=1200, blank=False)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -81,4 +83,3 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-date_created']
-

@@ -267,11 +267,15 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=user.id)
 
+        # get the current update frequency of the user
+        frequency = user_profile.frequency
+
         context = super(SettingsView, self).get_context_data(**kwargs)
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
         context['newusername'] = ChangeUsernameForm()
         context['newpassword'] = ChangePasswordForm()
+        context['frequency'] = frequency
         return context
 
     def post(self, request, **kwargs):
@@ -319,6 +323,9 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         # frequency form
         else:
             frequency = request.POST.get('frequency')
+            user = UserProfile.objects.get(user_id=request.user.id)
+            user.frequency = frequency
+            user.save()
             messages.add_message(
                 request,
                 messages.SUCCESS, 'Frequency set!')

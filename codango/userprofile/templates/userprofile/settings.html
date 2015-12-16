@@ -52,16 +52,16 @@
                         <form role="form" action="{% url 'settings' request.user.username %}" method="post">
                             {% csrf_token %}
                             <div class="radio">
-                                <label><input type="radio" name="frequency" value="none">None</label>
+                                <label><input type="radio" name="frequency" value="none" {% if frequency == "none" %}checked{% endif %}>None</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="frequency" value="daily">Daily</label>
+                                <label><input type="radio" name="frequency" value="daily" {% if frequency == "daily" %}checked{% endif %}>Daily</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="frequency" value="weekly">Weekly</label>
+                                <label><input type="radio" name="frequency" value="weekly" {% if frequency == "weekly" %}checked{% endif %}>Weekly</label>
                             </div>
                             <div class="radio">
-                                <label><input type="radio" name="frequency" value="monthly">Monthly</label>
+                                <label><input type="radio" name="frequency" value="monthly" {% if frequency == "monthly" %}checked{% endif %}>Monthly</label>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Set Frequency</button>
