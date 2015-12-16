@@ -1,4 +1,9 @@
 import json
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
 from django.db.models import Count
@@ -6,10 +11,7 @@ from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse
-from django.db.models import Q
+
 
 
 
@@ -38,8 +40,16 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         query = self.request.GET[
             'q'] if 'q' in self.request.GET else ''
 
-        resources = self.sort_by(sortby, Resource.objects.filter(Q(text__contains=query) | Q(snippet_text__contains=query) |
+        resources = self.sort_by(sortby, 
+            Resource.objects.filter(
+            Q(text__contains=query) | 
+            Q(snippet_text__contains=query) |
             Q(resource_file_name__contains=query)))
+
+        users = User.objects.filter(
+            Q(username__contains=query) | 
+            Q(first_name__contains=query) |
+            Q(last_name__contains=query) | Q(email__contains=query))
         community = kwargs[
             'community'].upper() if 'community' in kwargs else 'ALL'
 
@@ -54,6 +64,7 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
             'commentform': CommentForm(auto_id=False),
             'title': 'Activity Feed' if query == '' else query + " Search results",
             'q':query,
+            'users':users,
             'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
         }
         return context

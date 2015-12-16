@@ -13,13 +13,22 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> {{title}}
+                <h3 class="activity-feed section-header"><i class="mdi mdi-rss"></i> We found {% if search_type == 'resources' %}{{resources.all|length}} 
+                {% else %}
+                {{users.all|length}}
+                {% endif %}
+                {{search_type}}
                     <div id="preloader">
                         <img src="{% static 'img/ajax-loader.gif' %}"/>
                     </div>
             </h3>
                 <div id="community-content">
+                {% if search_type == 'users' %}
+                 {% include "account/partials/search-user.html" %}
+
+                {% elif search_type == 'resources' %}
                      {% include "account/partials/community.html" %}
+                {% endif %}
                 </div>
             </div>
         </div>
