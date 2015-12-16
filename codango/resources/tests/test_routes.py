@@ -56,7 +56,7 @@ class CommunityViewTest(TestCase):
         self.assertTrue(self.login)
         resource = self.create_resources()
         response = self.client.post(
-            '/resource/100/like', {'resource_id': 100},
+            '/resource/100/likes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(resource.upvotes()), 1)
@@ -65,7 +65,7 @@ class CommunityViewTest(TestCase):
         self.assertTrue(self.login)
         resource = self.create_resources()
         response = self.client.post(
-            '/resource/100/unlike', {'resource_id': 100},
+            '/resource/100/unlikes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(resource.downvotes()), 1)
@@ -74,10 +74,10 @@ class CommunityViewTest(TestCase):
         self.assertTrue(self.login)
         resource = self.create_resources()
         response = self.client.post(
-            '/resource/100/unlike', {'resource_id': 100},
+            '/resource/100/unlikes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = self.client.post(
-            '/resource/100/like', {'resource_id': 100},
+            '/resource/100/likes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(resource.upvotes()), 1)
@@ -86,10 +86,10 @@ class CommunityViewTest(TestCase):
         self.assertTrue(self.login)
         resource = self.create_resources()
         response = self.client.post(
-            '/resource/100/unlike', {'resource_id': 100},
+            '/resource/100/unlikes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         response = self.client.post(
-            '/resource/100/unlike', {'resource_id': 100},
+            '/resource/100/unlikes', {'resource_id': 100},
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(resource.upvotes()), 0)
