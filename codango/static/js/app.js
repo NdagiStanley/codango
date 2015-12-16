@@ -334,7 +334,7 @@ var votes = {
             },
             success: function(data) {
                 postActivity(data);
-                if (data["status"] == "novote") _this.removeClass("active");
+                if (data["status"] == "unvotes") _this.removeClass("active");
                 else _this.addClass("active")
                 if (_this.hasClass("like")) {
                     _this.siblings(".unlike").removeClass("active").find("span").html("&nbsp;&nbsp;"+data["downvotes"])
@@ -559,7 +559,7 @@ var realTime = {
     },
     callbackDiv: function(activity){
         notifyDiv = realTime.newNotification(activity)
-        $(realTime.config.panel).prepend(notifyDiv);
+        $(realTime.config.panel).html(notifyDiv);
         $(realTime.config.newNotficationDiv).show();
         clearTimeout(realTime.config.timeoutid);
         realTime.config.timeoutid = setTimeout(function(){

@@ -452,7 +452,7 @@ a.list-group-item:hover h4{
     right:-100%;
 }
 #notifications .list-group{
-    height:400px;
+    max-height:400px;
     overflow-y:auto;
 }
 /* Utilities */
