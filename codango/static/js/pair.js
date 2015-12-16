@@ -1,69 +1,40 @@
-function sendSession(key){
-    var ajaxinfo = {
-        url: '/pair/',
-        data:{
-            sessionKey: key
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.getSession().setMode("ace/mode/javascript");
+// JQuery element pointing to the ACE Editor
+var $editor = $('#editor');
+var FIREBASE_URL = 'https://intense-fire-2301.firebaseio.com/';
+var root = new Firebase(FIREBASE_URL);
+// Get reference to the sessions Node
+var sessionsRef = root.child('sessions');
+// Retrieve session ID
+sessionId = $editor.data('id');
+// Get reference to the Node of the current session
+var thisSessionRef = sessionsRef.child(sessionId);
+
+var app = {
+    init: function() {
+       app.bindEvents()
+    },
+    events: {
+        updateFirebase: function(e) {
+            if (e.keyCode == 13) {
+                thisSessionRef.update({
+                    content: editor.getValue()
+                }, function(err) {
+
+                });
+            }
         },
-        type: "POST",
-        success:function(data){
-            console.log(data);
-        },
-        error: function(xhr){
-            console.log(xhr.responseText);
+        updateEditor: function(snap) {
+            var session = snap.val();
+            editor.setValue(session.content);
         }
-    };
-    $.ajax(ajaxinfo);
-}
-
-function init(language, theme) {
-      //// Initialize Firebase.
-      var firepadRef = getExampleRef();
-    var sessionKey = firepadRef.key();
-    sendSession(sessionKey);
-
-      // TODO: Replace above line with:
-      // var firepadRef = new Firebase('<YOUR FIREBASE URL>');
-      //// Create ACE
-    // var user = request.user.username;
-    //console.log(user)
-        var userId = $('#username').val();
-        console.log(userId);
-    var firepadUserList = FirepadUserList.fromDiv(firepadRef.child('users'),
-          document.getElementById('userlist'), userId);
-      var editor = ace.edit("firepad-container");
-      editor.setTheme("ace/theme/"+ theme);
-      var session = editor.getSession();
-      session.setUseWrapMode(true);
-      session.setUseWorker(false);
-      session.setMode("ace/mode/"+ language);
-      console.log(language)
-      console.log(theme)
-      //// Create Firepad.
-      var firepad = Firepad.fromACE(firepadRef, editor, {
-        defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
-      });
+    },
+    bindEvents: function() {
+        $editor.keyup(app.events.updateFirebase);
+        thisSessionRef.on('value', app.events.updateEditor);
     }
-    // Helper to get hash from end of URL or generate a random one.
-function getExampleRef() {
-      var ref = new Firebase('https://firepad.firebaseio-demo.com');
-      var hash = window.location.hash.replace(/#/g, '');
-      if (hash) {
-        ref = ref.child(hash);
-      } else {
-        ref = ref.push(); // generate unique location.
-        window.location = window.location + '#' + ref.key(); // add it as a hash to the URL.
-      }
-      if (typeof console !== 'undefined')
-        console.log('Firebase data: ', ref.toString());
-      return ref;
-    }
+};
 
-$(document).ready(function() {
-    $('#language').change(function (e) {
-        init($(this).val());
-    });
-    $('#theme').change(function (e) {
-        init($(this).val());
-    });
-    window.onload = init('javascript', 'monokai');
-});
+app.init();

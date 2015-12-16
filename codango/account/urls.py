@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^contact-us$', views.ContactUsView.as_view(), name='contactus'),
     url(r'^about-us$', views.AboutUsView.as_view(), name='aboutus'),
     url(r'^team$', views.TeamView.as_view(), name='team'),
-    url(r'^post/(?P<resource_id>[0-9]+)$', views.SinglePostView.as_view(), name='team'),
+
 ]
