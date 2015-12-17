@@ -4,6 +4,7 @@ from django.core.urlresolvers import resolve, reverse
 from account.views import ForgotPasswordView, ResetPasswordView
 from mock import patch
 from account.emails import SendGrid
+from resources.models import Resource
 
 
 class IndexViewTest(TestCase):
@@ -61,6 +62,59 @@ class HomeViewTest(TestCase):
     def test_right_view_for_home_is_returned(self):
         match = resolve('/home')
         self.assertEqual(match.url_name, 'home')
+
+class SearchViewTest(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(
+            username='lade',
+            password='password'
+        )
+        self.user.set_password('password')
+        self.user.save()
+        self.login = self.client.login(
+            username='lade', password='password')
+
+    def create_resources(self, text='some more words', resource_file='resource_file'):
+        return Resource.objects.create(text=text, author=self.user,
+            resource_file=resource_file
+        )
+
+    def test_can_reach_search_page(self):
+        self.assertEqual(self.login, True)
+        response = self.client.get(reverse('search'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_can_search_based_on_user_or_resource(self):
+        self.create_resources()
+        self.create_resources()
+        url = reverse('search_by',kwargs={'searchby':'resources'})
+        url2 = reverse('search_by',kwargs={'searchby':'users'})
+
+        response = self.client.get(url)
+        
+        response2 = self.client.get(url2)
+
+        self.assertEqual(len(response.context['resources']),2)
+        self.assertEqual(len(response.context['users']),1)
+        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(response.status_code, 200)
+
+    def test_return_no_user_or_response_when_not_resource_is_found(self):
+        self.create_resources()
+        self.create_resources()
+        url = reverse('search_by',kwargs={'searchby':'resources'})
+        url2 = reverse('search_by',kwargs={'searchby':'users'})
+
+        response = self.client.get(url + "?q=eaiofaowfjieaowef")
+        
+        response2 = self.client.get(url2 + "?q=eaiofaowfjieaowef")
+
+        self.assertEqual(len(response.context['resources']),0)
+        self.assertEqual(len(response.context['users']),0)
+        self.assertEqual(response2.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
 
 class ForgotResetTestCase(TestCase):

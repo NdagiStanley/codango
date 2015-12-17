@@ -298,6 +298,7 @@ a.list-group-item:hover h4{
     bottom:0;
     z-index:10000;
     display:none;
+    padding-bottom:20px;
 }
 
 #more {
@@ -470,6 +471,10 @@ button.btn {
     margin-right: 5px;
 }
 #delete-notifications{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    border-radius: 0;
 
 }
 
