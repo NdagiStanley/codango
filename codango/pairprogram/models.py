@@ -14,5 +14,5 @@ class Session(models.Model):
 
 class Participant(models.Model):
     participant = models.ForeignKey(User)
-    session_id = models.ForeignKey(Session)
+    session = models.ForeignKey(Session)
     joined_date = models.DateTimeField(default=timezone.now())

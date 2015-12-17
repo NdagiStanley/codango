@@ -1,6 +1,7 @@
 import json
 from django.http import HttpResponse
 from django.views.generic import View
+from django.core.urlresolvers import reverse
 
 from resources.models import Resource
 from comments.models import Comment
@@ -26,20 +27,18 @@ class CommentAction(View):
         comment.author = self.request.user
         comment.save()
         if comment.author.id != resource.author.id:
-            response_dict = {
-                "content": comment.author.username +
-                " commented on your resource",
-                "link": "#",
-                "type": "comment",
-                "read": False,
-                "user_id": resource.author.id,
-                "status": "Successfully Posted Your Comment for this resource"
-                }
-            response_json = json.dumps(response_dict)
-            return HttpResponse(response_json, content_type="application/json")
 
-        return HttpResponse("Successfully Posted Your Comment for this \
-            resource", content_type='text/plain')
+            response_dict = {
+                    "content": comment.author.username + " commented on your resource",
+                            "link": reverse('single_post', kwargs={'resource_id': comment.resource.id}),
+                             "type": "comment",
+                             "read": False,
+                             "user_id": resource.author.id,
+                             "status": "Successfully Posted Your Comment for this resource"
+                             }
+            response_json = json.dumps(response_dict)
+        return HttpResponse(response_json, content_type="application/json")
+
 
     def put(self, request, *args, **kwargs):
         body = json.loads(request.body)

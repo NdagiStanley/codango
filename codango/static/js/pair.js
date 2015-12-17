@@ -1,40 +1,66 @@
-var editor = ace.edit("editor");
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/javascript");
-// JQuery element pointing to the ACE Editor
-var $editor = $('#editor');
-var FIREBASE_URL = 'https://intense-fire-2301.firebaseio.com/';
-var root = new Firebase(FIREBASE_URL);
-// Get reference to the sessions Node
-var sessionsRef = root.child('sessions');
-// Retrieve session ID
-sessionId = $editor.data('id');
-// Get reference to the Node of the current session
-var thisSessionRef = sessionsRef.child(sessionId);
+var FIRBASE_URL = "https://intense-fire-2301.firebaseio.com/";
 
-var app = {
-    init: function() {
-       app.bindEvents()
-    },
-    events: {
-        updateFirebase: function(e) {
-            if (e.keyCode == 13) {
-                thisSessionRef.update({
-                    content: editor.getValue()
-                }, function(err) {
+/* Initialize the ACE Editor */
+function init(language, theme) {
+    
+}
 
-                });
-            }
+// Helper to get hash from end of URL or generate a random one.
+function getPageRef() {
+    
+
+
+}
+
+$(document).ready(function () {
+    var app = {
+        init: function(language, theme) {
+            // Initialize the events
+            app.bindEvents();
+            // Get the username
+            var userId = $("#username").val();
+
+            // Set defaults for the theme and language
+            theme = theme || 'monokai'
+            language = language || 'javascript'
+
+            // Get current session firebase ref
+            var thisSessionRef = app.getPageRef();
+
+            // Initialize ACE Editor
+            var editor = ace.edit("firepad-container");
+            editor.setTheme("ace/theme/" + theme);
+            var session = editor.getSession();
+            session.setUseWrapMode(true);
+            session.setUseWorker(false);
+            session.setMode("ace/mode/" + language);
+            
+            // Create Firepad
+            var firepad = Firepad.fromACE(thisSessionRef, editor, {
+                defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
+            });
+
+            var firepadUserList = FirepadUserList.fromDiv(thisSessionRef.child('users'),
+                document.getElementById('userlist'), userId);
+            console.log(firepadUserList);
         },
-        updateEditor: function(snap) {
-            var session = snap.val();
-            editor.setValue(session.content);
-        }
-    },
-    bindEvents: function() {
-        $editor.keyup(app.events.updateFirebase);
-        thisSessionRef.on('value', app.events.updateEditor);
-    }
-};
+        bindEvents: function() {
+            // Language change event handler
+            $('#language').change(function (e) {
+                init($(this).val());
+            });
 
-app.init();
+            // Theme change event handler
+            $('#theme').change(function (e) {
+                init($(this).val());
+            });
+        },
+        getPageRef: function() {
+            var firepadRef = new Firebase(FIRBASE_URL);
+            var sessionId = $("#session-id").val();
+            return firepadRef.child('session/' + sessionId);
+        }
+    }
+    
+    app.init();
+});

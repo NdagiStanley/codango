@@ -87,3 +87,15 @@ class CommunityViewTest(TestCase):
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(resource.upvotes()), 0)
+
+    def test_user_can_view_single_resource(self):
+        self.assertTrue(self.login)
+        resource = self.create_resources()
+        response = self.client.get('/resource/post/100')
+        self.assertTrue(response.status_code, 200)
+
+    def test_user_cannot_view_resource_that_does_not_exist(self):
+        self.assertTrue(self.login)
+        resource = self.create_resources()
+        response = self.client.get('/resource/post/2')
+        self.assertTrue(response.status_code, 404)

@@ -153,7 +153,7 @@ class ResourceVoteView(View):
         if user_id != resource.author.id:
             response_dict.update({
             "content": vote.user.username+ " " + status  + " your resource",
-            "link": "#",
+            "link": reverse('single_post', kwargs={'resource_id': vote.resource.id}),
             "type": "vote",
             "read": False,
             "user_id": resource.author.id})
@@ -164,12 +164,13 @@ class ResourceVoteView(View):
 
 
 class SinglePostView(LoginRequiredMixin, TemplateView):
-    template_name = 'account/single-post.html'
+    template_name = 'resources/single-post.html'
 
     def get_context_data(self, **kwargs):
         context = super(SinglePostView, self).get_context_data(**kwargs)
         try:
             context['resource'] = Resource.objects.get(id=kwargs['resource_id'])
-        except:
+        except Resource.DoesNotExist:
             pass
+        context['commentform'] = CommentForm(auto_id=False)
         return context
