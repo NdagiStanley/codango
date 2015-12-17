@@ -28,13 +28,21 @@ class UserProfile(models.Model):
     def get_user(self):
         return User.objects.get(id=self.user_id)
 
+    # def get_followers(self):
+    #     followers = Follow.objects.filter(followed=self.user_id)
+    #     return followers
+
+    # def get_following(self):
+    #     following = Follow.objects.filter(follower=self.user_id)
+    #     return following
+
     def get_followers(self):
-        followers = Follow.objects.filter(followed=self.user_id)
-        return followers
+        followers = self.user.follower.all()
+        return [follower.followed for follower in followers]
 
     def get_following(self):
-        following = Follow.objects.filter(follower=self.user_id)
-        return following
+        followings = self.user.following.all()
+        return [following.follower for following in followings]
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
