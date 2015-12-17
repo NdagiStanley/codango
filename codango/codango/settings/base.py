@@ -23,6 +23,7 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.contrib.messages import constants as message_constants
 from celery.schedules import crontab
 
+
 BASE_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -174,11 +175,23 @@ CELERY_RESULT_BACKEND = 'amqp'
 
 # Scheduling periodic task with Celery
 CELERYBEAT_SCHEDULE = {
-    # Executes every 6 hours
-    'popular-post-updates': {
+    # Executes daily at midnight
+    'popular-post-updates-daily': {
         'task': 'resources.tasks.send_recent_posts',
-        'schedule': crontab(minute=0, hour='*/6'),
-        'args': (ADMIN_EMAIL,),
+        'schedule': crontab(minute=0, hour=0),
+        'args': ['daily'],
+    },
+    # Executes every sunday at midnight
+    'popular-post-updates-weekly': {
+        'task': 'resources.tasks.send_recent_posts',
+        'schedule': crontab(minute=0, hour=0, day_of_week='sun'),
+        'args': ['weekly'],
+    },
+    # Executes every first day of the month
+    'popular-post-updates-monthly': {
+        'task': 'resources.tasks.send_recent_posts',
+        'schedule': crontab(0, 0, day_of_month='1'),
+        'args': ['monthly'],
     },
 }
 

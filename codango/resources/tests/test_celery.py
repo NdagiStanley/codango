@@ -13,6 +13,17 @@ class PopularPostUpdateTestCase(TestCase):
         """
         Test that the ``scheduled task`` task runs successfully.
         """
-        result = send_recent_posts.delay('test@test.com')
+        # test that mails would send daily
+        result = send_recent_posts.delay('daily')
+        self.assertTrue(result.successful())
+        self.assertFalse(result.failed())
+
+        # test that mails would send weekly
+        result = send_recent_posts.delay('weekly')
+        self.assertTrue(result.successful())
+        self.assertFalse(result.failed())
+
+        # test that mails would send monthly
+        result = send_recent_posts.delay('monthly')
         self.assertTrue(result.successful())
         self.assertFalse(result.failed())

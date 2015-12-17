@@ -3,6 +3,7 @@ import os
 import requests
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
+from django.core.urlresolvers import reverse
 from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,9 +12,11 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from resources.views import LoginRequiredMixin
 from comments.forms import CommentForm
-from userprofile.models import UserProfile, Follow,Notification
-from userprofile.forms import UserProfileForm
+from userprofile.models import UserProfile, Follow, Notification
+from userprofile.forms import UserProfileForm, ChangePasswordForm, ChangeUsernameForm
 from resources.views import CommunityBaseView
+from django.contrib.auth import authenticate, login
+
 
 # Create your views here.
 
@@ -55,6 +58,7 @@ class UserProfileDetailView(CommunityBaseView):
         context['commentform'] = CommentForm(auto_id=False)
         return context
 
+
 class ActivityUpdate(TemplateView):
     template_name = 'userprofile/partials/activity.html'
 
@@ -67,7 +71,7 @@ class ActivityUpdate(TemplateView):
         data = request.POST
         user = User.objects.get(id=data['user_id'])
         Notification.objects.create(link=data['link'], activity_type=data['type'], user=user, read=False,
-            content=data['content'])
+                                    content=data['content'])
 
         return HttpResponse("success", content_type='text/plain')
 
@@ -77,7 +81,6 @@ class ActivityUpdate(TemplateView):
         activity.read = True
         activity.save()
         return HttpResponse("success", content_type='text/plain')
-
 
 
 class UserGithub(View):
@@ -94,12 +97,11 @@ class UserGithub(View):
             'https://github.com/login/oauth/access_token',
             data=token_data, headers=HEADERS)
 
-
         access_token = json.loads(result.content)['access_token']
 
         auth_result = requests.get('https://api.github.com/user',
                                    headers={'Accept': 'application/json',
-                                            'Authorization': 'token '+access_token},
+                                            'Authorization': 'token ' + access_token},
                                    )
         profile = user.profile
         profile.github_username = json.loads(auth_result.content)['login']
@@ -107,7 +109,7 @@ class UserGithub(View):
         self.update_languages(profile.github_username, user)
 
         messages.success(request, "Successflly authenticated with github")
-        return redirect('/user/'+user.username,
+        return redirect('/user/' + user.username,
                         context_instance=RequestContext(request))
 
     def post(self, request, **kwargs):
@@ -116,16 +118,15 @@ class UserGithub(View):
         new_languages = self.update_languages(github_username, user)
         msg = 'Successfully update your languages' if user.languages != new_languages else 'No Update to your languages'
         messages.success(request, msg)
-        return redirect('/user/' + user.username, 
-            context_instance=RequestContext(request))
-
+        return redirect('/user/' + user.username,
+                        context_instance=RequestContext(request))
 
     @staticmethod
     def update_languages(username, user):
         repositories = requests.get(
-            'https://api.github.com/users/'+username+'/repos',
+            'https://api.github.com/users/' + username + '/repos',
             headers=HEADERS)
-        
+
         repos = json.loads(repositories.content)
 
         for repo in repos:
@@ -256,3 +257,84 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         context['resources'] = user.resource_set.all()
 
         return context
+
+
+class SettingsView(LoginRequiredMixin, TemplateView):
+    template_name = 'userprofile/settings.html'
+
+    def get_context_data(self, **kwargs):
+        username = self.request.user.get_username()
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get(user_id=user.id)
+
+        # get the current update frequency of the user
+        frequency = user_profile.frequency
+
+        context = super(SettingsView, self).get_context_data(**kwargs)
+        context['profile'] = user_profile
+        context['resources'] = user.resource_set.all()
+        context['newusername'] = ChangeUsernameForm()
+        context['newpassword'] = ChangePasswordForm()
+        context['frequency'] = frequency
+        return context
+
+    def post(self, request, **kwargs):
+
+        # password form
+        if 'new_password' in request.POST.keys():
+            form = ChangePasswordForm(request.POST)
+            if form.is_valid():
+                new_password = request.POST.get('new_password')
+                user = User.objects.get(id=request.user.id)
+                user.set_password(new_password)
+                user.save()
+
+                # login the user again
+                current_user = authenticate(
+                    username=request.user.get_username(),
+                    password=new_password)
+                login(request, current_user)
+
+                messages.add_message(
+                    request,
+                    messages.SUCCESS, 'Password changed successfully!')
+            else:
+                messages.error(
+                    request, 'Invalid input or Passwords don\'t match!')
+                messages.info(
+                    request,
+                    'Only alphabetical, numeric or alphanumeric characters'
+                )
+
+        # username form
+        elif 'new_username' in request.POST.keys():
+            form = ChangeUsernameForm(request.POST)
+            if form.is_valid():
+                new_username = request.POST.get('new_username')
+                user = User.objects.get(id=request.user.id)
+                user.username = new_username
+                user.save()
+
+                messages.add_message(
+                    request,
+                    messages.SUCCESS, 'Username changed successfully!')
+            else:
+                messages.error(
+                    request, 'Invalid input or Username has been taken!')
+                messages.info(
+                    request,
+                    'Only alphabetical, numeric or alphanumeric characters'
+                )
+
+        # frequency form
+        else:
+            frequency = request.POST.get('frequency')
+            user = UserProfile.objects.get(user_id=request.user.id)
+            user.frequency = frequency
+            user.save()
+            messages.add_message(
+                request,
+                messages.SUCCESS, 'Frequency set!')
+
+        return redirect(reverse(
+            'settings', kwargs={'username': request.user.get_username()}))

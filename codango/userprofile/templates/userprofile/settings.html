@@ -1,1 +1,75 @@
 {% extends "account/layout/base.html" %}
+{% load bootstrap %}
+
+{% block title %}{{request.user.username}}'s Settings{% endblock title %}
+
+{% block sidebar %}
+    {% include "userprofile/partials/user-profile.html" %}
+{% endblock sidebar %}
+
+
+{% block content %}
+    <div class="container-fluid content-block">
+        <div class="row profile">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}    
+                {% endif %}
+                <h1 class="page-title">Manage your Settings</h1>
+                <div class="page-content">
+                    <div class="passwordform">
+                        <div class="formtitle">
+                            <strong>Change Password</strong>
+                        </div>
+                        <form role="form" action="{% url 'settings' request.user.username %}" method="post">
+                            {% csrf_token %}
+                            {{ newpassword|bootstrap }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="usernameform">
+                        <div class="formtitle">
+                            <strong>Change Username</strong>
+                        </div>
+                        <form role="form" action="{% url 'settings' request.user.username %}" method="post">
+                            {% csrf_token %}
+                            {{ newusername|bootstrap }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Change Username</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="frequencyform">
+                        <div class="formtitle">
+                            <strong>Frequency of Updates</strong>
+                        </div>
+                        <form role="form" action="{% url 'settings' request.user.username %}" method="post">
+                            {% csrf_token %}
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="none" {% if frequency == "none" %}checked{% endif %}>None</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="daily" {% if frequency == "daily" %}checked{% endif %}>Daily</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="weekly" {% if frequency == "weekly" %}checked{% endif %}>Weekly</label>
+                            </div>
+                            <div class="radio">
+                                <label><input type="radio" name="frequency" value="monthly" {% if frequency == "monthly" %}checked{% endif %}>Monthly</label>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Set Frequency</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
