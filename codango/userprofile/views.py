@@ -299,9 +299,12 @@ class SettingsView(LoginRequiredMixin, TemplateView):
                     request,
                     messages.SUCCESS, 'Password changed successfully!')
             else:
-                messages.add_message(
+                messages.error(
+                    request, 'Invalid input or Passwords don\'t match!')
+                messages.info(
                     request,
-                    messages.ERROR, 'Empty or Passwords don\'t match!')
+                    'Only alphabetical, numeric or alphanumeric characters'
+                )
 
         # username form
         elif 'new_username' in request.POST.keys():
@@ -316,9 +319,12 @@ class SettingsView(LoginRequiredMixin, TemplateView):
                     request,
                     messages.SUCCESS, 'Username changed successfully!')
             else:
-                messages.add_message(
+                messages.error(
+                    request, 'Invalid input or Username has been taken!')
+                messages.info(
                     request,
-                    messages.ERROR, 'Empty or Username has been taken!')
+                    'Only alphabetical, numeric or alphanumeric characters'
+                )
 
         # frequency form
         else:

@@ -1,6 +1,7 @@
 from django import forms
 from models import UserProfile
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 
 
 class UserProfileForm(forms.ModelForm):
@@ -21,6 +22,8 @@ class UserProfileForm(forms.ModelForm):
 class ChangeUsernameForm(forms.Form):
     new_username = forms.CharField(
         label='New Username', max_length=100,
+        validators=[RegexValidator(
+            r'^[0-9a-zA-Z]*$')],
         widget=forms.TextInput(attrs={
             'placeholder': 'Type in your new username',
             'autocomplete': 'off'
@@ -38,12 +41,16 @@ class ChangeUsernameForm(forms.Form):
 class ChangePasswordForm(forms.Form):
     new_password = forms.CharField(
         label='New Password', max_length=100,
+        validators=[RegexValidator(
+            r'^[0-9a-zA-Z]*$')],
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Type in your new password'
         }))
 
     verify_new_password = forms.CharField(
         label='Confirm New Password', max_length=100,
+        validators=[RegexValidator(
+            r'^[0-9a-zA-Z]*$')],
         widget=forms.PasswordInput(attrs={
             'placeholder': 'Verify your new password'
         }))
