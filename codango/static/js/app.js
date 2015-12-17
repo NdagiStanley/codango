@@ -664,7 +664,10 @@ $(document).ready(function() {
     mobileNav.init();
     votes.init();
     deleteComment.init();
-    followAction.init();
+    followAction.init({
+       button:"#follow-btn,.follow-btn"
+
+    });
     readNotification.init({
         button: "#notifications .list-group-item"
     });

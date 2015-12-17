@@ -182,7 +182,6 @@ class SearchView(CommunityBaseView):
         searchby = kwargs['searchby'] if 'searchby' in kwargs else 'resources'
         context = super(SearchView, self).get_context_data(**kwargs)
         context['search_type'] = searchby
-        print context['search_type']
         return context
 
 

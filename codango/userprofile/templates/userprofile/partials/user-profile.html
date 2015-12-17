@@ -19,13 +19,12 @@
                             <a href="/user/{{ profile.user.username }}/edit" id="edit-profile"><span
                                     class="mdi mdi-pencil"></span></a>
                         {% endif %}
-                        {% if already_following %}
-                            <a class="btn btn-primary" disabled="disabled" id="follow-btn"
-                               data-id="{{ profile.user.id }}">Following</a>
-                        {% elif profile.user.username != user.username %}
-                            <a href="/user/{{ profile.user.username }}/follow" class="btn btn-primary" id="follow-btn"
+                        {% if request.user != profile.user %}
+
+                            <a href="/user/{{ profile.user.username }}/follow" class="btn btn-primary {% if request.user in profile.get_following %} disabled {% endif %}" id="follow-btn"
                                data-id="{{ profile.user.id }}">Follow</a>
                         {% endif %}
+
                     </h2>
 
                     <hr/>
@@ -66,9 +65,9 @@
                     <h2 class="stats followers text-center">{{ profile.get_followers|length }}</h2>
 
                     <p class="text-center">
-                        <a href="/user/{{ profile.user.username }}/followers">
+                        <a href="/user/{{ profile.user.username }}/following">
                             <small>
-                            {% if profile.get_followers|length > 1 %}Followers{% else %}Follower{% endif %}
+                            {% if profile.get_followers|length > 1 %}Following{% else %}Follower{% endif %}
                             </small>
                         </a>
                     </p>
@@ -78,8 +77,8 @@
                     <h2 class="stats following text-center">{{ profile.get_following|length }}</h2>
 
                     <p class="text-center">
-                        <a href="/user/{{ profile.user.username }}/following">
-                            <small>Following</small>
+                        <a href="/user/{{ profile.user.username }}/followers">
+                            <small>Followers</small>
                         </a>
                     </p>
                 </div>

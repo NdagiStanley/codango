@@ -106,7 +106,7 @@ class CommunityView(CommunityBaseView):
             "link": "#",
             "type": "newpost",
             "read": False,
-            "user_id": [follower.follower_id for follower in followers],
+            "user_id": [follower.id for follower in followers],
             "status": "Successfully Posted Your Resource"
             }
             response_json = json.dumps(response_dict)
