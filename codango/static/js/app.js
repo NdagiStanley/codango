@@ -270,7 +270,6 @@ var formPost = {
             },
             complete: function() {
                 if (_this.hasClass("share")) {
-                    console.log(document.URL);
                     $("#community-content").load(document.URL, function() {
                         $("#id-snippet-body").hide();
                         $("#id-pdf-file").removeClass("show");
@@ -461,7 +460,6 @@ var readNotification = {
                 'id': _this.data("id")
             }),
             success: function(data){
-                console.log(data)
                 location.assign(_this.attr("href"));
 
             },

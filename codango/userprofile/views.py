@@ -196,18 +196,11 @@ class FollowUserView(LoginRequiredMixin, View):
 
         follow.save()
 
-        userprofile = UserProfile.objects.get(user_id=user.id)
-        userprofile.following += 1
-        userprofile.save()
 
-        follower_user_profile = UserProfile.objects.get(
-            user_id=following_id.id)
-        follower_user_profile.followers += 1
-        follower_user_profile.save()
 
         repsonse_json = {
-            'no_of_followers': len(follower_user_profile.get_followers()),
-            'no_following': len(follower_user_profile.get_following()),
+            'no_of_followers': len(following_id.profile.get_followers()),
+            'no_following': len(following_id.profile.get_following()),
             'content': user.username + " follows you",
             'user_id': following_id.id,
             "link": reverse('user_profile', kwargs={'username': user.username}),

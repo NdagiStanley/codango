@@ -98,7 +98,7 @@ class CommunityView(CommunityBaseView):
                 resource.resource_file_size = form.files['resource_file'].size
             except KeyError:
                 pass
-            followers = self.request.user.profile.get_followers()
+            followers = self.request.user.profile.get_following()
             resource.author = self.request.user
             resource.save()
             response_dict = {
