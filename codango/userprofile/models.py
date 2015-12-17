@@ -16,9 +16,7 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=100, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)
     position = models.CharField(max_length=100, blank=True)
-    followers = models.IntegerField(default=0)
-    following = models.IntegerField(default=0)
-    about = models.TextField(max_length=1200, blank=True)
+    about = models.TextField(max_length=1200,blank=True)
     github_username = models.CharField(max_length=200, null=True)
     frequency = models.CharField(max_length=200, default='none')
 
@@ -27,14 +25,6 @@ class UserProfile(models.Model):
 
     def get_user(self):
         return User.objects.get(id=self.user_id)
-
-    # def get_followers(self):
-    #     followers = Follow.objects.filter(followed=self.user_id)
-    #     return followers
-
-    # def get_following(self):
-    #     following = Follow.objects.filter(follower=self.user_id)
-    #     return following
 
     def get_followers(self):
         followers = self.user.follower.all()
