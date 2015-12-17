@@ -112,6 +112,19 @@ class SettingsViewTest(TestCase):
         # redirects with error message
         self.assertEqual(response.status_code, 302)
 
+    def test_can_change_password_special_character_error(self):
+        response = self.client.post(
+            reverse(
+                'settings',
+                kwargs={'username': self.user.username}
+            ), {
+                'new_password': '??',
+                'verify_new_password': '??'
+            }
+        )
+        # redirects with error message
+        self.assertEqual(response.status_code, 302)
+
     def test_can_change_username(self):
         response = self.client.post(
             reverse(
@@ -124,7 +137,7 @@ class SettingsViewTest(TestCase):
         # redirects with success message
         self.assertEqual(response.status_code, 302)
 
-    def test_can_change_username_error(self):
+    def test_can_change_username_null_error(self):
         response = self.client.post(
             reverse(
                 'settings',
@@ -134,4 +147,28 @@ class SettingsViewTest(TestCase):
             }
         )
         # redirects with error message
+        self.assertEqual(response.status_code, 302)
+
+    def test_can_change_username_special_characters_error(self):
+        response = self.client.post(
+            reverse(
+                'settings',
+                kwargs={'username': self.user.username}
+            ), {
+                'new_username': '??'
+            }
+        )
+        # redirects with error message
+        self.assertEqual(response.status_code, 302)
+
+    def test_can_set_frequency(self):
+        response = self.client.post(
+            reverse(
+                'settings',
+                kwargs={'username': self.user.username}
+            ), {
+                'frequency': 'daily'
+            }
+        )
+        # redirects with success message
         self.assertEqual(response.status_code, 302)
