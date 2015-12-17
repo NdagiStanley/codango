@@ -11,12 +11,7 @@ from django.template import Context, loader
 
 @task
 def send_recent_posts(frequency):
-    if frequency == 'daily':
-        recipients = frequency_updates.daily_updates()
-    elif frequency == 'weekly':
-        recipients = frequency_updates.weekly_updates()
-    else:
-        recipients = frequency_updates.monthly_updates()
+    recipients = frequency_updates.updates(frequency)
 
     # Top 5 posts on Codango
     popular_posts = Resource.objects.annotate(
