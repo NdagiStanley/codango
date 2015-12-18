@@ -29,7 +29,6 @@ class PairTestCase(TestCase):
 
     def test_user_can_initiate_a_pairing_session(self):
         url = reverse("start_session")
-        # url = reverse("start_session", kwargs={"session_id": self.pair_session.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 

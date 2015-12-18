@@ -682,6 +682,25 @@ $(document).ready(function() {
     });
     prettyPrint();
 
+    $("#session-name").submit(function(e){
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        var _this = $(this);
+        $.ajax({
+            url: _this.attr("action"),
+            type: "POST",
+            processData: false,
+            data: data,
+            success: function(resp){
+
+        }
+        ,
+            error: function(res) {
+                console.log(res.responseText);
+            }
+        });
+    })
+
     $("body").on("click",".notification-icon",function(e){
         e.stopPropagation();
         e.preventDefault();

@@ -1,12 +1,12 @@
+from django.core.serializers import json
+from django.http import HttpResponse
 from django.views.generic import View, TemplateView
-from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.contrib import messages
 from pairprogram.models import Session, Participant
+from pairprogram.forms import SessionForm
 from resources.views import LoginRequiredMixin
-from userprofile.models import UserProfile, Follow
-
 
 
 class StartPairView(LoginRequiredMixin, TemplateView):
@@ -19,9 +19,6 @@ class StartPairView(LoginRequiredMixin, TemplateView):
         Participant.objects.create(participant=request.user, session_id=new_session.id)
 
         return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
-
-    # def post(self, request, **kwargs):
-    #     pass
 
 
 class ListSessionView(LoginRequiredMixin, TemplateView):
@@ -41,22 +38,35 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
 
 
 class PairSessionView(LoginRequiredMixin, View):
-
+    form_class = SessionForm
     template_name = 'pairprogram/editor.html'
 
     def get(self, request,  *args, **kwargs):
-        # context = super(PairSessionView, self).get_context_data(**kwargs)
         context = {}
         context['session_id'] = kwargs['session_id']
         participants = Participant.objects.filter(session_id=context['session_id']).all()
 
         result = any(self.request.user == row.participant for row in participants)
         context['profile'] = self.request.user.profile
+        context['sessionform'] = self.form_class()
 
         if not result:
-            # messages.add_message(
-            #      messages.SUCCESS, 'Welcome back!')
-            # messages.add_message(self.request, messages.ERROR, 'No Access to this page')
+            messages.add_message(self.request, messages.ERROR, 'No Access to this page')
             return redirect('/home', context_instance=RequestContext(self.request))
 
         return render(request, self.template_name, context)
+
+
+class PairNameView(LoginRequiredMixin, View):
+    form_class = SessionForm
+
+    def post(self, request, **kwargs):
+        form = self.form_class(
+            request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.add_message(
+                request, messages.SUCCESS, 'Name Updated!')
+
+        return HttpResponse(content_type="application/json")
+
