@@ -12,6 +12,10 @@ class PairTestCase(TestCase):
             username='andela',
             password='awesome'
         )
+        self.user = User.objects.create_user(
+            username='master',
+            password='awesome'
+        )
         self.initiator.set_password('awesome')
         self.initiator.save()
         self.login = self.client.login(
@@ -24,17 +28,18 @@ class PairTestCase(TestCase):
         self.pair_session = Session.objects.create(initiator=self.initiator, session_name="SomeRandomSession")
 
     def test_user_can_initiate_a_pairing_session(self):
+        url = reverse("start_session")
+        # url = reverse("start_session", kwargs={"session_id": self.pair_session.id})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+
+    def test_user_can_view_current_session(self):
+        url = reverse("list_sessions")
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_only_participants_can_pair(self):
         url = reverse("pair_program", kwargs={"session_id": self.pair_session.id})
-        self.client.get()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
 
-
-
-
-    def test_user_can_invite_another_user(self):
-        pass
-
-    def test_user_can_join_a_pairing_session(self):
-        pass
-
-    def test_pairing_participants_can_both_code(self):
-        pass
