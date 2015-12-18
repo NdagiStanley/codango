@@ -213,7 +213,6 @@ class FollowUserView(LoginRequiredMixin, View):
 
 
 class FollowListView(LoginRequiredMixin, TemplateView):
-
     """
     View to handle both the followers and following
     """
