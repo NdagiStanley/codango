@@ -48,6 +48,7 @@ class PairSessionView(LoginRequiredMixin, View):
 
         result = any(self.request.user == row.participant for row in participants)
         context['profile'] = self.request.user.profile
+        context['session_name'] = Session.objects.get(id=context['session_id']).session_name
         context['sessionform'] = self.form_class()
 
         if not result:
@@ -61,12 +62,18 @@ class PairNameView(LoginRequiredMixin, View):
     form_class = SessionForm
 
     def post(self, request, **kwargs):
+
         form = self.form_class(
             request.POST, instance=request.user.profile)
+
         if form.is_valid():
+            print form['session_name']
+            print True
+            import pdb
+            pdb.set_trace()
             form.save()
             messages.add_message(
                 request, messages.SUCCESS, 'Name Updated!')
 
-        return HttpResponse(content_type="application/json")
+        return HttpResponse(json.dumps(form), content_type="application/json")
 

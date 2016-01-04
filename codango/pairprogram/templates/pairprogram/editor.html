@@ -33,6 +33,11 @@
             <option value="textmate">Textmate</option>
             <option value="terminal">Terminal</option>
         </select>
+        <div class="session-name" id="div_1"><span>{{ session_name }}</span>
+            <form action="/pair/name/" class="form-inline">
+                <input type="text" class="form-group" id="new-session-name" name="session_name">
+            </form>
+        </div>
 
     </div>
 
@@ -55,6 +60,7 @@
 
 {% endblock body %}
 {% block script %}
+    <script src="{% static 'js/jquery.jeditable.mini.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/mode-javascript.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/theme-textmate.js"></script>
     <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>

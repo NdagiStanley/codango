@@ -11,14 +11,33 @@ function init(language, theme) {
 
 // Helper to get hash from end of URL or generate a random one.
 function getPageRef() {
-    
-
 
 }
 
 $(document).ready(function () {
+    $('.session-name span').click(function () {
+        $(this).closest('div').find('form').toggle();
+        $(this).toggle();
+
+    });
+    $('.session-name form').focusout(function () {
+        $(this).closest('div').find('span').toggle();
+        $(this).toggle();
+        $(this).trigger('submit');
+    }).submit(function(e){
+        e.preventDefault();
+        var data = $(this).serializeArray();
+        var url = $(this).attr('action');
+        console.log(url);
+        $.post(
+            url, data, function(res){
+                console.log(res);
+            }
+        )
+    });
+
     var app = {
-        init: function(language, theme) {
+        init: function (language, theme) {
             // Initialize the events
             app.bindEvents();
             // Get the username
@@ -38,7 +57,7 @@ $(document).ready(function () {
             session.setUseWrapMode(true);
             session.setUseWorker(false);
             session.setMode("ace/mode/" + language);
-            
+
             // Create Firepad
             var firepad = Firepad.fromACE(thisSessionRef, editor, {
                 defaultText: '// JavaScript Editing with Firepad!\nfunction go() {\n  var message = "Hello, world.";\n  console.log(message);\n}'
@@ -48,7 +67,7 @@ $(document).ready(function () {
                 document.getElementById('userlist'), userId);
             console.log(firepadUserList);
         },
-        bindEvents: function() {
+        bindEvents: function () {
             // Language change event handler
             $('#language').change(function (e) {
                 init($(this).val(), $("#theme").val());
@@ -60,12 +79,12 @@ $(document).ready(function () {
                 init($('#language').val(), $(this).val());
             });
         },
-        getPageRef: function() {
+        getPageRef: function () {
             var firepadRef = new Firebase(FIRBASE_URL);
             var sessionId = $("#session-id").val();
             return firepadRef.child('session/' + sessionId);
         }
     };
-    
+
     app.init();
 });

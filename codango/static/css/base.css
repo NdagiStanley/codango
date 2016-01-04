@@ -975,6 +975,14 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
 
 .editor-preferences{
     margin-left: 15px;
+    display: inline-block;
+}
+.session-name{
+    display: inline-block;
+    margin-left: 30px;
+}
+.session-name form{
+    display: none;
 }
 
 .pair-button{
