@@ -13,9 +13,10 @@
             <a href="#" class="list-group-item">
                                 You have no recent notifications
                               </a> {% endfor %}
-          {% if unread|length > 0 %}
+  
+        </div>
+        {% if unread|length > 0 %}
           <button id="delete-notifications" class="btn btn-sm btn-block btn-danger"><i class="mdi mdi-close-circle"></i> Delete all notifications</button>
           {% endif %}
-        </div>
     </div>
 </div>
