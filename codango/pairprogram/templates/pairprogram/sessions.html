@@ -1,4 +1,5 @@
 {% extends "account/layout/base.html" %}
+{% load bootstrap %}
 
 {% block title %} {{ user.username }}'s Pair page {% endblock title %}
 
@@ -42,7 +43,7 @@
                 <div class="modal-body">
                     <form action="/pair/start/" method="post">
                         {% csrf_token %}
-                        {{ sessionform }}
+                        {{ sessionform|bootstrap }}
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create</button>
                         </div>
