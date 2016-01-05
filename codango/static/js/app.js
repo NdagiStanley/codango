@@ -591,8 +591,8 @@ var eventListeners = {
                 error: function(x){
                     console.log(x.responseText);
                 }
-    });
-    });
+            });
+        });
 
         // Shows the comments when we stop editing
         $("body").on("click", ".show-view", function(e) {

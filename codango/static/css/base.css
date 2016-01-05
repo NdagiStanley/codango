@@ -456,6 +456,7 @@ a.list-group-item:hover h4{
     max-height:400px;
     overflow-y:auto;
 }
+
 /* Utilities */
 
 form.navbar-form{
@@ -471,8 +472,7 @@ button.btn {
     margin-right: 5px;
 }
 #delete-notifications{
-    position: absolute;
-    bottom: 0;
+
     width: 100%;
     border-radius: 0;
 
@@ -484,11 +484,11 @@ textarea {
     resize: none;
 }
 
-#community .list-group-item, #popular .list-group-item {
+#community .list-group-item, #popular .list-group-item, #search .list-group-item {
     border: none;
 }
 
-#community .list-group-item i {
+#community .list-group-item i, #search .list-group-item i{
     margin-right: 10px;
 }
 
@@ -534,6 +534,9 @@ textarea {
 
 #file-info {
     display: inline-block;
+}
+.filter-search{
+    padding:25px 35px;
 }
 
 #edit-profile {
