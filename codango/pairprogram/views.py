@@ -1,5 +1,3 @@
-from django.core.serializers import json
-from django.http import HttpResponse
 from django.views.generic import View, TemplateView
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -14,16 +12,15 @@ class StartPairView(LoginRequiredMixin, TemplateView):
     form_class = SessionForm
 
     def post(self, request, **kwargs):
-
         form = self.form_class(
-            request.POST, instance=request.user.profile)
+                request.POST, instance=request.user.profile)
 
         if form.is_valid():
             new_session = Session.objects.create(initiator=request.user, session_name=form.cleaned_data['session_name'])
             new_session.save()
             Participant.objects.create(participant=request.user, session_id=new_session.id)
             messages.add_message(
-                request, messages.SUCCESS, 'Session started successfully')
+                    request, messages.SUCCESS, 'Session started successfully')
             return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
 
 
@@ -48,7 +45,7 @@ class PairSessionView(LoginRequiredMixin, View):
     form_class = SessionForm
     template_name = 'pairprogram/editor.html'
 
-    def get(self, request,  *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         context = {}
         context['session_id'] = kwargs['session_id']
         participants = Participant.objects.filter(session_id=context['session_id']).all()
