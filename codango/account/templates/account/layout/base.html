@@ -29,11 +29,13 @@
                     </button>
                     <a class="navbar-brand" href="/home"><img src="{% static 'img/codango-logo.png' %}" /></a>
                 </div>
-
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
-
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active"><a href = "/home"><i class="mdi mdi-google-circles-communities"></i> Community</a>
+                        <li class="active">
+                            <a href = "/home">
+                                <i class="mdi mdi-google-circles-communities"></i> 
+                            Community
+                            </a>
                         </li>
                         <li><a href = "#"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
                         <li id="notification-li" data-id="{{request.user.id}}" data-url="{% url 'user_activity' %}">
@@ -52,9 +54,8 @@
                         <div class="form-group">
                           <input type="text" name="q" class="form-control" placeholder="Search" value="{{q}}">
                         </div>
-                    <button type="submit" class="btn btn-default">Search</button>
-                </form>
-
+                        <button type="submit" class="btn btn-default">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -75,16 +76,15 @@
         </div>
         <div id="new-notifications">
             <div class="panel panel-danger">
-              <div class="panel-heading">New Notifications</div>
-                      <div class="panel-body" id="notifcation-panel">
-                      </div>
-    </div>
+                <div class="panel-heading">New Notifications</div>
+                <div class="panel-body" id="notifcation-panel"></div>
+            </div>
         </div>
         
         <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
         <script src="{% static 'lib/bootstrap/dist/js/bootstrap.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'lib/ace-builds/src-min-noconflict/ace.js' %}"></script>
-         <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
         <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/snippet.js' %}"></script>
         <script type="text/javascript" src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
