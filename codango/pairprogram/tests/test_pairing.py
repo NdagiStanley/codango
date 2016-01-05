@@ -5,21 +5,20 @@ from pairprogram.models import Session, Participant
 
 
 class PairTestCase(TestCase):
-
     def setUp(self):
         self.client = Client()
         self.initiator = User.objects.create_user(
-            username='andela',
-            password='awesome'
+                username='andela',
+                password='awesome'
         )
         self.user = User.objects.create_user(
-            username='master',
-            password='awesome'
+                username='master',
+                password='awesome'
         )
         self.initiator.set_password('awesome')
         self.initiator.save()
         self.login = self.client.login(
-            username='andela', password='awesome')
+                username='andela', password='awesome')
 
         self.participant1 = User.objects.create_user(username='awesome', password='andela')
         self.participant1.set_password('andela')
@@ -30,7 +29,7 @@ class PairTestCase(TestCase):
     def test_user_can_initiate_a_pairing_session(self):
         url = reverse("start_session")
         response = self.client.get(url)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
     def test_user_can_view_current_session(self):
         url = reverse("list_sessions")
@@ -41,4 +40,3 @@ class PairTestCase(TestCase):
         url = reverse("pair_program", kwargs={"session_id": self.pair_session.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-
