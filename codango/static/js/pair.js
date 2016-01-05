@@ -15,26 +15,6 @@ function getPageRef() {
 }
 
 $(document).ready(function () {
-    $('.session-name span').click(function () {
-        $(this).closest('div').find('form').toggle();
-        $(this).toggle();
-
-    });
-    $('.session-name form').focusout(function () {
-        $(this).closest('div').find('span').toggle();
-        $(this).toggle();
-        $(this).trigger('submit');
-    }).submit(function(e){
-        e.preventDefault();
-        var data = $(this).serializeArray();
-        var url = $(this).attr('action');
-        console.log(url);
-        $.post(
-            url, data, function(res){
-                console.log(res);
-            }
-        )
-    });
 
     var app = {
         init: function (language, theme) {

@@ -17,7 +17,8 @@
 {% block content %}
     <div class="content-block">
         <div>
-            <a href="/pair/start/" class="btn btn-primary pair-button">
+{#            <a href="/pair/start/" class="btn btn-primary pair-button" data-toggle="modal" data-target="SessionModal">#}
+            <a href="#" class="btn btn-primary pair-button" data-toggle="modal" data-target="#SessionModal">
                 Create a new Programming session
             </a>
         </div>
@@ -30,4 +31,31 @@
             {% endif %}
         </div>
     </div>
+
+    <div id="SessionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Enter session name</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+          <form action="/pair/start/" method="post">
+              {% csrf_token %}
+              {{ sessionform }}
+               <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 {% endblock content %}

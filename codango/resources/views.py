@@ -173,4 +173,5 @@ class SinglePostView(LoginRequiredMixin, TemplateView):
         except Resource.DoesNotExist:
             pass
         context['commentform'] = CommentForm(auto_id=False)
+        context['title'] = 'Viewing post'
         return context

@@ -11,6 +11,7 @@ from resources.views import LoginRequiredMixin
 
 class StartPairView(LoginRequiredMixin, TemplateView):
     template_name = 'pairprogram/sessions.html'
+    form_class = SessionForm
 
     def get(self, request, *args, **kwargs):
         new_session = Session.objects.create(initiator=request.user)
@@ -20,9 +21,22 @@ class StartPairView(LoginRequiredMixin, TemplateView):
 
         return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
 
+    def post(self, request, **kwargs):
+
+        form = self.form_class(
+            request.POST, instance=request.user.profile)
+
+        if form.is_valid():
+            new_session = Session.objects.create(initiator=request.user, session_name=form.cleaned_data['session_name'])
+            new_session.save()
+            Participant.objects.create(participant=request.user, session_id=new_session.id)
+            messages.add_message(
+                request, messages.SUCCESS, 'Name Updated!')
+            return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
+
 
 class ListSessionView(LoginRequiredMixin, TemplateView):
-    
+    form_class = SessionForm
     template_name = 'pairprogram/sessions.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -34,6 +48,7 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
             sessions.append(participant.session)
 
         context['sessions'] = sessions
+        context['sessionform'] = self.form_class()
         return context
 
 
