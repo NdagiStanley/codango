@@ -480,7 +480,7 @@ var followAction = {
         if (config && typeof config == 'object') $.extend(followAction.config, config);
         $("body").on('click', followAction.config.button, function(e){
             e.preventDefault();
-            var _this = $(this)
+            var _this = $(this);
             var url = $(this).attr('href');
             followAction.doFollow(_this,url)
         })

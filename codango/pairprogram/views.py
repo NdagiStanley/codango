@@ -13,14 +13,6 @@ class StartPairView(LoginRequiredMixin, TemplateView):
     template_name = 'pairprogram/sessions.html'
     form_class = SessionForm
 
-    def get(self, request, *args, **kwargs):
-        new_session = Session.objects.create(initiator=request.user)
-        new_session.session_name = new_session.initiator.username + "'s session"
-        new_session.save()
-        Participant.objects.create(participant=request.user, session_id=new_session.id)
-
-        return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
-
     def post(self, request, **kwargs):
 
         form = self.form_class(
@@ -31,7 +23,7 @@ class StartPairView(LoginRequiredMixin, TemplateView):
             new_session.save()
             Participant.objects.create(participant=request.user, session_id=new_session.id)
             messages.add_message(
-                request, messages.SUCCESS, 'Name Updated!')
+                request, messages.SUCCESS, 'Session started successfully')
             return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
 
 
@@ -71,24 +63,3 @@ class PairSessionView(LoginRequiredMixin, View):
             return redirect('/home', context_instance=RequestContext(self.request))
 
         return render(request, self.template_name, context)
-
-
-class PairNameView(LoginRequiredMixin, View):
-    form_class = SessionForm
-
-    def post(self, request, **kwargs):
-
-        form = self.form_class(
-            request.POST, instance=request.user.profile)
-
-        if form.is_valid():
-            print form['session_name']
-            print True
-            import pdb
-            pdb.set_trace()
-            form.save()
-            messages.add_message(
-                request, messages.SUCCESS, 'Name Updated!')
-
-        return HttpResponse(json.dumps(form), content_type="application/json")
-

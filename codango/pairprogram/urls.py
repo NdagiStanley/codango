@@ -11,6 +11,4 @@ urlpatterns = [
         views.PairSessionView.as_view(), name='pair_program'),
     url(r'^start/$',
         views.StartPairView.as_view(), name='start_session'),
-    url(r'^name/$',
-        views.PairNameView.as_view(), name='name_session'),
 ]

@@ -1,126 +1,151 @@
-{% load cloudinary %} 
+{% load cloudinary %}
 {% load endless %}
 {% load bootstrap %}
 {% load staticfiles %}
 
 
-
 <div class="content-block">
-{% if resource %}
+    {% if resource %}
 
-<div class="feed">
-    <div class="profile-img">
-        {% if resource.author.profile.image %}
-        {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
-        {% else %}
-        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
-        {% endif %}
-    </div>
-    <div class="feed-content">
-        <p class="poster-details">
-            <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
-            <small><em>{{ resource.date_added | timesince }} ago</em></small>
-        </p>
-        <h1>{{ resource.text }}</h1>
-        {% if resource.snippet_text %}
-            
-        <p>
-            <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
-        </p>
-        {% endif %}
-        {% if resource.resource_file %}
-        <p id="file-icon">
-            {% if resource.resource_file.format == "pdf" %}
-            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
-            {% else %}
-            <i id="file-icon-doc" class="mdi mdi-file-word"></i>
-            {% endif %}
-        </p> &nbsp;
-        <p id="file-info">
-            <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a>
-            <br> size: {{ resource.resource_file_size|filesizeformat }}
-        </p>
-        {% endif %}
-        <div class="comments" id="rcomments-{{resource.id}}">
-        <div class="row">
-            <div class="col-sm-12">
-                <div id="codango-link" class="codango-badge">
-                    <a href="{% url 'community' community=resource.get_language_tags_display|lower %}">
-                    {{ resource.get_language_tags_display }}</a>
-                </div>
-                <div class="comments-icons pull-right btn-group">
-                    <a href="{% url 'resource_vote' resource_id=resource.id action='likes' %}" data-id="{{resource.id}}" class="like btn btn-default {% if request.user.id in resource.upvotes %} active {% endif %}"><span class="mdi mdi-thumb-up item">&nbsp;&nbsp;<strong>{{resource.upvotes|length}}</strong></span></a>
-                    <a href="{% url 'resource_vote' resource_id=resource.id action='unlikes' %}" data-id="{{resource.id}}" class="unlike btn btn-default {% if request.user.id in resource.downvotes %} active {% endif %}"><span class="mdi mdi-thumb-down item">&nbsp;&nbsp;<strong>{{resource.downvotes|length}}</strong></span></a>
-                    <div id="commentcount" class="commentcount-{{resource.id}}"><a class="btn btn-default comment-count"><span class="mdi mdi-comment item">&nbsp;&nbsp;<strong>{{ resource.comments.count }}</strong></span></a></div>
-                </div>
+        <h3 class="activity-feed section-header">{{ title }}
+
+        </h3>
+        <div class="feed">
+
+            <div class="profile-img">
+                {% if resource.author.profile.image %}
+                    {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
+                {% else %}
+                    {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+                {% endif %}
             </div>
-        </div>
-        <div class="comments-div">
-            <div>
-                <div class="comments-title">COMMENTS ({{ resource.comments.count }})</div>
-                {% for comment in resource.comments.all %}
-                <article class="comment">
-                    <figure>
-                        {% if comment.author.profile.image %}
-                        {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %}
+            <div class="feed-content">
+                <p class="poster-details">
+                    <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
+                    <small><em>{{ resource.date_added | timesince }} ago</em></small>
+                </p>
+                <h1>{{ resource.text }}</h1>
+                {% if resource.snippet_text %}
+
+                    <p>
+                    <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
+                    </p>
+                {% endif %}
+                {% if resource.resource_file %}
+                    <p id="file-icon">
+                        {% if resource.resource_file.format == "pdf" %}
+                            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
                         {% else %}
-                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+                            <i id="file-icon-doc" class="mdi mdi-file-word"></i>
                         {% endif %}
-                    </figure>
-                    <div class="comment-contents">
-                        <header>
-                            <div class="comment-user">
-                                <strong>{{comment.author}}</strong>&nbsp;&nbsp;
-                                <em id="comment-time">added about
-                                <time class="comment-date" datetime="16-12-2014 01:05">
-                                {{comment.date_modified|timesince}} ago
-                                </time></em>
+                    </p> &nbsp;
+                    <p id="file-info">
+                        <a href="http://res.cloudinary.com/codangofile/raw/upload/{{ resource.resource_file }}.{{ resource.resource_file.format }}">{{ resource.resource_file_name }}</a>
+                        <br> size: {{ resource.resource_file_size|filesizeformat }}
+                    </p>
+                {% endif %}
+                <div class="comments" id="rcomments-{{ resource.id }}">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="codango-link" class="codango-badge">
+                                <a href="{% url 'community' community=resource.get_language_tags_display|lower %}">
+                                    {{ resource.get_language_tags_display }}</a>
                             </div>
-                        </header>
-                        <div class="comment-post view">
-                            <h5>
-                                {{comment}}
-                                {% if comment.author.id == request.user.id %}
-                                    <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment pull-right"><span class="mdi mdi-delete"></span></a>
-                                    <a href="#" class="show-edit pull-right"><span class="mdi mdi-pencil"></span> </a>
-                                {% endif %}
-                            </h5>
-                        </div>
-                        {% if comment.author.id == request.user.id %}
-                        <div class="comment-post edit-view">
-                            <form class="form horizontal edit-comment" action="{% url 'comment_action' comment_id=comment.id  %}" method="POST">
-                                <textarea name="content" class="form-control">{{comment}}</textarea>
-                                <div>
-                                    <button type="submit" class="btn btn-primary">Save</button>
-                                    <button type="button" class="btn btn-default show-view">Discard Changes</button>
+                            <div class="comments-icons pull-right btn-group">
+                                <a href="{% url 'resource_vote' resource_id=resource.id action='likes' %}"
+                                   data-id="{{ resource.id }}"
+                                   class="like btn btn-default {% if request.user.id in resource.upvotes %} active {% endif %}"><span
+                                        class="mdi mdi-thumb-up item">&nbsp;&nbsp;<strong>{{ resource.upvotes|length }}</strong></span></a>
+                                <a href="{% url 'resource_vote' resource_id=resource.id action='unlikes' %}"
+                                   data-id="{{ resource.id }}"
+                                   class="unlike btn btn-default {% if request.user.id in resource.downvotes %} active {% endif %}"><span
+                                        class="mdi mdi-thumb-down item">&nbsp;&nbsp;<strong>{{ resource.downvotes|length }}</strong></span></a>
+                                <div id="commentcount" class="commentcount-{{ resource.id }}"><a
+                                        class="btn btn-default comment-count"><span class="mdi mdi-comment item">&nbsp;&nbsp;<strong>{{ resource.comments.count }}</strong></span></a>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                        {% endif %}
                     </div>
-                </article>
-                {% empty %}
-                <p id="empty" class="alert alert-info spacers"> There are currently no comments for this resource </p>
-                {% endfor %}
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="comment-form">
-                        <form name="comment_form" class="form-horizontal commentform" action="{% url 'new_comment' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="resource_id" value="{{resource.id}}"> {{ commentform|bootstrap }}
-                            <button id="comment-button" class="pull-right btn btn-sm btn-primary" type="submit"> Comment </button>
-                            <div class="clearfix"></div>
-                        </form>
+                    <div class="comments-div">
+                        <div>
+                            <div class="comments-title">COMMENTS ({{ resource.comments.count }})</div>
+                            {% for comment in resource.comments.all %}
+                                <article class="comment">
+                                    <figure>
+                                        {% if comment.author.profile.image %}
+                                            {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %}
+                                        {% else %}
+                                            {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
+                                        {% endif %}
+                                    </figure>
+                                    <div class="comment-contents">
+                                        <header>
+                                            <div class="comment-user">
+                                                <strong>{{ comment.author }}</strong>&nbsp;&nbsp;
+                                                <em id="comment-time">added about
+                                                    <time class="comment-date" datetime="16-12-2014 01:05">
+                                                        {{ comment.date_modified|timesince }} ago
+                                                    </time>
+                                                </em>
+                                            </div>
+                                        </header>
+                                        <div class="comment-post view">
+                                            <h5>
+                                                {{ comment }}
+                                                {% if comment.author.id == request.user.id %}
+                                                    <a href="{% url 'comment_action' comment_id=comment.id %}"
+                                                       class="delete-comment pull-right"><span
+                                                            class="mdi mdi-delete"></span></a>
+                                                    <a href="#" class="show-edit pull-right"><span
+                                                            class="mdi mdi-pencil"></span> </a>
+                                                {% endif %}
+                                            </h5>
+                                        </div>
+                                        {% if comment.author.id == request.user.id %}
+                                            <div class="comment-post edit-view">
+                                                <form class="form horizontal edit-comment"
+                                                      action="{% url 'comment_action' comment_id=comment.id %}"
+                                                      method="POST">
+                                                    <textarea name="content"
+                                                              class="form-control">{{ comment }}</textarea>
+                                                    <div>
+                                                        <button type="submit" class="btn btn-primary">Save</button>
+                                                        <button type="button" class="btn btn-default show-view">Discard
+                                                            Changes
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            {% empty %}
+                                <p id="empty" class="alert alert-info spacers"> There are currently no comments for this
+                                    resource </p>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="comment-form">
+                                    <form name="comment_form" class="form-horizontal commentform"
+                                          action="{% url 'new_comment' %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="resource_id"
+                                               value="{{ resource.id }}"> {{ commentform|bootstrap }}
+                                        <button id="comment-button" class="pull-right btn btn-sm btn-primary"
+                                                type="submit"> Comment
+                                        </button>
+                                        <div class="clearfix"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-    </div>
-</div>
 
     {% else %}
-    There is no resource for this item
-{% endif %}
+        There is no resource for this item
+    {% endif %}
 </div>

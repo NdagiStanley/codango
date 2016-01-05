@@ -12,3 +12,6 @@ class SessionForm(forms.ModelForm):
         labels = {
             'session_name': 'Session name'
         }
+        widgets = {'session_name': forms.TextInput(attrs={
+            'required': 'required'
+        })}
