@@ -38,13 +38,6 @@ class UserProfileDetailView(CommunityBaseView):
             user = User.objects.get(username=username)
             if user is None:
                 return Http404("User does not exist")
-        try:
-            follow = Follow.objects.filter(
-                follower_id=self.request.user.id).get(followed_id=user.id)
-            if follow is not None:
-                context['already_following'] = True
-        except:
-            pass
 
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
@@ -81,6 +74,12 @@ class ActivityUpdate(TemplateView):
         activity.read = True
         activity.save()
         return HttpResponse("success", content_type='text/plain')
+
+    def delete(self, request, *args, **kwargs):
+        user = request.user
+        user.notifications.all().delete()
+        return HttpResponse("success", content_type='text/plain')
+ 
 
 
 class UserGithub(View):
@@ -198,18 +197,11 @@ class FollowUserView(LoginRequiredMixin, View):
 
         follow.save()
 
-        userprofile = UserProfile.objects.get(user_id=user.id)
-        userprofile.following += 1
-        userprofile.save()
 
-        follower_user_profile = UserProfile.objects.get(
-            user_id=following_id.id)
-        follower_user_profile.followers += 1
-        follower_user_profile.save()
 
         repsonse_json = {
-            'no_of_followers': len(follower_user_profile.get_followers()),
-            'no_following': len(follower_user_profile.get_following()),
+            'no_of_followers': len(following_id.profile.get_followers()),
+            'no_following': len(following_id.profile.get_following()),
             'content': user.username + " follows you",
             'user_id': following_id.id,
             "link": reverse('user_profile', kwargs={'username': user.username}),
@@ -235,21 +227,10 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=user.id)
 
-        try:
-            follow = Follow.objects.filter(
-                follower=self.request.user.id).get(followed=user.id)
+        context['follow_list'] = user_profile.get_following() if direction == 'followers' else user_profile.get_followers()
+        context['no_follow'] = 'No followers to display' if direction == 'followers' else 'Not following anyone'
+        context['direction'] = direction
 
-            if follow is not None:
-                context['already_following'] = True
-        except:
-            pass
-
-        if direction == 'followers':
-            context['follower_lists'] = user_profile.get_followers()
-            context['no_followers'] = 'No followers to display'
-        else:
-            context['following_lists'] = user_profile.get_following()
-            context['no_following'] = 'Not following anyone'
 
         context['profile'] = user_profile
         context['github_id'] = CLIENT_ID

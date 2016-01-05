@@ -176,6 +176,16 @@ class TeamView(TemplateView):
 class HomeView(CommunityBaseView):
     pass
 
+class SearchView(CommunityBaseView):
+    template_name = 'account/search.html'
+    def get_context_data(self, **kwargs):
+        searchby = kwargs['searchby'] if 'searchby' in kwargs else 'resources'
+        context = super(SearchView, self).get_context_data(**kwargs)
+        context['search_type'] = searchby
+        return context
+
+
+
 
 class ForgotPasswordView(TemplateView):
     form_class = ResetForm

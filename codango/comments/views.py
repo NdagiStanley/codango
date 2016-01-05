@@ -25,17 +25,21 @@ class CommentAction(View):
         comment.resource = resource
         comment.author = self.request.user
         comment.save()
+        if comment.author.id != resource.author.id:
+            response_dict = {
+                "content": comment.author.username +
+                " commented on your resource",
+                "link": "#",
+                "type": "comment",
+                "read": False,
+                "user_id": resource.author.id,
+                "status": "Successfully Posted Your Comment for this resource"
+                }
+            response_json = json.dumps(response_dict)
+            return HttpResponse(response_json, content_type="application/json")
 
-        response_dict = {
-        		"content": comment.author.username + " commented on your resource",
-                         "link": "http://codango-stanging/resource/1",
-                         "type": "comment",
-                         "read": False,
-                         "user_id": resource.author.id,
-                         "status": "Successfully Posted Your Comment for this resource"
-                         }
-        response_json = json.dumps(response_dict)
-        return HttpResponse(response_json, content_type="application/json")
+        return HttpResponse("Successfully Posted Your Comment for this \
+            resource", content_type='text/plain')
 
     def put(self, request, *args, **kwargs):
         body = json.loads(request.body)

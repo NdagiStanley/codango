@@ -16,14 +16,8 @@ class CommunityViewTest(TestCase):
         self.user.save()
         self.login = self.client.login(username='Abiodun', password='shuaib')
 
-    def create_resources(
-            self,
-            text='some more words',
-            resource_file='resource_file'):
-        return Resource.objects.create(
-            id=100,
-            text=text,
-            author=self.user,
+    def create_resources(self,text='some more words',resource_file='resource_file'):
+        return Resource.objects.create(id=100, text=text, author=self.user,
             resource_file=resource_file
         )
 

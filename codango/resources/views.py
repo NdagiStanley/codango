@@ -1,4 +1,9 @@
 import json
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
+from django.db.models import Q
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
 from django.db.models import Count
@@ -6,9 +11,7 @@ from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse
+
 
 
 
@@ -34,7 +37,19 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         sortby = self.request.GET[
             'sortby'] if 'sortby' in self.request.GET else 'date'
 
-        resources = self.sort_by(sortby, Resource.objects)
+        query = self.request.GET[
+            'q'] if 'q' in self.request.GET else ''
+
+        resources = self.sort_by(sortby, 
+            Resource.objects.filter(
+            Q(text__contains=query) | 
+            Q(snippet_text__contains=query) |
+            Q(resource_file_name__contains=query)))
+
+        users = User.objects.filter(
+            Q(username__contains=query) | 
+            Q(first_name__contains=query) |
+            Q(last_name__contains=query) | Q(email__contains=query))
         community = kwargs[
             'community'].upper() if 'community' in kwargs else 'ALL'
 
@@ -47,7 +62,9 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         context = {
             'resources': resources,
             'commentform': CommentForm(auto_id=False),
-            'title': 'Activity Feed',
+            'title': 'Activity Feed' if query == '' else query + " Search results",
+            'q':query,
+            'users':users,
             'popular': Resource.objects.annotate(num_comments=Count('comments')).annotate(num_votes=Count('votes')).order_by('-num_comments', '-num_votes')[:5],
         }
         return context
@@ -81,7 +98,7 @@ class CommunityView(CommunityBaseView):
                 resource.resource_file_size = form.files['resource_file'].size
             except KeyError:
                 pass
-            followers = self.request.user.profile.get_followers()
+            followers = self.request.user.profile.get_following()
             resource.author = self.request.user
             resource.save()
             response_dict = {
@@ -89,7 +106,7 @@ class CommunityView(CommunityBaseView):
             "link": "#",
             "type": "newpost",
             "read": False,
-            "user_id": [follower.follower_id for follower in followers],
+            "user_id": [follower.id for follower in followers],
             "status": "Successfully Posted Your Resource"
             }
             response_json = json.dumps(response_dict)
@@ -128,16 +145,19 @@ class ResourceVoteView(View):
             vote.delete()
             status = "unvotes"
 
-        response_dict = {
-            "upvotes": len(resource.upvotes()),
+        response_dict = {"upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
+            }
+
+        if user_id != resource.author.id:
+            response_dict.update({
             "content": vote.user.username+ " " + status  + " your resource",
             "link": "#",
             "type": "vote",
             "read": False,
-            "user_id": resource.author.id
-            }
+            "user_id": resource.author.id})
+
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")

@@ -26,7 +26,7 @@ class CommentActionTest(TestCase):
                                         'resource_id': 100},
                                     HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'status')
+        self.assertContains(response, 'Successfully')
 
     def test_user_can_delete_comments(self):
         self.assertTrue(self.login)

@@ -270,7 +270,6 @@ var formPost = {
             },
             complete: function() {
                 if (_this.hasClass("share")) {
-                    console.log(document.URL);
                     $("#community-content").load(document.URL, function() {
                         $("#id-snippet-body").hide();
                         $("#id-pdf-file").removeClass("show");
@@ -333,7 +332,7 @@ var votes = {
                 resource_id: resource_id
             },
             success: function(data) {
-                postActivity(data);
+                if(data['user_id']!== undefined) postActivity(data);
                 if (data["status"] == "unvotes") _this.removeClass("active");
                 else _this.addClass("active")
                 if (_this.hasClass("like")) {
@@ -461,7 +460,6 @@ var readNotification = {
                 'id': _this.data("id")
             }),
             success: function(data){
-                console.log(data)
                 location.assign(_this.attr("href"));
 
             },
@@ -564,7 +562,8 @@ var realTime = {
         clearTimeout(realTime.config.timeoutid);
         realTime.config.timeoutid = setTimeout(function(){
             $(realTime.config.newNotficationDiv).fadeOut("slow");
-        },4000);
+            $(realTime.config.panel).empty();
+        },3000);
     }
 };
 
@@ -576,6 +575,23 @@ var eventListeners = {
             e.preventDefault();
             $(this).closest("div").siblings(".edit-view").show();
             $(this).closest(".view").hide();
+        });
+
+        //Deletes all notifications
+        $("body").on("click", "#delete-notifications",function(e){
+            e.preventDefault();
+            if(!confirm("Are you sure you want to clear your notifications")) return;
+            $.ajax({
+                url: $("#notification-li").data("url"),
+                type:"DELETE",
+                data:{sample: "data"},
+                success:function(data){
+                    $("#notification-li").load($("#notification-li").data("url"));
+                },
+                error: function(x){
+                    console.log(x.responseText);
+                }
+            });
         });
 
         // Shows the comments when we stop editing
@@ -624,6 +640,7 @@ var eventListeners = {
 $(document).ready(function() {
     realTime.init();
 
+
     facebookLogin.init({
         fb_id: "1472691016373339"
     });
@@ -645,7 +662,10 @@ $(document).ready(function() {
     mobileNav.init();
     votes.init();
     deleteComment.init();
-    followAction.init();
+    followAction.init({
+       button:"#follow-btn,.follow-btn"
+
+    });
     readNotification.init({
         button: "#notifications .list-group-item"
     });
