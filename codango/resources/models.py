@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib import auth
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from cloudinary.models import CloudinaryField
 
@@ -18,7 +18,7 @@ class Resource(models.Model):
         ('C', 'C')
     )
 
-    author = models.ForeignKey(auth.models.User)
+    author = models.ForeignKey(User)
     text = models.TextField(null=True, blank=False)
     language_tags = models.CharField(
         max_length=30, choices=LANGUAGE_TAGS, default='Untagged')
