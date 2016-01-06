@@ -31,9 +31,7 @@ $(document).ready(function () {
             var thisSessionRef = app.getPageRef();
 
             // Initialize ACE Editor
-            //var editor = ace.edit("firepad-container");
             editor.setTheme("ace/theme/" + theme);
-            //var session = editor.getSession();
             session.setUseWrapMode(true);
             session.setUseWorker(false);
             session.setMode("ace/mode/" + language);
