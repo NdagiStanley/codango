@@ -1,0 +1,28 @@
+{
+    "env" : {
+        "browser": true
+        },
+        "ecmaFeatures": {
+            "es5": true,
+            "modules": true
+
+            },
+
+    "extends": "airbnb",
+    "plugins": [
+        "react"
+    ],
+    "rules":{
+    "curly" : [2, "multi-line"],
+    "require-jsdoc": [2, {
+        "require": {
+            "FunctionDeclaration": true,
+            "MethodDefinition": true,
+            "ClassDeclaration": false
+        }
+    }],
+    "comma-dangle": [2, "never"],
+    "object-shorthand": [2, "never"]
+
+    }
+}
