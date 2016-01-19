@@ -660,8 +660,7 @@ inviteToSession = {
 
       // Push the email to the list of emails available
       invitedUsers.push(email);
-
-      // Reset the input form
+       // Reset the input form
       $(this).closest('form').trigger('reset');
       // Show the email in the html div
       inviteToSession.buildHtml();
@@ -753,6 +752,7 @@ inviteToSession = {
   validationError: function (message) {
     $(inviteToSession.config.validateDiv).html(message);
   },
+
   errorMessage: function () {
     return $(inviteToSession.config.inviteDiv).html('<p class="text-danger">' +
             'Some erros where encoutred when sending the email</p>');

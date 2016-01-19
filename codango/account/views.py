@@ -96,7 +96,8 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
-            pair_session_id = request.POST['session_id']
+            pair_session_id = request.POST[
+                'session_id'] if 'session_id' in request.POST else ''
             # Checks if the pairsessoin is not absent and is available
             if pair_session_id != '':
                 session = Session.objects.get(id=int(pair_session_id))
