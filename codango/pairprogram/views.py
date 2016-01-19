@@ -16,7 +16,8 @@ class StartPairView(LoginRequiredMixin, TemplateView):
                 request.POST, instance=request.user.profile)
 
         if form.is_valid():
-            new_session = Session.objects.create(initiator=request.user, session_name=form.cleaned_data['session_name'])
+            new_session = Session.objects.create(initiator=request.user,
+                        session_name=form.cleaned_data['session_name'])
             new_session.save()
             Participant.objects.create(participant=request.user, session_id=new_session.id)
             messages.add_message(
@@ -60,3 +61,5 @@ class PairSessionView(LoginRequiredMixin, View):
             return redirect('/home', context_instance=RequestContext(self.request))
 
         return render(request, self.template_name, context)
+    def post(self, request, *args, **kwargs):
+        pass

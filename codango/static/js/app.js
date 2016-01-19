@@ -15,6 +15,8 @@ var readNotification;
 var followAction;
 var realTime;
 var eventListeners;
+var invitedUsers = [];
+var inviteToSession;
 
 $.ajaxSetup({
   headers: {
@@ -661,13 +663,64 @@ eventListeners = {
   }
 };
 
+inviteToSession = {
+  config: {
+    button: '#invite-div > button',
+    deleteButton: '#invited-users .mdi-delete'
+  },
+  init: function (config) {
+    if (typeof(config) === 'object') $.extend(inviteToSession.config, config);
+    $(inviteToSession.config.button).click(function (e) {
+      var email = $('#invite-div').find('input').val();
+      e.preventDefault();
+
+      // checks if the email is valid and its not prepended already
+      if (!inviteToSession.verifyEmail(email)) return alert('Invalid Email Address');
+      if (!inviteToSession.isEmailInList(email)) return alert('Email is already in the list');
+
+      invitedUsers.push(email);
+      inviteToSession.buildHtml();
+    });
+    $('body').on('click', inviteToSession.config.deleteButton, function (e) {
+      var email = $(this).data('email');
+      e.preventDefault();
+      inviteToSession.deleteEmail($(this), email);
+    });
+  },
+  verifyEmail: function (email) {
+    if (!/[^\s@]+@[^\s@]+\.[^\s@]+/.test(email)) {
+      return false;
+    }
+    return true;
+  },
+  isEmailInList: function (email) {
+    if (invitedUsers.indexOf(email) !== -1) return false;
+    return true;
+  },
+  buildHtml: function () {
+    var htmlElement = '';
+    invitedUsers.forEach(function (val) {
+      htmlElement += '<div class="form-group>" <p class="lead">' + val +
+                      '&nbsp;&nbsp;' +
+                      '<span class="mdi mdi-delete" data-email=' + val +
+                      '></span></p></div>';
+    });
+    $('#invited-users').html(htmlElement);
+  },
+  deleteEmail: function (_this, email) {
+    var index = invitedUsers.indexOf(email);
+    invitedUsers.splice(index, 1);
+    _this.closest('div').remove();
+  }
+};
+
 $(document).ready(function () {
   realTime.init();
-
-
   facebookLogin.init({
-    fbId: "1472691016373339"
+    fbId: '1472691016373339'
   });
+  inviteToSession.init();
+
   googleLogin.init({
     REDIRECT: 'http://codango-staging.herokuapp.com/'
   });
