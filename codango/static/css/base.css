@@ -196,7 +196,8 @@ margin-top:10px;
     display: none;
 }
 .mdi-delete{
-    color:red !important;
+    cursor: pointer;
+    color: red !important;
 }
 
 .show-edit {

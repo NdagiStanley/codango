@@ -60,9 +60,6 @@ function socialLogin(user) {
         $('#signup-form').append('<input type="hidden" name="social_id" value="' + user.id + '">');
         $('#id_email').val(user.email);
       }
-    },
-    error: function () {
-      // console.log(resp.responseText);
     }
   };
   $.ajax(ajaxInfo);
@@ -105,10 +102,6 @@ function postActivity(data) {
     data: data,
     success: function () {
       postDataToFireBase(data);
-    },
-    error: function () {
-        // console.log(x.responseText)
-
     }
   });
 }
@@ -139,10 +132,7 @@ facebookLogin = {
   login: function () {
     FB.login(function (response) {
       if (response.authResponse) {
-        // console.log("Welcome!  Fetching your information.... ");
         FB.api('/me?fields=email,first_name,last_name,picture', socialLogin);
-      } else {
-        // console.log("Not logged in");
       }
     }, {
       scope: 'email,user_likes'
@@ -180,7 +170,6 @@ googleLogin = {
     var url;
     var pollTimer = window.setInterval(function () {
       try {
-        // console.log(win.document.URL);
         if (win.document.URL.indexOf(googleLogin.config.REDIRECT) !== -1) {
           window.clearInterval(pollTimer);
           url = win.document.URL;
@@ -326,8 +315,6 @@ formPost = {
         }
       },
       error: function (status) {
-          // Display errors
-          // console.log(status.responseText);
         if (status.responseText === 'emptypost') {
           _this.prepend('<div class="alert alert-danger errormsg">Empty Post!!</div>');
         } else {
@@ -415,9 +402,6 @@ votes = {
           .find('span').html('&nbsp;&nbsp;' + data.upvotes);
           _this.find('span').html('&nbsp;&nbsp;' + data.downvotes);
         }
-      },
-      error: function () {
-            // console.log(x.responseText)
       }
     });
   }
@@ -440,10 +424,7 @@ deleteComment = {
     $.ajax({
       url: _this.attr('href'),
       type: 'DELETE',
-      success: loadComments(_this),
-      error: function () {
-          // console.log(res.responseText);
-      }
+      success: loadComments(_this)
     });
   }
 };
@@ -468,10 +449,7 @@ editComment = {
       data: JSON.stringify({
         content: _this.find('textarea[name="content"]').val()
       }),
-      success: loadComments(_this),
-      error: function () {
-        // console.log(res.responseText);
-      }
+      success: loadComments(_this)
     });
   }
 };
@@ -498,9 +476,6 @@ readNotification = {
       }),
       success: function () {
         location.assign(_this.attr('href'));
-      },
-      error: function () {
-        // console.log(res.responseText);
       }
     });
   }
@@ -531,9 +506,6 @@ followAction = {
 
         _this.attr('disabled', true);
         _this.text('following');
-      },
-      error: function () {
-        // console.log(x.responseText)
       }
 
     });
@@ -613,9 +585,6 @@ eventListeners = {
         data: { sample: 'data' },
         success: function () {
           $('#notification-li').load($('#notification-li').data('url'));
-        },
-        error: function () {
-          // console.log(x.responseText);
         }
       });
     });
@@ -666,7 +635,11 @@ eventListeners = {
 inviteToSession = {
   config: {
     button: '#invite-div > button',
-    deleteButton: '#invited-users .mdi-delete'
+    deleteButton: '#invited-users .mdi-delete',
+    sendButton: '.invite > button',
+    form: 'form.invite',
+    inviteDiv: '#invited-users',
+    validateDiv: '#validation-error'
   },
   init: function (config) {
     if (typeof(config) === 'object') $.extend(inviteToSession.config, config);
@@ -674,30 +647,62 @@ inviteToSession = {
       var email = $('#invite-div').find('input').val();
       e.preventDefault();
 
-      // checks if the email is valid and its not prepended already
-      if (!inviteToSession.verifyEmail(email)) return alert('Invalid Email Address');
-      if (!inviteToSession.isEmailInList(email)) return alert('Email is already in the list');
+      // checks if the email is valid
+      if (!inviteToSession.verifyEmail(email)) {
+        return inviteToSession.validationError('Invalid Email Address');
+      }
+      // Checks if the email is not already on the list
+      if (!inviteToSession.isEmailInList(email)) {
+        return inviteToSession.validationError('Email is already in the list');
+      }
+      // Reset the error message paragraph tag
+      $(inviteToSession.config.validateDiv).html('');
 
+      // Push the email to the list of emails available
       invitedUsers.push(email);
+
+      // Reset the input form
+      $(this).closest('form').trigger('reset');
+      // Show the email in the html div
       inviteToSession.buildHtml();
     });
     $('body').on('click', inviteToSession.config.deleteButton, function (e) {
+      // Deletes email from the list
       var email = $(this).data('email');
       e.preventDefault();
+
+      // Connects to the method that deletes the email from the available array
       inviteToSession.deleteEmail($(this), email);
+    });
+
+    $(inviteToSession.config.sendButton).click(function (e) {
+      // Sends the email array to the backend
+      var url = $(this).closest('form').attr('action');
+      e.preventDefault();
+      // Checks if the invited users list is not empty and output the required message
+      if (invitedUsers.length > 0) inviteToSession.sendInvites(url);
+      else inviteToSession.validationError('No email address(es) present');
+    });
+    $(inviteToSession.config.form).submit(function (e) {
+      // Sets the default action of the form to add email instead of submit
+      e.preventDefault();
+      inviteToSession.config.button.trigger('click');
     });
   },
   verifyEmail: function (email) {
+    // email validation logic
     if (!/[^\s@]+@[^\s@]+\.[^\s@]+/.test(email)) {
       return false;
     }
     return true;
   },
   isEmailInList: function (email) {
+    // Validate email presence
     if (invitedUsers.indexOf(email) !== -1) return false;
     return true;
   },
   buildHtml: function () {
+    // Build the html for the emails present
     var htmlElement = '';
     invitedUsers.forEach(function (val) {
       htmlElement += '<div class="form-group>" <p class="lead">' + val +
@@ -705,12 +710,57 @@ inviteToSession = {
                       '<span class="mdi mdi-delete" data-email=' + val +
                       '></span></p></div>';
     });
-    $('#invited-users').html(htmlElement);
+    // Insert the html to the required div
+    $(inviteToSession.config.inviteDiv).html(htmlElement);
   },
   deleteEmail: function (_this, email) {
+    // Deletes email from the global scope
     var index = invitedUsers.indexOf(email);
     invitedUsers.splice(index, 1);
     _this.closest('div').remove();
+  },
+  sendInvites: function (url) {
+    // Send Invitation to the backend server
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        'userList[]': invitedUsers
+      },
+      success: function (resp) {
+        // Empty the global invited userlist and output the required message
+        invitedUsers = [];
+        if (resp.status === 'success') {
+          inviteToSession.successMessage();
+        } else {
+          inviteToSession.errorMessage();
+        }
+      },
+      error: function () {
+        // On error display message
+        inviteToSession.validationError('There was an error with the server');
+      },
+      complete: function () {
+        // Cleanup the div after succesful completion
+        inviteToSession.cleanUp();
+      }
+    });
+  },
+  successMessage: function () {
+    return $(inviteToSession.config.inviteDiv).html(
+      '<p class="text-success"> Invitations successfully sent</p>');
+  },
+  validationError: function (message) {
+    $(inviteToSession.config.validateDiv).html(message);
+  },
+  errorMessage: function () {
+    return $(inviteToSession.config.inviteDiv).html('<p class="text-danger">' +
+            'Some erros where encoutred when sending the email</p>');
+  },
+  cleanUp: function () {
+    setTimeout(function () {
+      $(inviteToSession.config.inviteDiv).html('');
+    }, 5000);
   }
 };
 
@@ -766,13 +816,7 @@ $(document).ready(function () {
       url: _this.attr('action'),
       type: 'POST',
       processData: false,
-      data: data,
-      success: function () {
-        // console.log(resp);
-      },
-      error: function () {
-        // console.log(res.responseText);
-      }
+      data: data
     });
   });
 

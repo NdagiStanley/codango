@@ -1,7 +1,9 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from pairprogram.models import Session, Participant
+from mock import patch
+from pairprogram.models import Session
+from account.emails import SendGrid
 
 
 class PairTestCase(TestCase):
@@ -20,15 +22,18 @@ class PairTestCase(TestCase):
         self.login = self.client.login(
                 username='andela', password='awesome')
 
-        self.participant1 = User.objects.create_user(username='awesome', password='andela')
+        self.participant1 = User.objects.create_user(
+            username='awesome', password='andela')
         self.participant1.set_password('andela')
         self.participant1.save()
 
-        self.pair_session = Session.objects.create(initiator=self.initiator, session_name="SomeRandomSession")
+        self.pair_session = Session.objects.create(
+            initiator=self.initiator, session_name="SomeRandomSession")
 
     def test_user_can_initiate_a_pairing_session(self):
         url = reverse("start_session")
-        response = self.client.post(url, {'session_name': 'pair session with the boss'})
+        response = self.client.post(
+            url, {'session_name': 'pair session with the boss'})
         self.assertEqual(response.status_code, 302)
 
     def test_user_can_view_current_session(self):
@@ -37,6 +42,16 @@ class PairTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_only_participants_can_pair(self):
-        url = reverse("pair_program", kwargs={"session_id": self.pair_session.id})
+        url = reverse("pair_program",
+                      kwargs={"session_id": self.pair_session.id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
+
+    @patch.object(SendGrid, 'send')
+    def test_user_can_send_invite_to_session(self, mock_method):
+        url = reverse("pair_program",
+                      kwargs={"session_id": self.pair_session.id},
+                      )
+        response = self.client.post(
+            url, {'userList[]': ['abiodun@yahoo.com', 'test@yahoo.com']})
+        self.assertEqual(response.status_code, 200)

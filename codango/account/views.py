@@ -11,11 +11,10 @@ from django.template import RequestContext, loader
 from account.hash import UserHasher
 from emails import SendGrid
 from resources.views import CommunityBaseView
-from resources.models import Resource
 from account.forms import LoginForm, RegisterForm, ResetForm, ContactUsForm
 from userprofile.models import UserProfile
 from codango.settings.base import ADMIN_EMAIL, CODANGO_EMAIL
-from resources.views import CommunityBaseView
+from pairprogram.models import Session, Participant
 
 
 class IndexView(TemplateView):
@@ -32,11 +31,13 @@ class IndexView(TemplateView):
             )
         return super(IndexView, self).dispatch(request, *args, **kwargs)
 
-
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        session_id = self.request.GET[
+            'session_id'] if 'session_id' in self.request.GET else ''
         context['loginform'] = LoginForm()
         context['registerform'] = RegisterForm()
+        context['session_id'] = session_id
         return context
 
 
@@ -95,6 +96,13 @@ class RegisterView(IndexView):
             new_user = authenticate(username=request.POST['username'],
                                     password=request.POST['password'])
             login(request, new_user)
+            pair_session_id = request.POST['session_id']
+            # Checks if the pairsessoin is not absent and is available
+            if pair_session_id != '':
+                session = Session.objects.get(id=int(pair_session_id))
+                Participant.objects.create(
+                    participant=new_user, session=session)
+
             messages.add_message(
                 request, messages.SUCCESS, 'Registered Successfully!')
             new_profile = new_user.profile
