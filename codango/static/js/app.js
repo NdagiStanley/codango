@@ -666,7 +666,9 @@ eventListeners = {
 inviteToSession = {
   config: {
     button: '#invite-div > button',
-    deleteButton: '#invited-users .mdi-delete'
+    deleteButton: '#invited-users .mdi-delete',
+    sendButton: '.invite > button',
+    inviteDiv: '#invited-users'
   },
   init: function (config) {
     if (typeof(config) === 'object') $.extend(inviteToSession.config, config);
@@ -679,12 +681,19 @@ inviteToSession = {
       if (!inviteToSession.isEmailInList(email)) return alert('Email is already in the list');
 
       invitedUsers.push(email);
+      $(this).closest('form').trigger('reset');
       inviteToSession.buildHtml();
     });
     $('body').on('click', inviteToSession.config.deleteButton, function (e) {
       var email = $(this).data('email');
       e.preventDefault();
       inviteToSession.deleteEmail($(this), email);
+    });
+
+    $(inviteToSession.config.sendButton).click(function (e) {
+      var url = $(this).closest('form').attr('action');
+      e.preventDefault();
+      inviteToSession.sendInvites(url);
     });
   },
   verifyEmail: function (email) {
@@ -705,12 +714,48 @@ inviteToSession = {
                       '<span class="mdi mdi-delete" data-email=' + val +
                       '></span></p></div>';
     });
-    $('#invited-users').html(htmlElement);
+    $(inviteToSession.config.inviteDiv).html(htmlElement);
   },
   deleteEmail: function (_this, email) {
     var index = invitedUsers.indexOf(email);
     invitedUsers.splice(index, 1);
     _this.closest('div').remove();
+  },
+  sendInvites: function (url) {
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        'userList[]': invitedUsers
+      },
+      success: function (resp) {
+        invitedUsers = [];
+        if (resp.status === 'success') {
+          inviteToSession.successMessage();
+        } else {
+          inviteToSession.errorMessage();
+        }
+      },
+      error: function () {
+        inviteToSession.errorMessage();
+      },
+      complete: function () {
+        inviteToSession.cleanUp();
+      }
+    });
+  },
+  successMessage: function () {
+    return $(inviteToSession.config.inviteDiv).html(
+      '<p class="text-success"> Invitations successfully sent</p>');
+  },
+  errorMessage: function () {
+    return $(inviteToSession.config.inviteDiv).html('<p class="text-danger">' +
+            'Some erros where encoutred when sending the email</p>');
+  },
+  cleanUp: function () {
+    setTimeout(function () {
+      $(inviteToSession.config.inviteDiv).html('');
+    }, 5000);
   }
 };
 

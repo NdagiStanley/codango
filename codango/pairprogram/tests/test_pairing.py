@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from pairprogram.models import Session, Participant
+from pairprogram.models import Session
 
 
 class PairTestCase(TestCase):

@@ -1,7 +1,12 @@
+from django.contrib.auth.models import User
 from django.views.generic import View, TemplateView
 from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.contrib import messages
+from django.http import JsonResponse
+from django.core.urlresolvers import reverse
+
+from account.emails import SendGrid
 from pairprogram.models import Session, Participant
 from pairprogram.forms import SessionForm
 from resources.views import LoginRequiredMixin
@@ -16,13 +21,16 @@ class StartPairView(LoginRequiredMixin, TemplateView):
                 request.POST, instance=request.user.profile)
 
         if form.is_valid():
-            new_session = Session.objects.create(initiator=request.user,
-                        session_name=form.cleaned_data['session_name'])
+            new_session = Session.objects.create(
+                initiator=request.user,
+                session_name=form.cleaned_data['session_name'])
             new_session.save()
-            Participant.objects.create(participant=request.user, session_id=new_session.id)
+            Participant.objects.create(
+                participant=request.user, session_id=new_session.id)
             messages.add_message(
                     request, messages.SUCCESS, 'Session started successfully')
-            return redirect('/pair/' + str(new_session.id), context_instance=RequestContext(request))
+            return redirect('/pair/' + str(new_session.id),
+                            context_instance=RequestContext(request))
 
 
 class ListSessionView(LoginRequiredMixin, TemplateView):
@@ -31,7 +39,8 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(ListSessionView, self).get_context_data(**kwargs)
-        participants = Participant.objects.filter(participant=self.request.user).all()
+        participants = Participant.objects.filter(
+            participant=self.request.user).all()
 
         sessions = []
         for participant in participants:
@@ -49,17 +58,54 @@ class PairSessionView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         context = {}
         context['session_id'] = kwargs['session_id']
-        participants = Participant.objects.filter(session_id=context['session_id']).all()
+        participants = Participant.objects.filter(
+            session_id=context['session_id']).all()
 
-        result = any(self.request.user == row.participant for row in participants)
+        result = any(self.request.user == row.participant
+                     for row in participants)
         context['profile'] = self.request.user.profile
-        context['session_name'] = Session.objects.get(id=context['session_id']).session_name
+        context['session_name'] = Session.objects.get(
+            id=context['session_id']).session_name
         context['sessionform'] = self.form_class()
 
         if not result:
-            messages.add_message(self.request, messages.ERROR, 'No Access to this page')
-            return redirect('/home', context_instance=RequestContext(self.request))
+            messages.add_message(self.request, messages.ERROR,
+                                 'No Access to this page')
+            return redirect('/home',
+                            context_instance=RequestContext(self.request))
 
         return render(request, self.template_name, context)
+
     def post(self, request, *args, **kwargs):
-        pass
+        user_list = request.POST.getlist('userList[]')
+        session = Session.objects.get(id=kwargs['session_id'])
+        url = 'http://%s%s' % (request.get_host(),
+                               reverse('pair_program',
+                                       kwargs={'session_id': session.id}))
+        sent = True
+        for email in user_list:
+            user = User.objects.filter(email=email).first()
+            if user is not None:
+                Participant.objects.create(particpant=user, session=session)
+
+            email_compose = SendGrid.compose(
+                sender='{} <{}>'.format(
+                    request.user.username, request.user.email),
+                recipient=email,
+                subject="Join {}".format(session.session_name),
+                html="You've been invited to join this session please click on this <a href='{}'\
+                />link </a> to join {}".format(url, session.session_name),
+                text=None
+                )
+
+            # send email
+            response = SendGrid.send(email_compose)
+            if response != 200:
+                sent = False
+        if sent is True:
+            return JsonResponse(
+                    {'message': 'Notification Successfull Sent',
+                     'status': 'success'})
+        else:
+            return JsonResponse({'message': 'There were some error(s)',
+                'status' : 'error'})
