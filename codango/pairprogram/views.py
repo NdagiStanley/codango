@@ -79,9 +79,6 @@ class PairSessionView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         user_list = request.POST.getlist('userList[]')
         session = Session.objects.get(id=kwargs['session_id'])
-        url = 'http://%s%s' % (request.get_host(),
-                               reverse('pair_program',
-                                       kwargs={'session_id': session.id}))
         sent = True
         for email in user_list:
             user = User.objects.filter(email=email).first()

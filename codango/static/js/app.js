@@ -755,7 +755,7 @@ inviteToSession = {
 
   errorMessage: function () {
     return $(inviteToSession.config.inviteDiv).html('<p class="text-danger">' +
-            'Some erros where encoutred when sending the email</p>');
+            'Some erros where encountered when sending the email</p>');
   },
   cleanUp: function () {
     setTimeout(function () {
