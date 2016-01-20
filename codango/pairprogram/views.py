@@ -121,6 +121,7 @@ class PairSessionView(LoginRequiredMixin, View):
                     if response == 200 else "There was an error"
                 response_dict['status'] = "success" \
                     if response == 200 else "error"
+
             else:
                 response_dict['message'] = "You cant send an email to yourself"
             result.append(response_dict)
