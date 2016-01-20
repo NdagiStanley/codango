@@ -5,6 +5,7 @@ from account.views import ForgotPasswordView, ResetPasswordView
 from mock import patch
 from account.emails import SendGrid
 from resources.models import Resource
+from pairprogram.models import Session, Participant
 
 
 class IndexViewTest(TestCase):
@@ -15,6 +16,13 @@ class IndexViewTest(TestCase):
             username='lade',
             password='password',
         )
+        self.initiator = User.objects.create_user(
+                username='andela',
+                password='awesome',
+                email='andela@andela.com'
+        )
+        self.pair_session = Session.objects.create(
+            initiator=self.initiator, session_name="SomeRandomSession")
 
     def test_can_reach_index_page(self):
         response = self.client.get('/')
@@ -38,6 +46,18 @@ class IndexViewTest(TestCase):
             'password_conf': 'password',
             'email': 'olufunmilade.oshodi@andela.com'
         })
+        self.assertEqual(response.status_code, 302)
+
+    def test_can_register_and_create_session(self):
+        response = self.client.post('/register', {
+            'username': 'lade.o',
+            'password': 'password',
+            'password_conf': 'password',
+            'session_id': 1,
+            'email': 'olufunmilade.oshodi@andela.com'
+        })
+        session_program = Participant.objects.all()
+        self.assertEqual(len(session_program), 1)
         self.assertEqual(response.status_code, 302)
 
 

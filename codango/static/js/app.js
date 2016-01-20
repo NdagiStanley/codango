@@ -739,8 +739,9 @@ inviteToSession = {
           inviteToSession.errorMessage();
         }
       },
-      error: function () {
+      error: function (resp) {
         // On error display message
+        console.log(resp.responseText);
         inviteToSession.validationError('There was an error with the server');
       },
       complete: function () {

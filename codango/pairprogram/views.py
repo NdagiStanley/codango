@@ -5,6 +5,7 @@ from django.template import RequestContext
 from django.contrib import messages
 from django.http import JsonResponse
 from django.core.urlresolvers import reverse
+from django.db import IntegrityError
 
 from account.emails import SendGrid
 from pairprogram.models import Session, Participant
@@ -76,39 +77,48 @@ class PairSessionView(LoginRequiredMixin, View):
 
         return render(request, self.template_name, context)
 
+    def send_invites(self, email, session, request):
+        user = User.objects.filter(email=email).first()
+        if user is not None:
+            try:
+                Participant.objects.create(
+                    participant=user, session=session)
+            except IntegrityError:
+                pass
+            url = 'http://%s%s' % (
+                    request.get_host(), reverse(
+                        'pair_program', kwargs={'session_id': session.id}))
+        else:
+            url = 'http://%s%s?session_id=%s' % (
+                request.get_host(), reverse('index'), session.id)
+
+        message = "You've been invited to join this session please click on this <a href='{}'\
+            />link </a> to join {}".format(url, session.session_name)
+
+        email_compose = SendGrid.compose(
+            sender='{} <{}>'.format(
+                request.user.username, request.user.email),
+            recipient=email,
+            subject="Join {}".format(session.session_name),
+            html=message,
+            text=None
+            )
+        response = SendGrid.send(email_compose)
+        return response
+
     def post(self, request, *args, **kwargs):
         user_list = request.POST.getlist('userList[]')
         session = Session.objects.get(id=kwargs['session_id'])
         sent = True
         for email in user_list:
-            user = User.objects.filter(email=email).first()
-            if user is not None:
-                Participant.objects.create(participant=user, session=session)
-                url = 'http://%s%s' % (
-                    request.get_host(), reverse(
-                        'pair_program', kwargs={'session_id': session.id}))
-            else:
-                url = 'http://%s%s?session_id=%s' % (
-                    request.get_host(), reverse('index'), session.id)
-
-            email_compose = SendGrid.compose(
-                sender='{} <{}>'.format(
-                    request.user.username, request.user.email),
-                recipient=email,
-                subject="Join {}".format(session.session_name),
-                html="You've been invited to join this session please click on this <a href='{}'\
-                />link </a> to join {}".format(url, session.session_name),
-                text=None
-                )
-
+            response = self.send_invites(email, session, request)
             # send email
-            response = SendGrid.send(email_compose)
             if response != 200:
                 sent = False
-        if sent is True:
-            return JsonResponse(
-                    {'message': 'Notification Successfull Sent',
-                     'status': 'success'})
-        else:
+        if sent is False:
             return JsonResponse(
                 {'message': 'There were some error(s)', 'status': 'error'})
+
+        return JsonResponse(
+                    {'message': 'Notification Successfull Sent',
+                     'status': 'success'})

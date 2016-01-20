@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from mock import patch
-from pairprogram.models import Session
+from pairprogram.models import Session, Participant
 from account.emails import SendGrid
 
 
@@ -11,11 +11,13 @@ class PairTestCase(TestCase):
         self.client = Client()
         self.initiator = User.objects.create_user(
                 username='andela',
-                password='awesome'
+                password='awesome',
+                email='andela@andela.com'
         )
         self.user = User.objects.create_user(
                 username='master',
-                password='awesome'
+                password='awesome',
+                email='master@andela.com'
         )
         self.initiator.set_password('awesome')
         self.initiator.save()
@@ -53,6 +55,8 @@ class PairTestCase(TestCase):
                       kwargs={"session_id": self.pair_session.id},
                       )
         response = self.client.post(
-            url, {'userList[]': ['abiodun@yahoo.com', 'test@yahoo.com']})
+            url, {'userList[]': ['master@andela.com', 'test@yahoo.com']})
+        session_participant = Participant.objects.all()
+        self.assertEqual(len(session_participant), 1)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "status")

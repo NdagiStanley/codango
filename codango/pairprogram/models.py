@@ -14,3 +14,6 @@ class Participant(models.Model):
     participant = models.ForeignKey(User)
     session = models.ForeignKey(Session)
     joined_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        unique_together = (('participant', 'session'),)
