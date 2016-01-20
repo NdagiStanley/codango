@@ -731,17 +731,10 @@ inviteToSession = {
         $(inviteToSession.config.loader).toggle();
       },
       success: function (resp) {
-        // Empty the global invited userlist and output the required message
-        invitedUsers = [];
-        if (resp.status === 'success') {
-          inviteToSession.successMessage();
-        } else {
-          inviteToSession.errorMessage();
-        }
+        inviteToSession.successMessage(resp.response);
       },
-      error: function (resp) {
+      error: function () {
         // On error display message
-        console.log(resp.responseText);
         inviteToSession.validationError('There was an error with the server');
       },
       complete: function () {
@@ -751,9 +744,13 @@ inviteToSession = {
       }
     });
   },
-  successMessage: function () {
-    return $(inviteToSession.config.inviteDiv).html(
-      '<p class="text-success"> Invitations successfully sent</p>');
+  successMessage: function (result) {
+    var sucessHtml = '';
+    result.forEach(function (obj) {
+      sucessHtml += '<p class="text-' + obj.status + '">' +
+      obj.email + ' - ' + obj.message + '</p>';
+    });
+    return $(inviteToSession.config.inviteDiv).html(sucessHtml);
   },
   validationError: function (message) {
     $(inviteToSession.config.validateDiv).html(message);
@@ -764,9 +761,10 @@ inviteToSession = {
             'Some erros where encountered when sending the email</p>');
   },
   cleanUp: function () {
+    invitedUsers = [];
     setTimeout(function () {
       $(inviteToSession.config.inviteDiv).html('');
-    }, 5000);
+    }, 7000);
   }
 };
 
