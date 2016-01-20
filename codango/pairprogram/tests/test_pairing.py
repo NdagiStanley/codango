@@ -55,3 +55,4 @@ class PairTestCase(TestCase):
         response = self.client.post(
             url, {'userList[]': ['abiodun@yahoo.com', 'test@yahoo.com']})
         self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "status")

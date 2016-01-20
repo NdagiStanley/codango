@@ -47,7 +47,7 @@
                 <p class="text-danger" id="validation-error"></p>
                 <form class="form-inline invite" action="{% url 'pair_program' session_id=session_id %}">
                     <label for="exampleInputEmail1">Invite user(s) to session</label>
-                    <img src="/static/img/ajax-loader.gif" id="loader">
+                    <img src="{% static 'img/ajax-loader.gif' %}" id="loader">
                     <div id="invited-users"></div>
                     <div class="form-group" id="invite-div">
                         <input type="email" class="form-control" name="email" placeholder="User Email address">
