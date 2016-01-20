@@ -59,4 +59,4 @@ class PairTestCase(TestCase):
         session_participant = Participant.objects.all()
         self.assertEqual(len(session_participant), 1)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "status")
+        self.assertContains(response, "response")

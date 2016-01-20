@@ -103,22 +103,26 @@ class PairSessionView(LoginRequiredMixin, View):
             html=message,
             text=None
             )
+        # send email
         response = SendGrid.send(email_compose)
         return response
 
     def post(self, request, *args, **kwargs):
         user_list = request.POST.getlist('userList[]')
         session = Session.objects.get(id=kwargs['session_id'])
-        sent = True
+        result = []
         for email in user_list:
-            response = self.send_invites(email, session, request)
-            # send email
-            if response != 200:
-                sent = False
-        if sent is False:
-            return JsonResponse(
-                {'message': 'There were some error(s)', 'status': 'error'})
-
+            response_dict = {}
+            response_dict['email'] = email
+            response_dict['status'] = "error"
+            if request.user.email != email:
+                response = self.send_invites(email, session, request)
+                response_dict['message'] = "Successfully sent" \
+                    if response == 200 else "There was an error"
+                response_dict['status'] = "success" \
+                    if response == 200 else "error"
+            else:
+                response_dict['message'] = "You cant send an email to yourself"
+            result.append(response_dict)
         return JsonResponse(
-                    {'message': 'Notification Successfull Sent',
-                     'status': 'success'})
+                    {'response': result})
