@@ -639,7 +639,8 @@ inviteToSession = {
     sendButton: '.invite > button',
     form: 'form.invite',
     inviteDiv: '#invited-users',
-    validateDiv: '#validation-error'
+    validateDiv: '#validation-error',
+    loader: '#loader'
   },
   init: function (config) {
     if (typeof(config) === 'object') $.extend(inviteToSession.config, config);
@@ -726,6 +727,9 @@ inviteToSession = {
       data: {
         'userList[]': invitedUsers
       },
+      beforeSend: function () {
+        $(inviteToSession.config.loader).toggle();
+      },
       success: function (resp) {
         // Empty the global invited userlist and output the required message
         invitedUsers = [];
@@ -741,6 +745,7 @@ inviteToSession = {
       },
       complete: function () {
         // Cleanup the div after succesful completion
+        $(inviteToSession.config.loader).toggle();
         inviteToSession.cleanUp();
       }
     });
