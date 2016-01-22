@@ -6,11 +6,11 @@ Codango is a Resource Sharing Social Network for Coders.
 Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads. Codango also allows for *Pair Programming* and *Networking* among coders.
 
 ## Installation
-1. Clone the repository and create a Virtual Environment. 
+1. Clone the repository and create a Virtual Environment.
 - Run `virtualenv <virtualenvname>` to create the virtual environment or `mkvirtualenv <virtualenvname>` if using virtualenv wrapper to create the virtual environment.
 2. Install all the necessary requirements by running `pip install -r requirements.txt` within the virtual environment.
-3. Configure your database configurations in a development.py and save in the settings folder
-4. Create a .env.yml to hold all your environment variables, like your secret key, save in the same level as your README.md file (sample shown below)
+3. Configure your database configurations in a *development.py* and save in the settings folder (sample shown below)
+4. Create a *.env.yml* to hold all your environment variables, like your secret key, save in the same level as your README.md file (sample shown below)
 5. Run `bower install` to install all front end dependencies. Please ensure you are on the same level with .bowerrc when you run this command
 6. Run `python manage.py collectstatic` to copy all your static files into the staticfiles directory
 7. Run `python manage.py makemigrations` and `python manage.py migrate` to create the necessary tables and everything required to run the application.
@@ -19,10 +19,52 @@ Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads. Cod
 9. View the report of the coverage on your terminal `coverage report`.
 10. Produce the html of coverage result `coverage html`.
 
+## Sample development.py
+```
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+from .base import *
+import sys
+
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'testdatabase',
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'codango', # Enter your database's name
+            'USER': 'user', # Enter your DB user
+            'PASSWORD': 'p@ssw0rd', # Enter your DB password
+            'HOST': '127.0.0.1',
+            'PORT': '5432',
+        }
+    }
+```
+
+
 ## Sample .env.yml format
 ```
+api_key:
+   "123456789101112"  # This is a random number
+api_secret:
+   "Abc_DefgHIjKlmn-O1pqRStu2V"  # This is a random number
+cloud_name:
+   "codangofile"
 SECRET_KEY:
-  "sample_key"
+   "12345678910111213141516171819202122232425"  # This is a random number
+sendgrid_apikey:
+   "1234567891011121314151617181920212223242526272829303132333435"  # This is a random number
+GITHUB_CLIENT_ID:
+    "123456789101112131415"  # This is a random number
+GITHUB_SECRET_KEY:
+    "12345678910111213141516171819202122232425"  # This is a random number
+
 ```
 
 ## Requirements
@@ -94,4 +136,4 @@ The following are the installed requirements for codango
 ###### [Stanley Ndagi](https://github.com/andela-sndagi)
 
 ## Copyright
-Andela © 2015 CODANGO
+Andela © 2015 - 2016 CODANGO
