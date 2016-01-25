@@ -51,19 +51,19 @@ else:
 ## Sample .env.yml format
 ```
 api_key:
-   "123456789101112"  # This is a random number
+   "123456789101112"  # This is your API key
 api_secret:
-   "Abc_DefgHIjKlmn-O1pqRStu2V"  # This is a random number
+   "Abc_DefgHIjKlmn-O1pqRStu2V"  # This is your API secret
 cloud_name:
    "codangofile"
 SECRET_KEY:
-   "12345678910111213141516171819202122232425"  # This is a random number
+   "12345678910111213141516171819202122232425"  # This is the Secret key
 sendgrid_apikey:
-   "1234567891011121314151617181920212223242526272829303132333435"  # This is a random number
+   "1234567891011121314151617181920212223242526272829303132333435"  # This is your SendGrid API Key
 GITHUB_CLIENT_ID:
-    "123456789101112131415"  # This is a random number
+    "123456789101112131415"  # This is your Github client ID
 GITHUB_SECRET_KEY:
-    "12345678910111213141516171819202122232425"  # This is a random number
+    "12345678910111213141516171819202122232425"  # This is your Github secret Key
 
 ```
 
