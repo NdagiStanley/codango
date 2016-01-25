@@ -4,66 +4,62 @@
 {% block title %} {{ user.username }}'s Pair page {% endblock title %}
 
 {% block sidebar %}
-    <div class="col-sm-3 hidden-sm hidden-xs">
-        <div class="content-block">
-            {% include "account/partials/community-menu.html" %}
-        </div>
-        <div class="popular-block">
-            {% include "account/partials/popular.html" %}
-        </div>
+<div class="col-sm-3 hidden-sm hidden-xs">
+    <div class="content-block">
+        {% include "account/partials/community-menu.html" %}
     </div>
+    <div class="popular-block">
+        {% include "account/partials/popular.html" %}
+    </div>
+</div>
 {% endblock sidebar %}
 
 {% block content %}
-    <div class="content-block">
-        <div>
-            <a href="#" class="btn btn-primary pair-button" data-toggle="modal" data-target="#SessionModal">
-                Create a new Programming session
-            </a>
-        </div>
-        <div>
-            {% if sessions %}
-                {% for session in sessions %}
+<div class="content-block">
+    <div>
+        <a href="#" class="btn btn-primary pair-button" data-toggle="modal" data-target="#SessionModal">
+            Create a new Programming session
+        </a>
+    </div>
+    <div>
+        {% if sessions %}
+        {% for session in sessions %}
 
-                    <a href="/pair/{{ session.id }}" class="list-group-item each-session">{{ session.session_name }}</a>
-                    <!--{% if session.initiator == request.user %}-->
-                        <!--<a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">delete</a>-->
-                        <!--{% else %}-->
-                        <!--<a href="#" class="btn btn-primary" data-id="{{ session.id }}" data-toggle="modal" data-target="#confirm" id="remove">leave</a>-->
-                    <!--{% endif %}-->
-            <a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">{% if session.initiator == request.user %}delete
+        <a href="/pair/{{ session.id }}" class="list-group-item each-session">{{ session.session_name }}</a>
+        <a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">{% if session.initiator
+            == request.user %}delete
             {% else %} leave {% endif %}
-            </a><br>
-                {% endfor %}
-            {% endif %}
-        </div>
+        </a><br>
+        {% endfor %}
+        {% endif %}
     </div>
+</div>
 
-    <div id="SessionModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+<div id="SessionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Enter session name</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="/pair/start/" method="post">
-                        {% csrf_token %}
-                        {{ sessionform|bootstrap }}
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary" id="create-button">Create</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter session name</h4>
             </div>
-
+            <div class="modal-body">
+                <form action="/pair/start/" method="post">
+                    {% csrf_token %}
+                    {{ sessionform|bootstrap }}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" id="create-button">Create</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
         </div>
+
     </div>
+</div>
 
 
 {% endblock content %}
