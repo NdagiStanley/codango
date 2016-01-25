@@ -26,6 +26,7 @@
         {% for session in sessions %}
 
         <a href="/pair/{{ session.id }}" class="list-group-item each-session">{{ session.session_name }}</a>
+
         <a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">{% if session.initiator
             == request.user %}delete
             {% else %} leave {% endif %}
