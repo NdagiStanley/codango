@@ -123,7 +123,7 @@ class PairSessionView(LoginRequiredMixin, View):
                     if response == 200 else "error"
 
             else:
-                response_dict['message'] = "You cant send an email to yourself"
+                response_dict['message'] = "You can't send an invite to yourself"
             result.append(response_dict)
         return JsonResponse(
                     {'response': result})
