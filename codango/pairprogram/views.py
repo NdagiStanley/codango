@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 from django.views.generic import View, TemplateView
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -127,3 +128,21 @@ class PairSessionView(LoginRequiredMixin, View):
             result.append(response_dict)
         return JsonResponse(
                     {'response': result})
+
+
+class DeleteSessionView(LoginRequiredMixin, View):
+
+    def post(self, request, *args, **kwargs):
+        session_id = request.POST['session_id']
+
+        try:
+            session = Session.objects.get(id=session_id)
+            if session.initiator == self.request.user:
+                session.delete()
+            else:
+                participant = Participant.objects.filter(session_id=session_id, participant_id=self.request.user)
+                participant.delete()
+        except Session.DoesNotExist:
+            pass
+
+        return HttpResponse('this is a response')

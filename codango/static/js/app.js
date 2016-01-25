@@ -768,6 +768,34 @@ inviteToSession = {
   }
 };
 
+var deleteSession = {
+    init: function(){
+     $('body').on('click', '#remove', function (e) {
+       e.preventDefault();
+       var result = confirm("Are you sure");
+       if (result){
+         var id_session = $(this).data('id');
+       console.log(id_session);
+       $.ajax({
+         url: '/pair/delete/',
+         type: 'POST',
+         data: {
+           session_id: id_session
+         },
+         success: function (data){
+           console.log(data);
+           window.location.reload();
+         },
+         error: function (){
+           console.log('i failed');
+         }
+       })
+       }
+
+     })
+    }
+};
+
 $(document).ready(function () {
   realTime.init();
   facebookLogin.init({
@@ -793,6 +821,7 @@ $(document).ready(function () {
   mobileNav.init();
   votes.init();
   deleteComment.init();
+  deleteSession.init();
   followAction.init({
     button: '#follow-btn,.follow-btn'
 
