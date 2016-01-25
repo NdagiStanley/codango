@@ -26,11 +26,13 @@
         {% for session in sessions %}
 
         <a href="/pair/{{ session.id }}" class="list-group-item each-session">{{ session.session_name }}</a>
+        {% if session.initiator == request.user %}
+        <a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">delete</a>
+        {% else %}
+        <a href="#" class="btn btn-primary" data-id="{{ session.id }}" data-toggle="modal" data-target="#confirm"
+           id="remove">leave</a>
+        {% endif %}
 
-        <a href="/pair/delete/" class="btn btn-primary" data-id="{{ session.id }}" id="remove">{% if session.initiator
-            == request.user %}delete
-            {% else %} leave {% endif %}
-        </a><br>
         {% endfor %}
         {% endif %}
     </div>
