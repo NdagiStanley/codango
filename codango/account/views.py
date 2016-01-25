@@ -197,8 +197,6 @@ class SearchView(CommunityBaseView):
         return context
 
 
-
-
 class ForgotPasswordView(TemplateView):
     form_class = ResetForm
     template_name = 'account/forgot-password.html'
