@@ -29,8 +29,10 @@ class CommentAction(View):
         comment.save()
         if comment.author.id != resource.author.id:
             response_dict = {
-                "content": comment.author.username + " commented on your resource",
-                "link": reverse('single_post', kwargs={'resource_id': comment.resource.id}),
+                "content": comment.author.username +
+                " commented on your resource",
+                "link": reverse('single_post',
+                                kwargs={'resource_id': comment.resource.id}),
                 "type": "comment",
                 "read": False,
                 "user_id": resource.author.id,

@@ -1,15 +1,22 @@
 {
-    "name": "codango-staging",
-    "description": "Codango-staging goes live",
-    "version": "1.0.0",
-    "engines": {
-        "npm": "2.1.x"
-    },
-    "scripts": {
-        "preinstall": "npm install --save bower",
-        "postinstall": "./node_modules/.bin/bower install"
-    },
-    "dependencies": {
-        "bower": "^1.3.2"
-    }
+  "name": "codango-staging",
+  "description": "Codango-staging goes live",
+  "version": "1.0.0",
+  "engines": {
+    "npm": "2.1.x"
+  },
+  "scripts": {
+    "preinstall": "npm install --save bower",
+    "postinstall": "./node_modules/.bin/bower install"
+  },
+  "dependencies": {
+    "bower": "^1.3.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^5.0.0-beta6",
+    "eslint": "^1.10.3",
+    "eslint-config-airbnb": "^3.1.0",
+    "eslint-config-google": "^0.3.0",
+    "eslint-plugin-react": "^3.14.0"
+  }
 }
