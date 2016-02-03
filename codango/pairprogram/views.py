@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.views.generic import View, TemplateView
 from django.shortcuts import render, redirect
 from django.template import RequestContext
@@ -144,5 +143,6 @@ class DeleteSessionView(LoginRequiredMixin, View):
                 participant.delete()
         except Session.DoesNotExist:
             pass
-
-        return HttpResponse('this is a response')
+        return JsonResponse({
+                    'status': 'success',
+                }, status=200)

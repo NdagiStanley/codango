@@ -775,7 +775,6 @@ var deleteSession = {
        var result = confirm("Are you sure");
        if (result){
          var id_session = $(this).data('id');
-       console.log(id_session);
        $.ajax({
          url: '/pair/delete/',
          type: 'POST',
@@ -783,11 +782,9 @@ var deleteSession = {
            session_id: id_session
          },
          success: function (data){
-           console.log(data);
            window.location.reload();
          },
          error: function (){
-           console.log('i failed');
          }
        })
        }
