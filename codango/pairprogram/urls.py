@@ -8,4 +8,6 @@ urlpatterns = [
         views.PairSessionView.as_view(), name='pair_program'),
     url(r'^start/$',
         views.StartPairView.as_view(), name='start_session'),
+    url(r'^delete/$',
+        views.DeleteSessionView.as_view(), name='delete_session'),
 ]

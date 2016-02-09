@@ -21,7 +21,7 @@ class IndexViewTest(TestCase):
                 password='awesome',
                 email='andela@andela.com'
         )
-        self.pair_session = Session.objects.create(
+        self.pair_session = Session.objects.create(id=1,
             initiator=self.initiator, session_name="SomeRandomSession")
 
     def test_can_reach_index_page(self):

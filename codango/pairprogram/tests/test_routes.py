@@ -49,6 +49,22 @@ class PairTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
 
+    def test_user_can_delete_his_session(self):
+        url = reverse("delete_session")
+        response = self.client.post(url, {
+            'session_id': self.pair_session.id
+        })
+        self.assertEqual(response.status_code, 200)
+
+    def test_participant_can_leave_a_session(self):
+        url = reverse("delete_session")
+        response = self.client.post(url, {
+            'session_id': self.pair_session.id
+        })
+        participant = Participant.objects.all()
+        self.assertEqual(len(participant), 0)
+
+
     @patch.object(SendGrid, 'send')
     def test_user_can_send_invite_to_session(self, mock_method):
         url = reverse("pair_program",
