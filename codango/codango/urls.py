@@ -31,6 +31,4 @@ urlpatterns = [
     url(r'^api/v1/', include(api.urls)),
     url(r'^pair/', include(pairprogram.urls)),
     url(r'^admin/', include(admin.site.urls)),
-
-
 ]
