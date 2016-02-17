@@ -1,56 +1,36 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import viewsets
+
 from userprofile.models import UserProfile, Follow, Language, Notification
 from api.serializers.userprofile_serializers import UserProfileSerializer, FollowSerializer, NotificationSerializer, LanguageSerializer
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
-@csrf_exempt
-def userprofile_list(request):
+class UserProfileViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all profiles of users
+    This viewset automatically provides `list` and `detail` actions.
     """
-    if request.method == 'GET':
-        userprofiles = UserProfile.objects.all()
-        serializer = UserProfileSerializer(userprofiles, many=True)
-        return JSONResponse(serializer.data)
-
-@csrf_exempt
-def follow_list(request):
-    """
-    List all follows on users profiles
-    """
-    if request.method == 'GET':
-        follows = Follow.objects.all()
-        serializer = FollowSerializer(follows, many=True)
-        return JSONResponse(serializer.data)
-
-@csrf_exempt
-def language_list(request):
-    """
-    List all languages on users profiles
-    """
-    if request.method == 'GET':
-        languages = Language.objects.all()
-        serializer = LanguageSerializer(languages, many=True)
-        return JSONResponse(serializer.data)
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer
 
 
-@csrf_exempt
-def notification_list(request):
+class FollowViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all notifications on users profiles
+    This viewset automatically provides `list` and `detail` actions.
     """
-    if request.method == 'GET':
-        notifications = Notification.objects.all()
-        serializer = NotificationSerializer(notifications, many=True)
-        return JSONResponse(serializer.data)
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+
+
+class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+
+class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer

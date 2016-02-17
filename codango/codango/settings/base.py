@@ -80,7 +80,8 @@ INSTALLED_APPS = (
     'cloudinary',
     'djangobower',
     'endless_pagination',
-    'djcelery'
+    'djcelery',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -120,6 +121,11 @@ AUTHENTICATION_BACKEND = (
 
 
 WSGI_APPLICATION = 'codango.wsgi.application'
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -165,7 +171,7 @@ MESSAGE_TAGS = {
 }
 
 # Custom Email
-ADMIN_EMAIL = 'olufunmilade.oshodi@andela.com'
+ADMIN_EMAIL = 'stanley.ndagi@andela.com'
 CODANGO_EMAIL = 'noreply@codango.com'
 
 # Celery configuration

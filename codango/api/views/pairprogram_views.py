@@ -1,35 +1,20 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import viewsets
+
 from pairprogram.models import Session, Participant
 from api.serializers.pairprogram_serializers import SessionSerializer, ParticipantSerializer
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
-@csrf_exempt
-def sessions_list(request):
+class SessionViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all sessions in pair programming
+    This viewset automatically provides `list` and `detail` actions.
     """
-    if request.method == 'GET':
-        sessions = Session.objects.all()
-        serializer = SessionSerializer(sessions, many=True)
-        return JSONResponse(serializer.data)
+    queryset = Session.objects.all()
+    serializer_class = SessionSerializer
 
-@csrf_exempt
-def participants_list(request):
+
+class ParticipantViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all participants in pair programming sessions
+    This viewset automatically provides `list` and `detail` actions.
     """
-    if request.method == 'GET':
-        participants = Participant.objects.all()
-        serializer = ParticipantSerializer(participants, many=True)
-        return JSONResponse(serializer.data)
+    queryset = Participant.objects.all()
+    serializer_class = ParticipantSerializer

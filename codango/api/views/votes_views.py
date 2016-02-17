@@ -1,25 +1,12 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
+from rest_framework import viewsets
+
 from votes.models import Vote
 from api.serializers.votes_serializers import VoteSerializer
 
-class JSONResponse(HttpResponse):
-    """
-    An HttpResponse that renders its content into JSON.
-    """
-    def __init__(self, data, **kwargs):
-        content = JSONRenderer().render(data)
-        kwargs['content_type'] = 'application/json'
-        super(JSONResponse, self).__init__(content, **kwargs)
 
-@csrf_exempt
-def votes_list(request):
+class VoteViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    List all votes to a resource.
+    This viewset automatically provides `list` and `detail` actions.
     """
-    if request.method == 'GET':
-        votes = Vote.objects.all()
-        serializer = VoteSerializer(votes, many=True)
-        return JSONResponse(serializer.data)
+    queryset = Vote.objects.all()
+    serializer_class = VoteSerializer
