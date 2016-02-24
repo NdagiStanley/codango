@@ -21,56 +21,63 @@ class ResourceViewSet(APIView):
         serializer = ResourceSerializer(resources, many=True)
         return Response(serializer.data)
 
-# Without APIView
-# class ResourceViewSet(viewsets.ReadOnlyModelViewSet):
-#     """
-#     This viewset automatically provides `list` and `detail` actions.
-#     """
-#     queryset = Resource.objects.all()
-#     serializer_class = ResourceSerializer
+
+class UserProfileViewSet(APIView):
+    def get(self, request):
+        userprofiles = UserProfile.objects.all()
+        serializer = UserProfileSerializer(userprofiles, many=True)
+        return Response(serializer.data)
 
 
-class UserProfileViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = UserProfile.objects.all()
-    serializer_class = UserProfileSerializer
+class FollowViewSet(APIView):
+    def get(self, request):
+        follows = Follow.objects.all()
+        serializer = FollowSerializer(follows, many=True)
+        return Response(serializer.data)
 
 
-class FollowViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
+class LanguageViewSet(APIView):
+    def get(self, request):
+        languages = Language.objects.all()
+        serializer = LanguageSerializer(languages, many=True)
+        return Response(serializer.data)
 
 
-class LanguageViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Language.objects.all()
-    serializer_class = LanguageSerializer
+class NotificationViewSet(APIView):
+    def get(self, request):
+        notifications = Notification.objects.all()
+        serializer = NotificationSerializer(notifications, many=True)
+        return Response(serializer.data)
 
 
-class NotificationViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Notification.objects.all()
-    serializer_class = NotificationSerializer
+class VoteViewSet(APIView):
+    def get(self, request):
+        votes = Vote.objects.all()
+        serializer = VoteSerializer(votes, many=True)
+        return Response(serializer.data)
+
+class CommentViewSet(APIView):
+    def get(self, request):
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+class SessionViewSet(APIView):
+    def get(self, request):
+        sessions = Session.objects.all()
+        serializer = SessionSerializer(sessions, many=True)
+        return Response(serializer.data)
+
+class ParticipantViewSet(APIView):
+    def get(self, request):
+        participants = Participant.objects.all()
+        serializer = ParticipantSerializer(participants, many=True)
+        return Response(serializer.data)
 
 
-class VoteViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Vote.objects.all()
-    serializer_class = VoteSerializer
-
-
-class CommentViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-
-
-class SessionViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Session.objects.all()
-    serializer_class = SessionSerializer
-
-
-class ParticipantViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Participant.objects.all()
-    serializer_class = ParticipantSerializer
-
-
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(APIView):
     """UserViewSet from the inbuilt User Model"""
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    def get(self, request):
+        queryset = User.objects.all()
+        serializer = UserSerializer(queryset, many=True)
+        return Response(serializer.data)
