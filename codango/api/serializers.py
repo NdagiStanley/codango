@@ -12,13 +12,19 @@ class ResourceSerializer(serializers.ModelSerializer):
     """Resource Serializer"""
     class Meta:
         model = Resource
-        fields = ('author', 'text', 'language_tags', 'resource_file', 'resource_file_name', 'resource_file_size', 'snippet_text', 'date_added', 'date_modified')
+        fields = ('author', 'text', 'language_tags', 'resource_file',
+                  'resource_file_name', 'resource_file_size', 'snippet_text',
+                  'date_added', 'date_modified')
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """UserProfile Serializer"""
     class Meta:
         model = UserProfile
-        fields = ('user', 'social_id', 'first_name', 'last_name', 'place_of_work', 'position', 'about', 'github_username', 'frequency', 'image')
+        fields = ('user', 'social_id', 'first_name', 'last_name',
+                  'place_of_work', 'position', 'about', 'github_username',
+                  'frequency', 'image')
+
 
 class FollowSerializer(serializers.ModelSerializer):
     """Follow Serializer"""
@@ -26,17 +32,21 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ('follower', 'followed', 'date_of_follow')
 
+
 class LanguageSerializer(serializers.ModelSerializer):
     """Language Serializer"""
     class Meta:
         model = Language
         fields = ('user', 'name')
 
+
 class NotificationSerializer(serializers.ModelSerializer):
     """Notification Serializer"""
     class Meta:
         model = Notification
-        fields = ('user', 'link', 'activity_type', 'read', 'content', 'date_created')
+        fields = ('user', 'link', 'activity_type', 'read',
+                  'content', 'date_created')
+
 
 class VoteSerializer(serializers.ModelSerializer):
     """Vote Serializer"""
@@ -44,11 +54,14 @@ class VoteSerializer(serializers.ModelSerializer):
         model = Vote
         fields = ('user', 'resource', 'vote', 'time_stamp')
 
+
 class CommentSerializer(serializers.ModelSerializer):
     """Comment Serializer"""
     class Meta:
         model = Comment
-        fields = ('author', 'resource', 'content', 'date_created', 'date_modified')
+        fields = ('author', 'resource', 'content', 'date_created',
+                  'date_modified')
+
 
 class SessionSerializer(serializers.ModelSerializer):
     """Session Serializer"""
@@ -68,4 +81,3 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'email', 'password')
-        # fields = '__all__'

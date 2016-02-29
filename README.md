@@ -6,7 +6,7 @@ Codango is a Resource Sharing Social Network for Coders.
 Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads. Codango also allows for *Pair Programming* and *Networking* among coders.
 
 ## Installation
-1. Clone the repository and create a Virtual Environment. 
+1. Clone the repository and create a Virtual Environment.
 - Run `virtualenv <virtualenvname>` to create the virtual environment or `mkvirtualenv <virtualenvname>` if using virtualenv wrapper to create the virtual environment.
 2. Install all the necessary requirements by running `pip install -r requirements.txt` within the virtual environment.
 3. Configure your database configurations in a development.py and save in the settings folder
@@ -87,11 +87,9 @@ The following are the installed requirements for codango
 5. Run `coverage run manage.py test` to run coverage for codango.
 
 ## Authors
-###### [Olufunmilade Oshodi](https://github.com/andela-ooshodi)
-###### [Issa Jubril](https://github.com/andela-ijubril)
-###### [Abiodun Shuaib](https://github.com/andela-ashuaib)
 ###### [Joan Ngatia](https://github.com/andela-jngatia)
 ###### [Stanley Ndagi](https://github.com/andela-sndagi)
+###### [Achile Egbunu](https://github.com/andela-aegbunu)
 
 ## Copyright
 Andela © 2015 CODANGO
