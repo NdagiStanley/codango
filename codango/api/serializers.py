@@ -78,6 +78,8 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """User serializer"""
+    # resources = serializers.PrimaryKeyRelatedField(many=True, queryset=Resource.objects.all())
     class Meta:
         model = User
+        # fields = ('id', 'username', 'email', 'password', resources)
         fields = ('id', 'username', 'email', 'password')

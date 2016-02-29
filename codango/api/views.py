@@ -86,3 +86,13 @@ class UserViewSet(APIView):
         queryset = User.objects.all()
         serializer = serializers.UserSerializer(queryset, many=True)
         return Response(serializer.data)
+
+
+# class UserList(generics.ListAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = serializers.UserSerializer
+
+
+# class UserDetail(generics.RetrieveAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = serializers.UserSerializer
