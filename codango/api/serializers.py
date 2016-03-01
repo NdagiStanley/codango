@@ -10,6 +10,7 @@ from pairprogram.models import Session, Participant
 
 class ResourceSerializer(serializers.ModelSerializer):
     """Resource Serializer"""
+
     class Meta:
         model = Resource
         fields = ('author', 'text', 'language_tags', 'resource_file',
@@ -19,6 +20,7 @@ class ResourceSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     """UserProfile Serializer"""
+
     class Meta:
         model = UserProfile
         fields = ('user', 'social_id', 'first_name', 'last_name',
@@ -28,6 +30,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(serializers.ModelSerializer):
     """Follow Serializer"""
+
     class Meta:
         model = Follow
         fields = ('follower', 'followed', 'date_of_follow')
@@ -35,6 +38,7 @@ class FollowSerializer(serializers.ModelSerializer):
 
 class LanguageSerializer(serializers.ModelSerializer):
     """Language Serializer"""
+
     class Meta:
         model = Language
         fields = ('user', 'name')
@@ -42,6 +46,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
 class NotificationSerializer(serializers.ModelSerializer):
     """Notification Serializer"""
+
     class Meta:
         model = Notification
         fields = ('user', 'link', 'activity_type', 'read',
@@ -49,6 +54,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
 
 class VoteSerializer(serializers.ModelSerializer):
+
     """Vote Serializer"""
     class Meta:
         model = Vote
@@ -57,6 +63,7 @@ class VoteSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     """Comment Serializer"""
+
     class Meta:
         model = Comment
         fields = ('author', 'resource', 'content', 'date_created',
@@ -65,12 +72,15 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class SessionSerializer(serializers.ModelSerializer):
     """Session Serializer"""
+
     class Meta:
         model = Session
         fields = ('session_name', 'last_active_date', 'status', 'initiator')
 
+
 class ParticipantSerializer(serializers.ModelSerializer):
     """Participant serializer"""
+
     class Meta:
         model = Participant
         fields = ('participant', 'session', 'joined_date')
@@ -78,8 +88,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     """User serializer"""
-    # resources = serializers.PrimaryKeyRelatedField(many=True, queryset=Resource.objects.all())
+
     class Meta:
         model = User
-        # fields = ('id', 'username', 'email', 'password', resources)
         fields = ('id', 'username', 'email', 'password')

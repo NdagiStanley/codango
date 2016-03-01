@@ -1,15 +1,15 @@
-from django.contrib.auth.models import User
-from rest_framework import viewsets
-
-# imports to enable APIView
+# Imports to enable APIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+# Import models
 from resources.models import Resource
 from userprofile.models import UserProfile, Follow, Language, Notification
 from votes.models import Vote
 from comments.models import Comment
 from pairprogram.models import Session, Participant
+
+# Import serializers
 from api import serializers
 
 
@@ -78,21 +78,3 @@ class ParticipantViewSet(APIView):
         participants = Participant.objects.all()
         serializer = serializers.ParticipantSerializer(participants, many=True)
         return Response(serializer.data)
-
-
-class UserViewSet(APIView):
-    """UserViewSet from the inbuilt User Model"""
-    def get(self, request):
-        queryset = User.objects.all()
-        serializer = serializers.UserSerializer(queryset, many=True)
-        return Response(serializer.data)
-
-
-# class UserList(generics.ListAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = serializers.UserSerializer
-
-
-# class UserDetail(generics.RetrieveAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = serializers.UserSerializer

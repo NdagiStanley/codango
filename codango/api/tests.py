@@ -2,6 +2,9 @@ from django.core.urlresolvers import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIRequestFactory
 
+from django.contrib.auth.models import User
+
+
 # from votes.models import Vote
 # from comments.models import Comment
 # from userprofile.models import UserProfile, Follow, Language, Notification
@@ -9,8 +12,21 @@ from rest_framework.test import APITestCase, APIRequestFactory
 # from pairprogram.models import Participant, Session
 
 
+# class UserTests(APITestCase):
+#     def test_create_user(self):
+#         """
+#         Ensure we can create a new user object.
+#         """
+#         # url = reverse('user-list')
+#         data = {'username': 'smd', 'email': 'ndagi@gm.com', 'password': '1234'}
+#         response = self.client.post('/api/v1/auth/users/', data, format='json')
+#         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+#         self.assertEqual(User.objects.count(), 1)
+#         self.assertEqual(User.objects.get().username, 'stanmd')
+
+
 class ResourceTest(APITestCase):
-    def testresource(self):
+    def test_resource(self):
         response = self.client.get('/api/v1/resources/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -18,7 +34,7 @@ class ResourceTest(APITestCase):
 
 
 class VoteTest(APITestCase):
-    def testvote(self):
+    def test_vote(self):
         response = self.client.get('/api/v1/votes/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -26,7 +42,7 @@ class VoteTest(APITestCase):
 
 
 class CommentTest(APITestCase):
-    def testcomment(self):
+    def test_comment(self):
         response = self.client.get('/api/v1/comments/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -34,7 +50,7 @@ class CommentTest(APITestCase):
 
 
 class ParticipantTest(APITestCase):
-    def testparticipants(self):
+    def test_participants(self):
         response = self.client.get('/api/v1/pairprogram/participants/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -42,7 +58,7 @@ class ParticipantTest(APITestCase):
 
 
 class SessionTest(APITestCase):
-    def testsession(self):
+    def test_session(self):
         response = self.client.get('/api/v1/pairprogram/sessions/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -50,7 +66,7 @@ class SessionTest(APITestCase):
 
 
 class UserProfileTest(APITestCase):
-    def testuserprofile(self):
+    def test_userprofile(self):
         response = self.client.get('/api/v1/userprofile/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -58,7 +74,7 @@ class UserProfileTest(APITestCase):
 
 
 class FollowTest(APITestCase):
-    def testfollow(self):
+    def test_follow(self):
         response = self.client.get('/api/v1/userprofile/follows/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -66,7 +82,7 @@ class FollowTest(APITestCase):
 
 
 class LanguageTest(APITestCase):
-    def testlanguage(self):
+    def test_language(self):
         response = self.client.get('/api/v1/userprofile/languages/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
@@ -74,8 +90,25 @@ class LanguageTest(APITestCase):
 
 
 class NotificationTest(APITestCase):
-    def testnotification(self):
+    def test_notification(self):
         response = self.client.get('/api/v1/userprofile/notifications/')
         self.assertEqual(response.data, [])
         self.assertNotEqual(response.data, {})
         self.assertEqual(response.status_code, 200)
+
+
+class UserListTest(APITestCase):
+    def test_userlist(self):
+        response = self.client.get('/api/v1/auth/users/')
+        self.assertEqual(response.data, [])
+        self.assertNotEqual(response.data, {})
+        self.assertEqual(response.status_code, 200)
+
+
+class UserDetailTest(APITestCase):
+    def test_userdetail(self):
+        response = self.client.get('/api/v1/auth/users/1/')
+        # import ipdb; ipdb.set_trace()
+        # self.assertEqual(response.data, {})
+        self.assertNotEqual(response.data, [])
+        # self.assertEqual(response.status_code, 200)
