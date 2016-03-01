@@ -86,10 +86,18 @@ The following are the installed requirements for codango
 4. Run `python manage.py test <appname>` to test an individual app.
 5. Run `coverage run manage.py test` to run coverage for codango.
 
+## REST API
+Codango has a REpresentational State Transfer (REST) Application Program Interface (API)
+The documentation done on Apiary is [here](http://docs.codango.apiary.io/).
+
+The API endpoints are accessible at [localhost:8000/api/v1/](http://localhost:8000/api/v1/)
+
+To run tests specific to the API Run `python manage.py test api`
+
 ## Authors
 ###### [Joan Ngatia](https://github.com/andela-jngatia)
-###### [Stanley Ndagi](https://github.com/andela-sndagi)
-###### [Achile Egbunu](https://github.com/andela-aegbunu)
+###### [Stanley Ndagi](https://github.com/NdagiStanley)
+###### [Achile Egbunu](https://github.com/Achile)
 
 ## Copyright
-Andela © 2015 CODANGO
+Andela © 2015 - 2016 CODANGO
