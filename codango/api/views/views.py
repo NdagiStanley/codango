@@ -1,6 +1,8 @@
 # Imports to enable APIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import permissions
+
 
 # Import models
 from resources.models import Resource
@@ -17,6 +19,7 @@ class ResourceViewSet(APIView):
     """
     This viewset automatically provides `list` and `detail` actions.
     """
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         resources = Resource.objects.all()
         serializer = serializers.ResourceSerializer(resources, many=True)
@@ -24,6 +27,7 @@ class ResourceViewSet(APIView):
 
 
 class UserProfileViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         userprofiles = UserProfile.objects.all()
         serializer = serializers.UserProfileSerializer(userprofiles, many=True)
@@ -31,6 +35,7 @@ class UserProfileViewSet(APIView):
 
 
 class FollowViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         follows = Follow.objects.all()
         serializer = serializers.FollowSerializer(follows, many=True)
@@ -38,6 +43,7 @@ class FollowViewSet(APIView):
 
 
 class LanguageViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         languages = Language.objects.all()
         serializer = serializers.LanguageSerializer(languages, many=True)
@@ -45,6 +51,7 @@ class LanguageViewSet(APIView):
 
 
 class NotificationViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         notifications = Notification.objects.all()
         serializer = serializers.NotificationSerializer(notifications,
@@ -53,6 +60,7 @@ class NotificationViewSet(APIView):
 
 
 class VoteViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         votes = Vote.objects.all()
         serializer = serializers.VoteSerializer(votes, many=True)
@@ -60,6 +68,7 @@ class VoteViewSet(APIView):
 
 
 class CommentViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         comments = Comment.objects.all()
         serializer = serializers.CommentSerializer(comments, many=True)
@@ -67,6 +76,7 @@ class CommentViewSet(APIView):
 
 
 class SessionViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         sessions = Session.objects.all()
         serializer = serializers.SessionSerializer(sessions, many=True)
@@ -74,6 +84,7 @@ class SessionViewSet(APIView):
 
 
 class ParticipantViewSet(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
     def get(self, request):
         participants = Participant.objects.all()
         serializer = serializers.ParticipantSerializer(participants, many=True)

@@ -33,6 +33,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 ]
 
-# urlpatterns += [
-#     url(r'^api/v1/', include('rest_framework.urls')),
-# ]
+urlpatterns += [
+    url(r'^api/v1/', include('rest_framework.urls')),
+]

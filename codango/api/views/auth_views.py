@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from api import serializers
 
 
-class UserList(generics.ListCreateAPIView):
+class User(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
