@@ -29,10 +29,6 @@ urlpatterns += [
     url(r'^votes/$', views.VoteViewSet.as_view(), name='votes-list'),
 ]
 
-# urlpatterns += [
-#     url(r'^token-auth/', authtoken.views.obtain_auth_token)
-# ]
-
 urlpatterns += [
     url(r'^', include('rest_framework.urls', namespace='rest_framework')),
 ]
