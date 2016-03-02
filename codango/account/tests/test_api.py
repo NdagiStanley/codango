@@ -28,11 +28,15 @@ class UserTests(APITestCase):
                      'password': user['password']}
         # Login first to get token
         login_response = self.client.post('/api/v1/auth/login/', auth_user)
+        self.assertTrue('token' in login_response.data)
+        self.assertEqual(login_response.status_code, 200)
+        self.assertEqual(login_response.status_text, 'OK')
+        self.assertNotEqual(login_response.data.get('token'), None)
+
+        """
+        TO TEST AUTH PER URL
         token = 'JWT ' + login_response.data.get('token')
         # set authentication token in header
         self.client.credentials(HTTP_AUTHORIZATION=token)
-        auth_response = self.client.post('/api/v1/resources/')
-        self.assertTrue('token' in auth_response.data)
-        self.assertEqual(auth_response.status_code, 200)
-        self.assertEqual(auth_response.status_text, 'OK')
-        self.assertNotEqual(auth_response.data.get('token'), None)
+        auth_response = self.client.post('/api/v1/....')
+        """

@@ -32,8 +32,8 @@ urlpatterns = [
         NotificationDetailAPIView.as_view()),
     url(r'^comments/', CommentListAPIView.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)', CommentDetailAPIView.as_view()),
-    url(r'^sessions/', SessionListAPIView.as_view()),
-    url(r'^sessions/(?P<pk>[0-9]+)', SessionDetailAPIView.as_view()),
-    url(r'^participants/', ParticipantListAPIView.as_view()),
-    url(r'^participants/(?P<pk>[0-9]+)', ParticipantDetailAPIView.as_view()),
+    url(r'^pairprogram/sessions/', SessionListAPIView.as_view()),
+    url(r'^pairprogram/sessions/(?P<pk>[0-9]+)', SessionDetailAPIView.as_view()),
+    url(r'^pairprogram/participants/', ParticipantListAPIView.as_view()),
+    url(r'^pairprogram/participants/(?P<pk>[0-9]+)', ParticipantDetailAPIView.as_view()),
 ]
