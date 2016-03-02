@@ -15,6 +15,7 @@ from api import serializers
 
 # Default permission_classes = (permissions.IsAuthenticated,)
 
+
 class ResourceViewSet(APIView):
     """
     This viewset automatically provides `list` and `detail` actions.

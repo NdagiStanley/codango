@@ -9,6 +9,7 @@ user = {'username': 'stanmd', 'email': 'ndagi@gmail.com', 'password': '1234'}
 message = {"detail":
            "Authentication credentials were not provided."}
 
+
 class UserTests(APITestCase):
     def test_register(self):
         """
@@ -52,20 +53,3 @@ class UserTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=None)
         self.assertEqual(logout_response.data, message)
         self.assertEqual(logout_response.status_code, 401)
-
-
-class UserListTest(APITestCase):
-    def test_userlist(self):
-        response = self.client.get('/api/v1/auth/users/')
-        self.assertEqual(response.data, [])
-        self.assertNotEqual(response.data, {})
-        self.assertEqual(response.status_code, 200)
-
-
-class UserDetailTest(APITestCase):
-    def test_userdetail(self):
-        response = self.client.get('/api/v1/auth/users/1/')
-        # import ipdbgs; ipdb.set_trace()
-        # self.assertEqual(response.data, {})
-        self.assertNotEqual(response.data, [])
-        # self.assertEqual(response.status_code, 200)
