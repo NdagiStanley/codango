@@ -81,7 +81,6 @@ INSTALLED_APPS = (
     'djangobower',
     'endless_pagination',
     'djcelery',
-    'api',
     'rest_framework',
 )
 

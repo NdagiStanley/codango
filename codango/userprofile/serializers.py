@@ -20,6 +20,8 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ('follower', 'followed', 'date_of_follow')
 
+        read_only_fields = ('date_of_follow')
+
 
 class LanguageSerializer(serializers.ModelSerializer):
     """Language Serializer"""
@@ -36,3 +38,5 @@ class NotificationSerializer(serializers.ModelSerializer):
         model = Notification
         fields = ('user', 'link', 'activity_type', 'read',
                   'content', 'date_created')
+
+        read_only_fields = ('date_created')

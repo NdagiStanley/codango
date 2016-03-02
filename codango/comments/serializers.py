@@ -10,3 +10,5 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ('author', 'resource', 'content', 'date_created',
                   'date_modified')
+
+        read_only_fields = ('date_created', 'date_modified')

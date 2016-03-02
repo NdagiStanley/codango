@@ -20,19 +20,17 @@ import userprofile.urls
 import resources.urls
 import comments.urls
 import pairprogram.urls
-import api.urls.urls
+import api
 
 
 urlpatterns = [
     url(r'^', include(account.urls)),
-    url(r'^api/v1/', include('api.urls.urls')),
     url(r'^resource/', include(resources.urls)),
     url(r'^user/', include(userprofile.urls)),
     url(r'^comment/', include(comments.urls)),
     url(r'^pair/', include(pairprogram.urls)),
     url(r'^admin/', include(admin.site.urls)),
-]
-
-urlpatterns += [
+    url(r'^api/v1/', include(api)),
     url(r'^api/v1/', include('rest_framework.urls')),
+    url(r'^', include('rest_framework.urls', namespace='rest_framework')),
 ]

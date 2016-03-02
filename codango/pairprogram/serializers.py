@@ -10,6 +10,8 @@ class SessionSerializer(serializers.ModelSerializer):
         model = Session
         fields = ('session_name', 'last_active_date', 'status', 'initiator')
 
+    read_only_fields = ('last_active_date')
+
 
 class ParticipantSerializer(serializers.ModelSerializer):
     """Participant serializer"""
@@ -17,3 +19,5 @@ class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = ('participant', 'session', 'joined_date')
+
+        read_only_fields = ('joined_date')

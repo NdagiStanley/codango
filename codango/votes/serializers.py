@@ -9,3 +9,5 @@ class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = ('user', 'resource', 'vote', 'time_stamp')
+
+        read_only_fields = ('time_stamp')
