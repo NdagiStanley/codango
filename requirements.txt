@@ -24,7 +24,6 @@ gnureadline==6.3.3
 gunicorn==19.3.0
 hashids==1.1.0
 httpie==0.9.3
-ipdb==0.9.0
 ipython==4.1.1
 ipython-genutils==0.1.0
 kombu==3.0.29
@@ -39,6 +38,7 @@ Pillow==2.9.0
 psycopg2==2.6.1
 ptyprocess==0.5.1
 pycrypto==2.6.1
+pycurl==7.43.0
 Pygments==2.1.1
 PyJWT==1.4.0
 python-openid==2.2.5
