@@ -1,4 +1,4 @@
-I# Byte-compiled / optimized / DLL files
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 
@@ -8,8 +8,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 /node_modules
+codang
 env/
-build/
+build/o/node_modules/
 develop-eggs/
 dist/
 downloads/
