@@ -34,6 +34,8 @@ class UserTests(APITestCase):
         self.assertNotEqual(login_response.data.get('token'), None)
 
         """
+        Will be included in the CRUD of endpoints upon authentication
+
         TO TEST AUTH PER URL
         token = 'JWT ' + login_response.data.get('token')
         # set authentication token in header

@@ -12,3 +12,13 @@ class CommentTest(APITestCase):
         self.assertEqual(response.data, message)
         self.assertNotEqual(response.data, {})
         self.assertEqual(response.status_code, 401)
+
+    """
+    Will be included in the CRUD of endpoints upon authentication
+
+    TO TEST AUTH PER URL
+    token = 'JWT ' + login_response.data.get('token')
+    # set authentication token in header
+    self.client.credentials(HTTP_AUTHORIZATION=token)
+    auth_response = self.client.post('/api/v1/....')
+    """
