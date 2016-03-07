@@ -8,7 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 /node_modules
-codang
+codango/node_modules/
 env/
 build/o/node_modules/
 develop-eggs/
