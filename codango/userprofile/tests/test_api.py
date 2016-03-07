@@ -6,6 +6,7 @@ message = {"detail":
 
 
 class UserProfileTest(APITestCase):
+    """Test /api/v1/userprofile/ endpoint"""
     def test_userprofile(self):
         response = self.client.get('/api/v1/userprofile/')
         self.assertEqual(response.data, message)
@@ -14,6 +15,7 @@ class UserProfileTest(APITestCase):
 
 
 class FollowTest(APITestCase):
+    """Test /api/v1/userprofile/follows/ endpoint"""
     def test_follow(self):
         response = self.client.get('/api/v1/userprofile/follows/')
         self.assertEqual(response.data, message)
@@ -22,6 +24,7 @@ class FollowTest(APITestCase):
 
 
 class LanguageTest(APITestCase):
+    """Test /api/v1/userprofile/languages/ endpoint"""
     def test_language(self):
         response = self.client.get('/api/v1/userprofile/languages/')
         self.assertEqual(response.data, message)
@@ -30,6 +33,7 @@ class LanguageTest(APITestCase):
 
 
 class NotificationTest(APITestCase):
+    """Test /api/v1/userprofile/notifications/ endpoint"""
     def test_notification(self):
         response = self.client.get('/api/v1/userprofile/notifications/')
         self.assertEqual(response.data, message)

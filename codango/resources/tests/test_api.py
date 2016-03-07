@@ -6,6 +6,7 @@ message = {"detail":
 
 
 class ResourceTest(APITestCase):
+    """Test /api/v1/resources/ endpoint"""
     def test_resource(self):
         plain_response = self.client.get('/api/v1/resources/')
         self.assertEqual(plain_response.data, message)

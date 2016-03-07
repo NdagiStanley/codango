@@ -4,7 +4,9 @@ from rest_framework.test import APITestCase
 message = {"detail":
            "Authentication credentials were not provided."}
 
+
 class CommentTest(APITestCase):
+    """Test /api/v1/comments/ endpoint"""
     def test_comment(self):
         response = self.client.get('/api/v1/comments/')
         self.assertEqual(response.data, message)
