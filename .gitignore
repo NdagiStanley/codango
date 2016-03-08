@@ -75,6 +75,7 @@ codango/media
 
 # sqldatabase
 codango/mydatabase
+*.db
 
 # db data
 codango/db-data.json
