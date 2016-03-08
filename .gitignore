@@ -7,6 +7,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+/node_modules
 env/
 build/
 develop-eggs/
@@ -74,6 +75,7 @@ codango/media
 
 # sqldatabase
 codango/mydatabase
+*.db
 
 # db data
 codango/db-data.json

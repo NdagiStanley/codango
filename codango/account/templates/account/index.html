@@ -66,12 +66,13 @@
                         <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
                             {{ message }}
                         </div>
-                    {% endfor %}    
+                    {% endfor %}
                 {% endif %}
             </div>
             <!--Sign Up form-->
             <div id="signup" class="tab-pane fade">
                 <form role="form" action="/register" method="post" id="signup-form">
+                    <input type="hidden" name="session_id" value="{{session_id}}"/>
                     {% csrf_token %}
                     {{ registerform|bootstrap }}
                     <div class="form-group">

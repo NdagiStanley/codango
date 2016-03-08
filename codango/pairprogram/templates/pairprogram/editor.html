@@ -18,7 +18,6 @@
 {% endblock head %}
 
 {% block body %}
-    <body>
     <input type="hidden" value="{{ request.user.username }}" id="username"/>
     <input type="hidden" value="{{ session_id }}" id="session-id"/>
     <div class="editor-preferences">
@@ -39,19 +38,23 @@
 
     </div>
 
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-9">
                 <div id="firepad-container" style="height: 500px;"></div>
             </div>
             <div class="col-sm-3">
-                {#                <div id="userlist"></div>#}
-                <div>
-                    <a href="#" class="btn btn-primary pair-button">
-                        Invite a friend to this session
-                    </a>
-                </div>
+                <p class="text-danger" id="validation-error"></p>
+                <form class="form-inline invite" action="{% url 'pair_program' session_id=session_id %}">
+                    <label for="exampleInputEmail1">Invite user(s) to session</label>
+                    <img src="{% static 'img/ajax-loader.gif' %}" id="loader">
+                    <div id="invited-users"></div>
+                    <div class="form-group" id="invite-div">
+                        <input type="email" class="form-control" name="email" placeholder="User Email address" autocomplete="off">
+                        <button class="btn btn-default"> Add</button>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Invites</button>
+                </form>
             </div>
         </div>
     </div>

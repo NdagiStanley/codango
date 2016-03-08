@@ -8,12 +8,12 @@ from django.views.generic import View, TemplateView
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
-from django.core.urlresolvers import reverse
 from django.utils import timezone
 from resources.views import LoginRequiredMixin
 from comments.forms import CommentForm
 from userprofile.models import UserProfile, Follow, Notification
-from userprofile.forms import UserProfileForm, ChangePasswordForm, ChangeUsernameForm
+from userprofile.forms import UserProfileForm, ChangePasswordForm,\
+    ChangeUsernameForm
 from resources.views import CommunityBaseView
 from django.contrib.auth import authenticate, login
 
@@ -63,8 +63,9 @@ class ActivityUpdate(TemplateView):
     def post(self, request, *args, **kwargs):
         data = request.POST
         user = User.objects.get(id=data['user_id'])
-        Notification.objects.create(link=data['link'], activity_type=data['type'], user=user, read=False,
-                                    content=data['content'])
+        Notification.objects.create(
+            link=data['link'], activity_type=data['type'],
+            user=user, read=False, content=data['content'])
 
         return HttpResponse("success", content_type='text/plain')
 
@@ -79,7 +80,6 @@ class ActivityUpdate(TemplateView):
         user = request.user
         user.notifications.all().delete()
         return HttpResponse("success", content_type='text/plain')
- 
 
 
 class UserGithub(View):
@@ -98,9 +98,10 @@ class UserGithub(View):
 
         access_token = json.loads(result.content)['access_token']
 
-        auth_result = requests.get('https://api.github.com/user',
-                                   headers={'Accept': 'application/json',
-                                            'Authorization': 'token ' + access_token},
+        auth_result = requests.get(
+            'https://api.github.com/user',
+            headers={'Accept': 'application/json',
+                     'Authorization': 'token ' + access_token},
                                    )
         profile = user.profile
         profile.github_username = json.loads(auth_result.content)['login']
@@ -115,7 +116,9 @@ class UserGithub(View):
         user = request.user
         github_username = user.profile.github_username
         new_languages = self.update_languages(github_username, user)
-        msg = 'Successfully update your languages' if user.languages != new_languages else 'No Update to your languages'
+        msg = 'Successfully update your languages'\
+            if user.languages != new_languages\
+            else 'No Update to your languages'
         messages.success(request, msg)
         return redirect('/user/' + user.username,
                         context_instance=RequestContext(request))
@@ -196,15 +199,13 @@ class FollowUserView(LoginRequiredMixin, View):
         )
 
         follow.save()
-
-
-
         repsonse_json = {
             'no_of_followers': len(following_id.profile.get_followers()),
             'no_following': len(following_id.profile.get_following()),
             'content': user.username + " follows you",
             'user_id': following_id.id,
-            "link": reverse('user_profile', kwargs={'username': user.username}),
+            "link": reverse(
+                'user_profile', kwargs={'username': user.username}),
             "type": "vote",
             "read": False,
         }
@@ -226,11 +227,11 @@ class FollowListView(LoginRequiredMixin, TemplateView):
         user = User.objects.get(username=username)
         user_profile = UserProfile.objects.get(user_id=user.id)
 
-        context['follow_list'] = user_profile.get_following() if direction == 'followers' else user_profile.get_followers()
-        context['no_follow'] = 'No followers to display' if direction == 'followers' else 'Not following anyone'
+        context['follow_list'] = user_profile.get_following()\
+            if direction == 'followers' else user_profile.get_followers()
+        context['no_follow'] = 'No followers to display'\
+            if direction == 'followers' else 'Not following anyone'
         context['direction'] = direction
-
-
         context['profile'] = user_profile
         context['github_id'] = CLIENT_ID
         context['languages'] = user.languages.all()

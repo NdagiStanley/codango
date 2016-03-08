@@ -5,6 +5,7 @@ from account.views import ForgotPasswordView, ResetPasswordView
 from mock import patch
 from account.emails import SendGrid
 from resources.models import Resource
+from pairprogram.models import Session, Participant
 
 
 class IndexViewTest(TestCase):
@@ -15,6 +16,13 @@ class IndexViewTest(TestCase):
             username='lade',
             password='password',
         )
+        self.initiator = User.objects.create_user(
+                username='andela',
+                password='awesome',
+                email='andela@andela.com'
+        )
+        self.pair_session = Session.objects.create(id=1,
+            initiator=self.initiator, session_name="SomeRandomSession")
 
     def test_can_reach_index_page(self):
         response = self.client.get('/')
@@ -40,6 +48,18 @@ class IndexViewTest(TestCase):
         })
         self.assertEqual(response.status_code, 302)
 
+    def test_can_register_and_create_session(self):
+        response = self.client.post('/register', {
+            'username': 'lade.o',
+            'password': 'password',
+            'password_conf': 'password',
+            'session_id': 1,
+            'email': 'olufunmilade.oshodi@andela.com'
+        })
+        session_program = Participant.objects.all()
+        self.assertEqual(len(session_program), 1)
+        self.assertEqual(response.status_code, 302)
+
 
 class HomeViewTest(TestCase):
 
@@ -63,6 +83,7 @@ class HomeViewTest(TestCase):
         match = resolve('/home')
         self.assertEqual(match.url_name, 'home')
 
+
 class SearchViewTest(TestCase):
 
     def setUp(self):
@@ -76,9 +97,10 @@ class SearchViewTest(TestCase):
         self.login = self.client.login(
             username='lade', password='password')
 
-    def create_resources(self, text='some more words', resource_file='resource_file'):
-        return Resource.objects.create(text=text, author=self.user,
-            resource_file=resource_file
+    def create_resources(self, text='some more words',
+                         resource_file='resource_file'):
+        return Resource.objects.create(
+            text=text, author=self.user, resource_file=resource_file
         )
 
     def test_can_reach_search_page(self):
@@ -89,30 +111,28 @@ class SearchViewTest(TestCase):
     def test_can_search_based_on_user_or_resource(self):
         self.create_resources()
         self.create_resources()
-        url = reverse('search_by',kwargs={'searchby':'resources'})
-        url2 = reverse('search_by',kwargs={'searchby':'users'})
+        url = reverse('search_by', kwargs={'searchby': 'resources'})
+        url2 = reverse('search_by', kwargs={'searchby': 'users'})
 
         response = self.client.get(url)
-        
         response2 = self.client.get(url2)
 
-        self.assertEqual(len(response.context['resources']),2)
-        self.assertEqual(len(response.context['users']),1)
+        self.assertEqual(len(response.context['resources']), 2)
+        self.assertEqual(len(response.context['users']), 1)
         self.assertEqual(response2.status_code, 200)
         self.assertEqual(response.status_code, 200)
 
     def test_return_no_user_or_response_when_not_resource_is_found(self):
         self.create_resources()
         self.create_resources()
-        url = reverse('search_by',kwargs={'searchby':'resources'})
-        url2 = reverse('search_by',kwargs={'searchby':'users'})
+        url = reverse('search_by', kwargs={'searchby': 'resources'})
+        url2 = reverse('search_by', kwargs={'searchby': 'users'})
 
         response = self.client.get(url + "?q=eaiofaowfjieaowef")
-        
         response2 = self.client.get(url2 + "?q=eaiofaowfjieaowef")
 
-        self.assertEqual(len(response.context['resources']),0)
-        self.assertEqual(len(response.context['users']),0)
+        self.assertEqual(len(response.context['resources']), 0)
+        self.assertEqual(len(response.context['users']), 0)
         self.assertEqual(response2.status_code, 200)
         self.assertEqual(response.status_code, 200)
 
@@ -125,13 +145,15 @@ class ForgotResetTestCase(TestCase):
     def test_forgot_route_resolves_to_correct_view(self):
         response = self.client.get('/recovery')
         self.assertEqual(
-            response.resolver_match.func.__name__, ForgotPasswordView.as_view().__name__)
+            response.resolver_match.func.__name__,
+            ForgotPasswordView.as_view().__name__)
 
     def test_reset_route_resolves_to_correct_view(self):
         response = self.client.get(
             '/recovery/ajkzfYba9847DgJ7wbkwAaSbkTjUdawGG998qo3HG8qae83')
         self.assertEqual(
-            response.resolver_match.func.__name__, ResetPasswordView.as_view().__name__)
+            response.resolver_match.func.__name__,
+            ResetPasswordView.as_view().__name__)
 
 
 class PasswordResetTestCase(TestCase):

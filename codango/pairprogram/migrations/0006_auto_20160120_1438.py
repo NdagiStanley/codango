@@ -7,9 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('userprofile', '0008_auto_20151212_0525'),
-        ('userprofile', '0004_userprofile_frequency'),
+        ('pairprogram', '0005_auto_20151218_1154'),
     ]
 
     operations = [
+        migrations.AlterUniqueTogether(
+            name='participant',
+            unique_together=set([('participant', 'session')]),
+        ),
     ]

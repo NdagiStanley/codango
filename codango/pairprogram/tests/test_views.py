@@ -1,11 +1,11 @@
 from django.test.utils import setup_test_environment
-setup_test_environment()
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+setup_test_environment()
 
 
 class PairProgramTest(StaticLiveServerTestCase):
@@ -44,7 +44,8 @@ class PairProgramTest(StaticLiveServerTestCase):
         self.assertIn('Create a new Programming session', body.text)
 
         # create a new session
-        self.browser.find_element_by_link_text('Create a new Programming session').click()
+        self.browser.find_element_by_link_text(
+            'Create a new Programming session').click()
         block = WebDriverWait(self.browser, 60)
         block.until(
             EC.visibility_of_element_located(
