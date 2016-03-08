@@ -16,7 +16,7 @@ urlpatterns = [
     url(r'auth/login/', 'rest_framework_jwt.views.obtain_jwt_token'),
     url(r'auth/logout/', UserLogoutAPIView.as_view(), name='logout'),
     url(r'auth/register/', UserRegisterAPIView.as_view(), name='register'),
-    url(r'^resources/', ResourceListAPIView.as_view()),
+    url(r'^resources/$', ResourceListAPIView.as_view()),
     url(r'^resources/(?P<pk>[0-9]+)', ResourceDetailAPIView.as_view()),
     url(r'^votes/', VoteListAPIView.as_view()),
     url(r'^votes/(?P<pk>[0-9]+)', VoteDetailAPIView.as_view()),
