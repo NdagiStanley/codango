@@ -5,8 +5,6 @@ from django.db.models.signals import post_save
 from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import register
 
-# Create your models here.
-
 
 class UserProfile(models.Model):
 
@@ -16,7 +14,7 @@ class UserProfile(models.Model):
     last_name = models.CharField(max_length=100, null=True)
     place_of_work = models.CharField(max_length=150, blank=True)
     position = models.CharField(max_length=100, blank=True)
-    about = models.TextField(max_length=1200,blank=True)
+    about = models.TextField(max_length=1200, blank=True)
     github_username = models.CharField(max_length=200, null=True)
     frequency = models.CharField(max_length=200, default='none')
 

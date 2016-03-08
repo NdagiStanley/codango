@@ -6,7 +6,7 @@ Codango is a Resource Sharing Social Network for Coders.
 Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads. Codango also allows for *Pair Programming* and *Networking* among coders.
 
 ## Installation
-1. Clone the repository and create a Virtual Environment. 
+1. Clone the repository and create a Virtual Environment.
 - Run `virtualenv <virtualenvname>` to create the virtual environment or `mkvirtualenv <virtualenvname>` if using virtualenv wrapper to create the virtual environment.
 2. Install all the necessary requirements by running `pip install -r requirements.txt` within the virtual environment.
 3. Configure your database configurations in a development.py and save in the settings folder
@@ -86,12 +86,18 @@ The following are the installed requirements for codango
 4. Run `python manage.py test <appname>` to test an individual app.
 5. Run `coverage run manage.py test` to run coverage for codango.
 
+## REST API
+Codango has a REpresentational State Transfer (REST) Application Program Interface (API)
+The documentation done on Apiary is [here](http://docs.codango.apiary.io/).
+
+The API endpoints are accessible at [localhost:8000/api/v1/](http://localhost:8000/api/v1/)
+
+To run tests specific to the API Run `python manage.py test api`
+
 ## Authors
-###### [Olufunmilade Oshodi](https://github.com/andela-ooshodi)
-###### [Issa Jubril](https://github.com/andela-ijubril)
-###### [Abiodun Shuaib](https://github.com/andela-ashuaib)
 ###### [Joan Ngatia](https://github.com/andela-jngatia)
-###### [Stanley Ndagi](https://github.com/andela-sndagi)
+###### [Stanley Ndagi](https://github.com/NdagiStanley)
+###### [Achile Egbunu](https://github.com/Achile)
 
 ## Copyright
-Andela © 2015 CODANGO
+Andela © 2015 - 2016 CODANGO

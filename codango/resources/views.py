@@ -13,8 +13,6 @@ from resources.forms import ResourceForm
 from votes.models import Vote
 
 
-
-
 class LoginRequiredMixin(object):
     @method_decorator(login_required(login_url='/'))
     def dispatch(self, request, *args, **kwargs):
@@ -26,7 +24,7 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
 
     def dispatch(self, request, *args, **kwargs):
-        
+
         return super(
             CommunityBaseView, self).dispatch(request, *args, **kwargs)
 
@@ -40,14 +38,14 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
         query = self.request.GET[
             'q'] if 'q' in self.request.GET else ''
 
-        resources = self.sort_by(sortby, 
+        resources = self.sort_by(sortby,
             Resource.objects.filter(
-            Q(text__contains=query) | 
+            Q(text__contains=query) |
             Q(snippet_text__contains=query) |
             Q(resource_file_name__contains=query)))
 
         users = User.objects.filter(
-            Q(username__contains=query) | 
+            Q(username__contains=query) |
             Q(first_name__contains=query) |
             Q(last_name__contains=query) | Q(email__contains=query))
         community = kwargs[

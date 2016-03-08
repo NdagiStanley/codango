@@ -81,7 +81,7 @@ INSTALLED_APPS = (
     'djangobower',
     'endless_pagination',
     'djcelery',
-    'api'
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -122,8 +122,15 @@ AUTHENTICATION_BACKEND = (
 
 WSGI_APPLICATION = 'codango.wsgi.application'
 
+# REST
 REST_FRAMEWORK = {
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
 }
 
 

@@ -1,10 +1,13 @@
 from rest_framework import serializers
-from votes.models import Vote
+
+from models import Vote
+
 
 class VoteSerializer(serializers.ModelSerializer):
-    """
-    Vote Serializer
-    """
+
+    """Vote Serializer"""
     class Meta:
         model = Vote
         fields = ('user', 'resource', 'vote', 'time_stamp')
+
+        read_only_fields = ('time_stamp')
