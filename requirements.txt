@@ -18,7 +18,7 @@ gunicorn==19.3.0
 hashids==1.1.0
 kombu==3.0.29
 meld3==1.0.2
-mock==1.3.0
+mock==1.0.1
 oauthlib==1.0.3
 pbr==1.5.0
 Pillow==2.9.0
