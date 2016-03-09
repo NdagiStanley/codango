@@ -7,15 +7,11 @@ from rest_framework import generics
 
 class ResourceListAPIView(generics.ListCreateAPIView):
     """For /api/v1/resources/ url path"""
-    # permission_classes = (permissions.AllowAny,)
-
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
 
 
 class ResourceDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     """For /api/v1/resources/<> url path"""
-    # permission_classes = (permissions.AllowAny,)
-
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
