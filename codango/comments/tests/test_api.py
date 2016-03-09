@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 
 from django.contrib.auth.models import User
 from resources.models import Resource
+from comments.models import Comment
 
 message = {"detail":
            "Authentication credentials were not provided."}
@@ -34,6 +35,8 @@ class CommentTest(APITestCase):
                         'content': 'finally here',
                         'resource': Resource.objects.get().id}
 
+        self.url2 = '/api/v1/comments/1'
+
     def test_comment_retrieval(self):
         """Test for comment retrieval."""
         # unsuccessful comment retrieval without authentication.
@@ -62,3 +65,35 @@ class CommentTest(APITestCase):
         auth_response = self.client.post(url, self.comment)
         self.assertEqual(auth_response.status_code, 201)
 
+    def test_comment_edition(self):
+        """Test for comment update."""
+        # unsuccessful comment creation without authentication.
+        self.client.credentials(HTTP_AUTHORIZATION=' ')
+        response = self.client.put(url)
+        self.assertEqual(response.data, message)
+        self.assertNotEqual(response.data, {})
+        self.assertEqual(response.status_code, 401)
+
+        # successful comment edition with authentication.
+        new_comment = {'author': User.objects.get().id,
+                       'content': 'Django rest framework tests.',
+                       'resource': Resource.objects.get().id}
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        self.client.post(url, self.comment)
+        auth_response = self.client.put(self.url2, new_comment)
+        self.assertEqual(auth_response.status_code, 200)
+
+    def test_comment_deletion(self):
+        """Test for comment deletion."""
+        # unsuccessful comment deletion without authentication.
+        self.client.credentials(HTTP_AUTHORIZATION=' ')
+        response = self.client.delete(url)
+        self.assertEqual(response.data, message)
+        self.assertNotEqual(response.data, {})
+        self.assertEqual(response.status_code, 401)
+
+        # successful comment deletion with authentication.
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        self.client.post(url, self.comment)
+        auth_response = self.client.delete(self.url2)
+        self.assertEqual(auth_response.status_code, 204)
