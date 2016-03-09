@@ -12,6 +12,15 @@ message = {"detail":
 class ResourceTest(APITestCase):
     """Test /api/v1/resources/ endpoint"""
 
+    def setUp(self):
+        # Register the user
+        self.client.post('/api/v1/auth/register/', user, format='json')
+        # Login the user
+        auth_user = {'username': User.objects.get().username,
+                     'password': user['password']}
+        login_response = self.client.post('/api/v1/auth/login/', auth_user)
+        self.token = 'JWT ' + login_response.data.get('token')
+
     def test_C_resource(self):
         """Test Create resource"""
 
@@ -22,16 +31,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(plain_response.data, {})
         self.assertEqual(plain_response.status_code, 401)
 
-        # Register the user
-        self.client.post('/api/v1/auth/register/', user, format='json')
-        # Login the user
-        auth_user = {'username': User.objects.get().username,
-                     'password': user['password']}
-        login_response = self.client.post('/api/v1/auth/login/', auth_user)
-        token = 'JWT ' + login_response.data.get('token')
-
         # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
         # Get to the resources url
         auth_response = self.client.post(url, entry)
         self.assertEqual(auth_response.data.get('text'), 'abcdefgh')
@@ -48,16 +49,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(plain_response.data, {})
         self.assertEqual(plain_response.status_code, 401)
 
-        # Register the user
-        self.client.post('/api/v1/auth/register/', user, format='json')
-        # Login the user
-        auth_user = {'username': User.objects.get().username,
-                     'password': user['password']}
-        login_response = self.client.post('/api/v1/auth/login/', auth_user)
-        token = 'JWT ' + login_response.data.get('token')
-
         # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
         # Get to the resources url
         auth_response = self.client.get(url)
         self.assertEqual(auth_response.data['results'], [])
@@ -95,16 +88,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(plain_response.data, {})
         self.assertEqual(plain_response.status_code, 401)
 
-        # Register the user
-        self.client.post('/api/v1/auth/register/', user, format='json')
-        # Login the user
-        auth_user = {'username': User.objects.get().username,
-                     'password': user['password']}
-        login_response = self.client.post('/api/v1/auth/login/', auth_user)
-        token = 'JWT ' + login_response.data.get('token')
-
         # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
         not_found_msg = {"detail": "Not found."}
         # Get to the specific resources url
         auth_response = self.client.get('/api/v1/resources/1')
@@ -136,15 +121,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(plain_response.data, {})
         self.assertEqual(plain_response.status_code, 401)
 
-        # Register the user
-        self.client.post('/api/v1/auth/register/', user, format='json')
-        # Login the user
-        auth_user = {'username': User.objects.get().username,
-                     'password': user['password']}
-        login_response = self.client.post('/api/v1/auth/login/', auth_user)
-        token = 'JWT ' + login_response.data.get('token')
         # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
 
         not_found_msg = {"detail": "Not found."}
         # Get to the specific resources url
@@ -172,16 +150,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(plain_response.data, {})
         self.assertEqual(plain_response.status_code, 401)
 
-        # Register the user
-        self.client.post('/api/v1/auth/register/', user, format='json')
-        # Login the user
-        auth_user = {'username': User.objects.get().username,
-                     'password': user['password']}
-        login_response = self.client.post('/api/v1/auth/login/', auth_user)
-        token = 'JWT ' + login_response.data.get('token')
-
         # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
         not_found_msg = {"detail": "Not found."}
         # Get to the specific resources url
         auth_response = self.client.get('/api/v1/resources/1')
