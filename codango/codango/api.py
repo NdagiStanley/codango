@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^userprofile/notifications/', NotificationListAPIView.as_view()),
     url(r'^userprofile/notifications/(?P<pk>[0-9]+)',
         NotificationDetailAPIView.as_view()),
-    url(r'^comments/', CommentListAPIView.as_view()),
+    url(r'^comments/$', CommentListAPIView.as_view()),
     url(r'^comments/(?P<pk>[0-9]+)', CommentDetailAPIView.as_view()),
     url(r'^pairprogram/sessions/', SessionListAPIView.as_view()),
     url(r'^pairprogram/sessions/(?P<pk>[0-9]+)', SessionDetailAPIView.as_view()),
