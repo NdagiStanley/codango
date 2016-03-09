@@ -64,6 +64,15 @@ class CommentTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
         auth_response = self.client.post(url, self.comment)
         self.assertEqual(auth_response.status_code, 201)
+        self.assertEqual(auth_response.data.get('content'), 'finally here')
+
+        # unsuccessful comment creation with invalid fields.
+        dummy_comment = {'author': User.objects.get().id,
+                         'content': ' ',
+                         'resource': Resource.objects.get().id}
+        response = self.client.post(url, dummy_comment)
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('This field may not be blank.', response.data['content'])
 
     def test_comment_edition(self):
         """Test for comment update."""
@@ -81,7 +90,18 @@ class CommentTest(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
         self.client.post(url, self.comment)
         auth_response = self.client.put(self.url2, new_comment)
+        self.assertEqual(
+            auth_response.data.get('content'), 'Django rest framework tests.')
         self.assertEqual(auth_response.status_code, 200)
+
+        # unsuccessful comment edition with invalid fields.
+        new_comment = {'author': User.objects.get().id,
+                       'content_type': 'lala',
+                       'resource': Resource.objects.get().id}
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        self.client.post(url, self.comment)
+        auth_response = self.client.put(self.url2, new_comment)
+        self.assertEqual(auth_response.status_code, 400)
 
     def test_comment_deletion(self):
         """Test for comment deletion."""
