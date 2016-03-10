@@ -1,0 +1,62 @@
+[
+    {
+        "fields":{
+            "username": "joan",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2016-03-10T08:36:22.814Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
+            "email": "joan.ngatia@andela.com",
+            "date_joined": "2015-09-03T09:01:00.053Z"
+            },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields": {
+            "author": 1,
+            "text": "Random resource",
+            "language_tags": "Untagged",
+            "resource_file": null,
+            "resource_file_name": null,
+            "resource_file_size": 0,
+            "snippet_text": "",
+            "date_added": "2016-03-01T13:54:52.326929Z",
+            "date_modified": "2016-03-01T13:54:52.326965Z"
+            },
+        "models": "resources.Resource",
+        "pk": 1
+    }
+    {
+        "fields" : {
+            "author": 1 ,
+            "content": "Sterling Archer" ,
+            "resource": 1,
+            },
+        "model": "comments.Comment",
+        "pk": 1
+    },
+    {
+        "fields" : {
+            "author": 1 ,
+            "content": "Lana Kane" ,
+            "resource": 1,
+            },
+        "model": "comments.Comment",
+        "pk": 2
+    },
+    {
+        "fields" : {
+            "author": 1 ,
+            "content": "Mallory Archer" ,
+            "resource": 1,
+            },
+        "model": "comments.Comment",
+        "pk": 3
+    }
+]
