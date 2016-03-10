@@ -10,7 +10,7 @@
             "last_login": "2016-03-10T08:36:22.814Z",
             "groups": [],
             "user_permissions": [],
-            "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
+            "password": "pbkdf2_sha256$20000$bXvomIr3vWtr$ZCzlt04Ja2HT2AL4SDm7/4JcRlU5G39c5nPZvAnZhtU=",
             "email": "joan.ngatia@andela.com",
             "date_joined": "2015-09-03T09:01:00.053Z"
             },
@@ -29,14 +29,16 @@
             "date_added": "2016-03-01T13:54:52.326929Z",
             "date_modified": "2016-03-01T13:54:52.326965Z"
             },
-        "models": "resources.Resource",
+        "model": "resources.Resource",
         "pk": 1
-    }
+    },
     {
         "fields" : {
             "author": 1 ,
-            "content": "Sterling Archer" ,
+            "content": "Sterling Archer",
             "resource": 1,
+            "date_created": "2016-03-01T13:54:52.326929Z",
+            "date_modified": "2016-03-01T13:54:52.326929Z"
             },
         "model": "comments.Comment",
         "pk": 1
@@ -44,8 +46,10 @@
     {
         "fields" : {
             "author": 1 ,
-            "content": "Lana Kane" ,
+            "content": "Lana Kane",
             "resource": 1,
+            "date_created": "2016-03-01T13:54:52.326929Z",
+            "date_modified": "2016-03-01T13:54:52.326929Z"
             },
         "model": "comments.Comment",
         "pk": 2
@@ -53,8 +57,10 @@
     {
         "fields" : {
             "author": 1 ,
-            "content": "Mallory Archer" ,
+            "content": "Mallory Archer",
             "resource": 1,
+            "date_created": "2016-03-01T13:54:52.326929Z",
+            "date_modified": "2016-03-01T13:54:52.326929Z"
             },
         "model": "comments.Comment",
         "pk": 3
