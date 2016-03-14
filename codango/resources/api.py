@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from serializers import ResourceSerializer
 from models import Resource
 
@@ -8,6 +8,10 @@ class ResourceListAPIView(generics.ListCreateAPIView):
 
     queryset = Resource.objects.all()
     serializer_class = ResourceSerializer
+
+    def perform_create(self, serializer):
+        """Associate resource to an account,save data passed in request."""
+        serializer.save(author=self.request.user)
 
 
 class ResourceDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
