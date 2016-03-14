@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions
+from rest_framework import generics
 from serializers import ResourceSerializer
 from models import Resource
 
