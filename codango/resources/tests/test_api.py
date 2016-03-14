@@ -8,11 +8,12 @@ from ..models import Resource
 message = {"detail":
            "Authentication credentials were not provided."}
 url = '/api/v1/resources/'
-url_for_one = '/api/v1/resources/5'
+url_for_one = '/api/v1/resources/5/'
 not_found_msg = {"detail": "Not found."}
 
+
 class ResourceTest(APITestCase):
-    """Test /api/v1/resources/ endpoint"""
+    """Test /api/v1/resources/ endpoint."""
 
     # Include 10 resources and one user for testing purposes
     fixtures = ['resources.json']
@@ -24,9 +25,8 @@ class ResourceTest(APITestCase):
         login_response = self.client.post('/api/v1/auth/login/', auth_user)
         self.token = 'JWT ' + login_response.data.get('token')
 
-    def test_Create_Resource(self):
-        """Test Create resource"""
-
+    def test_create_resource(self):
+        """Test Create resource."""
         entry = {'author': 1, 'text': "abcdefgh", 'language_tags': "PYTHON"}
 
         # Test FALSE access w/out authentication
@@ -46,9 +46,8 @@ class ResourceTest(APITestCase):
         self.assertNotEqual(auth_response.data, {})
         self.assertEqual(Resource.objects.count(), 11)
 
-    def test_Retrieve_Resources(self):
-        """Test Retrieve resources"""
-
+    def test_retrieve_resources(self):
+        """Test Retrieve resources."""
         # Test FALSE access w/out authentication
         plain_response = self.client.get(url)
         self.assertEqual(plain_response.data, message)
@@ -64,9 +63,8 @@ class ResourceTest(APITestCase):
         self.assertEqual(auth_response.status_code, 200)
         self.assertNotEqual(auth_response.data, {})
 
-    def test_Pagination_Resources(self):
-        """Test pagination"""
-
+    def test_pagination_resources(self):
+        """Test pagination."""
         # set authentication token in header
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
         auth_response = self.client.get(url)
@@ -86,9 +84,8 @@ class ResourceTest(APITestCase):
                          "http://testserver/api/v1/resources/")
         self.assertEqual(len(auth_response.data['results']), 3)
 
-    def test_Retrieve_specific_resource(self):
-        """Test Retrieve specific resource"""
-
+    def test_retrieve_specific_resource(self):
+        """Test Retrieve specific resource."""
         # Test FALSE access w/out authentication
         plain_response = self.client.get(url_for_one)
         self.assertEqual(plain_response.data, message)
@@ -105,9 +102,8 @@ class ResourceTest(APITestCase):
         self.assertEqual(auth_response.status_code, 200)
         self.assertEqual(auth_response.data.get('text'), 'Resource5')
 
-    def test_Update_specific_resource(self):
-        """Test Update specific resource"""
-
+    def test_update_specific_resource(self):
+        """Test Update specific resource."""
         update_info = {"author": 1, "text": "Test Update",
                        "language_tags": "PYTHON", "resource_file": 'None',
                        "resource_file_name": 'None', "resource_file_size": 0,
@@ -133,9 +129,8 @@ class ResourceTest(APITestCase):
         self.assertEqual(auth_response.data.get('text'), 'Test Update')
         self.assertEqual(auth_response.data.get('language_tags'), 'PYTHON')
 
-    def test_Delete_specific_resource(self):
-        """Test Delete specific resource"""
-
+    def test_delete_specific_resource(self):
+        """Test delete specific resource."""
         # Test FALSE access w/out authentication
         plain_response = self.client.delete(url_for_one)
         self.assertEqual(plain_response.data, message)
