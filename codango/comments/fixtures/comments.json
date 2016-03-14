@@ -33,6 +33,21 @@
         "pk": 1
     },
     {
+        "fields": {
+            "author": 1,
+            "text": "Random resource",
+            "language_tags": "Untagged",
+            "resource_file": null,
+            "resource_file_name": null,
+            "resource_file_size": 0,
+            "snippet_text": "",
+            "date_added": "2016-03-01T13:54:52.326929Z",
+            "date_modified": "2016-03-01T13:54:52.326965Z"
+            },
+        "model": "resources.Resource",
+        "pk": 2
+    },
+    {
         "fields" : {
             "author": 1 ,
             "content": "Sterling Archer",
