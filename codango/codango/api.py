@@ -1,4 +1,4 @@
-from django.conf.urls import url, include
+from django.conf.urls import url
 
 from resources.api import ResourceListAPIView, ResourceDetailAPIView
 from votes.api import VoteListAPIView, VoteDetailAPIView
@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'auth/logout/', UserLogoutAPIView.as_view(), name='logout'),
     url(r'auth/register/', UserRegisterAPIView.as_view(), name='register'),
     url(r'^resources/$', ResourceListAPIView.as_view()),
-    url(r'^resources/(?P<pk>[0-9]+)', ResourceDetailAPIView.as_view()),
+    url(r'^resources/(?P<pk>[0-9]+)/$', ResourceDetailAPIView.as_view()),
     url(r'^votes/', VoteListAPIView.as_view()),
     url(r'^votes/(?P<pk>[0-9]+)', VoteDetailAPIView.as_view()),
     url(r'^userprofile/', UserProfileListAPIView.as_view()),
@@ -30,10 +30,13 @@ urlpatterns = [
     url(r'^userprofile/notifications/', NotificationListAPIView.as_view()),
     url(r'^userprofile/notifications/(?P<pk>[0-9]+)',
         NotificationDetailAPIView.as_view()),
-    url(r'^comments/', CommentListAPIView.as_view()),
-    url(r'^comments/(?P<pk>[0-9]+)', CommentDetailAPIView.as_view()),
+    url(r'^resources/(?P<pk>[0-9]+)/comments/$', CommentListAPIView.as_view()),
+    url(r'^resources/(?P<resource_id>[0-9]+)/comments/(?P<pk>[0-9]+)/$',
+        CommentDetailAPIView.as_view()),
     url(r'^pairprogram/sessions/', SessionListAPIView.as_view()),
-    url(r'^pairprogram/sessions/(?P<pk>[0-9]+)', SessionDetailAPIView.as_view()),
+    url(r'^pairprogram/sessions/(?P<pk>[0-9]+)',
+        SessionDetailAPIView.as_view()),
     url(r'^pairprogram/participants/', ParticipantListAPIView.as_view()),
-    url(r'^pairprogram/participants/(?P<pk>[0-9]+)', ParticipantDetailAPIView.as_view()),
+    url(r'^pairprogram/participants/(?P<pk>[0-9]+)',
+        ParticipantDetailAPIView.as_view()),
 ]
