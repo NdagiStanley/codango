@@ -8,7 +8,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('user', 'social_id', 'first_name', 'last_name',
+        fields = ('first_name', 'last_name',
                   'place_of_work', 'position', 'about', 'github_username',
                   'frequency', 'image')
 
@@ -28,7 +28,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Language
-        fields = ('user', 'name')
+        fields = ('name',)
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -36,7 +36,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('user', 'link', 'activity_type', 'read',
+        fields = ('link', 'activity_type', 'read',
                   'content', 'date_created')
 
-        read_only_fields = ('date_created')
+        read_only_fields = ('date_created', 'link', 'activity_type', 'content')

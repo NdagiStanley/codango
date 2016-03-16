@@ -9,7 +9,8 @@ from userprofile.api import NotificationListAPIView, \
 from comments.api import CommentListAPIView, CommentDetailAPIView
 from pairprogram.api import SessionDetailAPIView, SessionListAPIView,\
     ParticipantDetailAPIView, ParticipantListAPIView
-from account.api import UserRegisterAPIView, UserLogoutAPIView, UserList, SpecificUserList
+from account.api import UserRegisterAPIView, UserLogoutAPIView, UserFollowAPIView, UserSettingsAPIView
+from account.api import UserList, SpecificUserList
 
 
 urlpatterns = [
@@ -39,6 +40,9 @@ urlpatterns = [
     url(r'^pairprogram/participants/', ParticipantListAPIView.as_view()),
     url(r'^pairprogram/participants/(?P<pk>[0-9]+)',
         ParticipantDetailAPIView.as_view()),
+
     url(r'^users/$', UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)', SpecificUserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)$', SpecificUserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/follow/', UserFollowAPIView.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/settings/', UserSettingsAPIView.as_view())
 ]

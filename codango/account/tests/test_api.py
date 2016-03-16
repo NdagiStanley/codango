@@ -33,6 +33,7 @@ class UserTests(APITestCase):
         self.assertEqual(login_response.status_text, 'OK')
         self.assertNotEqual(login_response.data.get('token'), None)
 
+
         """
         Will be included in the CRUD of endpoints upon authentication
 
