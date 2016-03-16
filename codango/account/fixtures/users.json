@@ -34,5 +34,67 @@
     },
     "model": "auth.user",
     "pk": 2
+},
+{
+    "fields": {
+        "username": "stan",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2016-03-10T08:36:22.814Z",
+        "groups": [],
+        "userprofile": {
+            "first_name": "Stanley",
+            "last_name": "Ndagi",
+            "place_of_work": "Andela",
+            "position": "Class Three Nairobi Kenya",
+            "about": "",
+            "github_username": null,
+            "frequency": "none",
+            "image": "image/upload/v1456221534/trug2dhcqmaqoyuaukkt.jpg"
+          },
+        "languages": {
+            "name": null
+        },
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
+        "email": "stanley.ndagi@andela.com",
+        "date_joined": "2015-09-03T09:01:00.053Z"
+    },
+    "model": "auth.user",
+    "pk": 3
+},
+{
+    "fields": {
+        "username": "achile",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2016-03-10T08:36:22.814Z",
+        "groups": [],
+        "userprofile": {
+            "first_name": "Achile",
+            "last_name": "Ebgunu",
+            "place_of_work": "Andela",
+            "position": "",
+            "about": "",
+            "github_username": null,
+            "frequency": "none",
+            "image": "aukkt.image/upload/v1456221534/trug2dhcqmaqoyujpg"
+        },
+        "languages": {
+            "name": 'PYTHON'
+        },
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
+        "email": "achile@andela.com",
+        "date_joined": "2015-09-03T09:01:00.053Z"
+    },
+    "model": "auth.user",
+    "pk": 4
 }
 ]
