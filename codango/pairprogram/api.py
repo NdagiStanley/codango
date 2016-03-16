@@ -9,6 +9,10 @@ class SessionListAPIView(generics.ListCreateAPIView):
     queryset = Session.objects.all()
     serializer_class = SessionSerializer
 
+    # def perform_create(self, serializer):
+    #     """Associate resource to an account,save data passed in request."""
+    #     serializer.save(initiator=self.request.user)
+
 
 class SessionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     """For /api/v1/pairprogram/sessions/<session_id> url path."""
