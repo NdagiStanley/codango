@@ -87,7 +87,7 @@
             "image": "aukkt.image/upload/v1456221534/trug2dhcqmaqoyujpg"
         },
         "languages": {
-            "name": 'PYTHON'
+            "name": "PYTHON"
         },
         "user_permissions": [],
         "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
