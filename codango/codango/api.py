@@ -36,8 +36,8 @@ urlpatterns = [
     url(r'^pairprogram/sessions/$', SessionListAPIView.as_view()),
     url(r'^pairprogram/sessions/(?P<pk>[0-9]+)/$',
         SessionDetailAPIView.as_view()),
-    url(r'^pairprogram/sessions/(?P<pk>[0-9]+)/participants/$',
+    url(r'^pairprogram/sessions/(?P<session_id>[0-9]+)/participants/$',
         ParticipantListAPIView.as_view()),
-    url(r'^pairprogram/sessions/(?P<session_id>[0-9]+)/participants/(?P<pk>[0-9]+)/$',
+    url(r'^pairprogram/sessions/(?P<session_id>[0-9]+)/participants/(?P<id>[0-9]+)/$',
         ParticipantDetailAPIView.as_view()),
 ]
