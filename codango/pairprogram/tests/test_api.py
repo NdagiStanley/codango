@@ -140,7 +140,7 @@ class SessionTest(APITestCase):
         response = self.client.delete(url4)
         self.assertEqual(response.data, message)
         self.assertEqual(response.status_code, 401)
-        
+
         # set authentication to the client
         self.client.credentials(HTTP_AUTHORIZATION=self.token)
 
