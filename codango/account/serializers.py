@@ -6,19 +6,24 @@ from userprofile.serializers import UserProfileSerializer, NotificationSerialize
 from userprofile.serializers import FollowSerializer
 
 
-
-class UserSerializer(serializers.ModelSerializer):
+class AllUsersSerializer(serializers.ModelSerializer):
     """User serializer"""
-
-    userprofile = UserProfileSerializer()
-    # following = FollowSerializer()
-
 
     class Meta:
         model = User
 
         # Note that id is non-updatable, therefore not required in the read-only fields
-        fields = ('username', 'email', 'userprofile',)
+        fields = ('id', 'username',)
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    """User serializer"""
+
+    class Meta:
+        model = User
+
+        # Note that id is non-updatable, therefore not required in the read-only fields
+        fields = ('id', 'username', 'password', 'email',)
 
     def create(self, validated_data):
         user = User(
@@ -28,6 +33,20 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+
+class UserSerializer(serializers.ModelSerializer):
+    """User serializer"""
+
+    userprofile = UserProfileSerializer(read_only=True)
+
+    class Meta:
+        model = User
+
+        # Note that id is non-updatable, therefore not required in the read-only fields
+        fields = ('username', 'email', 'userprofile',)
+
+        read_only_fields = ('userprofile',)
 
 
 class UserFollowSerializer(serializers.ModelSerializer):

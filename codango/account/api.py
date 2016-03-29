@@ -1,5 +1,5 @@
 from rest_framework import generics, permissions
-from serializers import UserSerializer, UserFollowSerializer
+from serializers import UserSerializer, UserFollowSerializer, AllUsersSerializer, UserRegisterSerializer
 from userprofile import serializers, models
 from django.contrib.auth.models import User
 
@@ -8,7 +8,7 @@ class UserList(generics.ListAPIView):
     """For /api/v1/users/ url path"""
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = AllUsersSerializer
 
 
 class SpecificUserList(generics.RetrieveUpdateAPIView):
@@ -23,7 +23,7 @@ class UserRegisterAPIView(generics.CreateAPIView):
     permission_classes = (permissions.AllowAny,)
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UserRegisterSerializer
 
 
 class UserLogoutAPIView(generics.UpdateAPIView):
