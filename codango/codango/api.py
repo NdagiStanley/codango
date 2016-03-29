@@ -9,8 +9,8 @@ from userprofile.api import NotificationListAPIView, \
 from comments.api import CommentListAPIView, CommentDetailAPIView
 from pairprogram.api import SessionDetailAPIView, SessionListAPIView,\
     ParticipantDetailAPIView, ParticipantListAPIView
-from account.api import UserRegisterAPIView, UserLogoutAPIView, UserFollowAPIView, UserSettingsAPIView
-from account.api import UserList, SpecificUserList
+from account.api import UserRegisterAPIView, UserLogoutAPIView
+from account.api import UserList, SpecificUserList, UserFollowAPIView, UserSettingsAPIView
 
 
 urlpatterns = [

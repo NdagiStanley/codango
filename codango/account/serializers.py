@@ -1,18 +1,24 @@
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
-from userprofile.serializers import UserProfileSerializer, NotificationSerializer
-from userprofile.serializers import LanguageSerializer
+from userprofile.models import UserProfile
+from userprofile.serializers import UserProfileSerializer, NotificationSerializer, UserSettingsSerializer
+from userprofile.serializers import FollowSerializer
 
 
 
 class UserSerializer(serializers.ModelSerializer):
     """User serializer"""
+
+    userprofile = UserProfileSerializer()
+    # following = FollowSerializer()
+
+
     class Meta:
         model = User
 
         # Note that id is non-updatable, therefore not required in the read-only fields
-        fields = ('id', 'username', 'email')
+        fields = ('username', 'email', 'userprofile',)
 
     def create(self, validated_data):
         user = User(
@@ -23,15 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-class UserSettingsSerializer(serializers.ModelSerializer):
-    """UserSettings Serializer to be used in /api/v1/users/<>/settings/"""
 
-    userprofile = UserProfileSerializer()
-    languages = LanguageSerializer()
-    notifications = NotificationSerializer()
+class UserFollowSerializer(serializers.ModelSerializer):
+    """UserSettings Serializer to be used in /api/v1/users/<>/follow/"""
+
+    # follow = FollowSerializer()
 
     class Meta:
         model = User
 
         # Note that id is non-updatable, therefore not required in the read-only fields
-        fields = ('id', 'username', 'email', 'password', 'userprofile', 'languages', 'notifications')
+        fields = ('id', 'follower')

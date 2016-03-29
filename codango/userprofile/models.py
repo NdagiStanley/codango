@@ -26,11 +26,33 @@ class UserProfile(models.Model):
 
     def get_followers(self):
         followers = self.user.follower.all()
-        return [follower.followed for follower in followers]
+        return [follower for follower in followers]
 
     def get_following(self):
         followings = self.user.following.all()
-        return [following.follower for following in followings]
+        return [following for following in followings]
+
+    @property
+    def followers(self):
+        followers = self.user.follower.all()
+        follow = []
+        for follower in followers:
+            follow.append(
+                {'id': follower.followed.id,
+                 'follower': follower.followed.username,
+                 'follow_date': follower.date_of_follow})
+        return follow
+
+    @property
+    def followings(self):
+        followings = self.user.following.all()
+        follow = []
+        for following in followings:
+            follow.append(
+                {'id': following.follower.id,
+                 'following': following.follower.username,
+                 'follow_date': following.date_of_follow})
+        return follow
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
@@ -45,6 +67,7 @@ post_save.connect(create_user_profile, sender=User)
 
 class Follow(models.Model):
 
+    # user = models.ForeignKey(UserProfile, related_name='follows')
     follower = models.ForeignKey(User, related_name='follower')
     followed = models.ForeignKey(User, related_name='following')
     date_of_follow = models.DateTimeField(auto_now_add=True)
