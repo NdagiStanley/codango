@@ -1,0 +1,108 @@
+[
+    {
+        "fields":{
+            "username": "joan",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2016-03-10T08:36:22.814Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$bXvomIr3vWtr$ZCzlt04Ja2HT2AL4SDm7/4JcRlU5G39c5nPZvAnZhtU=",
+            "email": "joan.ngatia@andela.com",
+            "date_joined": "2015-09-03T09:01:00.053Z"
+            },
+        "model": "auth.user",
+        "pk": 1
+    },
+    {
+        "fields":{
+            "username": "mama",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2016-03-10T08:36:22.814Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$57nJgWgNJL6G$Mhth5RhxZBr3oEYoF7Zn30q4SMDe/lXLByMsZF0FZjE=",
+            "email": "mamaashley19@gmail.com",
+            "date_joined": "2015-09-03T09:01:00.053Z"
+            },
+        "model": "auth.user",
+        "pk": 2
+    },
+    {
+        "fields":{
+            "username": "Joan_Ngatia",
+            "first_name": "",
+            "last_name": "",
+            "is_active": true,
+            "is_superuser": true,
+            "is_staff": true,
+            "last_login": "2016-03-10T08:36:22.814Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$20000$wv7XFuGBw7iR$S7GBZCxF+uh1fnNv8OnzoMq38MrEe58C66qZqLYELWQ=",
+            "email": "joanwanjirungatia@gmail.com",
+            "date_joined": "2015-09-03T09:01:00.053Z"
+            },
+        "model": "auth.user",
+        "pk": 3
+    },
+    {
+        "fields":{
+            "id": 1,
+            "participant": 3,
+            "session": 1,
+            "joined_date": "2016-02-08T09:30:42.917366Z"
+            },
+        "model": "pairprogram.Participant",
+        "pk": 1
+    },
+    {
+        "fields":{
+            "id": 2,
+            "participant": 2,
+            "session": 1,
+            "joined_date": "2016-02-08T09:30:42.917366Z"
+            },
+        "model": "pairprogram.Participant",
+        "pk": 2
+    },
+    {
+        "fields":{
+            "id": 3,
+            "participant": 1,
+            "session": 2,
+            "joined_date": "2016-02-08T09:30:42.917366Z"
+            },
+        "model": "pairprogram.Participant",
+        "pk": 3
+    },
+    {
+        "fields":{
+            "id": 1,
+            "session_name": "hello world",
+            "last_active_date": "2016-02-08T09:30:42.911348Z",
+            "status": true,
+            "initiator": 1
+            },
+        "model":"pairprogram.Session",
+        "pk": 1
+    },
+    {
+        "fields":{
+            "id": 2,
+            "session_name": "Django Rest framework",
+            "last_active_date": "2016-02-08T09:30:42.911348Z",
+            "status": true,
+            "initiator": 1
+            },
+        "model":"pairprogram.Session",
+        "pk": 2
+    }
+]
