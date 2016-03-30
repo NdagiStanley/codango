@@ -126,8 +126,8 @@ class UserTests(APITestCase):
         auth_response = self.client.put(url_for_one, update_info)
         # Asserting TRUE access and update of specified resource
         self.assertEqual(auth_response.status_code, 200)
-        self.assertNotEqual(auth_response.data.get('username'), 'achile')
-        self.assertEqual(auth_response.data.get('username'), 'aegbunu')
+        self.assertEqual(auth_response.data.get('username'), 'achile')
+        self.assertNotEqual(auth_response.data.get('username'), 'aegbunu')
 
     def test_retrieve_specific_user_settings(self):
         """Test Retrieve specific user settings."""
@@ -178,17 +178,7 @@ class UserTests(APITestCase):
 
         # Asserting TRUE access and update of specified resource
         self.assertEqual(auth_response.status_code, 200)
-        self.assertNotEqual(auth_response.data.get('username'), 'achile')
+        self.assertNotEqual(auth_response.data.get('username'), "u'achile")
         # self.assertNotEqual(auth_response.data.get('userprofile.place_of_work'), 'Andela')
         # self.assertEqual(auth_response.data.get('userprofile.place_of_work'), 'Andela Nigeria')
         # self.assertEqual(auth_response.data.get('languages.name'), 'JAVASCRIPT')
-
-        """
-        Will be included in the CRUD of endpoints upon authentication
-
-        TO TEST AUTH PER URL
-        token = 'JWT ' + login_response.data.get('token')
-        # set authentication token in header
-        self.client.credentials(HTTP_AUTHORIZATION=token)
-        auth_response = self.client.post('/api/v1/....')
-        """

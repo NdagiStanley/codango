@@ -16,8 +16,6 @@ class FollowSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     """UserProfile Serializer"""
 
-    # follows = FollowSerializer(many=True, read_only=True)
-
     class Meta:
         model = UserProfile
         fields = ('first_name', 'last_name', 'place_of_work', 'position', 'about', 'github_username', 'frequency', 'followers', 'followings')

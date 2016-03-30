@@ -38,7 +38,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     """User serializer"""
 
-    userprofile = UserProfileSerializer(read_only=True)
+    userprofile = UserProfileSerializer(required=False)
 
     class Meta:
         model = User
@@ -46,7 +46,15 @@ class UserSerializer(serializers.ModelSerializer):
         # Note that id is non-updatable, therefore not required in the read-only fields
         fields = ('username', 'email', 'userprofile',)
 
-        read_only_fields = ('userprofile',)
+    def update(self, instance, validated_data):
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_ = validated_data.get('last_name', instance.last_name)
+        instance.last_ = validated_data.get('place_of_work', instance.userprofile.place_of_work)
+        instance.last_ = validated_data.get('position', instance.userprofile.position)
+        instance.last_ = validated_data.get('github_username', instance.userprofile.github_username)
+        instance.last_ = validated_data.get('frequency', instance.userprofile.frequency)
+        return instance
+
 
 
 class UserFollowSerializer(serializers.ModelSerializer):
