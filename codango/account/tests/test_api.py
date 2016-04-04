@@ -180,4 +180,4 @@ class UserTests(APITestCase):
 
         # Asserting that the followed is added to the user's data
         confirmation = self.client.get(url_for_one).data
-        self.assertEqual(confirmation.get("userprofile")["followings"]["id"]), 4)
+        self.assertEqual(confirmation.get("userprofile")["followings"]["id"], 4)

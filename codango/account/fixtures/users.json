@@ -34,6 +34,17 @@
     "pk": 2
 }, {
     "fields": {
+        "user_id": 3,
+        "place_of_work": "Andela",
+        "position": "Class Three Nairobi Kenya",
+        "about": "Wise guy",
+        "github_username": "",
+        "frequency": "daily"
+    },
+    "model": "userprofile.userprofile",
+    "pk": 3
+}, {
+    "fields": {
         "username": "stan",
         "first_name": "",
         "last_name": "",
@@ -64,15 +75,4 @@
     },
     "model": "auth.user",
     "pk": 4
-}, {
-    "fields": {
-        "user_id": 3,
-        "place_of_work": "Andela",
-        "position": "Class Three Nairobi Kenya",
-        "about": "Wise guy",
-        "github_username": "",
-        "frequency": "daily"
-    },
-    "model": "userprofile.userprofile",
-    "pk": 3
 }]
