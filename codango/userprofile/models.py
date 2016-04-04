@@ -67,7 +67,6 @@ post_save.connect(create_user_profile, sender=User)
 
 class Follow(models.Model):
 
-    # user = models.ForeignKey(UserProfile, related_name='follows')
     follower = models.ForeignKey(User, related_name='follower')
     followed = models.ForeignKey(User, related_name='following')
     date_of_follow = models.DateTimeField(auto_now_add=True)

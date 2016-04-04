@@ -17,6 +17,17 @@
     "pk": 1
 }, {
     "fields": {
+        "user_id": 1,
+        "place_of_work": "Andela NYC",
+        "position": "ADMIN",
+        "about": "Ninja",
+        "github_username": "",
+        "frequency": "weekly"
+    },
+    "model": "userprofile.userprofile",
+    "pk": 1
+}, {
+    "fields": {
         "username": "lade",
         "first_name": "",
         "last_name": "",
@@ -34,15 +45,15 @@
     "pk": 2
 }, {
     "fields": {
-        "user_id": 3,
-        "place_of_work": "Andela",
-        "position": "Class Three Nairobi Kenya",
-        "about": "Wise guy",
+        "user_id": 2,
+        "place_of_work": "Andela Nigeria",
+        "position": "Product Manager",
+        "about": "Bad guy",
         "github_username": "",
-        "frequency": "daily"
+        "frequency": "monthly"
     },
     "model": "userprofile.userprofile",
-    "pk": 3
+    "pk": 2
 }, {
     "fields": {
         "username": "stan",
@@ -62,6 +73,17 @@
     "pk": 3
 }, {
     "fields": {
+        "user_id": 3,
+        "place_of_work": "Andela Kenya",
+        "position": "Class Three Nairobi Kenya",
+        "about": "Wise guy",
+        "github_username": "",
+        "frequency": "daily"
+    },
+    "model": "userprofile.userprofile",
+    "pk": 3
+}, {
+    "fields": {
         "username": "achile",
         "is_active": true,
         "is_superuser": true,
@@ -74,5 +96,16 @@
         "date_joined": "2015-09-03T09:01:00.053Z"
     },
     "model": "auth.user",
+    "pk": 4
+}, {
+    "fields": {
+        "user_id": 4,
+        "place_of_work": "Andela",
+        "position": "Class Thirteen Lagos Nigeria",
+        "about": "Funny guy",
+        "github_username": "",
+        "frequency": "daily"
+    },
+    "model": "userprofile.userprofile",
     "pk": 4
 }]

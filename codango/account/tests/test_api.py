@@ -128,8 +128,8 @@ class UserTests(APITestCase):
         # Asserting TRUE access and update of specified resource
         self.assertEqual(auth_response.status_code, 200)
         self.assertEqual(auth_response.data.get('username'), 'stan')
-        self.assertEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela')
-        self.assertNotEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela Kenya')
+        self.assertEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela Kenya')
+        self.assertNotEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela')
 
     def test_update_specific_user_settings(self):
         """Test Update specific user settings."""
@@ -180,4 +180,4 @@ class UserTests(APITestCase):
 
         # Asserting that the followed is added to the user's data
         confirmation = self.client.get(url_for_one).data
-        self.assertEqual(confirmation.get("userprofile")["followings"]["id"], 4)
+        self.assertEqual(confirmation.get("userprofile")["followers"][0]["id"], 4)

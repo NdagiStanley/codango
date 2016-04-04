@@ -77,7 +77,6 @@ class UserSettingsSerializer(serializers.ModelSerializer):
         return instance
 
 
-
 class UserFollowSerializer(serializers.ModelSerializer):
     """UserSettings Serializer to be used in /api/v1/users/<>/follow/"""
 
@@ -85,4 +84,4 @@ class UserFollowSerializer(serializers.ModelSerializer):
         model = User
 
         # Note that id is non-updatable, therefore not required in the read-only fields
-        fields = ('id', 'follower')
+        fields = ('id', 'following')
