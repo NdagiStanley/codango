@@ -46,21 +46,40 @@ class UserSerializer(serializers.ModelSerializer):
         # Note that id is non-updatable, therefore not required in the read-only fields
         fields = ('username', 'email', 'userprofile',)
 
+        read_only_fields = ('userprofile')
+
+
+class UserSettingsSerializer(serializers.ModelSerializer):
+    """User settings serializer"""
+
+    userprofile = UserProfileSerializer(required=False)
+
+    class Meta:
+        model = User
+
+        # Note that id is non-updatable, therefore not required in the read-only fields
+        fields = ('username', 'email', 'password', 'userprofile',)
+
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_ = validated_data.get('last_name', instance.last_name)
-        instance.last_ = validated_data.get('place_of_work', instance.userprofile.place_of_work)
-        instance.last_ = validated_data.get('position', instance.userprofile.position)
-        instance.last_ = validated_data.get('github_username', instance.userprofile.github_username)
-        instance.last_ = validated_data.get('frequency', instance.userprofile.frequency)
+        #
+        instance.username = validated_data.get('username')
+        instance.email = validated_data.get('email')
+        instance.set_password(validated_data.get('password'))
+        instance.userprofile.first_name = validated_data['userprofile'].get('first_name')
+        instance.userprofile.last_name = validated_data['userprofile'].get('last_name')
+        instance.userprofile.place_of_work = validated_data['userprofile'].get('place_of_work')
+        instance.userprofile.position = validated_data['userprofile'].get('position')
+        instance.userprofile.about = validated_data['userprofile'].get('about')
+        instance.userprofile.github_username = validated_data['userprofile'].get('github_username')
+        instance.userprofile.frequency = validated_data['userprofile'].get('frequency')
+        instance.save()
+        instance.userprofile.save()
         return instance
 
 
 
 class UserFollowSerializer(serializers.ModelSerializer):
     """UserSettings Serializer to be used in /api/v1/users/<>/follow/"""
-
-    # follow = FollowSerializer()
 
     class Meta:
         model = User

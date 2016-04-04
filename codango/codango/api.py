@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^resources/(?P<pk>[0-9]+)/$', ResourceDetailAPIView.as_view()),
     url(r'^votes/', VoteListAPIView.as_view()),
     url(r'^votes/(?P<pk>[0-9]+)', VoteDetailAPIView.as_view()),
-    url(r'^userprofile/', UserProfileListAPIView.as_view()),
+    url(r'^userprofile/$', UserProfileListAPIView.as_view()),
     url(r'^userprofile/(?P<pk>[0-9]+)', UserProfileDetailAPIView.as_view()),
     url(r'^userprofile/follows/', FollowListAPIView.as_view()),
     url(r'^userprofile/follows/(?P<pk>[0-9]+)', FollowDetailAPIView.as_view()),

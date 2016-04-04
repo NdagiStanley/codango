@@ -1,7 +1,25 @@
+import psycopg2
+
 from rest_framework import generics, permissions
-from serializers import UserSerializer, UserFollowSerializer, AllUsersSerializer, UserRegisterSerializer
+from serializers import UserSerializer, UserFollowSerializer, UserSettingsSerializer
+from serializers import AllUsersSerializer, UserRegisterSerializer
 from userprofile import serializers, models
 from django.contrib.auth.models import User
+from rest_framework import permissions
+
+
+class IsOwner(permissions.BasePermission):
+    """
+    Custom of class IsOwnerOrReadOnly(permissions.BasePermission)
+    That an APIexception is raised instead
+    We do not want a ReadOnly
+    """
+
+    def has_object_permission(self, request, view, obj):
+
+        # Instance is the user
+        return obj == request.user
+
 
 
 class UserList(generics.ListAPIView):
@@ -9,13 +27,15 @@ class UserList(generics.ListAPIView):
 
     queryset = User.objects.all()
     serializer_class = AllUsersSerializer
+    permission_classes = (permissions.IsAdminUser,)
 
 
-class SpecificUserList(generics.RetrieveUpdateAPIView):
+class SpecificUserList(generics.RetrieveAPIView):
     """For /api/v1/users/<id> url path"""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsOwner,)
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -32,6 +52,7 @@ class UserLogoutAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
 class UserFollowAPIView(generics.CreateAPIView):
     """
     For api/v1/users/<>/follow/ url path
@@ -46,9 +67,10 @@ class UserFollowAPIView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         self.user = User.objects.filter(id=self.request.user.id).first()
-        models.Follow.objects.create(follower=self.user, followed=self.get_queryset())
-        # import ipdb; ipdb.set_trace()
-        # return models.Follow.objects.filter(follower=self.user, followed=self.get_queryset())
+        try:
+            models.Follow.objects.create(follower=self.user, followed=self.get_queryset())
+        except psycopg2.IntegrityError:
+            return {"error": "You have already followed this person"}
 
 
 class UserSettingsAPIView(generics.RetrieveUpdateAPIView):
@@ -60,4 +82,5 @@ class UserSettingsAPIView(generics.RetrieveUpdateAPIView):
     """For api/v1/users/<>/settings/ url path"""
 
     queryset = User.objects.all()
-    serializer_class = serializers.UserSettingsSerializer
+    serializer_class = UserSettingsSerializer
+    permission_classes = (IsOwner,)
