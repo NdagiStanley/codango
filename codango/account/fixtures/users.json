@@ -64,4 +64,15 @@
     },
     "model": "auth.user",
     "pk": 4
+}, {
+    "fields": {
+        "user_id": 3,
+        "place_of_work": "Andela",
+        "position": "Class Three Nairobi Kenya",
+        "about": "Wise guy",
+        "github_username": "",
+        "frequency": "daily"
+    },
+    "model": "userprofile.userprofile",
+    "pk": 3
 }]

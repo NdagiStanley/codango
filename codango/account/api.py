@@ -17,6 +17,8 @@ class IsOwner(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
+        # First check if authentication is True
+        permission_classes = (permissions.IsAuthenticated, )
         # Instance is the user
         return obj == request.user
 
@@ -35,7 +37,8 @@ class SpecificUserList(generics.RetrieveAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsOwner,)
+    permission_classes = (IsOwner, )
+    # permission_classes = (IsOwner,)
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -83,4 +86,5 @@ class UserSettingsAPIView(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSettingsSerializer
+    # permission_classes = (permissions.IsAuthenticated, IsOwner,)
     permission_classes = (IsOwner,)
