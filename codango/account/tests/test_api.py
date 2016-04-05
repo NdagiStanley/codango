@@ -20,7 +20,7 @@ not_found_msg = {"detail": "Not found."}
 class UserTests(APITestCase):
 
     # Include two users for testing purposes
-    fixtures = ['users.json']
+    fixtures = ['userdetails.json']
 
     def setUp(self):
         # Login the user
