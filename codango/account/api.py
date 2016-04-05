@@ -1,6 +1,7 @@
 import psycopg2
 
 from rest_framework import generics, permissions
+# from serializers import UserSerializer, UserFollowSerializer, UserSettingsSerializer
 from serializers import UserSerializer, UserFollowSerializer, UserSettingsSerializer
 from serializers import AllUsersSerializer, UserRegisterSerializer
 from userprofile import serializers, models
@@ -20,11 +21,10 @@ class IsOwner(permissions.BasePermission):
         # First check if authentication is True
         permission_classes = (permissions.IsAuthenticated, )
         # Instance is the user
-        return obj == request.user
+        return obj.id == request.user.id
 
 
-
-class UserList(generics.ListAPIView):
+class UserListAPIView(generics.ListAPIView):
     """For /api/v1/users/ url path"""
 
     queryset = User.objects.all()
@@ -32,13 +32,12 @@ class UserList(generics.ListAPIView):
     permission_classes = (permissions.IsAdminUser,)
 
 
-class SpecificUserList(generics.RetrieveAPIView):
+class UserDetailAPIView(generics.RetrieveUpdateAPIView):
     """For /api/v1/users/<id> url path"""
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (IsOwner, )
-    # permission_classes = (IsOwner,)
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -72,6 +71,7 @@ class UserFollowAPIView(generics.CreateAPIView):
         self.user = User.objects.filter(id=self.request.user.id).first()
         try:
             models.Follow.objects.create(follower=self.user, followed=self.get_queryset())
+            return {"message": "You have followed user'{}'".format(self.get_queryset())}, 201
         except psycopg2.IntegrityError:
             return {"error": "You have already followed this person"}
 
@@ -80,11 +80,10 @@ class UserSettingsAPIView(generics.RetrieveUpdateAPIView):
     """
     For api/v1/users/<>/settings/ url path
     To enable user to update those that their:
-    - username, password, update's frequency, github account and image
+    - update's frequency, github account and image
     """
     """For api/v1/users/<>/settings/ url path"""
 
-    queryset = User.objects.all()
+    queryset = models.UserSettings.objects.all()
     serializer_class = UserSettingsSerializer
-    # permission_classes = (permissions.IsAuthenticated, IsOwner,)
     permission_classes = (IsOwner,)

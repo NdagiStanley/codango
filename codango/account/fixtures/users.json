@@ -18,6 +18,13 @@
 }, {
     "fields": {
         "user_id": 1,
+        "frequency": "daily"
+    },
+    "model": "userprofile.usersettings",
+    "pk": 1
+}, {
+    "fields": {
+        "user_id": 1,
         "place_of_work": "Andela NYC",
         "position": "ADMIN",
         "about": "Ninja",
@@ -42,6 +49,13 @@
         "date_joined": "2015-09-03T22:06:57.468Z"
     },
     "model": "auth.user",
+    "pk": 2
+}, {
+    "fields": {
+        "user_id": 2,
+        "frequency": "daily"
+    },
+    "model": "userprofile.usersettings",
     "pk": 2
 }, {
     "fields": {
@@ -74,6 +88,13 @@
 }, {
     "fields": {
         "user_id": 3,
+        "frequency": "daily"
+    },
+    "model": "userprofile.usersettings",
+    "pk": 3
+}, {
+    "fields": {
+        "user_id": 3,
         "place_of_work": "Andela Kenya",
         "position": "Class Three Nairobi Kenya",
         "about": "Wise guy",
@@ -96,6 +117,13 @@
         "date_joined": "2015-09-03T09:01:00.053Z"
     },
     "model": "auth.user",
+    "pk": 4
+}, {
+    "fields": {
+        "user_id": 4,
+        "frequency": "daily"
+    },
+    "model": "userprofile.usersettings",
     "pk": 4
 }, {
     "fields": {

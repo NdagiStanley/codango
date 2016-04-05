@@ -111,6 +111,33 @@ class UserTests(APITestCase):
         self.assertEqual(auth_response.status_code, 200)
         self.assertEqual(auth_response.data.get('username'), 'stan')
 
+    def test_update_specific_user(self):
+        """Test Update specific user."""
+        update_info = {
+            "username": "stanmd",
+            "password": "1234",
+            "userprofile": {
+                "first_name": "Stan"
+            }
+        }
+
+        # Test FALSE access w/out authentication
+        plain_response = self.client.put(url_for_one, update_info)
+        self.assertEqual(plain_response.data, message)
+        self.assertNotEqual(plain_response.data, {})
+        self.assertEqual(plain_response.status_code, 401)
+
+        # set authentication token in header
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        # Get to the specific resources url
+        auth_response = self.client.put(url_for_one, update_info)
+
+        # Asserting TRUE access and update of one user details
+        self.assertNotEqual(auth_response.data, not_found_msg)
+        self.assertEqual(auth_response.status_code, 200)
+        self.assertEqual(auth_response.data.get('username'), 'stanmd')
+        self.assertEqual(auth_response.data['userprofile'].get('first_name'), 'Stan')
+
     def test_retrieve_specific_user_settings(self):
         """Test Retrieve specific user settings."""
 
@@ -127,21 +154,11 @@ class UserTests(APITestCase):
 
         # Asserting TRUE access and update of specified resource
         self.assertEqual(auth_response.status_code, 200)
-        self.assertEqual(auth_response.data.get('username'), 'stan')
-        self.assertEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela Kenya')
-        self.assertNotEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela')
+        self.assertEqual(auth_response.data.get('frequency'), 'daily')
 
     def test_update_specific_user_settings(self):
         """Test Update specific user settings."""
-        update_info = {"username": "aegbunu", "email": "aegbunu@gmail.com",
-                       "password": "some password",
-                       "userprofile": {
-                            "place_of_work": "Andela Nigeria",
-                            "position": "Class Fifteen Lagos Nigeria",
-                            "about": "Jovial guy",
-                            "github_username": 'Achile',
-                            "frequency": "daily"
-                        }}
+        update_info = {"frequency": "weekly"}
 
         # Test FALSE access w/out authentication
         plain_response = self.client.put(url_for_one_settings, update_info)
@@ -156,10 +173,7 @@ class UserTests(APITestCase):
 
         # Asserting TRUE access and update of specified resource
         self.assertEqual(auth_response.status_code, 200)
-        self.assertNotEqual(auth_response.data.get('username'), "u'aegbunu")
-        self.assertNotEqual(auth_response.data.get("userprofile")['place_of_work'], "Andela")
-        self.assertEqual(auth_response.data.get("userprofile")['place_of_work'], 'Andela Nigeria')
-
+        self.assertNotEqual(auth_response.data.get('frequency'), "u'weekly")
 
     def test_follow_user(self):
         """Test Follow a user."""

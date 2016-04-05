@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from __future__ import absolute_import
+import datetime
 import os
 import cloudinary
 
@@ -135,6 +136,9 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 3
 }
 
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

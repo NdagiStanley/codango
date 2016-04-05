@@ -39,7 +39,7 @@ class UserProfile(models.Model):
         for follower in followers:
             follow.append(
                 {'id': follower.followed.id,
-                 'followed': follower.followed.username,
+                 'following': follower.followed.username,
                  'follow_date': follower.date_of_follow})
         return follow
 
@@ -67,6 +67,16 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class UserSettings(models.Model):
+
+    user = models.ForeignKey(User, related_name='settings')
+    frequency = models.CharField(default="daily", null=True, max_length=10)
+
+    @property
+    def languages(self):
+        return [language for language in self.user.languages.all()]
 
 
 class Follow(models.Model):
