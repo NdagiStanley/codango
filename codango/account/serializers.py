@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from django.contrib.auth.models import User
 from userprofile.models import UserProfile
-from userprofile.serializers import UserProfileSerializer, NotificationSerializer, UserSettingsSerializer
+from userprofile.serializers import UserProfileSerializer, NotificationSerializer
 from userprofile.serializers import FollowSerializer
 
 

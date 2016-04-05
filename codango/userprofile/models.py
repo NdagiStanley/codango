@@ -33,26 +33,30 @@ class UserProfile(models.Model):
         return [following for following in followings]
 
     @property
-    def followers(self):
+    def followings(self):
         followers = self.user.follower.all()
         follow = []
         for follower in followers:
             follow.append(
                 {'id': follower.followed.id,
-                 'follower': follower.followed.username,
+                 'followed': follower.followed.username,
                  'follow_date': follower.date_of_follow})
         return follow
 
     @property
-    def followings(self):
+    def followers(self):
         followings = self.user.following.all()
         follow = []
         for following in followings:
             follow.append(
                 {'id': following.follower.id,
-                 'following': following.follower.username,
+                 'follower': following.follower.username,
                  'follow_date': following.date_of_follow})
         return follow
+
+    @property
+    def languages(self):
+        return [language for language in self.user.languages.all()]
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

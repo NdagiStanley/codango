@@ -18,15 +18,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'place_of_work', 'position', 'about', 'github_username', 'frequency', 'followers', 'followings')
-
-
-class UserSettingsSerializer(serializers.ModelSerializer):
-    """UserSettings Serializer"""
-
-    class Meta:
-        model = UserProfile
-        fields = ('frequency', 'github_username', 'id')
+        fields = ('first_name', 'last_name', 'place_of_work', 'position', 'about', 'github_username', 'frequency', 'followers', 'followings', 'languages')
 
 
 class LanguageSerializer(serializers.ModelSerializer):
