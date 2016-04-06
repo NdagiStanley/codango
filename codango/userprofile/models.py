@@ -12,9 +12,9 @@ class UserProfile(models.Model):
     social_id = models.CharField(max_length=200, null=True)
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    place_of_work = models.CharField(max_length=150, blank=True)
-    position = models.CharField(max_length=100, blank=True)
-    about = models.TextField(max_length=1200, blank=True)
+    place_of_work = models.CharField(max_length=150, null=True, blank=True)
+    position = models.CharField(max_length=100, null=True, blank=True)
+    about = models.TextField(max_length=1200, null=True, blank=True)
     github_username = models.CharField(max_length=200, null=True)
     frequency = models.CharField(max_length=200, default='none')
 

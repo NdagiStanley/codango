@@ -53,6 +53,7 @@ class UserLogoutAPIView(generics.UpdateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (IsOwner, )
 
 
 class UserFollowAPIView(generics.CreateAPIView):
@@ -70,10 +71,15 @@ class UserFollowAPIView(generics.CreateAPIView):
     def perform_create(self, serializer):
         self.user = User.objects.filter(id=self.request.user.id).first()
         try:
-            models.Follow.objects.create(follower=self.user, followed=self.get_queryset())
-            return {"message": "You have followed user'{}'".format(self.get_queryset())}, 201
-        except psycopg2.IntegrityError:
-            return {"error": "You have already followed this person"}
+            models.Follow.objects.create(
+                follower=self.user, followed=self.get_queryset())
+            return {"message":
+                    "You have followed user'{}'".format(
+                        self.get_queryset())}, 201
+        except:
+            raise serializers.serializers.ValidationError(
+                'You have already followed this person')
+
 
 
 class UserSettingsAPIView(generics.RetrieveUpdateAPIView):

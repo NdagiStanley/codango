@@ -4,7 +4,8 @@ from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 
 # DRY variables to be used repeatedly
-user = {'username': 'stanmd', 'email': 'ndagi@gmail.com', 'password': '1234'}
+user = {'username': 'stanmd', 'email': 'ndagi@gmail.com',
+        'password': '1234', 'confirm_password': '1234'}
 message = {"detail":
            "Authentication credentials were not provided."}
 update_error = {"detail":
@@ -115,7 +116,6 @@ class UserTests(APITestCase):
         """Test Update specific user."""
         update_info = {
             "username": "stanmd",
-            "password": "1234",
             "userprofile": {
                 "first_name": "Stan"
             }
