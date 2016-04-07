@@ -10,6 +10,8 @@ from comments.api import CommentListAPIView, CommentDetailAPIView
 from pairprogram.api import SessionDetailAPIView, SessionListAPIView,\
     ParticipantDetailAPIView, ParticipantListAPIView
 from account.api import UserRegisterAPIView, UserLogoutAPIView
+from account.api import UserListAPIView, UserDetailAPIView, UserFollowAPIView
+from account.api import UserSettingsAPIView
 
 
 urlpatterns = [
@@ -20,7 +22,7 @@ urlpatterns = [
     url(r'^resources/(?P<pk>[0-9]+)/$', ResourceDetailAPIView.as_view()),
     url(r'^votes/', VoteListAPIView.as_view()),
     url(r'^votes/(?P<pk>[0-9]+)', VoteDetailAPIView.as_view()),
-    url(r'^userprofile/', UserProfileListAPIView.as_view()),
+    url(r'^userprofile/$', UserProfileListAPIView.as_view()),
     url(r'^userprofile/(?P<pk>[0-9]+)', UserProfileDetailAPIView.as_view()),
     url(r'^userprofile/follows/', FollowListAPIView.as_view()),
     url(r'^userprofile/follows/(?P<pk>[0-9]+)', FollowDetailAPIView.as_view()),
@@ -40,4 +42,9 @@ urlpatterns = [
         ParticipantListAPIView.as_view()),
     url(r'^pairprogram/sessions/(?P<session_id>[0-9]+)/participants/(?P<id>[0-9]+)/$',
         ParticipantDetailAPIView.as_view()),
+
+    url(r'^users/$', UserListAPIView.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)$', UserDetailAPIView.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/follow/', UserFollowAPIView.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/settings/', UserSettingsAPIView.as_view())
 ]

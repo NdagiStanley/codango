@@ -12,9 +12,9 @@ class UserProfile(models.Model):
     social_id = models.CharField(max_length=200, null=True)
     first_name = models.CharField(max_length=100, null=True)
     last_name = models.CharField(max_length=100, null=True)
-    place_of_work = models.CharField(max_length=150, blank=True)
-    position = models.CharField(max_length=100, blank=True)
-    about = models.TextField(max_length=1200, blank=True)
+    place_of_work = models.CharField(max_length=150, null=True, blank=True)
+    position = models.CharField(max_length=100, null=True, blank=True)
+    about = models.TextField(max_length=1200, null=True, blank=True)
     github_username = models.CharField(max_length=200, null=True)
     frequency = models.CharField(max_length=200, default='none')
 
@@ -26,11 +26,37 @@ class UserProfile(models.Model):
 
     def get_followers(self):
         followers = self.user.follower.all()
-        return [follower.followed for follower in followers]
+        return [follower for follower in followers]
 
     def get_following(self):
         followings = self.user.following.all()
-        return [following.follower for following in followings]
+        return [following for following in followings]
+
+    @property
+    def followings(self):
+        followers = self.user.follower.all()
+        follow = []
+        for follower in followers:
+            follow.append(
+                {'id': follower.followed.id,
+                 'following': follower.followed.username,
+                 'follow_date': follower.date_of_follow})
+        return follow
+
+    @property
+    def followers(self):
+        followings = self.user.following.all()
+        follow = []
+        for following in followings:
+            follow.append(
+                {'id': following.follower.id,
+                 'follower': following.follower.username,
+                 'follow_date': following.date_of_follow})
+        return follow
+
+    @property
+    def languages(self):
+        return [language for language in self.user.languages.all()]
 
 
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
@@ -41,6 +67,16 @@ def create_user_profile(sender, instance, created, **kwargs):
         UserProfile.objects.create(user=instance)
 
 post_save.connect(create_user_profile, sender=User)
+
+
+class UserSettings(models.Model):
+
+    user = models.ForeignKey(User, related_name='settings')
+    frequency = models.CharField(default="daily", null=True, max_length=10)
+
+    @property
+    def languages(self):
+        return [language for language in self.user.languages.all()]
 
 
 class Follow(models.Model):

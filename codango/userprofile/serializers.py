@@ -3,16 +3,6 @@ from rest_framework import serializers
 from models import UserProfile, Follow, Notification, Language
 
 
-class UserProfileSerializer(serializers.ModelSerializer):
-    """UserProfile Serializer"""
-
-    class Meta:
-        model = UserProfile
-        fields = ('user', 'social_id', 'first_name', 'last_name',
-                  'place_of_work', 'position', 'about', 'github_username',
-                  'frequency', 'image')
-
-
 class FollowSerializer(serializers.ModelSerializer):
     """Follow Serializer"""
 
@@ -20,7 +10,15 @@ class FollowSerializer(serializers.ModelSerializer):
         model = Follow
         fields = ('follower', 'followed', 'date_of_follow')
 
-        read_only_fields = ('date_of_follow')
+        read_only_fields = ('date_of_follow', 'follower')
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    """UserProfile Serializer"""
+
+    class Meta:
+        model = UserProfile
+        fields = ('first_name', 'last_name', 'place_of_work', 'position', 'about', 'github_username', 'frequency', 'followers', 'followings', 'languages')
 
 
 class LanguageSerializer(serializers.ModelSerializer):
@@ -28,7 +26,7 @@ class LanguageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Language
-        fields = ('user', 'name')
+        fields = ('name',)
 
 
 class NotificationSerializer(serializers.ModelSerializer):
@@ -36,7 +34,7 @@ class NotificationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Notification
-        fields = ('user', 'link', 'activity_type', 'read',
+        fields = ('link', 'activity_type', 'read',
                   'content', 'date_created')
 
-        read_only_fields = ('date_created')
+        read_only_fields = ('date_created', 'link', 'activity_type', 'content')
