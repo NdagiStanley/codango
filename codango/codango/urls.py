@@ -20,6 +20,7 @@ import userprofile.urls
 import resources.urls
 import comments.urls
 import pairprogram.urls
+import api
 
 
 urlpatterns = [
@@ -29,5 +30,7 @@ urlpatterns = [
     url(r'^comment/', include(comments.urls)),
     url(r'^pair/', include(pairprogram.urls)),
     url(r'^admin/', include(admin.site.urls)),
-
+    url(r'^api/v1/', include(api)),
+    url(r'^api/v1/', include('rest_framework.urls')),
+    url(r'^', include('rest_framework.urls', namespace='rest_framework')),
 ]

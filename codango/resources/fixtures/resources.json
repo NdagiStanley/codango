@@ -1,0 +1,170 @@
+[
+{
+    "fields": {
+        "username": "stan",
+        "first_name": "",
+        "last_name": "",
+        "is_active": true,
+        "is_superuser": true,
+        "is_staff": true,
+        "last_login": "2016-03-10T08:36:22.814Z",
+        "groups": [],
+        "user_permissions": [],
+        "password": "pbkdf2_sha256$20000$eV2IGCXmA5vY$fJ9f2lZywnwyerMcqyQylF28EUVJQsVVKKy2uCxxr6Y=",
+        "email": "stanley.ndagi@andela.com",
+        "date_joined": "2015-09-03T09:01:00.053Z"
+    },
+    "model": "auth.user",
+    "pk": 1
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource1",
+        "language_tags": "Untagged",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 1
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource2",
+        "language_tags": "C",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 2
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource3",
+        "language_tags": "JAVASCRIPT",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 3
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource4",
+        "language_tags": "IOS",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 4
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource5",
+        "language_tags": "PHP",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 5
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource6",
+        "language_tags": "JAVA",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 6
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource7",
+        "language_tags": "MARKUP",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 7
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource8",
+        "language_tags": "ANDROID",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 8
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource9",
+        "language_tags": "RUBY",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 9
+},
+{
+    "fields": {
+        "author": 1,
+        "text": "Resource10",
+        "language_tags": "PYTHON",
+        "resource_file": null,
+        "resource_file_name": null,
+        "resource_file_size": 0,
+        "snippet_text": "",
+        "date_added": "2016-03-01T13:54:52.326929Z",
+        "date_modified": "2016-03-01T13:54:52.326965Z"
+    },
+    "model": "resources.Resource",
+    "pk": 10
+}
+]

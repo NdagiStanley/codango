@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from __future__ import absolute_import
+import datetime
 import os
 import cloudinary
 
@@ -80,7 +81,8 @@ INSTALLED_APPS = (
     'cloudinary',
     'djangobower',
     'endless_pagination',
-    'djcelery'
+    'djcelery',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -120,6 +122,23 @@ AUTHENTICATION_BACKEND = (
 
 
 WSGI_APPLICATION = 'codango.wsgi.application'
+
+# REST
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
+}
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -165,7 +184,7 @@ MESSAGE_TAGS = {
 }
 
 # Custom Email
-ADMIN_EMAIL = 'olufunmilade.oshodi@andela.com'
+ADMIN_EMAIL = 'stanley.ndagi@andela.com'
 CODANGO_EMAIL = 'noreply@codango.com'
 
 # Celery configuration
