@@ -93,3 +93,5 @@ codango/include
 
 # Static files
 /staticfiles
+
+webpack-stats.json
