@@ -1014,3 +1014,58 @@ li.L0, li.L1, li.L2, li.L3, li.L5, li.L6, li.L7, li.L8 {
     width: 90%;
     margin-bottom: 10px;
 }
+
+/*React components*/
+.ReactFlipCard {
+    margin: 20px;
+    text-align: center;
+}
+.ReactFlipCard,
+.ReactFlipCard__Front,
+.ReactFlipCard__Back {
+    box-sizing: border-box;
+    width: 350px;
+    height: 500px;
+}
+.ReactFlipCard__Front,
+.ReactFlipCard__Back {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 25px;
+    text-align: center;
+    margin-top: 150px;
+}
+.ReactFlipCard__Front {
+    background-color: #eee;
+}
+.ReactFlipCard__Back {
+    background-color: #cef;
+}
+#example {
+    text-align: center;
+}
+.ReactFlipCard #cards {
+    margin: auto;
+}
+.ReactFlipCard p {
+    text-align: center;
+    margin-top: 150px;
+}
+​
+​
+.ReactFlipCard h4 {
+    color: #f26521;
+}
+​
+.about-icon {
+    font-size: 100px;
+    color: #f26521;
+}
+​
+.ReactFlipCard__Front div div svg {
+    /*fill: #ff0000;*/
+    height: 200px !important;
+    width: 300px !important;
+    margin: 20px 0;
+    font-size: 100px;
+}
