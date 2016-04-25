@@ -14,9 +14,5 @@ urlpatterns = [
         name='forgot_password'),
     url(r'^recovery/(?P<user_hash>([a-z0-9A-Z])+)$',
         views.ResetPasswordView.as_view(), name='reset_password'),
-    url(r'^contact-us$', views.ContactUsView.as_view(), name='contactus'),
-    url(r'^about-us$', views.AboutUsView.as_view(), name='aboutus'),
-    url(r'^team$', views.TeamView.as_view(), name='team'),
     url('', include('social.apps.django_app.urls', namespace='social')),
-
 ]
