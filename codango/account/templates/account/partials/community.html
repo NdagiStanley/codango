@@ -1,14 +1,14 @@
 {% load cloudinary %} 
-{% load endless %} 
-{% load bootstrap %} 
-{% paginate resources %} 
+{% load endless %}
+{% load bootstrap %}
+{% paginate resources %}
 {% for resource in resources %}
 <div class="feed">
     <div class="profile-img">
-        {% if resource.author.profile.image %} 
-        {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %} 
-        {% else %} 
-        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+        {% if resource.author.profile.image %}
+        {% cloudinary resource.author.profile.image width=70 height=70 crop="fill" %}
+        {% else %}
+        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
         {% endif %}
     </div>
     <div class="feed-content">
@@ -16,18 +16,18 @@
             <a href="/user/{{ resource.author }}">{{ resource.author }}</a> -
             <small><em>{{ resource.date_added | timesince }} ago</em></small>
         </p>
-        <h1>{{ resource.text }}</h1> 
+        <h1>{{ resource.text }}</h1>
         {% if resource.snippet_text %}
         <p>
             <pre class="prettyprint linenums">{{ resource.snippet_text }}</pre>
         </p>
-        {% endif %} 
+        {% endif %}
         {% if resource.resource_file %}
         <p id="file-icon">
             {% if resource.resource_file.format == "pdf" %}
-            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i> 
+            <i id="file-icon-pdf" class="mdi mdi-file-pdf"></i>
             {% else %}
-            <i id="file-icon-doc" class="mdi mdi-file-word"></i> 
+            <i id="file-icon-doc" class="mdi mdi-file-word"></i>
             {% endif %}
         </p> &nbsp;
         <p id="file-info">
@@ -55,10 +55,10 @@
                 {% for comment in resource.comments.all %}
                 <article class="comment">
                     <figure>
-                        {% if comment.author.profile.image %} 
-                        {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %} 
-                        {% else %} 
-                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %} 
+                        {% if comment.author.profile.image %}
+                        {% cloudinary comment.author.profile.image width=70 height=70 crop="fill" %}
+                        {% else %}
+                        {% cloudinary "vqr7n59zfxyeybttleug.gif" width=64 height=64 crop="fill" %}
                         {% endif %}
                     </figure>
                     <div class="comment-contents">
@@ -67,13 +67,13 @@
                                 <strong>{{comment.author}}</strong>&nbsp;&nbsp;
                                 <em id="comment-time">added about
                                 <time class="comment-date" datetime="16-12-2014 01:05">
-                                {{comment.date_modified|timesince}} ago 
+                                {{comment.date_modified|timesince}} ago
                                 </time></em>
                             </div>
                         </header>
                         <div class="comment-post view">
                             <h5>
-                                {{comment}} 
+                                {{comment}}
                                 {% if comment.author.id == request.user.id %}
                                     <a href="{% url 'comment_action' comment_id=comment.id %}" class="delete-comment pull-right"><span class="mdi mdi-delete"></span></a>
                                     <a href="#" class="show-edit pull-right"><span class="mdi mdi-pencil"></span> </a>
