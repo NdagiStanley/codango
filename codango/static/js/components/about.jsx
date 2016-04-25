@@ -1,10 +1,10 @@
 // import FlipCard from 'react-flipcard';
-var React = require("react");
-var FlipCard = require("react-flipcard");
-var Share = require("react-material-icons/icons/social/share");
-var Community = require("react-material-icons/icons/social/people");
-var Pair = require("react-material-icons/icons/action/code");
-var About = React.createClass({
+let React = require("react");
+let FlipCard = require("react-flipcard");
+let Share = require("react-material-icons/icons/social/share");
+let Community = require("react-material-icons/icons/social/people");
+let Pair = require("react-material-icons/icons/action/code");
+let About = React.createClass({
   getInitialState() {
     return {
       isFlipped: false
@@ -55,7 +55,7 @@ var About = React.createClass({
           </div>
           {/* The second child is used as the back of the card */}
           <div>
-            <p>Codango provides a platform for developers from various stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier.</p>
+            <p>Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier.</p>
           </div>
         </FlipCard>
         {/*

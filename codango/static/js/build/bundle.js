@@ -59,6 +59,7 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(159);
 	var About = __webpack_require__(160);
+
 	ReactDOM.render(React.createElement(About, null), document.getElementById('about-us'));
 
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/heavy_machinery/Dropbox/dev/class5/sims/codango/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "app_react.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
@@ -19772,7 +19773,7 @@
 	          React.createElement(
 	            "p",
 	            null,
-	            "Codango provides a platform for developers from various stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier."
+	            "Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier."
 	          )
 	        )
 	      ),
