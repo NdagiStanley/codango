@@ -59,6 +59,17 @@ var Team = React.createClass({
                       </div>
                   </div>
               </div>
+              <div class="col-sm-4">
+                  <div class="team-members">
+                      <div class="team-avatar">
+                         <img src="https://avatars2.githubusercontent.com/u/17288133?v=3&s=460" class="img-responsive"/>
+                      </div>
+                      <div class="team-desc">
+                           <a href="https://github.com/andela-akiura"><h4>Alex Kiura</h4></a>
+                          <span>Developer</span>
+                      </div>
+                  </div>
+              </div>
           </div>
       </div>
     );
