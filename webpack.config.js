@@ -1,24 +1,3 @@
-// var webpack = require('webpack');
-// module.exports = {
-//     entry: [
-//       "./codango/static/js/app_react.js"
-//     ],
-//     output: {
-//         path: __dirname + 'codango/static/js/build',
-//         filename: "bundle.js"
-//     },
-//     module: {
-//         loaders: [
-//             { test: /\.js?$/, loaders: ['babel'], exclude: /node_modules/ },
-//             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-//             { test: /\.css$/, loader: "style!css" }
-//         ]
-//     },
-//     plugins: [
-//       new webpack.NoErrorsPlugin()
-//     ]
-//
-// };
 var path = require("path");
 var webpack = require('webpack');
 var BundleTracker = require('webpack-bundle-tracker');
@@ -33,7 +12,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loaders: ['react-hot', 'babel-loader'], exclude: /node_modules/ }, // to transform JSX into JS
+            { test: /\.jsx?$/, loaders: ['react-hot', 'babel-loader', "eslint-loader"], exclude: /node_modules/ }, // to transform JSX into JS
         ]
     },
     plugins: [
