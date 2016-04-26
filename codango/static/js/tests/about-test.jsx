@@ -1,22 +1,17 @@
-var expect = require('expect');
 var React = require("react");
+import { shallow } from 'enzyme';
 // About-us-test.jsx
-// var TestUtils = require('react-addons-{TestUtils}'),
-var TestUtils = require('react-addons-test-utils');
 var About = require('../components/about.jsx');
-describe('about', function () {
-    it("renders a flipcard", function () {
-        var about = TestUtils.renderIntoDocument(
-            <About />
-        );
-        var flipcard = TestUtils.findRenderedDOMComponentWithTag(
-                about, 'flipcard'
-        );
-        expect(flipcard.getDOMNode().textContent).toEqual("Community");
+
+describe('<About/>', function () {
+    it("it the about-us page elements", function () {
+        const wrapper = shallow(<About/>);
+        expect(wrapper.find('#cards')).to.have.length(3);
     });
 });
+
 describe('Sample Test', function() {
-  it("should return true for obvious assertion", function() {
-    expect(1).toEqual(1);
-  })
-})
+    it("should return true for obvious assertion", function() {
+        expect(1).toEqual(1);
+    });
+});
