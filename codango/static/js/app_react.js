@@ -27,6 +27,7 @@ export default class App extends Component {
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/about">About</Link></li>
                                 <li><Link to="/team">Team</Link></li>
+                                <li><Link to="#">Contact us</Link></li>
                             </ul>
                         </div>
                     </div>
