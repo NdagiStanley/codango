@@ -95,3 +95,5 @@ codango/include
 /staticfiles
 
 webpack-stats.json
+
+codango/static/js/build/bundle.js
