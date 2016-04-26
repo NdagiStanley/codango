@@ -118,12 +118,12 @@
 	                                { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#bs-example-navbar-collapse-1', 'aria-expanded': 'false' },
 	                                _react2.default.createElement(
 	                                    'span',
-	                                    { 'class': 'sr-only' },
+	                                    { className: 'sr-only' },
 	                                    'Toggle navigation'
 	                                ),
-	                                _react2.default.createElement('span', { 'class': 'icon-bar' }),
-	                                _react2.default.createElement('span', { 'class': 'icon-bar' }),
-	                                _react2.default.createElement('span', { 'class': 'icon-bar' })
+	                                _react2.default.createElement('span', { className: 'icon-bar' }),
+	                                _react2.default.createElement('span', { className: 'icon-bar' }),
+	                                _react2.default.createElement('span', { className: 'icon-bar' })
 	                            ),
 	                            _react2.default.createElement(
 	                                'a',
@@ -153,6 +153,15 @@
 	                                        _reactRouter.Link,
 	                                        { to: '/team' },
 	                                        'Team'
+	                                    )
+	                                ),
+	                                _react2.default.createElement(
+	                                    'li',
+	                                    null,
+	                                    _react2.default.createElement(
+	                                        _reactRouter.Link,
+	                                        { to: '#' },
+	                                        'Contact us'
 	                                    )
 	                                )
 	                            )
@@ -25245,97 +25254,131 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { id: "cards" },
+	      null,
 	      React.createElement(
-	        FlipCard,
-	        null,
+	        "div",
+	        { className: "row" },
 	        React.createElement(
 	          "div",
-	          null,
+	          { className: "col-sm-12 col-lg-12" },
 	          React.createElement(
-	            "h4",
-	            { "class": "about-h4" },
-	            React.createElement(
-	              "strong",
-	              null,
-	              "Community"
-	            )
-	          ),
-	          React.createElement(
-	            "div",
-	            { "class": "section-icon" },
-	            React.createElement(Community, null)
-	          )
-	        ),
-	        React.createElement(
-	          "div",
-	          null,
-	          React.createElement(
-	            "p",
-	            null,
-	            "Codango is an ever expanding community of vibrant developers from different stacks and levels, helping each other grow to be even stronger developers"
+	            "h1",
+	            { className: "page-title" },
+	            "About us"
 	          )
 	        )
 	      ),
 	      React.createElement(
-	        FlipCard,
-	        null,
+	        "div",
+	        { className: "row" },
 	        React.createElement(
 	          "div",
-	          null,
+	          { className: "col-sm-12 col-md-12" },
 	          React.createElement(
-	            "h4",
-	            { "class": "about-h4" },
+	            "h3",
+	            { className: "page-description" },
 	            React.createElement(
-	              "strong",
+	              "em",
 	              null,
-	              "Sharing Resources"
+	              "Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming"
 	            )
-	          ),
-	          React.createElement(
-	            "div",
-	            { "class": "section-icon" },
-	            React.createElement(Share, null)
-	          )
-	        ),
-	        React.createElement(
-	          "div",
-	          null,
-	          React.createElement(
-	            "p",
-	            null,
-	            "Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier."
 	          )
 	        )
 	      ),
 	      React.createElement(
-	        FlipCard,
-	        null,
+	        "div",
+	        { id: "cards" },
 	        React.createElement(
-	          "div",
+	          FlipCard,
 	          null,
 	          React.createElement(
-	            "h4",
-	            { "class": "about-h4" },
+	            "div",
+	            null,
 	            React.createElement(
-	              "strong",
-	              null,
-	              "Pair Programming"
+	              "h4",
+	              { className: "about-h4" },
+	              React.createElement(
+	                "strong",
+	                null,
+	                "Community"
+	              )
+	            ),
+	            React.createElement(
+	              "div",
+	              { className: "section-icon" },
+	              React.createElement(Community, null)
 	            )
 	          ),
 	          React.createElement(
 	            "div",
-	            { "class": "section-icon" },
-	            React.createElement(Pair, null)
+	            null,
+	            React.createElement(
+	              "p",
+	              null,
+	              "Codango is an ever expanding community of vibrant developers from different stacks and levels, helping each other grow to be even stronger developers"
+	            )
 	          )
 	        ),
 	        React.createElement(
-	          "div",
+	          FlipCard,
 	          null,
 	          React.createElement(
-	            "p",
+	            "div",
 	            null,
-	            "Codango provides a platform where developers can act as mentors to other developers in real time and help grow a community of stronger developers."
+	            React.createElement(
+	              "h4",
+	              { className: "about-h4" },
+	              React.createElement(
+	                "strong",
+	                null,
+	                "Sharing Resources"
+	              )
+	            ),
+	            React.createElement(
+	              "div",
+	              { className: "section-icon" },
+	              React.createElement(Share, null)
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	              "p",
+	              null,
+	              "Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier."
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          FlipCard,
+	          null,
+	          React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	              "h4",
+	              { className: "about-h4" },
+	              React.createElement(
+	                "strong",
+	                null,
+	                "Pair Programming"
+	              )
+	            ),
+	            React.createElement(
+	              "div",
+	              { className: "section-icon" },
+	              React.createElement(Pair, null)
+	            )
+	          ),
+	          React.createElement(
+	            "div",
+	            null,
+	            React.createElement(
+	              "p",
+	              null,
+	              "Codango provides a platform where developers can act as mentors to other developers in real time and help grow a community of stronger developers."
+	            )
 	          )
 	        )
 	      )
@@ -59739,192 +59782,205 @@
 	    render: function render() {
 	        return React.createElement(
 	            "div",
-	            { "class": "page-content" },
+	            null,
 	            React.createElement(
 	                "div",
-	                { "class": "row" },
+	                { className: "heading" },
+	                React.createElement(
+	                    "h1",
+	                    { className: "page-title" },
+	                    "Our Awesome Team"
+	                )
+	            ),
+	            React.createElement(
+	                "div",
+	                { className: "page-content" },
 	                React.createElement(
 	                    "div",
-	                    { "class": "col-sm-4" },
+	                    { className: "row" },
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/13224175?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-ooshodi" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Olufunmilade Oshodi"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/13224175?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/andela-ooshodi" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Olufunmilade Oshodi"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { "class": "col-sm-4" },
+	                    ),
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/13223950?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-ijubril" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Issa Jubril"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/13223950?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/andela-ijubril" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Issa Jubril"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { "class": "col-sm-4" },
+	                    ),
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/15088852?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-ashuaib" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Abiodun Shuaib"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/15088852?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/andela-ashuaib" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Abiodun Shuaib"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { "class": "col-sm-4" },
+	                    ),
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars3.githubusercontent.com/u/13269579?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-jngatia" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Joan Ngatia"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars3.githubusercontent.com/u/13269579?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/andela-jngatia" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Joan Ngatia"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { "class": "col-sm-4" },
+	                    ),
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/15629602?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-sndagi" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Stan MD"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/15629602?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/NdagiStanley" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Stan MD"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
-	                    )
-	                ),
-	                React.createElement(
-	                    "div",
-	                    { "class": "col-sm-4" },
+	                    ),
 	                    React.createElement(
 	                        "div",
-	                        { "class": "team-members" },
+	                        { className: "col-sm-4" },
 	                        React.createElement(
 	                            "div",
-	                            { "class": "team-avatar" },
-	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/17288133?v=3&s=460", "class": "img-responsive" })
-	                        ),
-	                        React.createElement(
-	                            "div",
-	                            { "class": "team-desc" },
+	                            { className: "team-members" },
 	                            React.createElement(
-	                                "a",
-	                                { href: "https://github.com/andela-akiura" },
-	                                React.createElement(
-	                                    "h4",
-	                                    null,
-	                                    "Alex Kiura"
-	                                )
+	                                "div",
+	                                { className: "team-avatar" },
+	                                React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/17288133?v=3&s=460", className: "img-responsive" })
 	                            ),
 	                            React.createElement(
-	                                "span",
-	                                null,
-	                                "Developer"
+	                                "div",
+	                                { className: "team-desc" },
+	                                React.createElement(
+	                                    "a",
+	                                    { href: "https://github.com/andela-akiura" },
+	                                    React.createElement(
+	                                        "h4",
+	                                        null,
+	                                        "Alex Kiura"
+	                                    )
+	                                ),
+	                                React.createElement(
+	                                    "span",
+	                                    null,
+	                                    "Developer"
+	                                )
 	                            )
 	                        )
 	                    )
