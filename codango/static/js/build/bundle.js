@@ -59897,6 +59897,37 @@
 	                            )
 	                        )
 	                    )
+	                ),
+	                React.createElement(
+	                    "div",
+	                    { "class": "col-sm-4" },
+	                    React.createElement(
+	                        "div",
+	                        { "class": "team-members" },
+	                        React.createElement(
+	                            "div",
+	                            { "class": "team-avatar" },
+	                            React.createElement("img", { src: "https://avatars2.githubusercontent.com/u/17288133?v=3&s=460", "class": "img-responsive" })
+	                        ),
+	                        React.createElement(
+	                            "div",
+	                            { "class": "team-desc" },
+	                            React.createElement(
+	                                "a",
+	                                { href: "https://github.com/andela-akiura" },
+	                                React.createElement(
+	                                    "h4",
+	                                    null,
+	                                    "Alex Kiura"
+	                                )
+	                            ),
+	                            React.createElement(
+	                                "span",
+	                                null,
+	                                "Developer"
+	                            )
+	                        )
+	                    )
 	                )
 	            )
 	        );
