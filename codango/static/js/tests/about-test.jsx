@@ -1,17 +1,14 @@
-var React = require("react");
-import { shallow } from 'enzyme';
+import React from 'react';
+const expect = require('expect');
+let FlipCard = require("react-flipcard");
+import { shallow , mount, render } from 'enzyme';
 // About-us-test.jsx
-var About = require('../components/about.jsx');
+import About from '../components/about.jsx';
 
-describe('<About/>', function () {
-    it("it the about-us page elements", function () {
+describe('<About/>', () => {
+    it("it tests the about-us page elements", () => {
         const wrapper = shallow(<About/>);
-        expect(wrapper.find('#cards')).to.have.length(3);
-    });
-});
-
-describe('Sample Test', function() {
-    it("should return true for obvious assertion", function() {
-        expect(1).toEqual(1);
+        expect(wrapper.contains(FlipCard)).toBe(true);
+        expect(wrapper.find(FlipCard).length).toBe(3);
     });
 });

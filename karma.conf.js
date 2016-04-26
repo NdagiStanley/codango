@@ -26,6 +26,16 @@ module.exports = function (config) {
                     },
                 ]
             },
+            resolve: {
+                alias: {
+                    'sinon': 'sinon/pkg/sinon'
+                }
+            },
+            externals: {
+                'jsdom': 'window',
+                'cheerio': 'window',
+                'react/lib/ExecutionEnvironment': true
+            },
             watch: true
         },
         webpackServer: {

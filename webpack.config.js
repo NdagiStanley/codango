@@ -12,7 +12,7 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loaders: ['react-hot', 'babel-loader', "eslint-loader"], exclude: /node_modules/ }, // to transform JSX into JS
+            { test: /\.jsx?$/, loaders: ['react-hot', 'babel-loader', 'eslint-loader'], exclude: /node_modules/ }, // to transform JSX into JS
         ]
     },
     plugins: [
