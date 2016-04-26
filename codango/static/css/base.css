@@ -51,7 +51,7 @@ hr {
     color: #f26521;
 }
 
-.navbar-default .navbar-nav > li > a i {
+.navbar-default .navbar-nav {
     margin-right: 10px;
 }
 
@@ -59,7 +59,9 @@ hr {
     font-size: 1.3em;
 }
 
-
+.navbar-nav > ul {
+    margin-right: 60px;
+}
 /* end of navbar styling */
 
 
