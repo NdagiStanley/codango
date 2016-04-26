@@ -5,8 +5,8 @@ import { Router, Route, Link, browserHistory} from 'react-router';
 import React, {Component} from 'react';
 import About from './components/about.jsx';
 import Team from './components/team.jsx';
+import Contact from './components/contact.jsx';
 import {Nav, Navbar, NavbarHeader, NavItem, Button} from 'react-bootstrap';
-// import Contact from './components/contact.jsx';
 
 export default class App extends Component {
     render() {
@@ -27,7 +27,7 @@ export default class App extends Component {
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/about">About</Link></li>
                                 <li><Link to="/team">Team</Link></li>
-                                <li><Link to="#">Contact us</Link></li>
+                                <li><Link to="/contact">Contact us</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -44,6 +44,7 @@ let routes = (<Router history={browserHistory}>
                 <Route path="/" component={App}>
                   <Route path="/about" component={About}/>
                   <Route path="/team" component={Team}/>
+                  <Route path="/contact" component={Contact}/>
                 </Route>
               </Router>)
 render(routes, document.getElementById('react'));

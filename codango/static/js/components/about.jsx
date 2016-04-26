@@ -44,7 +44,7 @@ let About = React.createClass({
                     <h3 className="page-description"><em>Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming</em></h3>
                 </div>
             </div>
-          <div id="cards">
+          <div id="cards" className="cards">
             {/* Default behavior is horizontal flip on hover, or focus */}
             <FlipCard>
               {/* The first child is used as the front of the card */}
