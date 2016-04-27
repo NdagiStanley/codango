@@ -7,7 +7,10 @@ dependencies:
   pre:
     - pip install --upgrade pip
     - pip install --upgrade virtualenv
-    - npm install bower
+    - npm install -g webpack bower
+    - npm install
+
+
 test:
   override:
     - python codango/manage.py bower install --settings=codango.settings.test
