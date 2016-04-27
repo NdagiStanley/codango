@@ -9,6 +9,7 @@ dependencies:
     - pip install --upgrade virtualenv
     - npm install -g webpack bower
     - npm install
+    - webpack
 
 
 test:
@@ -17,6 +18,7 @@ test:
     - python codango/manage.py collectstatic --noinput --settings=codango.settings.test
     - python codango/manage.py migrate --settings=codango.settings.test
     - python codango/manage.py test codango --settings=codango.settings.test
+    - npm test
 deployment:
   staging:
     branch: develop
