@@ -13,7 +13,7 @@ Codango resource sharing includes *Code Snippets* posting and *Pdf* uploads. Cod
 4. Create a *.env.yml* to hold all your environment variables, like your secret key, save in the same level as your README.md file (sample shown below)
 5. Run `bower install` to install all front end dependencies. Please ensure you are on the same level with .bowerrc when you run this command
 6. Run `npm install` to install dependencies for compiling JSX to JS (React dependencies)
-7. Run `cd codango && npm install` to install app-specific dependencies for React
+7. Run `webpack --progress --colors --watch` to install dependencies for compiling JSX to JS (React dependencies)
 8. Run `python manage.py collectstatic` to copy all your static files into the staticfiles directory
 9. Run `python manage.py makemigrations` and `python manage.py migrate` to create the necessary tables and everything required to run the application.
 10. Run `python manage.py runserver` to run the app.
