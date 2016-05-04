@@ -14,7 +14,7 @@ export default class Home extends Component {
                     <div className="jumbotron">
                       <h1 id="index-h1">Join Our Community</h1>
                       <h3 className="section-text">Codango is a social networking site that connects all types of developers allowing for sharing resources, joining various communities and pair programming </h3>
-                      <p><a className="btn btn-primary btn-lg" role="button"><Link to="/about">About</Link></a></p>
+                      <Link className="btn btn-primary btn-lg" to="/about">Learn more</Link>
                     </div>
                   </Col>
                   <Col md={4}>
