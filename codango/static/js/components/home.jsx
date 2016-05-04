@@ -1,5 +1,6 @@
 import { render } from 'react-dom'
 import React, {Component} from 'react';
+import { Link } from 'react-router';
 import Grid from 'react-bootstrap/lib/Grid';
 import Row from 'react-bootstrap/lib/Row';
 import Col from 'react-bootstrap/lib/Col';
