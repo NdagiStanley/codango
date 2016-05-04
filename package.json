@@ -17,6 +17,7 @@
   "dependencies": {
     "bower": "^1.7.9",
     "formsy-react": "0.17.0",
+    "jquery": "^2.2.3",
     "material-ui": "^0.14.4",
     "mdi": "^1.5.54",
     "react": "^0.14",
@@ -24,6 +25,7 @@
     "react-flipcard": "0.2.1",
     "react-material-icons": "^1.0.1",
     "react-tap-event-plugin": "0.2.2",
+    "superagent": "^1.8.3",
     "webpack-dev-server": "^1.14.1"
   },
   "devDependencies": {
