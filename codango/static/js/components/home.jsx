@@ -16,18 +16,54 @@ import {
     Tab,
     Tabs
 } from 'react-bootstrap';
+import request from 'superagent'
 
 class LoginForm extends Component {
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
+        this.state = {
+            username: '',
+            password: '',
+            token: ''
+        }
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.loginCall(this.state.username, this.state.password);
+    }
+    handleFieldChange(event) {
+        event.preventDefault();
+        let key = event.target.name;
+        let value = event.target.value;
+        this.setState({
+            [key]: value
+        });
+    }
+    loginCall(username, password) {
+        request
+            .post('/api/v1/auth/login/')
+            .send({'username': username, 'password': password })
+            .end((err, result) => {
+                this.setState({
+                    token: result.body.token
+                });
+                console.log(`response code is ${result.status}`);
+                console.log(this.state);
+            })
+    }
     render() {
         return  (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <FormGroup controlId="formControlsText">
                     <ControlLabel>Username</ControlLabel>
-                    <FormControl type="text" placeholder="Username" />
+                    <FormControl type="text" placeholder="Username" name="username" onChange={this.handleFieldChange}/>
                 </FormGroup>
-                <FormGroup controlId="formControlsPassword">
+                <FormGroup controlId="formControlsPassword" >
                     <ControlLabel>Password</ControlLabel>
-                    <FormControl type="password" placeholder="Password" />
+                    <FormControl type="password" placeholder="Password" name="password" onChange={this.handleFieldChange}/>
                 </FormGroup>
                 <Checkbox>Remember me </Checkbox>
                 <FormGroup>
@@ -78,7 +114,7 @@ class FormTabs extends Component {
         return (
           <Tabs defaultActiveKey={1} id="authentication-forms">
             <Tab eventKey={1} title="Login">
-                <LoginForm />
+                <LoginForm url="/api/v1/auth/login/"/>
             </Tab>
             <Tab eventKey={2} title="Register">
                 <RegisterForm />
@@ -88,7 +124,7 @@ class FormTabs extends Component {
     }
 }
 
-export default class Home extends Component {
+class Home extends Component {
     render() {
         return (
             <Grid>
