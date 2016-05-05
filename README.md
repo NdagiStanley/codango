@@ -143,6 +143,7 @@ To run tests specific to the API Run `python manage.py test api`
 ###### [Joan Ngatia](https://github.com/andela-jngatia)
 ###### [Stanley Ndagi](https://github.com/NdagiStanley)
 ###### [Achile Egbunu](https://github.com/Achile)
+###### [Alex Kiura](https://github.com/andela-akiura)
 
 ## Copyright
 Andela © 2015 - 2016 CODANGO
