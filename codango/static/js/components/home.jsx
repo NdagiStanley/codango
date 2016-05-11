@@ -16,7 +16,9 @@ import {
     Tab,
     Tabs
 } from 'react-bootstrap';
-import request from 'superagent'
+import request from 'superagent';
+import { Redirect } from 'react-router';
+import Community from './community.jsx'
 
 class LoginForm extends Component {
     constructor() {
@@ -47,6 +49,9 @@ class LoginForm extends Component {
             .post('/api/v1/auth/login/')
             .send({'username': username, 'password': password })
             .end((err, result) => {
+                if (result.body.token) {
+                    <Redirect from="/" to="/home"/>
+                }
                 this.setState({
                     token: result.body.token
                 });
