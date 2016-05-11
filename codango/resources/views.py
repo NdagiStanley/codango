@@ -22,6 +22,7 @@ class LoginRequiredMixin(object):
 
 class CommunityBaseView(LoginRequiredMixin, TemplateView):
     template_name = 'account/home.html'
+    show_community = 'active'
 
     def dispatch(self, request, *args, **kwargs):
 
@@ -69,6 +70,7 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
                 num_votes=Count('votes')).order_by(
                 '-num_comments', '-num_votes')[:5],
         }
+        context['show_community'] = self.show_community
         return context
 
     @staticmethod

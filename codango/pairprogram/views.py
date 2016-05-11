@@ -37,6 +37,7 @@ class StartPairView(LoginRequiredMixin, TemplateView):
 class ListSessionView(LoginRequiredMixin, TemplateView):
     form_class = SessionForm
     template_name = 'pairprogram/sessions.html'
+    show_pairing = 'active'
 
     def get_context_data(self, *args, **kwargs):
         context = super(ListSessionView, self).get_context_data(**kwargs)
@@ -49,6 +50,7 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
 
         context['sessions'] = sessions
         context['sessionform'] = self.form_class()
+        context['show_pairing'] = self.show_pairing
         return context
 
 

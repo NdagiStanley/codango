@@ -33,13 +33,13 @@
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li class="active">
+                        <li class="{{show_community}}">
                             <a href = "/home">
-                                <i class="mdi mdi-google-circles-communities"></i> 
+                                <i class="mdi mdi-google-circles-communities"></i>
                             Community
                             </a>
                         </li>
-                        <li><a href = "/pair/"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
+                        <li class="{{show_pairing}}"><a href = "/pair/"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
                         <li id="notification-li" data-id="{{request.user.id}}" data-url="{% url 'user_activity' %}">
                         {% include 'userprofile/partials/activity.html'%}
                         </li>
