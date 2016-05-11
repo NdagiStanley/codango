@@ -20,6 +20,12 @@ from pairprogram.models import Session, Participant
 class IndexView(TemplateView):
     initial = {'key': 'value'}
     template_name = 'account/index.html'
+    # Tabs
+    signup_active = ''
+    login_active = 'active'
+    # Forms
+    show_signup = ''
+    show_login = 'in active'
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated():
@@ -38,6 +44,9 @@ class IndexView(TemplateView):
         context['loginform'] = LoginForm()
         context['registerform'] = RegisterForm()
         context['session_id'] = session_id
+        context['login_active'] = self.login_active  # Set login tab as active
+        context['show_login'] = self.show_login
+        context['signup_active'] = self.signup_active
         return context
 
 
@@ -121,6 +130,10 @@ class RegisterView(IndexView):
             )
         else:
             context = super(RegisterView, self).get_context_data(**kwargs)
+            context['show_signup'] = 'in active'  # Set sign_up tab as active
+            context['show_login'] = ''
+            context['signup_active'] = 'active'  # Set sign_up form as active
+            context['login_active'] = ''
             context['registerform'] = form
             return render(request, self.template_name, context)
 

@@ -40,12 +40,19 @@
     <!--tabbed-form-->
     <div class="col-md-4">
         <ul class="nav nav-tabs">
-            <li class="active"><a id="tab_link2" data-toggle="tab" href="#login">Log In</a></li>
-            <li><a id="tab_link" data-toggle="tab" href="#signup">Sign Up</a></li>
+            <li class="{{login_active}}"><a id="tab_link2" data-toggle="tab" href="#login">Log In</a></li>
+            <li class="{{signup_active}}"><a id="tab_link" data-toggle="tab" href="#signup">Sign Up</a></li>
         </ul>
         <div class="tab-content">
             <!--Log in form-->
-            <div id="login" class="tab-pane fade in active">
+            <div id="login" class="tab-pane fade {{show_login}}">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 <form role="form" action="/login" method="post">
                     {% csrf_token %}
                     {{ loginform|bootstrap }}
@@ -61,16 +68,9 @@
                 </div>
                 {% csrf_token %}
                 <p class="forgot-password-link">Forgot password. <a href="/recovery">Reset</a></p>
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
             </div>
             <!--Sign Up form-->
-            <div id="signup" class="tab-pane fade">
+            <div id="signup" class="tab-pane fade {{show_signup}}">
                 <form role="form" action="/register" method="post" id="signup-form">
                     <input type="hidden" name="session_id" value="{{session_id}}"/>
                     {% csrf_token %}
