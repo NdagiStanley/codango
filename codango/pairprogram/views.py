@@ -37,7 +37,6 @@ class StartPairView(LoginRequiredMixin, TemplateView):
 class ListSessionView(LoginRequiredMixin, TemplateView):
     form_class = SessionForm
     template_name = 'pairprogram/sessions.html'
-    show_pairing = 'active'
 
     def get_context_data(self, *args, **kwargs):
         context = super(ListSessionView, self).get_context_data(**kwargs)
@@ -54,12 +53,12 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class PairSessionView(LoginRequiredMixin, View):
+class PairSessionView(LoginRequiredMixin, TemplateView):
     form_class = SessionForm
     template_name = 'pairprogram/editor.html'
 
-    def get(self, request, *args, **kwargs):
-        context = {}
+    def get_context_data(self, *args, **kwargs):
+        context = super(PairSessionView, self).get_context_data(**kwargs)
         context['session_id'] = kwargs['session_id']
         participants = Participant.objects.filter(
             session_id=context['session_id']).all()
@@ -77,7 +76,7 @@ class PairSessionView(LoginRequiredMixin, View):
             return redirect('/home',
                             context_instance=RequestContext(self.request))
 
-        return render(request, self.template_name, context)
+        return context
 
     def send_invites(self, email, session, request):
         user = User.objects.filter(email=email).first()
