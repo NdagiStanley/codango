@@ -90,3 +90,6 @@ codango/celerybeat-schedule
 codango/bin
 codango/lib
 codango/include
+
+# Static files
+/staticfiles
