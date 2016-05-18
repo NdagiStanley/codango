@@ -13,6 +13,8 @@ class NavigationMiddleWare(object):
 
         if not response.context_data:
             response.context_data = {}
-        if request.user.is_authenticated():
-            response.context_data.update({'active_tab': active_tab})
+        if isinstance(response.context_data, dict):
+            response.context_data.update({
+                'active_tab': active_tab
+            })
         return response
