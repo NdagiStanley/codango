@@ -8,7 +8,11 @@ class NavigationMiddleWare(object):
         Middleware hook method called immediately after the
         view function returns a response.
         """
-        active_tab = 'pair' if 'pair' in request.path else 'community'
 
-        response.context_data.update({'active_tab': active_tab})
+        active_tab = request.path.strip('/')
+
+        if not response.context_data:
+            response.context_data = {}
+        if request.user.is_authenticated():
+            response.context_data.update({'active_tab': active_tab})
         return response

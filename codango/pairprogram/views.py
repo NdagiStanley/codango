@@ -49,7 +49,6 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
 
         context['sessions'] = sessions
         context['sessionform'] = self.form_class()
-        context['show_pairing'] = self.show_pairing
         return context
 
 
