@@ -4,7 +4,7 @@ from .base import *
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 
-DEBUG = False
+DEBUG = True
 
 DATABASES = {
     'default': dj_database_url.config()
