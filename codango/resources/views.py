@@ -63,11 +63,7 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
             'title': 'Activity Feed'
             if query == '' else query + " Search results",
             'q': query,
-            'users': users,
-            'popular': Resource.objects.annotate(
-                num_comments=Count('comments')).annotate(
-                num_votes=Count('votes')).order_by(
-                '-num_comments', '-num_votes')[:5],
+            'users': users
         }
         return context
 

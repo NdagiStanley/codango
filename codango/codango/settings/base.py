@@ -95,6 +95,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'middleware.activity.ActivityMiddleWare',
+    'middleware.resource.PopularResourcesMiddleware',
 )
 
 ROOT_URLCONF = 'codango.urls'

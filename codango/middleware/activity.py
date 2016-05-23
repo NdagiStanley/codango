@@ -19,5 +19,5 @@ class ActivityMiddleWare(object):
             response.context_data.update({
                 'unread': request.user.notifications.all().filter(read=False),
                 'activities': request.user.notifications.all(),
-                })
+            })
         return response
