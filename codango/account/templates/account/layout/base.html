@@ -38,7 +38,7 @@
                             <i class="mdi mdi-google-circles-communities"></i> Community
                         </a>
                     </li>
-                    <li class="{% if active_tab == 'pair' %} active {% endif %}"><a href="/pair/"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
+                    <li class="{% if 'pair' in active_tab or not active_tab %} active {% endif %}"><a href="/pair/"><i class="mdi mdi-account-multiple"></i> Pair Programming</a></li>
                     <li id="notification-li" data-id="{{request.user.id}}" data-url="{% url 'user_activity' %}">
                         {% include 'userprofile/partials/activity.html'%}
                     </li>

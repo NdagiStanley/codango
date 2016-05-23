@@ -52,12 +52,12 @@ class ListSessionView(LoginRequiredMixin, TemplateView):
         return context
 
 
-class PairSessionView(LoginRequiredMixin, TemplateView):
+class PairSessionView(LoginRequiredMixin, View):
     form_class = SessionForm
     template_name = 'pairprogram/editor.html'
 
-    def get_context_data(self, *args, **kwargs):
-        context = super(PairSessionView, self).get_context_data(**kwargs)
+    def get(self, request, *args, **kwargs):
+        context = {}
         context['session_id'] = kwargs['session_id']
         participants = Participant.objects.filter(
             session_id=context['session_id']).all()
@@ -75,7 +75,7 @@ class PairSessionView(LoginRequiredMixin, TemplateView):
             return redirect('/home',
                             context_instance=RequestContext(self.request))
 
-        return context
+        return render(request, self.template_name, context)
 
     def send_invites(self, email, session, request):
         user = User.objects.filter(email=email).first()
