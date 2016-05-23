@@ -15,9 +15,10 @@ class ActivityMiddleWare(object):
         # In respect of API
         if not response.context_data:
             response.context_data = {}
-        if request.user.is_authenticated():
+        if request.user.is_authenticated() and isinstance(
+                response.context_data, dict):
             response.context_data.update({
                 'unread': request.user.notifications.all().filter(read=False),
                 'activities': request.user.notifications.all(),
-                })
+            })
         return response
