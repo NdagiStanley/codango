@@ -12,7 +12,6 @@ test:
   override:
     - python codango/manage.py bower install --settings=codango.settings.test
     - python codango/manage.py collectstatic --noinput --settings=codango.settings.test
-    - python codango/manage.py makemigrations --settings=codango.settings.test
     - python codango/manage.py migrate --settings=codango.settings.test
     - python codango/manage.py test codango --settings=codango.settings.test
 deployment:
@@ -22,7 +21,6 @@ deployment:
       - git fetch origin --unshallow
       - git push -f git@heroku.com:codango-staging.git $CIRCLE_SHA1:master
       - heroku run python codango/manage.py collectstatic --noinput --settings=codango.settings --app codango-staging
-      - heroku run python codango/manage.py makemigrations --settings=codango.settings --app codango-staging
       - heroku run python codango/manage.py migrate --settings=codango.settings --app codango-staging
       - heroku ps:scale web=1 --app codango-staging
       - heroku ps:scale worker=1 --app codango-staging
