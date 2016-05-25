@@ -19,7 +19,7 @@ class StartPairView(LoginRequiredMixin, TemplateView):
 
     def post(self, request, **kwargs):
         form = self.form_class(
-                request.POST, instance=request.user.profile)
+            request.POST, instance=request.user.profile)
 
         if form.is_valid():
             new_session = Session.objects.create(
@@ -29,7 +29,7 @@ class StartPairView(LoginRequiredMixin, TemplateView):
             Participant.objects.create(
                 participant=request.user, session_id=new_session.id)
             messages.add_message(
-                    request, messages.SUCCESS, 'Session started successfully')
+                request, messages.SUCCESS, 'Session started successfully')
             return redirect('/pair/' + str(new_session.id),
                             context_instance=RequestContext(request))
 
@@ -86,8 +86,8 @@ class PairSessionView(LoginRequiredMixin, View):
             except IntegrityError:
                 pass
             url = 'http://%s%s' % (
-                    request.get_host(), reverse(
-                        'pair_program', kwargs={'session_id': session.id}))
+                request.get_host(), reverse(
+                    'pair_program', kwargs={'session_id': session.id}))
         else:
             url = 'http://%s%s?session_id=%s' % (
                 request.get_host(), reverse('index'), session.id)
@@ -102,7 +102,7 @@ class PairSessionView(LoginRequiredMixin, View):
             subject="Join {}".format(session.session_name),
             html=message,
             text=None
-            )
+        )
         # send email
         response = SendGrid.send(email_compose)
         return response
@@ -123,10 +123,11 @@ class PairSessionView(LoginRequiredMixin, View):
                     if response == 200 else "error"
 
             else:
-                response_dict['message'] = "You can't send an invite to yourself"
+                response_dict[
+                    'message'] = "You can't send an invite to yourself"
             result.append(response_dict)
         return JsonResponse(
-                    {'response': result})
+            {'response': result})
 
 
 class DeleteSessionView(LoginRequiredMixin, View):
@@ -139,10 +140,11 @@ class DeleteSessionView(LoginRequiredMixin, View):
             if session.initiator == self.request.user:
                 session.delete()
             else:
-                participant = Participant.objects.filter(session_id=session_id, participant_id=self.request.user)
+                participant = Participant.objects.filter(
+                    session_id=session_id, participant_id=self.request.user)
                 participant.delete()
         except Session.DoesNotExist:
             pass
         return JsonResponse({
-                    'status': 'success',
-                }, status=200)
+            'status': 'success',
+        }, status=200)
