@@ -69,6 +69,7 @@ function postActivity(data) {
   });
 }
 
+
 ajaxContent = {
   config: {
     contentDiv: '#community-content'
