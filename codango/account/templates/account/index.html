@@ -63,7 +63,9 @@
                         <a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
                     </div>
                     <div class="col-sm-6 col-xs-6 g-signin2" data-onsuccess="onSignIn">
-                        <a id="google-login" class="btn btn-block btn-danger g-signin2">Log In With Google +</a>
+                        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
+                           class="btn btn-block btn-danger g-signin2">
+                           Log In With Google</a>
                     </div>
                 </div>
                 {% csrf_token %}
