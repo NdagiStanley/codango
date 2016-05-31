@@ -60,7 +60,7 @@
                 </form>
                 <div class="row social-login">
                     <div class="col-sm-6 col-xs-6">
-                        <a href="#" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
+                        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="btn btn-block btn-primary" id="facebook-login">Log In With Facebook</a>
                     </div>
                     <div class="col-sm-6 col-xs-6 g-signin2" data-onsuccess="onSignIn">
                         <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"
