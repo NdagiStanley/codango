@@ -25,7 +25,6 @@ import api
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    # url('', include('social.apps.django_app.urls', namespace='social')),
     url(r'^', include(account.urls)),
     url(r'^resource/', include(resources.urls)),
     url(r'^user/', include(userprofile.urls)),
