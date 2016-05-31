@@ -3,8 +3,6 @@
 /* eslint no-alert: 0, func-names: 0*/
 
 var myDataRef = new Firebase('https://popping-inferno-54.firebaseio.com/');
-var facebookLogin;
-var googleLogin;
 var ajaxContent;
 var formPost;
 var mobileNav;
@@ -29,41 +27,6 @@ $.ajaxSetup({
     $('#preloader').hide();
   }
 });
-
-/**
- * Handles the registration and login in from social apis(google and facebok)
- * @param {object} user - The user being returned by the facebook or the
- * google login api
- */
-function socialLogin(user) {
-  var ajaxInfo = {
-    url: '/login',
-    type: 'POST',
-    data: user,
-    success: function (data) {
-      if (data === 'success') {
-        location.reload();
-      }
-      if (data === 'register') {
-        $('#tab_link').trigger('click');
-        if (user.first_name !== undefined) {
-          $('#signup-form')
-            .append('<input type="hidden" name="first_name" value="' + user.first_name + '">');
-          $('#signup-form')
-            .append('<input type="hidden" name="last_name" value="' + user.last_name + '">');
-        } else {
-          $('#signup-form')
-            .append('<input type="hidden" name="first_name" value="' + user.given_name + '">');
-          $('#signup-form')
-              .append('<input type="hidden" name="last_name" value="' + user.family_name + '">');
-        }
-        $('#signup-form').append('<input type="hidden" name="social_id" value="' + user.id + '">');
-        $('#id_email').val(user.email);
-      }
-    }
-  };
-  $.ajax(ajaxInfo);
-}
 
 
 /**
@@ -105,110 +68,6 @@ function postActivity(data) {
     }
   });
 }
-
-
-facebookLogin = {
-  config: {
-    login: '#facebook-login',
-    fbId: '1472709103038197'
-  },
-  init: function init(config) {
-    $(facebookLogin.config.login).attr('disabled', true);
-    if (config && typeof(config) === 'object') {
-      $.extend(facebookLogin.config, config);
-    }
-    $.getScript('//connect.facebook.net/en_US/sdk.js', function () {
-      FB.init({
-        appId: facebookLogin.config.fb_id,
-        version: 'v2.5'
-      });
-      $(facebookLogin.config.login).attr('disabled', false);
-    });
-    $(facebookLogin.config.login).click(function (e) {
-      e.preventDefault();
-      facebookLogin.login();
-    });
-  },
-  login: function () {
-    FB.login(function (response) {
-      if (response.authResponse) {
-        FB.api('/me?fields=email,first_name,last_name,picture', socialLogin);
-      }
-    }, {
-      scope: 'email,user_likes'
-    });
-  }
-};
-
-googleLogin = {
-  // This handles the configuration file for google social login
-  config: {
-    login: '#google-login',
-    OAUTHURL: 'https://accounts.google.com/o/oauth2/auth?',
-    VALIDURL: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=',
-    SCOPE: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-    CLIENTID: '58714074667-55ulgv6a4mfe63t3u4qdil3dumo6cmvv.apps.googleusercontent.com',
-    REDIRECT: 'http://localhost:8000',
-    LOGOUT: 'http://accounts.google.com/Logout',
-    TYPE: 'token'
-  },
-    // init funciton for the click event
-  init: function (config) {
-    if (config && typeof(config) === 'object') {
-      $.extend(googleLogin.config, config);
-    }
-    $(googleLogin.config.login).click(function () {
-      googleLogin.login();
-    });
-  },
-  // Login function
-  login: function () {
-    var __url = googleLogin.config.OAUTHURL + 'scope=' + googleLogin.config.SCOPE + '&client_id=' +
-                googleLogin.config.CLIENTID + '&redirect_uri=' + googleLogin.config.REDIRECT +
-                '&response_type=' + googleLogin.config.TYPE;
-    var win = window.open(__url, 'windowname1', 'width=800, height=600');
-    var url;
-    var pollTimer = window.setInterval(function () {
-      try {
-        if (win.document.URL.indexOf(googleLogin.config.REDIRECT) !== -1) {
-          window.clearInterval(pollTimer);
-          url = win.document.URL;
-          googleLogin.config.acToken = googleLogin.gup(url, 'access_token');
-          win.close();
-          googleLogin.validateToken(googleLogin.config.acToken);
-        }
-      } catch (e) {
-        // catch the errors
-      }
-    }, 500);
-  },
-  gup: function (url, name) {
-    var token = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
-    var regexS = '[\\#&]' + token + '=([^&#]*)';
-    var regex = new RegExp(regexS);
-    var results = regex.exec(url);
-    if (results === null) return '';
-    return results[1];
-  },
-  validateToken: function (token) {
-    $.ajax({
-      url: googleLogin.config.VALIDURL + token,
-      data: null,
-      success: function () {
-        googleLogin.getGoogleUserInfo();
-      },
-      dataType: 'jsonp'
-    });
-  },
-  getGoogleUserInfo: function () {
-    $.ajax({
-      url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + googleLogin.config.acToken,
-      data: null,
-      success: socialLogin,
-      dataType: 'jsonp'
-    });
-  }
-};
 
 ajaxContent = {
   config: {
@@ -795,14 +654,7 @@ var deleteSession = {
 
 $(document).ready(function () {
   realTime.init();
-  facebookLogin.init({
-    fbId: '1472691016373339'
-  });
   inviteToSession.init();
-
-  googleLogin.init({
-    REDIRECT: 'http://codango-staging.herokuapp.com/'
-  });
 
   formPost.init({
     share: '#id_share_form, .commentform'
