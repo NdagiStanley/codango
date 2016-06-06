@@ -17,6 +17,8 @@ class UserProfile(models.Model):
     about = models.TextField(max_length=1200, null=True, blank=True)
     github_username = models.CharField(max_length=200, null=True)
     frequency = models.CharField(max_length=200, default='none')
+    like_preference = models.BooleanField(default=False)
+    comment_preference = models.BooleanField(default=False)
 
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
