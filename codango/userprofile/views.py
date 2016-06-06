@@ -102,7 +102,7 @@ class UserGithub(View):
             'https://api.github.com/user',
             headers={'Accept': 'application/json',
                      'Authorization': 'token ' + access_token},
-                                   )
+        )
         profile = user.profile
         profile.github_username = json.loads(auth_result.content)['login']
         profile.save()
@@ -255,68 +255,102 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
         context['newusername'] = ChangeUsernameForm()
-        context['notificationpreferences'] = NotificationPreferenceForm()
+        context['notificationpreferences'] = NotificationPreferenceForm(
+            initial={
+            'like_preference': user_profile.like_preference,
+            'comment_preference': user_profile.comment_preference})
         context['newpassword'] = ChangePasswordForm()
         context['frequency'] = frequency
         return context
 
-    def post(self, request, **kwargs):
-
-        # password form
-        if 'new_password' in request.POST.keys():
-            form = ChangePasswordForm(request.POST)
-            if form.is_valid():
-                new_password = request.POST.get('new_password')
-                user = User.objects.get(id=request.user.id)
-                user.set_password(new_password)
-                user.save()
-
-                # login the user again
-                current_user = authenticate(
-                    username=request.user.get_username(),
-                    password=new_password)
-                login(request, current_user)
-
-                messages.add_message(
-                    request,
-                    messages.SUCCESS, 'Password changed successfully!')
-            else:
-                messages.error(
-                    request, 'Invalid input or Passwords don\'t match!')
-                messages.info(
-                    request,
-                    'Only alphabetical, numeric or alphanumeric characters'
-                )
-
-        # username form
-        elif 'new_username' in request.POST.keys():
-            form = ChangeUsernameForm(request.POST)
-            if form.is_valid():
-                new_username = request.POST.get('new_username')
-                user = User.objects.get(id=request.user.id)
-                user.username = new_username
-                user.save()
-
-                messages.add_message(
-                    request,
-                    messages.SUCCESS, 'Username changed successfully!')
-            else:
-                messages.error(
-                    request, 'Invalid input or Username has been taken!')
-                messages.info(
-                    request,
-                    'Only alphabetical, numeric or alphanumeric characters'
-                )
-
-        # frequency form
-        else:
-            frequency = request.POST.get('frequency')
-            user = UserProfile.objects.get(user_id=request.user.id)
-            user.frequency = frequency
+    def process_new_password(self, request):
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            new_password = request.POST.get('new_password')
+            user = User.objects.get(id=request.user.id)
+            user.set_password(new_password)
             user.save()
+
+            # login the user again
+            current_user = authenticate(
+                username=request.user.get_username(),
+                password=new_password)
+            login(request, current_user)
+
             messages.add_message(
                 request,
-                messages.SUCCESS, 'Frequency set!')
+                messages.SUCCESS, 'Password changed successfully!')
+        else:
+            messages.error(
+                request, 'Invalid input or Passwords don\'t match!')
+            messages.info(
+                request,
+                'Only alphabetical, numeric or alphanumeric characters'
+            )
+
+    def process_new_username(self, request):
+        form = ChangeUsernameForm(request.POST)
+        if form.is_valid():
+            new_username = request.POST.get('new_username')
+            user = User.objects.get(id=request.user.id)
+            user.username = new_username
+            user.save()
+
+            messages.add_message(
+                request,
+                messages.SUCCESS, 'Username changed successfully!')
+        else:
+            messages.error(
+                request, 'Invalid input or Username has been taken!')
+            messages.info(
+                request,
+                'Only alphabetical, numeric or alphanumeric characters'
+            )
+
+    def process_frequency(self, request):
+        frequency = request.POST.get('frequency')
+        user = UserProfile.objects.get(user_id=request.user.id)
+        user.frequency = frequency
+        user.save()
+        messages.add_message(
+            request,
+            messages.SUCCESS, 'Frequency set!')
+
+    def process_preferences(self, request):
+        like_notification = request.POST.get('like_preference', False)
+        comment_notification = request.POST.get('comment_preference', False)
+        if like_notification == 'on':
+            like_notification = True
+        if comment_notification == 'on':
+            comment_notification = True
+        print like_notification, comment_notification
+        user = UserProfile.objects.get(user_id=request.user.id)
+        user.like_preference = like_notification
+        user.comment_preference = comment_notification
+        user.save()
+        messages.add_message(
+            request,
+            messages.SUCCESS, 'Notification preferences set!')
+
+
+    def post(self, request, **kwargs):
+
+        if 'action' in request.POST.keys():
+            action = request.POST.get('action')
+            # password form
+            if 'process_new_password' in action:
+                self.process_new_password(request)
+            # username form
+            elif 'process_new_username' in action:
+                self.process_new_username(request)
+            # preference form
+            elif 'process_preferences' in action:
+                self.process_preferences(request)
+            # frequency form
+            elif 'process_frequency' in action:
+                self.process_frequency(request)
+
+
 
         return redirect(reverse(
             'settings', kwargs={'username': request.user.get_username()}))
