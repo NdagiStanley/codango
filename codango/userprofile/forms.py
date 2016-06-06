@@ -19,6 +19,18 @@ class UserProfileForm(forms.ModelForm):
         }
 
 
+class NotificationPreferenceForm(forms.Form):
+    comment_notification = forms.BooleanField(
+        label='Receive comment notifications',
+        widget=forms.CheckboxInput
+    )
+
+    like_notification = forms.BooleanField(
+        label='Receive likes notifications',
+        widget=forms.CheckboxInput
+    )
+
+
 class ChangeUsernameForm(forms.Form):
     new_username = forms.CharField(
         label='New Username', max_length=100,
