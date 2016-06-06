@@ -17,11 +17,11 @@
                         <div class="alert alert-{{ message.tags }}" role="alert" id="flash-message">
                             {{ message }}
                         </div>
-                    {% endfor %}    
+                    {% endfor %}
                 {% endif %}
                 <h1 class="page-title">Manage your Settings</h1>
                 <div class="page-content">
-                    <div class="passwordform">
+                    <div class="panelheaderform">
                         <div class="formtitle">
                             <strong>Change Password</strong>
                         </div>
@@ -33,7 +33,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="usernameform">
+                    <div class="panelheaderform">
                         <div class="formtitle">
                             <strong>Change Username</strong>
                         </div>
@@ -45,7 +45,19 @@
                             </div>
                         </form>
                     </div>
-                    <div class="frequencyform">
+                    <div class="panelheaderform">
+                        <div class="formtitle">
+                            <strong>Email notification preference</strong>
+                        </div>
+                        <form role="form" action="{% url 'settings' request.user.username %}" method="post">
+                            {% csrf_token %}
+                            {{ notificationpreferences|bootstrap }}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Save Preference</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panelheaderform">
                         <div class="formtitle">
                             <strong>Frequency of Updates</strong>
                         </div>

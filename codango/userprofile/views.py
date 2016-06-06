@@ -13,7 +13,7 @@ from resources.views import LoginRequiredMixin
 from comments.forms import CommentForm
 from userprofile.models import UserProfile, Follow, Notification
 from userprofile.forms import UserProfileForm, ChangePasswordForm,\
-    ChangeUsernameForm
+    ChangeUsernameForm, NotificationPreferenceForm
 from resources.views import CommunityBaseView
 from django.contrib.auth import authenticate, login
 
@@ -255,6 +255,7 @@ class SettingsView(LoginRequiredMixin, TemplateView):
         context['profile'] = user_profile
         context['resources'] = user.resource_set.all()
         context['newusername'] = ChangeUsernameForm()
+        context['notificationpreferences'] = NotificationPreferenceForm()
         context['newpassword'] = ChangePasswordForm()
         context['frequency'] = frequency
         return context
