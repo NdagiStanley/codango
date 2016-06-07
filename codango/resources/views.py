@@ -166,11 +166,11 @@ class ResourceVoteView(View):
                  "type": "vote",
                  "read": False,
                  "user_id": resource.author.id})
-            print (response_dict)
             # email here
+            subject='Guess what ' + resource.author.username + '!'
             message = SendGrid.compose(
                 sender='Codango <{}>'.format(CODANGO_EMAIL),
-                recipient='stanley.ndagi@andela.com',
+                recipient=str(resource.author.email),
                 subject='Codango: Notification',
                 recipients=None,
                 text="something here",
@@ -178,16 +178,16 @@ class ResourceVoteView(View):
                     'resources/notification-email.html'
                 ).render(
                     {
+                        "subject": subject,
                         "content": response_dict['content'],
-                        "resource_link": response_dict['link'],
-                        "settings_link": '/user/' +
-                        resource.author.username + '/settings'
+                        "resource_link":
+                        request.build_absolute_uri(response_dict['link']),
+                        "settings_link": request.build_absolute_uri('/user/' +
+                        resource.author.username + '/settings')
                     }
                 ),
             )
-            print ('Before', message)
             SendGrid.send(message)
-            print ('After', message)
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")

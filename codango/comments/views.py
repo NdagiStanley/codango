@@ -7,7 +7,9 @@ from resources.models import Resource
 from comments.models import Comment
 from comments.forms import CommentForm
 from datetime import datetime
-
+from django.template import loader
+from account.emails import SendGrid
+from codango.settings.base import CODANGO_EMAIL
 
 # Create your views here.
 
@@ -38,6 +40,29 @@ class CommentAction(View):
                 "user_id": resource.author.id,
                 "status": "Successfully Posted Your Comment for this resource"
             }
+            #email comes here
+            subject='Guess what ' + resource.author.username + '!'
+            message = SendGrid.compose(
+                sender='Codango <{}>'.format(CODANGO_EMAIL),
+                recipient=str(resource.author.email),
+                subject='Codango: Notification',
+                recipients=None,
+                text="something here",
+                html=loader.get_template(
+                    'comments/comment-email.html'
+                ).render(
+                    {
+                        "subject": subject,
+                        "content": response_dict['content'],
+                        "resource_link":
+                        request.build_absolute_uri(response_dict['link']),
+                        "settings_link": request.build_absolute_uri('/user/' +
+                        resource.author.username + '/settings')
+                    }
+                ),
+            )
+            SendGrid.send(message)
+
             response_json = json.dumps(response_dict)
             return HttpResponse(response_json, content_type="application/json")
 
