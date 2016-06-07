@@ -171,6 +171,7 @@ class ResourceVoteView(View):
                 sender='Codango <{}>'.format(CODANGO_EMAIL),
                 recipient='stanley.ndagi@andela.com',
                 subject='Codango: Notification',
+                recipients=None,
                 text="something here",
                 html=loader.get_template(
                     'resources/notification-email.html'
