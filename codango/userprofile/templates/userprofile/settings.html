@@ -28,6 +28,7 @@
                         <form role="form" action="{% url 'settings' request.user.username %}" method="post">
                             {% csrf_token %}
                             {{ newpassword|bootstrap }}
+                             <input type="hidden" name="action" value="process_new_password">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Change Password</button>
                             </div>
@@ -40,6 +41,8 @@
                         <form role="form" action="{% url 'settings' request.user.username %}" method="post">
                             {% csrf_token %}
                             {{ newusername|bootstrap }}
+                            <input type="hidden" name="action" value="process_new_username">
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Change Username</button>
                             </div>
@@ -76,6 +79,7 @@
                             <div class="radio">
                                 <label><input type="radio" name="frequency" value="monthly" {% if frequency == "monthly" %}checked{% endif %}>Monthly</label>
                             </div>
+                            <input type="hidden" name="action" value="process_frequency">
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Set Frequency</button>
                             </div>

@@ -11,6 +11,7 @@ from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
+from account.emails import SendGrid
 
 
 class LoginRequiredMixin(object):
@@ -163,6 +164,10 @@ class ResourceVoteView(View):
                  "type": "vote",
                  "read": False,
                  "user_id": resource.author.id})
+            #email here
+            message = SendGrid.compose('sunday@example.com', 'stanley.ndagi@andela.com', "Codango", None, "Margie is disturbin")
+            SendGrid.send(message)
+
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
 
