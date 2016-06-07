@@ -166,28 +166,29 @@ class ResourceVoteView(View):
                  "type": "vote",
                  "read": False,
                  "user_id": resource.author.id})
-            # email here
-            subject='Guess what ' + resource.author.username + '!'
-            message = SendGrid.compose(
-                sender='Codango <{}>'.format(CODANGO_EMAIL),
-                recipient=str(resource.author.email),
-                subject='Codango: Notification',
-                recipients=None,
-                text="something here",
-                html=loader.get_template(
-                    'resources/notification-email.html'
-                ).render(
-                    {
-                        "subject": subject,
-                        "content": response_dict['content'],
-                        "resource_link":
-                        request.build_absolute_uri(response_dict['link']),
-                        "settings_link": request.build_absolute_uri('/user/' +
-                        resource.author.username + '/settings')
-                    }
-                ),
-            )
-            SendGrid.send(message)
+            if resource.author.userprofile.like_preference:
+                # email here
+                subject='Guess what ' + resource.author.username + '!'
+                message = SendGrid.compose(
+                    sender='Codango <{}>'.format(CODANGO_EMAIL),
+                    recipient=str(resource.author.email),
+                    subject='Codango: Notification',
+                    recipients=None,
+                    text="something here",
+                    html=loader.get_template(
+                        'resources/notification-email.html'
+                    ).render(
+                        {
+                            "subject": subject,
+                            "content": response_dict['content'],
+                            "resource_link":
+                            request.build_absolute_uri(response_dict['link']),
+                            "settings_link": request.build_absolute_uri('/user/' +
+                            resource.author.username + '/settings')
+                        }
+                    ),
+                )
+                SendGrid.send(message)
 
         response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
