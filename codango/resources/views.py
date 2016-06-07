@@ -168,17 +168,8 @@ class ResourceVoteView(View):
                  "user_id": resource.author.id})
             if resource.author.userprofile.like_preference:
                 # email here
-                subject='Guess what ' + resource.author.username + '!'
-                message = SendGrid.compose(
-                    sender='Codango <{}>'.format(CODANGO_EMAIL),
-                    recipient=str(resource.author.email),
-                    subject='Codango: Notification',
-                    recipients=None,
-                    text="something here",
-                    html=loader.get_template(
-                        'resources/notification-email.html'
-                    ).render(
-                        {
+                subject = 'Guess what ' + resource.author.username + '!'
+                resource_email_context = {
                             "subject": subject,
                             "content": response_dict['content'],
                             "resource_link":
@@ -186,24 +177,34 @@ class ResourceVoteView(View):
                             "settings_link": request.build_absolute_uri('/user/' +
                             resource.author.username + '/settings')
                         }
-                    ),
+                message = SendGrid.compose(
+                    sender='Codango <{}>'.format(CODANGO_EMAIL),
+                    recipient=str(resource.author.email),
+                    subject='Codango: Notification',
+                    recipients=None,
+                    text=loader.get_template(
+                        'notifications/notification-email.txt'
+                    ).render(resource_email_context),
+                    html=loader.get_template(
+                        'notifications/notification-email.html'
+                    ).render(resource_email_context),
                 )
                 SendGrid.send(message)
 
-        response_json = json.dumps(response_dict)
+        response_json=json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
 
 
 class SinglePostView(LoginRequiredMixin, TemplateView):
-    template_name = 'resources/single-post.html'
+    template_name='resources/single-post.html'
 
     def get_context_data(self, **kwargs):
-        context = super(SinglePostView, self).get_context_data(**kwargs)
+        context=super(SinglePostView, self).get_context_data(**kwargs)
         try:
-            context['resource'] = \
-                Resource.objects.get(id=kwargs['resource_id'])
+            context['resource']=
+                Resource.objects.get(id = kwargs['resource_id'])
         except Resource.DoesNotExist:
             pass
-        context['commentform'] = CommentForm(auto_id=False)
-        context['title'] = 'Viewing post'
+        context['commentform']=CommentForm(auto_id = False)
+        context['title']='Viewing post'
         return context

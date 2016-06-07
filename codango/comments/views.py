@@ -41,26 +41,27 @@ class CommentAction(View):
                 "status": "Successfully Posted Your Comment for this resource"
             }
             if resource.author.userprofile.comment_preference:
-                #email comes here
+                # Email comes here
                 subject='Guess what ' + resource.author.username + '!'
+                comment_email_context = {
+                    "subject": subject,
+                    "content": response_dict['content'],
+                    "resource_link":
+                    request.build_absolute_uri(response_dict['link']),
+                    "settings_link": request.build_absolute_uri('/user/' +
+                    resource.author.username + '/settings')
+                }
                 message = SendGrid.compose(
                     sender='Codango <{}>'.format(CODANGO_EMAIL),
                     recipient=str(resource.author.email),
                     subject='Codango: Notification',
                     recipients=None,
-                    text="something here",
+                    text=loader.get_template(
+                        'notifications/comment-email.txt'
+                    ).render(comment_email_context),
                     html=loader.get_template(
-                        'comments/comment-email.html'
-                    ).render(
-                        {
-                            "subject": subject,
-                            "content": response_dict['content'],
-                            "resource_link":
-                            request.build_absolute_uri(response_dict['link']),
-                            "settings_link": request.build_absolute_uri('/user/' +
-                            resource.author.username + '/settings')
-                        }
-                    ),
+                        'notifications/comment-email.html'
+                    ).render(comment_email_context),
                 )
                 SendGrid.send(message)
 
