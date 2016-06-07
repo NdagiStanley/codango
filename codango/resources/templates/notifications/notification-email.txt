@@ -1,0 +1,7 @@
+{{ subject }}
+
+{{ content }}
+
+Check it out on this link: {{ resource_link }}
+
+Feel free to change your notification preferences on your settings page.

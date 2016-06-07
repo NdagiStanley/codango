@@ -23,15 +23,6 @@ class NotificationPreferenceForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['like_preference', 'comment_preference']
-    # comment_notification = forms.BooleanField(
-    #     label='Receive comment notifications',
-    #     widget=forms.CheckboxInput
-    # )
-
-    # like_notification = forms.BooleanField(
-    #     label='Receive likes notifications',
-    #     widget=forms.CheckboxInput
-    # )
 
 
 class ChangeUsernameForm(forms.Form):
