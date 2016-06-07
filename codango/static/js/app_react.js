@@ -1,6 +1,6 @@
 // Main entry point for react components
 
-import { render } from 'react-dom'
+import { render } from 'react-dom';
 import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router';
 import React, {Component} from 'react';
 import About from './components/about.jsx';
