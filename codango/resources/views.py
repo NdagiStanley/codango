@@ -169,8 +169,9 @@ class ResourceVoteView(View):
             # email here
             message = SendGrid.compose(
                 sender='Codango <{}>'.format(CODANGO_EMAIL),
-                recipient=resource.author.email,
+                recipient='stanley.ndagi@andela.com',
                 subject='Codango: Notification',
+                text="something here",
                 html=loader.get_template(
                     'resources/notification-email.html'
                 ).render(
