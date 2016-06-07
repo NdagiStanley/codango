@@ -201,8 +201,7 @@ class SinglePostView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context=super(SinglePostView, self).get_context_data(**kwargs)
         try:
-            context['resource']=
-                Resource.objects.get(id = kwargs['resource_id'])
+            context['resource'] = Resource.objects.get(id = kwargs['resource_id'])
         except Resource.DoesNotExist:
             pass
         context['commentform']=CommentForm(auto_id = False)
