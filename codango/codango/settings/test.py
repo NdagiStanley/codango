@@ -1,6 +1,8 @@
 # Test specific settings
 from .base import *
 
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
