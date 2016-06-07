@@ -6,12 +6,14 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
+from django.template import loader
 from django.db.models import Count
 from resources.models import Resource
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
 from account.emails import SendGrid
+from codango.settings.base import CODANGO_EMAIL
 
 
 class LoginRequiredMixin(object):
@@ -41,9 +43,9 @@ class CommunityBaseView(LoginRequiredMixin, TemplateView):
 
         resources = self.sort_by(sortby,
                                  Resource.objects.filter(
-                                    Q(text__contains=query) |
-                                    Q(snippet_text__contains=query) |
-                                    Q(resource_file_name__contains=query)))
+                                     Q(text__contains=query) |
+                                     Q(snippet_text__contains=query) |
+                                     Q(resource_file_name__contains=query)))
 
         users = User.objects.filter(
             Q(username__contains=query) |
@@ -153,7 +155,7 @@ class ResourceVoteView(View):
             "upvotes": len(resource.upvotes()),
             "downvotes": len(resource.downvotes()),
             "status": status,
-            }
+        }
 
         if user_id != resource.author.id:
             response_dict.update(
@@ -164,8 +166,21 @@ class ResourceVoteView(View):
                  "type": "vote",
                  "read": False,
                  "user_id": resource.author.id})
-            #email here
-            message = SendGrid.compose('sunday@example.com', 'stanley.ndagi@andela.com', "Codango", None, "Margie is disturbin")
+            # email here
+            message = SendGrid.compose(
+                sender='Codango <{}>'.format(CODANGO_EMAIL),
+                recipient=resource.author.email,
+                subject='Codango: Notification',
+                html=loader.get_template(
+                    'resources/notification-email.html'
+                ).render(
+                    {
+                        "content": response_dict['content'],
+                        "resource_link": response_dict['link'],
+                        "settings_link": reverse('settings')
+                    }
+                ),
+            )
             SendGrid.send(message)
 
         response_json = json.dumps(response_dict)
