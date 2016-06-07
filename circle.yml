@@ -2,23 +2,18 @@ machine:
   python:
     version: 2.7.5
   environment:
-    DJANGO_SETTINGS_MODULE: codango.settings
+    DJANGO_SETTINGS_MODULE: codango.settings.test
 dependencies:
   pre:
     - pip install --upgrade pip
     - pip install --upgrade virtualenv
-    - npm install -g webpack bower
-    - npm install
-    - webpack
-
-
+    - npm install bower
 test:
   override:
-    - python codango/manage.py bower install
-    - python codango/manage.py collectstatic
-    - python codango/manage.py migrate
-    - python codango/manage.py test codango
-    - npm test
+    - python codango/manage.py bower install --settings=codango.settings.test
+    - python codango/manage.py collectstatic --noinput --settings=codango.settings.test
+    - python codango/manage.py migrate --settings=codango.settings.test
+    - python codango/manage.py test codango --settings=codango.settings.test
 deployment:
   staging:
     branch: develop
