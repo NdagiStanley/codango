@@ -167,7 +167,6 @@ class ResourceVoteView(View):
                  "read": False,
                  "user_id": resource.author.id})
             print (response_dict)
-            import ipdb; ipdb.set_trace()
             # email here
             message = SendGrid.compose(
                 sender='Codango <{}>'.format(CODANGO_EMAIL),
