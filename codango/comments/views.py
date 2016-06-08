@@ -51,19 +51,31 @@ class CommentAction(View):
                     "settings_link": request.build_absolute_uri(
                         '/user/' + resource.author.username + '/settings')
                 }
+                # message = SendGrid.compose(
+                #     sender='Codango <{}>'.format(CODANGO_EMAIL),
+                #     recipient='ndagis@gmail.com',
+                #     subject='Codango: Notification',
+                #     recipients=None,
+                #     text=loader.get_template(
+                #         'notifications/notification-email.txt'
+                #     ).render(comment_email_context),
+                #     html=loader.get_template(
+                #         'notifications/notification-email.html'
+                #     ).render(comment_email_context),
+                # )
+                # SendGrid.send(message)
+
                 message = SendGrid.compose(
-                    sender='Codango <{}>'.format(CODANGO_EMAIL),
+                    sender='sunday@margie.com',
                     recipient='ndagis@gmail.com',
                     subject='Codango: Notification',
                     recipients=None,
-                    text=loader.get_template(
-                        'notifications/notification-email.txt'
-                    ).render(comment_email_context),
-                    html=loader.get_template(
-                        'notifications/notification-email.html'
-                    ).render(comment_email_context),
+                    text='text',
+                    html='html text',
                 )
+
                 SendGrid.send(message)
+
 
             response_json = json.dumps(response_dict)
             return HttpResponse(response_json, content_type="application/json")
