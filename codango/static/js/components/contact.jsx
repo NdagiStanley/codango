@@ -57,8 +57,8 @@ let Contact = React.createClass({
                               </Col>
                           </FormGroup>
                           <FormGroup controlId="formControlsText">
-                              <Col sm={2}>
-                                  <Button type="submit" id="contact" type="submit" className="pull-right btn btn-primary">Send Message</Button>
+                              <Col smOffset = {2} sm={2}>
+                                  <Button type="submit" id="contact" type="submit" className="btn btn-primary">Send Message</Button>
                               </Col>
                           </FormGroup>
                     </Form>
