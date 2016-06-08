@@ -205,7 +205,7 @@ formPost = {
           _this.append('<div class="alert alert-success successmsg">' + userData.status + '</div>');
           setTimeout(function () {
             $('.successmsg').hide();
-          }, 5000);
+          }, 5000)
         }
       },
       error: function (status) {
