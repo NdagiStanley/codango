@@ -40,17 +40,17 @@ class CommentAction(View):
                 "user_id": resource.author.id,
                 "status": "Successfully Posted Your Comment for this resource"
             }
-            if resource.author.userprofile.comment_preference:
-                # Email comes here
-                subject = 'Guess what ' + resource.author.username + '!'
-                comment_email_context = {
-                    "subject": subject,
-                    "content": response_dict['content'],
-                    "resource_link":
-                        request.build_absolute_uri(response_dict['link']),
-                    "settings_link": request.build_absolute_uri(
-                        '/user/' + resource.author.username + '/settings')
-                }
+            # if resource.author.userprofile.comment_preference:
+            #     # Email comes here
+            #     subject = 'Guess what ' + resource.author.username + '!'
+            #     comment_email_context = {
+            #         "subject": subject,
+            #         "content": response_dict['content'],
+            #         "resource_link":
+            #             request.build_absolute_uri(response_dict['link']),
+            #         "settings_link": request.build_absolute_uri(
+            #             '/user/' + resource.author.username + '/settings')
+            #     }
                 # message = SendGrid.compose(
                 #     sender='Codango <{}>'.format(CODANGO_EMAIL),
                 #     recipient='ndagis@gmail.com',
@@ -65,16 +65,9 @@ class CommentAction(View):
                 # )
                 # SendGrid.send(message)
 
-                message = SendGrid.compose(
-                    sender='sunday@margie.com',
-                    recipient='ndagis@gmail.com',
-                    subject='Codango: Notification',
-                    recipients=None,
-                    text='text',
-                    html='html text',
-                )
-
-                SendGrid.send(message)
+            message = SendGrid.compose('sunday@margie.com', 'ndagis@gmail.com',
+                'Codango: Notification', None, 'text')
+            SendGrid.send(message)
 
 
             response_json = json.dumps(response_dict)
