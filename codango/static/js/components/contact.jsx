@@ -17,9 +17,18 @@ import {
 
 let Contact = React.createClass({
     handleFieldChange(event) {
-        event.preventDefault()
+        event.preventDefault();
+        let key = event.target.name;
+        let value = event.target.value;
+        this.setState({
+            [key]: value
+        });
     },
 
+    handleSubmit(event) {
+      event.preventDefault();
+      console.log(this.state)
+    },
   render() {
         return (
             <div>
@@ -31,7 +40,7 @@ let Contact = React.createClass({
               <div className="row">
                   <div className="col-md-8">
                     <div  className="well  well-sm">
-                      <Form horizontal action="post" onSubmit={this.props.onClick} className="Contact">
+                      <Form horizontal action="post" onSubmit={this.handleSubmit} className="Contact">
                           <FormGroup controlId="formControlsText">
                               <Col componentClass={ControlLabel} sm={2}>Name</Col>
                                <Col sm={10}>
