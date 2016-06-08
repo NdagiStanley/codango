@@ -42,7 +42,7 @@ class CommentAction(View):
             }
             # if resource.author.userprofile.comment_preference:
             #     # Email comes here
-            #     subject = 'Guess what ' + resource.author.username + '!'
+            subject = 'Guess what ' + resource.author.username + '!'
             comment_email_context = {
                 "subject": subject,
                 "content": response_dict['content'],
