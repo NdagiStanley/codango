@@ -53,7 +53,7 @@ class CommentAction(View):
                 }
                 message = SendGrid.compose(
                     sender='Codango <{}>'.format(CODANGO_EMAIL),
-                    recipient=str(resource.author.email),
+                    recipient='ndagis@gmail.com',
                     subject='Codango: Notification',
                     recipients=None,
                     text=loader.get_template(
