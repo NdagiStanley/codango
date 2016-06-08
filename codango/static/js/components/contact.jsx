@@ -35,25 +35,25 @@ let Contact = React.createClass({
                           <FormGroup controlId="formControlsText">
                               <Col componentClass={ControlLabel} sm={2}>Name</Col>
                                <Col sm={10}>
-                                   <FormControl type="text" placeholder="Name" name="name" onChange={this.handleFieldChange}/>
+                                   <FormControl type="text" placeholder="Enter fullname" name="name" onChange={this.handleFieldChange}/>
                                </Col>
                           </FormGroup>
                           <FormGroup controlId="formControlsText">
                               <Col componentClass={ControlLabel} sm={2}>Email</Col>
                               <Col sm={10}>
-                                  <FormControl type="email" placeholder="Email" name="email" onChange={this.handleFieldChange}/>
+                                  <FormControl type="email" placeholder="john.doe@example.com" name="email" onChange={this.handleFieldChange}/>
                               </Col>
                           </FormGroup>
                           <FormGroup controlId="formControlsText">
                               <Col componentClass={ControlLabel} sm={2}>Subject</Col>
                               <Col sm={10}>
-                                  <FormControl type="text" placeholder="Subject" name="subject" onChange={this.handleFieldChange}/>
+                                  <FormControl type="text" placeholder="Enter message subject" name="subject" onChange={this.handleFieldChange}/>
                               </Col>
                           </FormGroup>
                           <FormGroup controlId="formControlsText">
                               <Col componentClass={ControlLabel} sm={2}>Message</Col>
                               <Col sm={10}>
-                                  <FormControl componentClass="textarea" placeholder="Message" name="message" onChange={this.handleFieldChange}/>
+                                  <FormControl componentClass="textarea" placeholder="Enter your message here" name="message" onChange={this.handleFieldChange}/>
                               </Col>
                           </FormGroup>
                           <FormGroup controlId="formControlsText">
