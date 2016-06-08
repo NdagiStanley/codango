@@ -1,7 +1,25 @@
 let React = require("react");
 let Formsy = require("formsy-react");
 let ReactDOM = require('react-dom');
+import {
+    Col,
+    form,
+    Form,
+    FormGroup,
+    FormControl,
+    Control,
+    ControlLabel,
+    Checkbox,
+    Button,
+    Tab,
+    Tabs
+} from 'react-bootstrap';
+
 let Contact = React.createClass({
+    handleFieldChange(event) {
+        event.preventDefault()
+    },
+
   render() {
         return (
             <div>
@@ -12,28 +30,38 @@ let Contact = React.createClass({
               </div>
               <div className="row">
                   <div className="col-md-8">
-                    <div  className="well">
-                      <form action="post" onSubmit={this.props.onClick} className="Contact">
-                        <div className="Name">
-                            <input type="text" name="Name" onChange={this.props.onChange}/>
-                            <label>Name</label>
-                        </div>
-                        <div className="Email">
-                            <input type="email" name="Email" onChange={this.props.onChange}/>
-                            <label>Email</label>
-                        </div>
-                        <div className="Subject">
-                            <input type="text" name="Subject" onChange={this.props.onChange}/>
-                            <label>Subject</label>
-                        </div>
-                         <div className="Message">
-                            <input type="text" name="Message" onChange={this.props.onChange}/>
-                            <label>Message</label>
-                        </div>
-                        <div>
-                          <button id="contact" type="submit" className="mdl-button mdl-js-button" >Send Message</button>
-                        </div>
-                      </form>
+                    <div  className="well  well-sm">
+                      <Form horizontal action="post" onSubmit={this.props.onClick} className="Contact">
+                          <FormGroup controlId="formControlsText">
+                              <Col componentClass={ControlLabel} sm={2}>Name</Col>
+                               <Col sm={10}>
+                                   <FormControl type="text" placeholder="Name" name="name" onChange={this.handleFieldChange}/>
+                               </Col>
+                          </FormGroup>
+                          <FormGroup controlId="formControlsText">
+                              <Col componentClass={ControlLabel} sm={2}>Email</Col>
+                              <Col sm={10}>
+                                  <FormControl type="email" placeholder="Email" name="email" onChange={this.handleFieldChange}/>
+                              </Col>
+                          </FormGroup>
+                          <FormGroup controlId="formControlsText">
+                              <Col componentClass={ControlLabel} sm={2}>Subject</Col>
+                              <Col sm={10}>
+                                  <FormControl type="text" placeholder="Subject" name="subject" onChange={this.handleFieldChange}/>
+                              </Col>
+                          </FormGroup>
+                          <FormGroup controlId="formControlsText">
+                              <Col componentClass={ControlLabel} sm={2}>Message</Col>
+                              <Col sm={10}>
+                                  <FormControl componentClass="textarea" placeholder="Message" name="message" onChange={this.handleFieldChange}/>
+                              </Col>
+                          </FormGroup>
+                          <FormGroup controlId="formControlsText">
+                              <Col sm={2}>
+                                  <Button type="submit" id="contact" type="submit" className="pull-right btn btn-primary">Send Message</Button>
+                              </Col>
+                          </FormGroup>
+                    </Form>
                     </div>
                   </div>
                   <div className="col-md-4">
