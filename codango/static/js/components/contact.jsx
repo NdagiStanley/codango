@@ -1,6 +1,6 @@
-let React = require("react");
-let Formsy = require("formsy-react");
-let ReactDOM = require('react-dom');
+import ReactDOM from 'react-dom';
+import React, {Component} from 'react';
+
 import {
     Col,
     form,
@@ -15,7 +15,19 @@ import {
     Tabs
 } from 'react-bootstrap';
 
-let Contact = React.createClass({
+class Contact extends Component {
+    constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleFieldChange = this.handleFieldChange.bind(this);
+    this.state = {
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+        }
+    }
+
     handleFieldChange(event) {
         event.preventDefault();
         let key = event.target.name;
@@ -23,12 +35,13 @@ let Contact = React.createClass({
         this.setState({
             [key]: value
         });
-    },
+    }
 
     handleSubmit(event) {
       event.preventDefault();
       console.log(this.state)
-    },
+    }
+
   render() {
         return (
             <div>
@@ -86,5 +99,5 @@ let Contact = React.createClass({
             </div>
         );
     }
-});
+};
 module.exports = Contact;
