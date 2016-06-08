@@ -167,28 +167,26 @@ class ResourceVoteView(View):
                  "read": False,
                  "user_id": resource.author.id})
             if resource.author.userprofile.like_preference:
-                # email here
+                # Email here
                 subject = 'Guess what ' + resource.author.username + '!'
                 resource_email_context = {
-                            "subject": subject,
-                            "content": response_dict['content'],
-                            "resource_link":
-                            request.build_absolute_uri(response_dict['link']),
-                            "settings_link": request.build_absolute_uri('/user/' +
-                            resource.author.username + '/settings')
-                        }
+                    "subject": subject,
+                    "content": response_dict['content'],
+                    "resource_link":
+                    request.build_absolute_uri(response_dict['link']),
+                    "settings_link": request.build_absolute_uri('/user/' +
+                    resource.author.username + '/settings')
+                }
                 message = SendGrid.compose(
-                    sender='Codango <{}>'.format(CODANGO_EMAIL),
-                    recipient=resource.author.email,
-                    subject='Codango: Notification',
-                    recipients=None,
-                    text=loader.get_template(
-                        'notifications/notification-email.txt'
-                    ).render(resource_email_context),
-                    html=loader.get_template(
-                        'notifications/notification-email.html'
-                    ).render(resource_email_context),
-                )
+                    'Codango <{}>'.format(CODANGO_EMAIL),
+                    resource.author.email,
+                    'Codango: Notification',
+                    None,
+                    loader.get_template('notifications/notification-email.txt'
+                        ).render(resource_email_context),
+                    loader.get_template('notifications/notification-email.html'
+                        ).render(resource_email_context),
+                    )
                 SendGrid.send(message)
 
         response_json=json.dumps(response_dict)

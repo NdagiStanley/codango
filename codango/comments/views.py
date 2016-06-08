@@ -41,7 +41,7 @@ class CommentAction(View):
                 "status": "Successfully Posted Your Comment for this resource"
             }
             if resource.author.userprofile.comment_preference:
-                # Email comes here
+                # Email here
                 subject = 'Guess what ' + resource.author.username + '!'
                 comment_email_context = {
                     "subject": subject,
@@ -63,7 +63,6 @@ class CommentAction(View):
                         ).render(comment_email_context),
                     )
                 SendGrid.send(message)
-
 
             response_json = json.dumps(response_dict)
             return HttpResponse(response_json, content_type="application/json")
