@@ -43,14 +43,14 @@ class CommentAction(View):
             # if resource.author.userprofile.comment_preference:
             #     # Email comes here
             #     subject = 'Guess what ' + resource.author.username + '!'
-            #     comment_email_context = {
-            #         "subject": subject,
-            #         "content": response_dict['content'],
-            #         "resource_link":
-            #             request.build_absolute_uri(response_dict['link']),
-            #         "settings_link": request.build_absolute_uri(
-            #             '/user/' + resource.author.username + '/settings')
-            #     }
+            comment_email_context = {
+                "subject": subject,
+                "content": response_dict['content'],
+                "resource_link":
+                    request.build_absolute_uri(response_dict['link']),
+                "settings_link": request.build_absolute_uri(
+                    '/user/' + resource.author.username + '/settings')
+            }
                 # message = SendGrid.compose(
                 #     sender='Codango <{}>'.format(CODANGO_EMAIL),
                 #     recipient='ndagis@gmail.com',
@@ -65,8 +65,12 @@ class CommentAction(View):
                 # )
                 # SendGrid.send(message)
 
+
             message = SendGrid.compose('sunday@margie.com', 'ndagis@gmail.com',
-                'Codango: Notification', None, 'text', 'html content')
+                'Codango: Notification', None, 'text',
+                loader.get_template('notifications/notification-email.html'
+                    ).render(comment_email_context),
+                )
             SendGrid.send(message)
 
 
