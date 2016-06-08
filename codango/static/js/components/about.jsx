@@ -11,16 +11,19 @@ let About = React.createClass({
       aboutContent: [
         {
           heading: 'Community',
-          content: 'Codango is an ever expanding community of vibrant developers from different stacks and levels, helping each other grow to be even stronger developers'
+          content: 'Codango is an ever expanding community of vibrant developers from different stacks and levels, helping each other grow to be even stronger developers',
+          icon: Community
         },
         {
           heading: 'Sharing Resources',
-          content: 'Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier.'
+          content: 'Codango provides a platform for developers from letious stacks to upload PDFs, DOCS, code snippets and knowledgable updates making them available for all to learn and use. With endless resources available from the whole world, learning has never been easier.',
+          icon: Share
         },
         {
           heading: 'Pair Programming',
-          content: 'Codango provides a platform where developers can act as mentors to other developers in real time and help grow a community of stronger developers.'
-        }
+          content: 'Codango provides a platform where developers can act as mentors to other developers in real time and help grow a community of stronger developers.',
+          icon: Pair
+    }
   ]
     };
   },
@@ -60,7 +63,8 @@ let About = React.createClass({
             </div>
           <div id="cards" className="cards">
             {this.state.aboutContent.map((cardInfo) => {
-                return (<Card heading={cardInfo.heading} content={cardInfo.content}/>)
+                return (<Card heading={cardInfo.heading} content={cardInfo.content}
+                    icon={cardInfo.icon}/>)
             })}
           </div>
         </div>
@@ -76,7 +80,7 @@ var Card = React.createClass({
               {/* The first child is used as the front of the card */}
               <div>
                 <h4 className="about-h4"><strong>{this.props.heading}</strong></h4>
-                <div className="section-icon"><Share /></div>
+                <div className="section-icon"><this.props.icon /></div>
               </div>
               {/* The second child is used as the back of the card */}
               <div>
