@@ -1,4 +1,13 @@
 /* body styling */
+#firstText
+{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    width:150px;
+    display:inline-block;
+
+}
 
 body {
     background: #e9eaed;
