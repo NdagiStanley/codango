@@ -12,7 +12,7 @@
                     {% endif %}
                 </div>
                 <div class="col-sm-12 col-xs-8 text-center">
-                    <h2 class="text-center" id="profile-name">@{{ profile.user.username }}
+                    <h2 id="firstText" title=@{{ profile.user.username }} class="text-center" id="profile-name">@{{ profile.user.username }}
                         &nbsp;
                         {% if user.is_authenticated  and profile.user.username == user.username and request.path != '/user/'|add:profile.user.username|add:'/edit' %}
 
@@ -45,7 +45,7 @@
                     <form action="{% url 'user_github' %}" method="post" class="form-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary"> Update Languages</button>
-                    
+
                     </form>
 
                     {% endif %}
