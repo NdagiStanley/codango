@@ -47,3 +47,10 @@ class Resource(models.Model):
             vote.user.id for vote in self.votes.all() if vote.vote is False]
 
         return unliked_ids
+
+
+class NotificationQueue(models.Model):
+    user = models.ForeignKey(User)
+    notification_type = models.CharField(max_length=20)
+    first_interaction = models.CharField(max_length=20)
+    count = models.IntegerField(default=0)

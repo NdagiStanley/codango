@@ -8,12 +8,15 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.views.generic import View, TemplateView
 from django.template import loader
 from django.db.models import Count
-from resources.models import Resource
+from resources.models import Resource, NotificationQueue
 from comments.forms import CommentForm
 from resources.forms import ResourceForm
 from votes.models import Vote
 from account.emails import SendGrid
 from codango.settings.base import CODANGO_EMAIL
+
+from resources.tasks import schedule_notification
+from account.helper import is_user_logged_in
 
 
 class LoginRequiredMixin(object):
@@ -125,6 +128,28 @@ class CommunityView(CommunityBaseView):
 
 class ResourceVoteView(View):
 
+    def schedule_like_notification(author, resource_link, request):
+        #check that the author does not exist and create new row and set task
+        #if exist update the count
+
+        exists = NotificationQueue.objects.filter(user=author, notification_type='like')
+        if exists:
+            exists.count += 1
+            exists.save()
+        else:
+            queue = NotificationQueue.create(
+                user=author,
+                notification_type='like',
+                count=1,
+                first_interaction=vote.user.username
+            )
+            schedule_notification.apply_async(
+                args=[author, resource_link, request, 'like'],
+                countdown=10,
+                task_id='like_task_' + str(author.id) + '_' + str(queue.id)
+            )
+
+
     def post(self, request, **kwargs):
         action = kwargs['action']
         resource_id = kwargs['resource_id']
@@ -166,42 +191,38 @@ class ResourceVoteView(View):
                  "type": "vote",
                  "read": False,
                  "user_id": resource.author.id})
-            if resource.author.userprofile.like_preference:
-                # Email here
-                subject = 'Guess what ' + resource.author.username + '!'
-                resource_email_context = {
-                    "subject": subject,
-                    "content": response_dict['content'],
-                    "resource_link":
-                    request.build_absolute_uri(response_dict['link']),
-                    "settings_link": request.build_absolute_uri('/user/' +
-                    resource.author.username + '/settings')
-                }
-                message = SendGrid.compose(
-                    'Codango <{}>'.format(CODANGO_EMAIL),
-                    resource.author.email,
-                    'Codango: Notification',
-                    None,
-                    loader.get_template('notifications/notification-email.txt'
-                        ).render(resource_email_context),
-                    loader.get_template('notifications/notification-email.html'
-                        ).render(resource_email_context),
-                    )
-                SendGrid.send(message)
 
-        response_json=json.dumps(response_dict)
+            if resource.author.userprofile.like_preference:
+
+                self.schedule_like_notification(
+                        resource.author,
+                        response_dict.get('link', None),
+                        request
+                    )
+                # if not is_user_logged_in(resource.author.id):
+                #     schedule_like_notification(
+                #         resource.author,
+                #         response_dict.get('link', None),
+                #         request
+                #     )
+
+                # Email here
+                # check user is logged in
+                #  if user not logged, perform action (by )
+                # Formatted email
+        response_json = json.dumps(response_dict)
         return HttpResponse(response_json, content_type="application/json")
 
 
 class SinglePostView(LoginRequiredMixin, TemplateView):
-    template_name='resources/single-post.html'
+    template_name = 'resources/single-post.html'
 
     def get_context_data(self, **kwargs):
-        context=super(SinglePostView, self).get_context_data(**kwargs)
+        context = super(SinglePostView, self).get_context_data(**kwargs)
         try:
-            context['resource'] = Resource.objects.get(id = kwargs['resource_id'])
+            context['resource'] = Resource.objects.get(
+                id=kwargs['resource_id'])
         except Resource.DoesNotExist:
-            pass
-        context['commentform']=CommentForm(auto_id = False)
-        context['title']='Viewing post'
+            context['commentform'] = CommentForm(auto_id=False)
+            context['title'] = 'Viewing post'
         return context
