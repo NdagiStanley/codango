@@ -93,14 +93,6 @@ ajaxContent = {
       $(this).addClass('active');
       ajaxContent.loadContent(url);
       window.history.pushState('object or string', 'Title', url);
-      window.onpopstate = function(e) {
-        var pathName = location.pathname;
-        var newUrl = location.protocol + '//' + location.host + pathName;
-        ajaxContent.loadContent(newUrl);
-        $('#community a').removeClass('active');
-        $('#community a[href="'+pathName+'"]').addClass('active');
-        if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').addClass('active')
-      }
     });
   },
   buildUrl: function (_this) {
@@ -662,6 +654,18 @@ var deleteSession = {
 };
 
 $(document).ready(function () {
+
+  window.onpopstate = function(e) {
+    var pathName = location.pathname;
+    var newUrl = location.protocol + '//' + location.host + pathName;
+    ajaxContent.loadContent(newUrl);
+    //$('#community a').removeClass('active');
+    //$('#community a[href="'+pathName+'"]').addClass('active');
+    $('#community a[href="'+pathName+'"]').trigger('click');
+    //if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').addClass('active')
+    if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').trigger('click');
+  }
+
   realTime.init();
   inviteToSession.init();
 
