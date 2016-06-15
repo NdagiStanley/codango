@@ -15,8 +15,7 @@ from votes.models import Vote
 from account.emails import SendGrid
 from codango.settings.base import CODANGO_EMAIL
 
-from resources.tasks import schedule_notification
-from account.helper import is_user_logged_in
+from account.helper import is_user_logged_in, schedule_notification
 
 
 class LoginRequiredMixin(object):
@@ -128,27 +127,6 @@ class CommunityView(CommunityBaseView):
 
 class ResourceVoteView(View):
 
-    def schedule_like_notification(author, resource_link,  username, request):
-        #check that the author does not exist and create new row and set task
-        #if exist update the count
-
-        exists = NotificationQueue.objects.filter(user=author, notification_type='like')
-        if exists:
-            exists.count += 1
-            exists.save()
-        else:
-            queue = NotificationQueue.create(
-                user=author,
-                notification_type='like',
-                count=1,
-                first_interaction=username
-            )
-            schedule_notification.apply_async(
-                args=[author, resource_link, request, 'like'],
-                countdown=10,
-                task_id='like_task_' + str(author.id) + '_' + str(queue.id)
-            )
-
 
     def post(self, request, **kwargs):
         action = kwargs['action']
@@ -193,13 +171,13 @@ class ResourceVoteView(View):
                  "user_id": resource.author.id})
 
             if resource.author.userprofile.like_preference:
+                self.schedule_notification(
+                    resource.author,
+                    response_dict.get('link', None),
+                    vote.user.username,
+                    request
+                )
 
-                self.schedule_like_notification(
-                        resource.author,
-                        response_dict.get('link', None),
-                        vote.user.username,
-                        request
-                    )
                 # if not is_user_logged_in(resource.author.id):
                 #     schedule_like_notification(
                 #         resource.author,

@@ -48,8 +48,8 @@ def send_recent_posts(frequency):
 
 # app = Celery('tasks', broker='amqp://localhost//')
 
-@task(name='nenene')
-def schedule_notification(author, resource_link, request, notification_type):
+@task(name='send_notice')
+def send_notification(author, resource_link, request, notification_type):
     # Create a new task
     queue = NotificationQueue.objects.filter(
         user=author,
