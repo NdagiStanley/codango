@@ -86,6 +86,7 @@ ajaxContent = {
     if($.inArray(pathName, communityUrl) == -1){
       return;
     }
+    $('.navbar-nav a[href="/home"]').parent('li').addClass('active');
     if (config && typeof(config) === 'object') {
       $.extend(ajaxContent.config, config);
     }
@@ -94,7 +95,8 @@ ajaxContent = {
       var _text = _this.text().replace(/\s+/g, '');
       var url = ajaxContent.buildUrl($(this));
       e.preventDefault();
-      if (!(_this.closest('ul').hasClass('filter-menu'))) $('#community a').removeClass('active');
+      if (!(_this.closest('ul').hasClass('filter-menu'))) $('#community a')
+      .removeClass('active');
       $('#community a').each(function () {
         if ($(this).text().replace(/\s+/g, '') === _text) {
           $(this).addClass('active');
@@ -108,14 +110,16 @@ ajaxContent = {
         var pathName = location.pathname;
         var newUrl = location.protocol + '//' + location.host + pathName;
         ajaxContent.loadContent(newUrl);
-        ajaxContent.activeLink(pathName)
+        ajaxContent.activeLink(pathName);
       }
     });
   },
   activeLink: function(pathName) {
     $('#community a').removeClass('active');
     $('#community a[href="'+pathName+'"]').addClass('active');
-    if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').addClass('active')
+    if(pathName == '/home') {
+      $('#community a[href="/resource/ajax/community/all"]').addClass('active');
+    }
   },
   buildUrl: function (_this) {
     _this.closest('ul').closest('li').removeClass('open');
@@ -125,7 +129,14 @@ ajaxContent = {
     return _this.attr('href');
   },
   loadContent: function (url) {
-    $(ajaxContent.config.contentDiv).load(url, ajaxContent.afterAction);
+    $.ajax({
+      url: url,
+      cache:false,
+      success: function(data){
+        $(ajaxContent.config.contentDiv).html(data);
+        ajaxContent.afterAction;
+      }
+    });
   },
   afterAction: function () {
     $('#sidebar-mobile-link').show();
@@ -676,7 +687,6 @@ var deleteSession = {
 };
 
 $(document).ready(function () {
-
   realTime.init();
   inviteToSession.init();
 
