@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from resources.api import ResourceListAPIView, ResourceDetailAPIView
+from resources.api import ResourceListAPIView, ResourceDetailAPIView, ResourceVotesAPIView
 from votes.api import VoteListAPIView, VoteDetailAPIView
 from userprofile.api import NotificationListAPIView, \
     NotificationDetailAPIView, FollowDetailAPIView, \
@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'auth/register/', UserRegisterAPIView.as_view(), name='register'),
     url(r'^resources/$', ResourceListAPIView.as_view()),
     url(r'^resources/(?P<pk>[0-9]+)/$', ResourceDetailAPIView.as_view()),
+    url(r'^resources/(?P<pk>[0-9]+)/votes/$', ResourceVotesAPIView.as_view()),
     url(r'^votes/', VoteListAPIView.as_view()),
     url(r'^votes/(?P<pk>[0-9]+)', VoteDetailAPIView.as_view()),
     url(r'^userprofile/$', UserProfileListAPIView.as_view()),

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from models import Resource
+from votes.models import Vote
 from comments.serializers import CommentSerializer
 
 
@@ -17,3 +18,16 @@ class ResourceSerializer(serializers.ModelSerializer):
                   'date_added', 'date_modified', 'comments')
 
         read_only_fields = ('date_modified', 'date_added', 'comments')
+
+
+class ResourceVoteSerializer(serializers.ModelSerializer):
+    """Resource Votes Serializer"""
+
+    user = serializers.ReadOnlyField(source='user.username')
+    resource = serializers.ReadOnlyField(source='resource.text')
+
+    class Meta:
+        model = Vote
+        fields = ('id', 'user', 'vote', 'resource', 'time_stamp')
+
+        read_only_fields = ('time_stamp')
