@@ -1,13 +1,23 @@
 /* body styling */
-#firstText
+.first-text
 {
     overflow:hidden;
-    white-space:nowrap;
     text-overflow:ellipsis;
-    width:150px;
+    width:200px;
     display:inline-block;
+}
+
+/*div #me:hover {
+    max-height:1em;
+    background:white;
+    color:;
+    -o-transition: 1s;
+    transition: 0.05s;
+    max-height:999px;
 
 }
+*/
+
 
 body {
     background: #e9eaed;
