@@ -95,8 +95,9 @@ ajaxContent = {
       var _text = _this.text().replace(/\s+/g, '');
       var url = ajaxContent.buildUrl($(this));
       e.preventDefault();
-      if (!(_this.closest('ul').hasClass('filter-menu'))) $('#community a')
-      .removeClass('active');
+      if (!(_this.closest('ul').hasClass('filter-menu'))){
+         $('#community a').removeClass('active');
+       };
       $('#community a').each(function () {
         if ($(this).text().replace(/\s+/g, '') === _text) {
           $(this).addClass('active');
@@ -111,7 +112,7 @@ ajaxContent = {
         var newUrl = location.protocol + '//' + location.host + pathName;
         ajaxContent.loadContent(newUrl);
         ajaxContent.activeLink(pathName);
-      }
+      };
     });
   },
   activeLink: function(pathName) {
@@ -134,7 +135,7 @@ ajaxContent = {
       cache:false,
       success: function(data){
         $(ajaxContent.config.contentDiv).html(data);
-        ajaxContent.afterAction;
+        ajaxContent.afterAction();
       }
     });
   },
