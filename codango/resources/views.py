@@ -128,7 +128,7 @@ class CommunityView(CommunityBaseView):
 
 class ResourceVoteView(View):
 
-    def schedule_like_notification(author, resource_link, request):
+    def schedule_like_notification(author, resource_link,  username, request):
         #check that the author does not exist and create new row and set task
         #if exist update the count
 
@@ -141,7 +141,7 @@ class ResourceVoteView(View):
                 user=author,
                 notification_type='like',
                 count=1,
-                first_interaction=vote.user.username
+                first_interaction=username
             )
             schedule_notification.apply_async(
                 args=[author, resource_link, request, 'like'],
@@ -197,6 +197,7 @@ class ResourceVoteView(View):
                 self.schedule_like_notification(
                         resource.author,
                         response_dict.get('link', None),
+                        vote.user.username,
                         request
                     )
                 # if not is_user_logged_in(resource.author.id):
