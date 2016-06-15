@@ -75,6 +75,17 @@ ajaxContent = {
     contentDiv: '#community-content'
   },
   init: function (config) {
+    var pathName = location.pathname;
+    var communityUrl = [
+        '/home',
+        '/resource/ajax/community/all',
+        '/resource/ajax/community/python',
+        '/resource/ajax/community/android',
+        '/resource/ajax/community/javascript'
+    ];
+    if($.inArray(pathName, communityUrl) == -1){
+      return;
+    }
     if (config && typeof(config) === 'object') {
       $.extend(ajaxContent.config, config);
     }
@@ -97,11 +108,14 @@ ajaxContent = {
         var pathName = location.pathname;
         var newUrl = location.protocol + '//' + location.host + pathName;
         ajaxContent.loadContent(newUrl);
-        $('#community a').removeClass('active');
-        $('#community a[href="'+pathName+'"]').addClass('active');
-        if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').addClass('active')
+        ajaxContent.activeLink(pathName)
       }
     });
+  },
+  activeLink: function(pathName) {
+    $('#community a').removeClass('active');
+    $('#community a[href="'+pathName+'"]').addClass('active');
+    if(pathName == '/home') $('#community a[href="/resource/ajax/community/all"]').addClass('active')
   },
   buildUrl: function (_this) {
     _this.closest('ul').closest('li').removeClass('open');
@@ -672,6 +686,7 @@ $(document).ready(function () {
   ajaxContent.init({
     filter: '#community a,.filter-menu a,#codango-link a'
   });
+  ajaxContent.activeLink(location.pathname);
   editComment.init({
     button: '.edit-comment'
   });
