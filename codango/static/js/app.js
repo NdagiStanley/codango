@@ -75,6 +75,18 @@ ajaxContent = {
     contentDiv: '#community-content'
   },
   init: function (config) {
+    var pathName = location.pathname;
+    var communityUrl = [
+        '/home',
+        '/resource/ajax/community/all',
+        '/resource/ajax/community/python',
+        '/resource/ajax/community/android',
+        '/resource/ajax/community/javascript'
+    ];
+    if($.inArray(pathName, communityUrl) == -1){
+      return;
+    }
+    $('.navbar-nav a[href="/home"]').parent('li').addClass('active');
     if (config && typeof(config) === 'object') {
       $.extend(ajaxContent.config, config);
     }
@@ -83,7 +95,9 @@ ajaxContent = {
       var _text = _this.text().replace(/\s+/g, '');
       var url = ajaxContent.buildUrl($(this));
       e.preventDefault();
-      if (!(_this.closest('ul').hasClass('filter-menu'))) $('#community a').removeClass('active');
+      if (!(_this.closest('ul').hasClass('filter-menu'))){
+         $('#community a').removeClass('active');
+       }
       $('#community a').each(function () {
         if ($(this).text().replace(/\s+/g, '') === _text) {
           $(this).addClass('active');
@@ -93,7 +107,20 @@ ajaxContent = {
       $(this).addClass('active');
       ajaxContent.loadContent(url);
       window.history.pushState('object or string', 'Title', url);
+      window.onpopstate = function(e) {
+        var pathName = location.pathname;
+        var newUrl = location.protocol + '//' + location.host + pathName;
+        ajaxContent.loadContent(newUrl);
+        ajaxContent.activeLink(pathName);
+      };
     });
+  },
+  activeLink: function(pathName) {
+    $('#community a').removeClass('active');
+    $('#community a[href="'+pathName+'"]').addClass('active');
+    if(pathName == '/home') {
+      $('#community a[href="/resource/ajax/community/all"]').addClass('active');
+    }
   },
   buildUrl: function (_this) {
     _this.closest('ul').closest('li').removeClass('open');
@@ -103,7 +130,14 @@ ajaxContent = {
     return _this.attr('href');
   },
   loadContent: function (url) {
-    $(ajaxContent.config.contentDiv).load(url, ajaxContent.afterAction);
+    $.ajax({
+      url: url,
+      cache:false,
+      success: function(data){
+        $(ajaxContent.config.contentDiv).html(data);
+        ajaxContent.afterAction();
+      }
+    });
   },
   afterAction: function () {
     $('#sidebar-mobile-link').show();
@@ -663,6 +697,7 @@ $(document).ready(function () {
   ajaxContent.init({
     filter: '#community a,.filter-menu a,#codango-link a'
   });
+  ajaxContent.activeLink(location.pathname);
   editComment.init({
     button: '.edit-comment'
   });
