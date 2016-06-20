@@ -96,7 +96,7 @@ ajaxContent = {
       var url = ajaxContent.buildUrl($(this));
       e.preventDefault();
       if (!(_this.closest('ul').hasClass('filter-menu'))){
-         $('#community a').removeClass('active');
+         $('#community a').removeClass('active')
        };
       $('#community a').each(function () {
         if ($(this).text().replace(/\s+/g, '') === _text) {
