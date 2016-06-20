@@ -43,7 +43,7 @@
                         {% include 'userprofile/partials/activity.html'%}
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ request.user.get_full_name|default:request.user.username  }} <span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ request.user.username }} <span class="caret"></span></a>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li><a href="/user/{{request.user.username}}">View Profile</a></li>
                             <li><a href="/user/{{request.user.username}}/settings">Settings</a></li>
@@ -57,7 +57,7 @@
                     </div>
                     <button type="submit" class="btn btn-default">Search</button>
                 </form>
-            </div>
+              </div>
         </div>
     </nav>
     {% endblock navbar %}
@@ -87,7 +87,8 @@
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/snippet.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/app.react.js' %}"></script>
+    <!-- React bundled js -->
+    <script type="text/javascript" src="{% static 'js/build/bundle.js' %}"></script>
     <script type="text/javascript" src="{% static 'endless_pagination/js/endless-pagination.js' %}"></script>
     <script src="{% static 'lib/prettify-min/prettify.min.js' %}"></script>
 </body>
