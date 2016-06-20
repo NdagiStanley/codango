@@ -94,6 +94,7 @@ MIDDLEWARE_CLASSES = (
     'middleware.activity.ActivityMiddleWare',
     'middleware.navigation.NavigationMiddleWare',
     'middleware.resource.PopularResourcesMiddleware',
+    'middleware.logout.SessionIdleTimeout',
 )
 
 ROOT_URLCONF = 'codango.urls'
@@ -221,3 +222,9 @@ CELERYBEAT_SCHEDULE = {
 
 # Celery Test Runner for unit tests
 TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
+TIME = 20
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = TIME    # change expired session
+SESSION_IDLE_TIMEOUT = TIME  # logout

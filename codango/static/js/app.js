@@ -4,6 +4,7 @@
 
 var myDataRef = new Firebase('https://popping-inferno-54.firebaseio.com/');
 var ajaxContent;
+var userid;
 var formPost;
 var mobileNav;
 var votes;
@@ -15,6 +16,25 @@ var realTime;
 var eventListeners;
 var invitedUsers = [];
 var inviteToSession;
+
+// Register user as logged in
+var amOnline = new Firebase(
+  'https://project-8667655276128018284.firebaseio.com/');
+// var userRef = new Firebase(
+//   'https://project-8667655276128018284.firebaseio.com/presence/' + userid);
+    console.log('snapshot');
+amOnline.on('value', function(snapshot) {
+  if (snapshot.val()) {
+    // User is online.
+    userRef.set(true);
+  } else {
+    // User is offline.
+    // WARNING: This won't work! See an explanation below.
+    userRef.set(false);
+  }
+});
+
+
 
 $.ajaxSetup({
   headers: {

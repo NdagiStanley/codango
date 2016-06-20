@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import View, TemplateView
@@ -46,6 +47,11 @@ class IndexView(TemplateView):
 class LoginView(IndexView):
     form_class = LoginForm
 
+    def login(self, request, user):
+        login(request, user)
+        request.user.userprofile.last_action = timezone.now()
+        request.user.userprofile.save()
+
     def post(self, request, *args, **kwargs):
 
         if self.request.is_ajax():
@@ -54,7 +60,7 @@ class LoginView(IndexView):
                     social_id=request.POST['id'])
                 user = userprofile.get_user()
                 user.backend = 'django.contrib.auth.backends.ModelBackend'
-                login(request, user)
+                self.login(request, user)
                 return HttpResponse("success", content_type='text/plain')
             except UserProfile.DoesNotExist:
                 return HttpResponse("register", content_type='text/plain')
@@ -68,7 +74,7 @@ class LoginView(IndexView):
                 request.session.set_expiry(0)
             if user is not None:
                 if user.is_active:
-                    login(request, user)
+                    self.login(request, user)
                     messages.add_message(
                         request, messages.SUCCESS, 'Logged in Successfully!')
                     return redirect(

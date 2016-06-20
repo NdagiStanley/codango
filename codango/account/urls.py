@@ -18,5 +18,4 @@ urlpatterns = [
     url(r'^about-us$', views.AboutUsView.as_view(), name='aboutus'),
     url(r'^team$', views.TeamView.as_view(), name='team'),
     url('', include('social.apps.django_app.urls', namespace='social')),
-
 ]

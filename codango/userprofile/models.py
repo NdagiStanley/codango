@@ -1,3 +1,4 @@
+from django.utils import timezone
 from bootstrapform import models
 from django.db import models
 from django.contrib.auth.models import User
@@ -19,6 +20,7 @@ class UserProfile(models.Model):
     frequency = models.CharField(max_length=200, default='none')
     like_preference = models.BooleanField(default=False)
     comment_preference = models.BooleanField(default=False)
+    last_action = models.DateTimeField(default=timezone.now)
 
     image = CloudinaryField(
         'image', default="image/upload/v1443782603/vqr7n59zfxyeybttleug.gif")
