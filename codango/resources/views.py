@@ -178,6 +178,7 @@ class ResourceVoteView(View):
                     request
                 )
 
+
                 # if not is_user_logged_in(resource.author.id):
                 #     schedule_like_notification(
                 #         resource.author,
