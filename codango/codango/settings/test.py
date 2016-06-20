@@ -1,6 +1,8 @@
  # Test specific settings
 from .base import *
 
+from .base import *
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
