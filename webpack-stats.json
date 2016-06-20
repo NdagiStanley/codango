@@ -1,0 +1,1 @@
+{"status":"error","error":"ModuleError","message":"\n/Users/heavy_machinery/Dropbox/dev/class5/sims/codango/codango/static/js/app.react.js\n  2:7  error  \"num\" is defined but never used  no-unused-vars\n\n✖ 1 problem (1 error, 0 warnings)\n"}
