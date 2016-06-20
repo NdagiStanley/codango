@@ -146,3 +146,88 @@ class ResourceTest(APITestCase):
         self.assertEqual(auth_response.data, None)
         self.assertEqual(auth_response.status_code, 204)
         self.assertEqual(self.client.get(url).data['count'], 9)
+
+
+class ResourceVoteTest(APITestCase):
+    """Test /api/v1/resources/<resource_id>/vote endpoint."""
+
+
+    def setUp(self):
+        # Login the user
+        self.create_user()
+        auth_user = {'username': self.user.username,
+                     'password': '1234'}
+        login_response = self.client.post('/api/v1/auth/login/', auth_user)
+        self.token = 'JWT ' + login_response.data.get('token')
+         # set authentication token in header
+        self.client.credentials(HTTP_AUTHORIZATION=self.token)
+        self.create_resource()
+
+    def create_user(self):
+        user = User(username= 'sundayguru')
+        user.set_password('1234')
+        user.save()
+        self.user = user
+
+    def create_resource(self):
+        entry = {'author': 1, 'text': "abcdefgh", 'language_tags': "PYTHON"}
+        response = self.client.post(url, entry)
+        self.vote_url = url + str(response.data.get('id', 0)) + '/votes/'
+
+    def create_vote(self, status):
+        entry = {'vote': status}
+        return self.client.post(self.vote_url, entry)
+
+    def test_like_resource(self):
+        response = self.create_vote(True)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data.get('vote'), True)
+
+
+    def test_remove_like_resource(self):
+        response = self.create_vote(True)
+        self.assertEqual(response.data.get('vote'), True)
+
+        response = self.create_vote(True)
+        self.assertEqual(response.data.get('id'), None)
+
+    def test_change_like_to_unlike_resource(self):
+        response = self.create_vote(True)
+        self.assertEqual(response.data.get('vote'), True)
+        vote_id = response.data.get('id')
+
+        response = self.create_vote(False)
+        self.assertEqual(response.data.get('vote'), False)
+        self.assertEqual(response.data.get('id'), vote_id)
+
+    def test_unlike_resource(self):
+        response = self.create_vote(False)
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data.get('vote'), False)
+
+    def test_remove_unlike_resource(self):
+        response = self.create_vote(False)
+        self.assertEqual(response.data.get('vote'), False)
+
+        response = self.create_vote(False)
+        self.assertEqual(response.data.get('id'), None)
+
+
+    def test_change_unlike_to_like_resource(self):
+        response = self.create_vote(False)
+        self.assertEqual(response.data.get('vote'), False)
+        vote_id = response.data.get('id')
+
+        response = self.create_vote(True)
+        self.assertEqual(response.data.get('vote'), True)
+        self.assertEqual(response.data.get('id'), vote_id)
+
+    def test_get_resource_votes(self):
+        self.create_vote(True)
+
+        response = self.client.get(self.vote_url)
+        self.assertEqual(response.status_code, 200)
+        votes = response.data.get('results')
+        self.assertEqual(len(votes), 1)
+
+
