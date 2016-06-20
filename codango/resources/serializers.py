@@ -31,3 +31,25 @@ class ResourceVoteSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'vote', 'resource', 'time_stamp')
 
         read_only_fields = ('time_stamp')
+
+    def create(self, validated_data):
+        vote_action = validated_data.get('vote')
+        resource = validated_data.get('resource')
+        user = validated_data.get('user')
+
+        existing_vote = Vote.objects.filter(
+            resource=resource,
+            user=user
+        ).first()
+        if existing_vote is None:
+            vote = Vote(user=user, resource=resource, vote=vote_action)
+            vote.save()
+            return vote
+        elif existing_vote.vote is not vote_action:
+            existing_vote.vote = vote_action
+            existing_vote.save()
+        else:
+            existing_vote.delete()
+
+        return existing_vote
+

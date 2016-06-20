@@ -5,6 +5,7 @@ from votes.models import Vote
 
 
 class ResourceListAPIView(generics.ListCreateAPIView):
+
     """For /api/v1/resources/ url path."""
 
     queryset = Resource.objects.all()
@@ -16,6 +17,7 @@ class ResourceListAPIView(generics.ListCreateAPIView):
 
 
 class ResourceVotesAPIView(generics.ListCreateAPIView):
+
     """For /api/v1/resources/<resource_id>/votes/ url path."""
 
     #queryset = Vote.objects.all()
@@ -23,14 +25,16 @@ class ResourceVotesAPIView(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         """Associate resource to an account,save data passed in request."""
-        serializer.save(user=self.request.user)
+        resource = Resource.objects.filter(id=self.kwargs.get('pk', 0)).first()
+        serializer.save(user=self.request.user, resource=resource)
 
     def get_queryset(self):
         resource = Resource.objects.filter(id=self.kwargs.get('pk', 0))
-        return Vote.objects.filter(resource=resource);
+        return Vote.objects.filter(resource=resource)
 
 
 class ResourceDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+
     """For /api/v1/resources/<resource_id> url path."""
 
     queryset = Resource.objects.all()
