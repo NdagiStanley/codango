@@ -14,6 +14,7 @@ def is_user_logged_in(user_id):
     user = ref.get()
     return True if user.get(str(user_id), None) != None else False
 
+
 def terminate_task(task_id):
     query = celery.events.state.tasks_by_type('send_notice')
 
@@ -50,7 +51,4 @@ def schedule_notification(author, resource_link, username, request, notification
         if exists:
             exists.delete()
             terminate_task(task_id)
-
-
-
 

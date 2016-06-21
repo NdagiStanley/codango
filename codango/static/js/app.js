@@ -34,8 +34,6 @@ var amOnline = baseRef.child('/.info/connected');
 }
 
 
-
-
 $.ajaxSetup({
   headers: {
     'X-CSRFToken': $("meta[name='csrf-token']").attr('content')

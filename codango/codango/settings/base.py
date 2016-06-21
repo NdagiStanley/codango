@@ -94,7 +94,7 @@ MIDDLEWARE_CLASSES = (
     'middleware.activity.ActivityMiddleWare',
     'middleware.navigation.NavigationMiddleWare',
     'middleware.resource.PopularResourcesMiddleware',
-    #'middleware.logout.SessionIdleTimeout',
+    'middleware.logout.SessionIdleTimeout',
 )
 
 ROOT_URLCONF = 'codango.urls'
