@@ -20,7 +20,6 @@ class ResourceVotesAPIView(generics.ListCreateAPIView):
 
     """For /api/v1/resources/<resource_id>/votes/ url path."""
 
-    #queryset = Vote.objects.all()
     serializer_class = ResourceVoteSerializer
 
     def perform_create(self, serializer):
