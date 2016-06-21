@@ -4,7 +4,7 @@
     overflow:hidden;
     text-overflow:ellipsis;
     width:200px;
-    display:inline-block;
+    /*display:inline-block;*/
 }
 
 body {
