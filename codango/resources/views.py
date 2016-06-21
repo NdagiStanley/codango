@@ -171,11 +171,12 @@ class ResourceVoteView(View):
                  "user_id": resource.author.id})
 
             if resource.author.userprofile.like_preference:
-                self.schedule_notification(
+                schedule_notification(
                     resource.author,
                     response_dict.get('link', None),
                     vote.user.username,
-                    request
+                    request,
+                    'like'
                 )
 
 

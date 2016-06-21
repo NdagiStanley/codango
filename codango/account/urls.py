@@ -9,7 +9,7 @@ urlpatterns = [
         views.SearchView.as_view(), name='search_by'),
     url(r'^login$', views.LoginView.as_view(), name='login'),
     url(r'^register$', views.RegisterView.as_view(), name='register'),
-    url(r'^logout$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+    url(r'^logout$', views.logout_view),
     url(r'^recovery$', views.ForgotPasswordView.as_view(),
         name='forgot_password'),
     url(r'^recovery/(?P<user_hash>([a-z0-9A-Z])+)$',

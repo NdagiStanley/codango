@@ -2,9 +2,9 @@
 /* eslint no-var: 0, func-names: 0*/
 /* eslint no-alert: 0, func-names: 0*/
 
-var myDataRef = new Firebase('https://popping-inferno-54.firebaseio.com/');
+var myDataRef = new Firebase('https://project-8667655276128018284.firebaseio.com/');
 var ajaxContent;
-var userid;
+var userid = Cookies.get('userid');
 var formPost;
 var mobileNav;
 var votes;
@@ -17,22 +17,22 @@ var eventListeners;
 var invitedUsers = [];
 var inviteToSession;
 
-// Register user as logged in
-var amOnline = new Firebase(
-  'https://project-8667655276128018284.firebaseio.com/');
-// var userRef = new Firebase(
-//   'https://project-8667655276128018284.firebaseio.com/presence/' + userid);
-    console.log('snapshot');
-amOnline.on('value', function(snapshot) {
-  if (snapshot.val()) {
-    // User is online.
-    userRef.set(true);
-  } else {
-    // User is offline.
-    // WARNING: This won't work! See an explanation below.
-    userRef.set(false);
-  }
-});
+var BASE_FIREBASE_URL = "https://project-8667655276128018284.firebaseio.com/"
+
+if(userid){
+  var baseRef = new Firebase(BASE_FIREBASE_URL);
+var amOnline = baseRef.child('/.info/connected');
+
+  var userRef = baseRef.child('/presence/' + userid);
+  amOnline.on('value', function(snapshot) {
+    if (snapshot.val()) {
+      // User is online.
+      userRef.onDisconnect().remove();
+      userRef.set(true);
+    }
+  });
+}
+
 
 
 
