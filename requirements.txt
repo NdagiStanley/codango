@@ -8,7 +8,7 @@ coverage==3.7.1
 coveralls==1.1
 decorator==4.0.9
 dj-database-url==0.3.0
-Django==1.8.3
+Django==1.11.29
 django-all-access==0.7.2
 django-bootstrap-form==3.2
 django-bower==5.0.4
