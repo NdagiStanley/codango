@@ -1,0 +1,26 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "02:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: reportlab
+    versions:
+    - 3.5.60
+    - 3.5.62
+    - 3.5.63
+    - 3.5.64
+    - 3.5.65
+    - 3.5.66
+  - dependency-name: requests-mock
+    versions:
+    - 1.8.0
+  - dependency-name: pillow
+    versions:
+    - 6.2.0
+  - dependency-name: pyyaml
+    versions:
+    - "5.1"
