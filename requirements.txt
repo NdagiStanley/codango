@@ -42,7 +42,7 @@ psycopg2==2.6.1
 ptyprocess==0.5.1
 pycrypto==2.6.1
 pycurl==7.43.0
-Pygments==2.1.1
+Pygments==2.15.0
 PyJWT==1.4.0
 python-coveralls==2.7.0
 python-openid==2.2.5
