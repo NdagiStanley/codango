@@ -55,7 +55,7 @@ requests-mock==0.7.0
 requests-oauthlib==0.6.1
 selenium==2.47.1
 sendgrid==1.5.14
-sh==1.11
+sh==2.2.4
 simplegeneric==0.8.1
 six==1.10.0
 smtpapi==0.2.0
