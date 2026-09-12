@@ -29,7 +29,7 @@ httpie==0.9.3
 ipdb==0.9.0
 ipython==4.1.1
 ipython-genutils==0.1.0
-kombu==3.0.30
+kombu==3.0.37
 meld3==1.0.2
 mock==1.0.1
 oauthlib==1.0.3
