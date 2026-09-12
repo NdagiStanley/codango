@@ -61,4 +61,4 @@ six==1.10.0
 smtpapi==0.2.0
 SQLAlchemy==1.0.8
 traitlets==4.1.0
-whitenoise==2.0.3
+whitenoise==2.0.6
