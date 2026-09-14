@@ -1,7 +1,7 @@
 amqp==1.4.7
 anyjson==0.3.3
 appnope==0.1.0
-billiard==3.3.0.21
+billiard==3.6.4.0
 celery==3.1.19
 cloudinary==1.21.1
 coverage==3.7.1
