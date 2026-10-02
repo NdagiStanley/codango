@@ -32,7 +32,7 @@ ipython-genutils==0.1.0
 kombu==3.0.30
 meld3==1.0.2
 mock==1.0.1
-oauthlib==1.0.3
+oauthlib==4.0.0
 path.py==8.1.2
 pbr==1.5.0
 pexpect==4.0.1
